@@ -1,0 +1,12 @@
+language: python
+python:
+  - 3.3
+  - 3.4
+  - 3.5
+install:
+  - pip install -r requirements.txt
+script:
+  - pip install codecov
+  - pip install nose
+  - pip install python-coveralls
+  - nosetests --with-coverage --cover-erase --cover-package=app --cover-html

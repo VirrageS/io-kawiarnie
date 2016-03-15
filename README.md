@@ -12,8 +12,8 @@ funkcjonalności do mastera.
     $ ... commits ...
     $ git checkout master
     $ git merge [nazwa_brancha]
-    $ ... resolve conflicts ...
-    $ commit merge changes
+    $ ... resolve merge conflicts ...
+    $ git commit -m "[tresc_commita]"
 
 ## Setup
 

@@ -42,14 +42,14 @@ na zasadzie 'alertów', które by mówiły, że coś trzeba już zamówić
 ### Iteracja 1
 
 **Zakres**: Stworzenie admina i możliwość dodawania nowych użytkowników.
-Możliwość dodawania nowych produktów, kategorii, szablonów i ich modyfikacji
+Możliwość dodawania nowych produktów, kategorii, szablonów i ich modyfikacji.
 
 **Deadline**: TBA
 
 ### Iteracja 2
 
 **Zakres**: Szablon raportu porannego, w ciągniu dnia, na zakończenie i
-możliwość zapisywania raportów do bazy danych
+możliwość zapisywania raportów do bazy danych.
 
 **Deadline**: TBA
 
@@ -57,12 +57,21 @@ możliwość zapisywania raportów do bazy danych
 
 **Zakres**: Dostęp do wszystkich raportów przez admina; Możliwość dostępu
 do informacji o każdym pracowniku: godziny przepracowane, historia raportów,
-różnice z kasy
+różnice z kasy.
 
 **Deadline**: TBA
 
 ### Iteracja 4 (jeżeli się uda)
 
-**Zakres**: Grafik + kalendarz; Dostawy - monitorowanie produktów (ich ilości)
+**Zakres**: Grafik + kalendarz; Dostawy - monitorowanie produktów (ich ilości).
+
+**Deadline**: TBA
+
+
+### Iteracja 5 (jeżeli się uda)
+
+**Zakres**: Zrobienie formularza w trybie on-going tj. byłby zapisywany co stały
+okres czasu np. 10 sekund. To pozwoliłoby na nieutracenie danych podczas jego
+tworzenia i zabezpieczyłoby (w pewnym sensie) przed problemami z internetem.
 
 **Deadline**: TBA

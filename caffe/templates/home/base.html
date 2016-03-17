@@ -1,0 +1,42 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+    <head>
+    {% block head %}
+      <title>Caffe</title>
+
+      <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+      <meta charset="UTF-8">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+      <script type="text/javascript" src="{% static 'js/jquery.2.2.1.min.js' %}"></script>
+    {% endblock %}
+    </head>
+    <body>
+      <div class="container">
+        <div class="left-pane">
+          <ul class="navigation">
+            <li><a href="">Główna</a></li>
+            <li><a href="">Raporty</a></li>
+            <li><a href="">Kaledarz</a></li>
+            <li><a href="">Statystki</a></li>
+            <li><a href="">Wyloguj</a></li>
+          </ul>
+        </div>
+        <div class="right-pane">
+          <div class="employees-container">
+            {% for employee in employees %}
+              <div class="employee">
+                <div class="meta">
+                  {{ employee.first_name }} {{ employee.last_name }}
+                </div>
+
+                <a class="login" href="/login/{{ employee.id }}">Zaloguj się</a>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </body>
+</html>

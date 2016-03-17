@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css?family=Inconsolata:400,500,700&subset=latin,latin-ext");
+@import url("https://fonts.googleapis.com/css?family=Source+Code+Pro:400,300,700,900&subset=latin,latin-ext");
+@import url("https://fonts.googleapis.com/css?family=Fjord+One");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,400italic,700italic,300italic&subset=latin,latin-ext");
+
+// Our variables
+$base-font-family: "Open Sans", Helvetica, Arial, sans-serif;
+$base-font-size:   18px;
+$base-line-height: 1em;
+
+$grey-color:       #828282;
+$grey-color-light: lighten($grey-color, 40%);
+$grey-color-semidark:  darken($grey-color, 10%);
+$grey-color-dark:  darken($grey-color, 25%);
+
+$left-pane-background-color: #1b2a41;
+$left-pane-color: #ffffff;
+
+$right-pane-background-color: #ffffff;
+$right-pane-color: #000000;
+
+// Width of the content area
+$on-phone:         768px;
+$on-tablet:        992px;
+$on-laptop:        1200px;
+
+@mixin media-query($device) {
+  @media screen and (max-width: $device) {
+    @content;
+  }
+}
+
+@import
+  "mixins",
+  "base",
+  "home"
+;

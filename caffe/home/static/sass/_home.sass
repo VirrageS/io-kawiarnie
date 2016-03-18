@@ -7,34 +7,58 @@
   background-color: $left-pane-background-color
   box-shadow: 5px 0 10px 2px #cfcfcf
   color: $left-pane-color !important
-  padding: 40px 0px
-  width: 200px
+  padding: 30px 0px
+  width: 90px
   min-height: 100%
+  text-transform: uppercase
   z-index: 1000
   -webkit-box-shadow: 5px 0 10px 2px #cfcfcf
+  +transition(all 1s)
 
+  &.open
+    width: 170px
 
-  a
-    color: $left-pane-color
-    text-decoration: none
+    .description
+      opacity: 1
+      visibility: visible
 
   ul
-    padding-left: 20px
+    width: 100%
     list-style-type: none
+    // padding-left: 20px
 
     li
-      padding: 0px
-      margin: 0px
-      margin-top: 20px
+      +border-radius(0.3em)
+      font-size: 0.85rem !important
+      padding: 10px
+      margin: 0 auto
+      margin-top: 30px
+      text-align: center
 
       &:first-child
         margin-top: 0px
 
       a
-        color: #ffffff
+        color: $left-pane-color
+        text-decoration: none
 
         &:hover
-          color: #d2d1d1
+          color: #b8b8b8
+
+      i
+        display: block
+        font-size: 2.3rem !important
+        padding-bottom: 0.3em
+
+      .description
+        +transition(all 0.5s)
+        opacity: 0
+        visibility: hidden
+
+
+/**
+  * RIGHT PANE
+  */
 
 .right-pane
   background-color: $right-pane-background-color
@@ -54,7 +78,6 @@
   margin: 50px
 
   .employee
-    +border-radius(3px)
     display: block
     background-color: #d9d1a6
     margin: 0 auto

@@ -7,6 +7,7 @@
       <title>Caffe</title>
 
       <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+      <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
       <meta charset="UTF-8">
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
@@ -15,13 +16,38 @@
     </head>
     <body>
       <div class="container">
-        <div class="left-pane">
+        <div class="left-pane open">
           <ul class="navigation">
-            <li><a href="">Główna</a></li>
-            <li><a href="">Raporty</a></li>
-            <li><a href="">Kaledarz</a></li>
-            <li><a href="">Statystki</a></li>
-            <li><a href="">Wyloguj</a></li>
+            <li>
+              <a href="">
+                <i class="fa fa-home"></i>
+                <div class="description">Główna</div>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <i class="fa fa-files-o"></i>
+                <div class="description">Raporty</div>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <i class="fa fa-calendar-o"></i>
+                <div class="description">Kaledarz</div>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <i class="fa fa-line-chart"></i>
+                <div class="description">Statystki</div>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <i class="fa fa-sign-out"></i>
+                <div class="description">Wyloguj</div>
+              </a>
+            </li>
           </ul>
         </div>
         <div class="right-pane">

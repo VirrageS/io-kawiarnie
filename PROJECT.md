@@ -43,15 +43,17 @@ na zasadzie 'alertów', które by mówiły, że coś trzeba już zamówić
 
 **Zakres**: Stworzenie admina i możliwość dodawania nowych użytkowników.
 Możliwość dodawania nowych produktów, kategorii, szablonów i ich modyfikacji.
+Dokument specyfikacji wymagań.
 
-**Deadline**: TBA
+**Deadline**: 26/04
 
 ### Iteracja 2
 
 **Zakres**: Szablon raportu porannego, w ciągu dnia, na zakończenie i
 możliwość zapisywania raportów do bazy danych.
+Architektura (widok logiki, widok fizyczny wdrażania).
 
-**Deadline**: TBA
+**Deadline**: 31/05
 
 ### Iteracja 3
 
@@ -59,7 +61,7 @@ możliwość zapisywania raportów do bazy danych.
 do informacji o każdym pracowniku: godziny przepracowane, historia raportów,
 różnice z kasy.
 
-**Deadline**: TBA
+**Deadline**: 21/06
 
 ### Iteracja 4 (jeżeli się uda)
 

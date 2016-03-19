@@ -31,6 +31,7 @@ na zasadzie 'alertów', które by mówiły, że coś trzeba już zamówić
 
 * Django (Python)
 * JavaScript
+* Docker
 
 ## Narzędzia
 

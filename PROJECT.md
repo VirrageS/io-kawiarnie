@@ -24,7 +24,7 @@ zawartych w nim informacji
 zostać zatwierdzone przez kogoś).
 * Możliwość podglądu całego kalendarza, tak aby sprawdzić kto i kiedy pracuje
 lub będzie pracował
-* Możliwość monitorowania poszczególnych prodoktów tj. ich ilości i coś
+* Możliwość monitorowania poszczególnych produktów tj. ich ilości i coś
 na zasadzie 'alertów', które by mówiły, że coś trzeba już zamówić
 
 ## Technologie
@@ -48,7 +48,7 @@ Możliwość dodawania nowych produktów, kategorii, szablonów i ich modyfikacj
 
 ### Iteracja 2
 
-**Zakres**: Szablon raportu porannego, w ciągniu dnia, na zakończenie i
+**Zakres**: Szablon raportu porannego, w ciągu dnia, na zakończenie i
 możliwość zapisywania raportów do bazy danych.
 
 **Deadline**: TBA

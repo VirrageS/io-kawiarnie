@@ -1,6 +1,6 @@
 ## Opis
 
-Projekt, który chcemy zrobić
+Aplikacja webowa, która zastąpi papierowe raporty tworzone każdego dnia w kawiarni. Ułatwi wprowadzanie i przeglądanie danych.
 
 ## Grupa użytkowników
 

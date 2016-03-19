@@ -1,5 +1,5 @@
 #!/bin/sh
 
 cd caffe
-su -m myuser -c "python manage.py migrate"
-su -m myuser -c "python manage.py runserver 0.0.0.0:8000"
+su -m docker -c "python3 manage.py migrate"
+su -m docker -c "python3 manage.py runserver 0.0.0.0:8000"

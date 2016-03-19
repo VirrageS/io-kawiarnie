@@ -16,10 +16,11 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from reports.views import reports_show_all_reports, reports_create_new_report
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'', include('home.urls')),
-    url(r'reports/', include('reports.urls')),
-    url(r'employees/', include('employees.urls')),
+    url(r'^$', reports_show_all_reports, name='reports_show_all'),
+    url(r'^new/', reports_create_new_report, name='reports_create_new'),
 ]

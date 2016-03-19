@@ -19,13 +19,13 @@
         <div class="left-pane open">
           <ul class="navigation">
             <li>
-              <a href="">
+              <a href="/">
                 <i class="fa fa-home"></i>
                 <div class="description">Główna</div>
               </a>
             </li>
             <li>
-              <a href="">
+              <a href="/reports/">
                 <i class="fa fa-files-o"></i>
                 <div class="description">Raporty</div>
               </a>
@@ -51,17 +51,19 @@
           </ul>
         </div>
         <div class="right-pane">
-          <div class="employees-container">
-            {% for employee in employees %}
-              <div class="employee">
-                <div class="meta">
-                  {{ employee.first_name }} {{ employee.last_name }}
-                </div>
+          {% block content %}
+            <div class="employees-container">
+              {% for employee in employees %}
+                <div class="employee">
+                  <div class="meta">
+                    {{ employee.first_name }} {{ employee.last_name }}
+                  </div>
 
-                <a class="login" href="/login/{{ employee.id }}">Zaloguj się</a>
-              </div>
-            {% endfor %}
-          </div>
+                  <a class="login" href="/login/{{ employee.id }}">Zaloguj się</a>
+                </div>
+              {% endfor %}
+            </div>
+          {% endblock %}
         </div>
       </div>
     </body>

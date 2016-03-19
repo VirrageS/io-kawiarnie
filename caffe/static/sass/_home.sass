@@ -1,19 +1,16 @@
 .container
   display: flex
   flex-direction: row
+  min-width: 100%
   min-height: 100%
 
 .left-pane
   background-color: $left-pane-background-color
-  box-shadow: 5px 0 10px 2px #cfcfcf
   color: $left-pane-color !important
-  padding: 30px 0px
   width: 90px
   min-height: 100%
   text-transform: uppercase
-  z-index: 1000
-  -webkit-box-shadow: 5px 0 10px 2px #cfcfcf
-  +transition(all 1s)
+  // +transition(all 1s)
 
   &.open
     width: 170px
@@ -29,20 +26,20 @@
     li
       +border-radius(0.3em)
       font-size: 0.85rem !important
-      padding: 10px
+      padding: 30px 10px
       margin: 0 auto
-      margin-top: 30px
       text-align: center
 
       &:first-child
         margin-top: 0px
 
       a
+        +transition(all 0.3s)
         color: $left-pane-color
         text-decoration: none
 
-        &:hover
-          color: #b8b8b8
+        &:hover, &:active, &.active
+          color: #a1d243
 
       i
         display: block
@@ -50,7 +47,7 @@
         padding-bottom: 0.3em
 
       .description
-        +transition(all 0.5s)
+        +transition(opacity 0.5s)
         opacity: 0
         visibility: hidden
 
@@ -60,39 +57,48 @@
   */
 
 .right-pane
+  flex: 1
   background-color: $right-pane-background-color
   color: $right-pane-color !important
-  padding: 40px 60px
-  width: auto
   min-height: 100%
-
 
   a
     color: $right-pane-color
     text-decoration: none
 
-.employees-container
-  display: flex
-  flex-direction: row
-  margin: 50px
+  .navigation
+    display: flex
+    flex-direction: row
+    border-bottom: 2px solid black
+    width: 100%
+    height: 70px
 
-  .employee
-    display: block
-    background-color: #d9d1a6
-    margin: 0 auto
-    text-align: center
-    width: 300px
-    height: 200px
-
-
-    .meta
-      display: block
-      margin-top: 60px
-      margin-bottom: 30px
-
-    .login
-      display: block
-      color: #6bb6ec
+    .expand
+      +transition(all 0.3s)
+      display: inline-block
+      font-size: 2rem
+      cursor: pointer
+      margin-left: 50px
+      margin-right: auto
+      line-height: 70px
 
       &:hover
-        color: #adb6ff
+        color: #0d7587
+
+    .button
+      margin: auto 40px auto auto
+
+  .right-pane-container
+    padding: 20px 60px
+
+  .header
+    display: block
+    font-family: "Helvetica Neue", sans-serif
+    font-size: 2.5rem
+    font-weight: 100
+    letter-spacing: 0.1em
+    margin-bottom: 20px
+    line-height: normal
+    text-align: center
+    width: 100%
+    text-transform: uppercase

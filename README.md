@@ -15,6 +15,9 @@ funkcjonalności do mastera.
     $ git merge [nazwa_brancha]
     $ git push origin master
 
+Potem znowu albo tworzymy nowego brancha `git checkout -b ...` albo po prostu
+rozwijamy poprzedniego `git checkout ...` (bez opcji `-b`).
+
 ## Setup
 
 Jeżeli nie macie `virtualenv` to ściągnijcie:
@@ -27,13 +30,14 @@ Teraz tworzymy środowisko
     $ cd io-kawiarnie
     $ virtualenv -p python3 venv
     $ . venv/bin/activate
+    (venv)$ pip install --upgrade pip
     (venv)$ pip install -r requirements.txt
 
 Teraz jesteśmy gotowi, aby odpalić serwer:
 
     (venv)$ cd caffe
-    (venv)$ python3 manage.py migrate
-    (venv)$ python3 manage.py runserver
+    (venv)$ python manage.py migrate
+    (venv)$ python manage.py runserver
 
 
 ## Rules
@@ -41,3 +45,5 @@ Teraz jesteśmy gotowi, aby odpalić serwer:
 1. Komentarze w kodzie piszemy po angielsku
 2. Nazwy commitów piszemy po angielsku
 3. Nazwy zmiennych, funkcji piszemy po angielsku
+4. Staramy się niszczyć rzeczy we własnych branchach, a nie masterze
+5. Wszystkie możliwe funkcjonalności powinny mieć swoje testy - najlepiej przed wrzuceniem do mastera.

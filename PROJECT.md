@@ -67,7 +67,6 @@ różnice z kasy.
 
 **Deadline**: TBA
 
-
 ### Iteracja 5 (jeżeli się uda)
 
 **Zakres**: Zrobienie formularza w trybie on-going tj. byłby zapisywany co stały

@@ -1,11 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # class EmployeeManager(models.Manager):
 #     def employees(self):
 #         return Entry.objects.all()
 
-class Employee(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+class Employee(AbstractUser):
     telephone_number = models.CharField(max_length=20)
-    email = models.CharField(max_length=50)

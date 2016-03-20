@@ -11,9 +11,9 @@ funkcjonalności do mastera.
     $ git checkout -b [nazwa_brancha]
     $ ... commits ...
     $ git checkout master
+    $ git pull origin master
     $ git merge [nazwa_brancha]
-    $ ... resolve merge conflicts ...
-    $ git commit -m "[tresc_commita]"
+    $ git push origin master
 
 ## Setup
 
@@ -32,8 +32,8 @@ Teraz tworzymy środowisko
 Teraz jesteśmy gotowi, aby odpalić serwer:
 
     (venv)$ cd caffe
-    (venv)$ python manage.py migrate
-    (venv)$ python manage.py runserver
+    (venv)$ python3 manage.py migrate
+    (venv)$ python3 manage.py runserver
 
 
 ## Rules

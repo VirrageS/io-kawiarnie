@@ -1,0 +1,39 @@
+.button
+  display: inline-block
+  font-size: 1rem
+  background-color: #ffffff
+  color: #1b9af7
+  cursor: pointer
+  padding: 0.2em 0.4em
+  margin: 0
+  border: 1px solid #000000
+  border: none
+  border-color: #1b9af7
+  line-height: 40px
+  text-align: center
+  height: 40px
+  text-decoration: none
+  appearance: none
+  +transition(all 0.3s)
+
+  &:hover, &:focus
+    background-color: #1b9af7
+    text-decoration: none
+    outline: none
+
+  &.button-glow
+    animation-duration: 3s
+    animation-iteration-count: infinite
+    animation-name: glowing
+    -webkit-animation-duration: 3s
+    -webkit-animation-iteration-count: infinite
+    -webkit-animation-name: glowing
+
+  &.button-rounded
+    +border-radius(0.2em)
+
+  &.button-border
+    background: none
+    border-width: 2px
+    border-style: solid
+    line-height: 36px

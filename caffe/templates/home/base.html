@@ -6,12 +6,14 @@
     {% block head %}
       <title>Caffe</title>
 
-      <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+      <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/button.css' %}">
       <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+      <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
       <meta charset="UTF-8">
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
       <script type="text/javascript" src="{% static 'js/jquery.2.2.1.min.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
     {% endblock %}
     </head>
     <body>
@@ -19,9 +21,9 @@
         <div class="left-pane open">
           <ul class="navigation">
             <li>
-              <a href="/">
+              <a href="/" class="active">
                 <i class="fa fa-home"></i>
-                <div class="description">Główna</div>
+                <span class="description">Główna</span>
               </a>
             </li>
             <li>
@@ -42,29 +44,47 @@
                 <div class="description">Statystki</div>
               </a>
             </li>
-            <li>
-              <a href="">
-                <i class="fa fa-sign-out"></i>
-                <div class="description">Wyloguj</div>
-              </a>
-            </li>
           </ul>
         </div>
         <div class="right-pane">
-          {% block content %}
-            <div class="employees-container">
-              {% for employee in employees %}
-                <div class="employee">
-                  <div class="meta">
-                    {{ employee.first_name }} {{ employee.last_name }}
-                  </div>
-
-                  <a class="login" href="/login/{{ employee.id }}">Zaloguj się</a>
-                </div>
-              {% endfor %}
+          <div class="navigation">
+            <div id="control-menu" class="expand">
+              <i class="fa fa-bars"></i>
             </div>
-          {% endblock %}
+
+            <a href="/" class="button button-border button-rounded button-primary">
+              Zaloguj
+            </a>
+          </div>
+
+          <div class="right-pane-container">
+            <h1 class="header">
+            {% block title %}
+              Konta
+            {% endblock %}
+            </h1>
+
+            {% block content %}
+            <div class="employees-container">
+              {% if not employees %}
+                Nie stworzono żadnych kont
+              {% else %}
+                {% for employee in employees %}
+                  <div class="employee">
+                    <div class="meta">
+                      {{ employee.first_name }} {{ employee.last_name }}
+                    </div>
+
+                    <a class="login" href="/login/{{ employee.id }}">Zaloguj się</a>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+            {% endblock %}
+          </div>
         </div>
       </div>
+
+      <script type="text/javascript" src="{% static 'js/functions.js' %}"></script>
     </body>
 </html>

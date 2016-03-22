@@ -4,20 +4,21 @@ Aplikacja webowa, która zastąpi papierowe raporty tworzone każdego dnia w kaw
 
 ## Grupa użytkowników
 
-Założyciele i pracownicy kawiarni
+Założyciele i pracownicy kawiarni.
 
 ## Funkcjonalności
 
 **Key features**:
+* Możliwość dodawania raportów porannych, w ciągu dnia i na
+zakończenie - (raporty dotyczą stanu produktów i pieniędzy w kasie)
 * Zarządzanie użytkownikami poprzez konto admina i możliwość sprawdzenia
 między innymi: ilości przepracowanych godzin, historii raportów
-* Możliwość dodawania raportów porannych, w ciągu dnia i na zakończenie
-* Możliwość tworzenia szablonów raportów, tak aby zaoszczędzić czas
-na przepisywanie tego samego
-* Możliwość dodawania nowych rzeczy do raportu i tworzenie kategorii, tak
-aby była większa czytelność i łatwiejsza nawigacja
 * Możliwość podglądu przez admina wszystkich raportów i sprawdzenia wszystkich
 zawartych w nim informacji
+* Możliwość dodawania nowych rzeczy do raportu i tworzenie kategorii, tak
+aby była większa czytelność i łatwiejsza nawigacja
+* Możliwość tworzenia szablonów raportów, tak aby zaoszczędzić czas
+na przepisywanie tego samego
 
 **Extra**:
 * Możliwość zmiany grafiku przez poszczególnych pracowników (zmiany będą musiały
@@ -43,19 +44,18 @@ na zasadzie 'alertów', które by mówiły, że coś trzeba już zamówić
 
 ### Iteracja 1
 
-**Zakres**: Stworzenie admina i możliwość dodawania nowych użytkowników.
-Możliwość dodawania nowych produktów, kategorii, szablonów i ich modyfikacji.
+**Zakres**: Możliwość tworzenia nowych raportów.  Możliwość dodawania nowych produktów, kategorii, szablonów do raportu i możliwość edycji.
+Szablon raportu porannego, w ciągu dnia, na zakończenie i możliwość zapisywania raportów do bazy danych.
 Dokument specyfikacji wymagań.
 
-**Deadline**: 26/04
+**Deadline**: 28/04
 
 ### Iteracja 2
 
-**Zakres**: Szablon raportu porannego, w ciągu dnia, na zakończenie i
-możliwość zapisywania raportów do bazy danych.
+**Zakres**: Stworzenie admina i możliwość dodawania nowych użytkowników.
 Architektura (widok logiki, widok fizyczny wdrażania).
 
-**Deadline**: 31/05
+**Deadline**: 16/05
 
 ### Iteracja 3
 
@@ -63,18 +63,11 @@ Architektura (widok logiki, widok fizyczny wdrażania).
 do informacji o każdym pracowniku: godziny przepracowane, historia raportów,
 różnice z kasy.
 
+**Deadline**: 03/06
+
+### Iteracja 4
+
+**Zakres**: Grafik + kalendarz dla pracowników (godziny pracy tj. kto, kiedy pracuje).
+Dostawy - monitorowanie produktów (ich ilości).
+
 **Deadline**: 21/06
-
-### Iteracja 4 (jeżeli się uda)
-
-**Zakres**: Grafik + kalendarz; Dostawy - monitorowanie produktów (ich ilości).
-
-**Deadline**: TBA
-
-### Iteracja 5 (jeżeli się uda)
-
-**Zakres**: Zrobienie formularza w trybie on-going tj. byłby zapisywany co stały
-okres czasu np. 10 sekund. To pozwoliłoby na nieutracenie danych podczas jego
-tworzenia i zabezpieczyłoby (w pewnym sensie) przed problemami z internetem.
-
-**Deadline**: TBA

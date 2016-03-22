@@ -44,20 +44,26 @@ na zasadzie 'alertów', które by mówiły, że coś trzeba już zamówić
 
 ### Iteracja 1
 
-**Zakres**: Możliwość tworzenia nowych raportów.  Możliwość dodawania nowych produktów, kategorii, szablonów do raportu i możliwość edycji.
-Szablon raportu porannego, w ciągu dnia, na zakończenie i możliwość zapisywania raportów do bazy danych.
+**Zakres**: Możliwość tworzenia nowych raportów.  Możliwość dodawania nowych produktów, kategorii do raportów i możliwość edycji.
+
 Dokument specyfikacji wymagań.
 
-**Deadline**: 28/04
+**Deadline**: 18/04
 
 ### Iteracja 2
+
+Możliwość tworzenia szablonów raportów. Szablon raportu porannego, w ciągu dnia, na zakończenie i możliwość zapisywania raportów do bazy danych.
+
+**Deadline**: 03/05
+
+### Iteracja 3
 
 **Zakres**: Stworzenie admina i możliwość dodawania nowych użytkowników.
 Architektura (widok logiki, widok fizyczny wdrażania).
 
 **Deadline**: 16/05
 
-### Iteracja 3
+### Iteracja 4
 
 **Zakres**: Dostęp do wszystkich raportów przez admina; Możliwość dostępu
 do informacji o każdym pracowniku: godziny przepracowane, historia raportów,
@@ -65,7 +71,7 @@ różnice z kasy.
 
 **Deadline**: 03/06
 
-### Iteracja 4
+### Iteracja 5
 
 **Zakres**: Grafik + kalendarz dla pracowników (godziny pracy tj. kto, kiedy pracuje).
 Dostawy - monitorowanie produktów (ich ilości).

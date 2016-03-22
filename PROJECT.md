@@ -52,7 +52,7 @@ Dokument specyfikacji wymagań.
 
 ### Iteracja 2
 
-Możliwość tworzenia szablonów raportów. Szablon raportu porannego, w ciągu dnia, na zakończenie i możliwość zapisywania raportów do bazy danych.
+**Zakres**: Możliwość tworzenia szablonów raportów. Szablon raportu porannego, w ciągu dnia, na zakończenie i możliwość zapisywania raportów do bazy danych.
 
 **Deadline**: 03/05
 

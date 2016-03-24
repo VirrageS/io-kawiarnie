@@ -46,4 +46,5 @@ Teraz jesteśmy gotowi, aby odpalić serwer:
 2. Nazwy commitów piszemy po angielsku
 3. Nazwy zmiennych, funkcji piszemy po angielsku
 4. Staramy się niszczyć rzeczy we własnych branchach, a nie masterze
-5. Wszystkie możliwe funkcjonalności powinny mieć swoje testy - najlepiej przed wrzuceniem do mastera.
+5. Wszystkie możliwe funkcjonalności powinny mieć swoje testy - najlepiej przed
+wrzuceniem do mastera.

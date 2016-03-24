@@ -1,39 +1,68 @@
-.button
+$white-color: #ffffff
+$black-color: #000000
+
+$green-color: #2ebd59
+
+$light-blue-color: #4cb0f9
+
+@mixin button-base
+  +transition(all 0.3s)
   display: inline-block
-  font-size: 1rem
-  background-color: #ffffff
-  color: #1b9af7
+  font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
+  font-size: 0.95rem
+  background-color: $white-color
   cursor: pointer
-  padding: 0.2em 0.4em
+  padding: 0em 1.5em
   margin: 0
-  border: 1px solid #000000
-  border: none
-  border-color: #1b9af7
+  border-width: 2px
+  border-style: solid
   line-height: 40px
   text-align: center
+  width: auto
   height: 40px
   text-decoration: none
   appearance: none
-  +transition(all 0.3s)
 
   &:hover, &:focus
-    background-color: #1b9af7
-    text-decoration: none
+    background-color: $white-color !important
+    color: $black-color !important
     outline: none
-
-  &.button-glow
-    animation-duration: 3s
-    animation-iteration-count: infinite
-    animation-name: glowing
-    -webkit-animation-duration: 3s
-    -webkit-animation-iteration-count: infinite
-    -webkit-animation-name: glowing
+    text-decoration: none
 
   &.button-rounded
-    +border-radius(0.2em)
+    +border-radius(0.3em)
 
-  &.button-border
-    background: none
-    border-width: 2px
-    border-style: solid
-    line-height: 36px
+@mixin button-color($bg-color, $color, $filled: false)
+  @if $filled == true
+    background-color: $bg-color !important
+  @else
+    background-color: transparent !important
+
+  color: $color !important
+
+  @if $filled == true
+    border-color: $bg-color !important
+  @else
+    border-color: $color !important
+
+  &:hover, &:focus
+    background-color: $color !important
+    color: $bg-color !important
+    outline: none
+    text-decoration: none
+
+.button
+  +button-base
+  +button-color($white-color, $black-color)
+
+  &.button-green
+    +button-color($white-color, $green-color)
+
+  &.button-green-filled
+    +button-color($green-color, $white-color, true)
+
+  &.button-white
+    +button-color($white-color, $black-color)
+
+  &.button-light-blue
+    +button-color($white-color, $light-blue-color)

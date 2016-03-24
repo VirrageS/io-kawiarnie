@@ -13,14 +13,19 @@ $grey-color-light: lighten($grey-color, 40%);
 $grey-color-semidark:  darken($grey-color, 10%);
 $grey-color-dark:  darken($grey-color, 25%);
 
-$left-pane-background-color: #1b2a41;
+$left-pane-background-color: #2a2d34;
+$left-pane-color-inactive: #696970;
 $left-pane-color: #ffffff;
 
 $right-pane-background-color: #ffffff;
 $right-pane-color: #000000;
 
+$navigation-bar-background-color: #f1f1f1;
+$navigation-bar-color: #000000;
+
 // Width of the content area
-$on-phone:         768px;
+$on-phone:         480px;
+$on-palmtop:       768px;
 $on-tablet:        992px;
 $on-laptop:        1200px;
 
@@ -33,6 +38,7 @@ $on-laptop:        1200px;
 @import
   "mixins",
   "base",
+  "button",
   "home",
   "reports",
   "employees"

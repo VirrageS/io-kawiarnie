@@ -6,14 +6,15 @@
 
 .left-pane
   background-color: $left-pane-background-color
-  color: $left-pane-color !important
-  width: 90px
+  color: $left-pane-color-inactive !important
+  width: 80px
   min-height: 100%
-  text-transform: uppercase
+  font-family: Circular, Helvetica, Arial, sans-serif
+  font-weight: 400
   // +transition(all 1s)
 
   &.open
-    width: 170px
+    width: 150px
 
     .description
       opacity: 1
@@ -24,9 +25,8 @@
     list-style-type: none
 
     li
-      +border-radius(0.3em)
-      font-size: 0.85rem !important
-      padding: 30px 10px
+      font-size: 0.81rem !important
+      padding: 30px 0px
       margin: 0 auto
       text-align: center
 
@@ -35,16 +35,16 @@
 
       a
         +transition(all 0.3s)
-        color: $left-pane-color
+        color: $left-pane-color-inactive
         text-decoration: none
 
         &:hover, &:active, &.active
-          color: #a1d243
+          color: $left-pane-color
 
       i
         display: block
         font-size: 2.3rem !important
-        padding-bottom: 0.3em
+        padding: 0.18em 0px
 
       .description
         +transition(opacity 0.5s)
@@ -69,6 +69,8 @@
   .navigation
     display: flex
     flex-direction: row
+    background-color: $navigation-bar-background-color
+    color: $navigation-bar-color !important
     border-bottom: 2px solid black
     width: 100%
     height: 70px
@@ -96,8 +98,8 @@
     font-family: "Helvetica Neue", sans-serif
     font-size: 2.5rem
     font-weight: 100
-    letter-spacing: 0.1em
     margin: 20px 0
+    letter-spacing: 0.1em
     line-height: normal
     text-align: center
     width: 100%

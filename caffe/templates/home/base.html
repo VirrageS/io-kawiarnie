@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load tags %}
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
@@ -6,7 +7,7 @@
     {% block head %}
       <title>Caffe</title>
 
-      <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/button.css' %}">
+      <!-- <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/button.css' %}"> -->
       <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
       <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
       <meta charset="UTF-8">
@@ -21,19 +22,19 @@
         <div class="left-pane open">
           <ul class="navigation">
             <li>
-              <a href="/" class="active">
-                <i class="fa fa-home"></i>
+              <a href="/" class="{% active '^\/$' %}">
+                <i class="fa fa-coffee"></i>
                 <span class="description">Główna</span>
               </a>
             </li>
             <li>
-              <a href="/reports/">
+              <a href="/reports/" class="{% active 'reports' %}">
                 <i class="fa fa-files-o"></i>
                 <div class="description">Raporty</div>
               </a>
             </li>
             <li>
-              <a href="">
+              <a href="/calendar/" class="{% active 'calendar' %}">
                 <i class="fa fa-calendar-o"></i>
                 <div class="description">Kaledarz</div>
               </a>
@@ -52,7 +53,7 @@
               <i class="fa fa-bars"></i>
             </div>
 
-            <a href="/" class="button button-border button-rounded button-primary">
+            <a href="/" class="button button-rounded button-light-blue">
               Zaloguj
             </a>
           </div>

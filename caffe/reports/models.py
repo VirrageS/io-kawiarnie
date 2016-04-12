@@ -36,7 +36,7 @@ class Unit(models.Model):
 class FullProduct(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     amount = models.FloatField(validators=[MinValueValidator(0)])
-    report = models.ForeignKey('Report', on_delete=models.CASCADE)
+    report = models.ForeignKey('Report', on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
         return '{0}, {1:g} {2}'.format(

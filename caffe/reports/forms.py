@@ -26,8 +26,12 @@ class FullProductForm(forms.ModelForm):
 
 
 class ReportForm(forms.ModelForm):
-    full_products = forms.MultipleChoiceField(queryset=
-        FullProduct.objects.filter(report__isnull=True))
+    full_products = forms.ModelMultipleChoiceField(queryset=None)
+
+    def __init__(self, *args, **kwargs):
+        super(ReportForm, self).__init__(*args, **kwargs)
+        self.fields['full_products'].queryset = FullProduct.objects.filter(report__isnull=True)
 
     class Meta:
         model = Report
+        fields = '__all__'

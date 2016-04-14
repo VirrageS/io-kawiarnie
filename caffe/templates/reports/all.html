@@ -6,14 +6,16 @@ Raporty
 
 {% block content %}
   <section class="new">
-    <a class="button button-rounded button-green" href="/reports/new">
+    <a class="button button-rounded button-green" href="{% url 'reports_create_new' %}">
       Stwórz raport
     </a>
   </section>
 
   <div class="reports-container">
-    <div class="report">
-      first report
-    </div>
+    {% for report in reports %}
+      <div class="report">
+        <a href="{% url 'reports_show_report' report.id %}">{{ report.created_on }}</a>
+      </div>
+    {% endfor %}
   </div>
 {% endblock %}

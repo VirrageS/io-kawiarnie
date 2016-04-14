@@ -4,10 +4,10 @@ from django.core.validators import MinValueValidator
 
 
 class Report(models.Model):
-    date = models.DateTimeField(auto_now=True)
+    created_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return 'Report created: {:%Y-%m-%d %H:%M} '.format(self.date)
+        return 'Report created: {:%Y-%m-%d %H:%M} '.format(self.created_on)
 
 
 class Category(models.Model):
@@ -36,7 +36,12 @@ class Unit(models.Model):
 class FullProduct(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     amount = models.FloatField(validators=[MinValueValidator(0)])
-    report = models.ForeignKey('Report', on_delete=models.CASCADE, blank=True)
+    report = models.ForeignKey(
+        'Report',
+        on_delete=models.CASCADE,
+        blank=True,
+        related_name='full_products'
+    )
 
     def __str__(self):
         return '{0}, {1:g} {2}'.format(

@@ -670,17 +670,60 @@ input, select {
 .new {
   display: block;
   margin: 0 auto;
-  text-align: center;
-  width: 100%;
   margin-top: 40px;
-  margin-bottom: 60px; }
+  margin-bottom: 60px;
+  text-align: center;
+  width: 100%; }
 
-.report-container {
+.reports-container {
   display: flex;
   flex-direction: row; }
-  .report-container .report {
+  .reports-container .report {
     flex: 1;
     width: auto; }
+
+.report-container {
+  display: block;
+  margin: 0 auto;
+  margin-top: 40px; }
+  .report-container .date {
+    display: block;
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 30px; }
+  .report-container .categories {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row; }
+    .report-container .categories .category {
+      padding: 1rem;
+      border: 1px solid black;
+      width: 400px; }
+      .report-container .categories .category .category-name {
+        font-size: 1.7rem;
+        font-weight: 700;
+        margin-bottom: 1.5em;
+        text-align: center; }
+      .report-container .categories .category .products {
+        display: block; }
+        .report-container .categories .category .products .product {
+          display: block;
+          font-size: 1.3rem;
+          font-weight: 100; }
+          .report-container .categories .category .products .product::before {
+            content: "";
+            display: inline; }
+          .report-container .categories .category .products .product .name, .report-container .categories .category .products .product .amount, .report-container .categories .category .products .product .unit {
+            display: inline; }
+          .report-container .categories .category .products .product .name {
+            font-weight: 500;
+            width: 50%; }
+          .report-container .categories .category .products .product .amount, .report-container .categories .category .products .product .unit {
+            width: 25%; }
+
+.new-report button {
+  margin: 0 auto; }
 
 .employees-container {
   display: flex;

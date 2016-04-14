@@ -1,15 +1,71 @@
 .new
   display: block
   margin: 0 auto
-  text-align: center
-  width: 100%
   margin-top: 40px
   margin-bottom: 60px
+  text-align: center
+  width: 100%
 
-.report-container
+.reports-container
   display: flex
   flex-direction: row
 
   .report
     flex: 1
     width: auto
+
+
+.report-container
+  display: block
+  margin: 0 auto
+  margin-top: 40px
+
+  .date
+    display: block
+    font-size: 1.5rem
+    text-align: center
+    padding: 10px
+    margin-bottom: 30px
+
+  .categories
+    display: flex
+    justify-content: flex-start
+    flex-direction: row
+
+    .category
+      padding: 1rem
+      border: 1px solid black
+      width: 400px
+
+      .category-name
+        font-size: 1.7rem
+        font-weight: 700
+        margin-bottom: 1.5em
+        text-align: center
+
+      .products
+        display: block
+
+        .product
+          display: block
+          font-size: 1.3rem
+          font-weight: 100
+
+          &::before
+            content: ""
+            display: inline
+
+          .name, .amount, .unit
+            display: inline
+
+          .name
+            font-weight: 500
+            width: 50%
+
+          .amount, .unit
+            width: 25%
+
+
+.new-report
+  button
+    margin: 0 auto

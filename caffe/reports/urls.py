@@ -16,11 +16,13 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from reports.views import reports_show_all_reports, reports_create_new_report
+from .views import reports_show_all_reports, reports_create_new_report
+from .views import reports_show_report
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^$', reports_show_all_reports, name='reports_show_all'),
-    url(r'^new/', reports_create_new_report, name='reports_create_new'),
+    url(r'^new/$', reports_create_new_report, name='reports_create_new'),
+    url(r'^show/(?P<report_id>\d+)/$', reports_show_report, name='reports_show_report'),
 ]

@@ -1,0 +1,32 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Raport
+{% endblock %}
+
+{% block content %}
+  <div class="report-container">
+    <div class="date">
+      Data utworzenia: <b>{{ report.created_on }}</b>
+    </div>
+
+    <div class="categories">
+      {% for category, products in categories.items %}
+        <div class="category">
+          <div class="category-name">
+            {{ category }}
+          </div>
+          <div class="products">
+            {% for product in products %}
+              <div class="product">
+                <div class="name">{{ product.name }}</div>
+                <div class="amount">{{ product.amount }}</div>
+                <div class="unit">{{ product.unit }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

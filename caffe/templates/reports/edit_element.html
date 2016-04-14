@@ -1,0 +1,14 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Zmień {{ context.title }}
+{% endblock %}
+
+{% block content %}
+<form method="POST" class="report-form">
+	{% csrf_token %}
+	{{ form.as_p }}
+
+	<button type="submit" class="button button-rounded button-green">Zapisz {{ context.title }}</button>
+</form>
+{% endblock %}

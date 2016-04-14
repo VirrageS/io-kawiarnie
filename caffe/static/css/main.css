@@ -682,48 +682,49 @@ input, select {
     flex: 1;
     width: auto; }
 
-.report-container {
+.show-report {
   display: block;
   margin: 0 auto;
-  margin-top: 40px; }
-  .report-container .date {
+  margin-top: 60px; }
+  .show-report .date {
     display: block;
     font-size: 1.5rem;
     text-align: center;
     padding: 10px;
     margin-bottom: 30px; }
-  .report-container .categories {
+  .show-report .categories {
     display: flex;
     justify-content: flex-start;
     flex-direction: row; }
-    .report-container .categories .category {
+    .show-report .categories .category {
       padding: 1rem;
       border: 1px solid black;
       width: 400px; }
-      .report-container .categories .category .category-name {
+      .show-report .categories .category .category-name {
         font-size: 1.7rem;
         font-weight: 700;
         margin-bottom: 1.5em;
         text-align: center; }
-      .report-container .categories .category .products {
+      .show-report .categories .category .products {
         display: block; }
-        .report-container .categories .category .products .product {
+        .show-report .categories .category .products .product {
           display: block;
           font-size: 1.3rem;
           font-weight: 100; }
-          .report-container .categories .category .products .product::before {
+          .show-report .categories .category .products .product::before {
             content: "";
             display: inline; }
-          .report-container .categories .category .products .product .name, .report-container .categories .category .products .product .amount, .report-container .categories .category .products .product .unit {
+          .show-report .categories .category .products .product .name, .show-report .categories .category .products .product .amount, .show-report .categories .category .products .product .unit {
             display: inline; }
-          .report-container .categories .category .products .product .name {
+          .show-report .categories .category .products .product .name {
             font-weight: 500;
             width: 50%; }
-          .report-container .categories .category .products .product .amount, .report-container .categories .category .products .product .unit {
+          .show-report .categories .category .products .product .amount, .show-report .categories .category .products .product .unit {
             width: 25%; }
 
 .new-report button {
-  margin: 0 auto; }
+  margin: 0 auto;
+  text-align: center; }
 
 .employees-container {
   display: flex;

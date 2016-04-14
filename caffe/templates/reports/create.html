@@ -1,14 +1,15 @@
 {% extends "home/base.html" %}
 
 {% block title %}
-Nowy raport
+Dodaj element
 {% endblock %}
 
 {% block content %}
-  <form method="POST" class="new-raport">
-    {% csrf_token %}
-    {{ form.as_p }}
-
-    <button type="submit" class="button button-rounded button-green">Zapisz raport</button>
-  </form>
+<div class="">
+  <a href="{% url 'reports_new_category' %}">Nowa kategoria</a>
+  <a href="{% url 'reports_new_unit' %}">Nowa jednostka</a>
+  <a href="{% url 'reports_new_product' %}">Nowy produkt</a>
+  <a href="{% url 'reports_new_fullproduct' %}">Nowy pełny produkt</a>
+  <a href="{% url 'reports_new_report' %}">Nowy raport</a>
+</div>
 {% endblock %}

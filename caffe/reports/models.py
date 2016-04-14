@@ -39,7 +39,7 @@ class FullProduct(models.Model):
     report = models.ForeignKey(
         'Report',
         on_delete=models.CASCADE,
-        blank=True,
+        blank=True, null=True,
         related_name='full_products'
     )
 

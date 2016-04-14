@@ -1,0 +1,21 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+  {{ context.title }}
+{% endblock %}
+
+{% block content %}
+<form method="POST" class="report-form">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <button type="submit" class="button button-rounded button-green">{{ context.save_title }}</button>
+</form>
+
+{{ context.message }}
+
+{% for element in elements %}
+  <a href="">{{ element.desc }}</a>
+{% endfor %}
+
+{% endblock %}

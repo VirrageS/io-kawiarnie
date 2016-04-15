@@ -30,10 +30,20 @@
   <button type="submit" class="button button-rounded button-green">Dodaj</button>
 </form>
 
-{{ context.message }}
+<h2 class="elements-subtitle">
+  Już istniejące
+</h2>
 
-{% for element in elements %}
-  <a href="{{ element.edit_href }}">{{ element.desc }}</a>
-{% endfor %}
-
+<ul class="elements-container">
+  {% for element in elements %}
+    <li class="element">
+      <span class="desc">
+        {{ element.desc }}
+      </span>
+      <a href="{{ element.edit_href }}" class="button button-rounded button-small button-red">
+        Edytuj
+      </a>
+    </li>
+  {% endfor %}
+</ul>
 {% endblock %}

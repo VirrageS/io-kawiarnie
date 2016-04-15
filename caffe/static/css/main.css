@@ -529,6 +529,10 @@ input, select {
     -ms-border-radius: 0.3em;
     border-radius: 0.3em;
     background-clip: padding-box; }
+  .button.button-small {
+    font-size: 0.9rem;
+    height: 30px;
+    line-height: 30px; }
   .button:hover, .button:focus {
     background-color: #000000 !important;
     color: #ffffff !important;
@@ -567,6 +571,15 @@ input, select {
     border-color: #4cb0f9 !important; }
     .button.button-light-blue:hover, .button.button-light-blue:focus {
       background-color: #4cb0f9 !important;
+      color: #ffffff !important;
+      outline: none;
+      text-decoration: none; }
+  .button.button-red {
+    background-color: transparent !important;
+    color: #e75f5f !important;
+    border-color: #e75f5f !important; }
+    .button.button-red:hover, .button.button-red:focus {
+      background-color: #e75f5f !important;
       color: #ffffff !important;
       outline: none;
       text-decoration: none; }
@@ -841,12 +854,13 @@ input, select {
     appearance: none;
     -moz-appearance: none; }
   .element-form .errorlist {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     font-weight: 200;
     color: #f44242;
     padding: 0;
     margin: 0;
-    margin-bottom: 20px; }
+    margin-bottom: 20px;
+    margin-top: -15px; }
     .element-form .errorlist li {
       padding: 10px 0;
       margin-left: 40px; }
@@ -857,6 +871,35 @@ input, select {
     display: block;
     margin: 0 auto;
     margin-top: 40px; }
+
+.elements-subtitle {
+  display: block;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 1.9rem;
+  font-weight: 100;
+  margin: 100px 0 50px 0;
+  letter-spacing: 0.1em;
+  line-height: 2.4rem;
+  text-align: center;
+  text-transform: uppercase; }
+
+.elements-container {
+  font-size: 1.2rem;
+  margin: 30px 0 100px 0px;
+  list-style: none; }
+  .elements-container .element {
+    padding: 20px 0 20px 50px;
+    border-bottom: 2px solid #000000; }
+    .elements-container .element:first-child {
+      border-top: 2px solid #000000;
+      margin-top: 0; }
+    .elements-container .element:last-child {
+      margin-bottom: 0; }
+    .elements-container .element:hover {
+      background-color: #fafafa; }
+    .elements-container .element .desc {
+      display: inline-block;
+      width: 230px; }
 
 .employees-container {
   display: flex;

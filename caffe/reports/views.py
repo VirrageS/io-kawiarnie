@@ -268,12 +268,7 @@ def reports_show_all_reports(request):
 
 
 def reports_show_report(request, report_id):
-    report = Report.objects.get(id=report_id)
-
-    # checks if report exists
-    if not report:
-        messages.error(request, 'Raport nie istnieje.')
-        return redirect('reports.reports_show_all_reports')
+    report = get_object_or_404(Report, id=report_id)
 
     all_categories = {}
     fullProducts = report.full_products.all()

@@ -530,7 +530,7 @@ input, select {
     border-radius: 0.3em;
     background-clip: padding-box; }
   .button.button-small {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     height: 30px;
     line-height: 30px; }
   .button:hover, .button:focus {

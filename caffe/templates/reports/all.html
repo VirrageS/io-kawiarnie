@@ -14,8 +14,12 @@ Raporty
   <div class="reports-container">
     {% for report in reports %}
       <div class="report">
-        <a href="{% url 'reports_show_report' report.id %}">
+        <a href="{% url 'reports_show_report' report.id %}" class="meta">
           {{ report.created_on }}
+        </a>
+
+        <a href="{% url 'reports_show_report' report.id %}" class="button button-rounded button-light-blue">
+          <i class="fa fa-search" aria-hidden="true"></i> Pokaż
         </a>
       </div>
     {% endfor %}

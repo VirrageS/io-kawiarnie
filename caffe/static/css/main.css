@@ -696,10 +696,28 @@ input, select {
 .reports-container {
   display: flex;
   flex-direction: row;
-  flex-flow: row wrap; }
+  flex-flow: row wrap;
+  font-size: 1.2rem;
+  line-height: 1.5em;
+  text-align: center; }
   .reports-container .report {
-    flex: 1;
-    width: auto; }
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    margin: 20px;
+    border: 2px solid #dedede;
+    width: 300px;
+    height: 150px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    background-clip: padding-box; }
+    .reports-container .report .meta {
+      text-align: center; }
+    .reports-container .report .button {
+      margin-top: auto; }
 
 .show-report {
   display: block;
@@ -707,9 +725,9 @@ input, select {
   margin-top: 60px; }
   .show-report .date {
     display: block;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     padding: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
     text-align: center; }
   .show-report .categories {
     display: flex;
@@ -717,29 +735,40 @@ input, select {
     flex-direction: row; }
     .show-report .categories .category {
       padding: 1rem;
-      border: 1px solid black;
-      width: 400px; }
+      padding-top: 0;
+      border: 3px solid #000000;
+      width: 430px;
+      margin: 30px 20px; }
       .show-report .categories .category .category-name {
+        font-family: "Fjord One", sans-serif;
         font-size: 1.7rem;
-        font-weight: 700;
+        font-weight: 400;
         margin-bottom: 1.5em;
+        border-bottom: 2px solid #000000;
+        letter-spacing: 0.1em;
+        line-height: 1.8em;
         text-align: center; }
       .show-report .categories .category .products {
         display: block; }
         .show-report .categories .category .products .product {
-          display: block;
-          font-size: 1.3rem;
-          font-weight: 100; }
+          display: flex;
+          font-size: 1.1rem;
+          font-weight: 100;
+          margin: 20px 0; }
           .show-report .categories .category .products .product::before {
             content: "";
             display: inline; }
           .show-report .categories .category .products .product .name, .show-report .categories .category .products .product .amount, .show-report .categories .category .products .product .unit {
-            display: inline; }
+            display: inline-block; }
           .show-report .categories .category .products .product .name {
-            font-weight: 500;
-            width: 50%; }
+            flex: 2;
+            font-weight: 600; }
           .show-report .categories .category .products .product .amount, .show-report .categories .category .products .product .unit {
-            width: 25%; }
+            flex: 1; }
+          .show-report .categories .category .products .product .amount {
+            text-align: center; }
+          .show-report .categories .category .products .product .unit {
+            text-align: right; }
 
 .elements {
   display: flex;
@@ -859,8 +888,8 @@ input, select {
     color: #f44242;
     padding: 0;
     margin: 0;
-    margin-bottom: 20px;
-    margin-top: -15px; }
+    margin-top: -15px;
+    margin-bottom: 20px; }
     .element-form .errorlist li {
       padding: 10px 0;
       margin-left: 40px; }
@@ -884,22 +913,23 @@ input, select {
   text-transform: uppercase; }
 
 .elements-container {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin: 30px 0 100px 0px;
   list-style: none; }
   .elements-container .element {
     padding: 20px 0 20px 50px;
     border-bottom: 2px solid #000000; }
     .elements-container .element:first-child {
-      border-top: 2px solid #000000;
-      margin-top: 0; }
+      margin-top: 0;
+      border-top: 2px solid #000000; }
     .elements-container .element:last-child {
       margin-bottom: 0; }
     .elements-container .element:hover {
       background-color: #fafafa; }
     .elements-container .element .desc {
       display: inline-block;
-      width: 230px; }
+      padding-right: 150px;
+      min-width: 180px; }
 
 .employees-container {
   display: flex;

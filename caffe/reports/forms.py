@@ -14,6 +14,8 @@ class ProductForm(forms.ModelForm):
         self.fields['name'].label = 'Nazwa'
         self.fields['category'].label = 'Kategoria'
         self.fields['unit'].label = 'Jednostka'
+        self.fields['category'].empty_label = None
+        self.fields['unit'].empty_label = None
 
 
 class CategoryForm(forms.ModelForm):
@@ -48,6 +50,7 @@ class FullProductForm(forms.ModelForm):
         super(FullProductForm, self).__init__(*args, **kwargs)
         self.fields['product'].label = 'Produkt'
         self.fields['amount'].label = u'Ilość'
+        self.fields['product'].empty_label = None
 
 class ReportForm(forms.ModelForm):
     full_products = forms.ModelMultipleChoiceField(queryset=None)

@@ -1,4 +1,5 @@
 {% extends "home/base.html" %}
+{% load tags %}
 
 {% block title %}
   {{ context.title }}
@@ -10,10 +11,20 @@
 
   {% for field in form %}
     <div class="input-line">
-      {{ field }}
+      {% with field|field_type as field_name %}
+      {% if field_name == "Select" %}
+        <div class="input-wrapper">
+          {{ field }}
+        </div>
+      {% else %}
+        {{ field }}
+      {% endif %}
+      {% endwith %}
+
       {{ field.label_tag }}
     </div>
     {{ field.errors }}
+
   {% endfor %}
 
   <button type="submit" class="button button-rounded button-green">Dodaj</button>

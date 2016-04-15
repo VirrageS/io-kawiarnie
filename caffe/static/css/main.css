@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=Inconsolata:400,500,700&subset=latin,latin-ext");
 @import url("https://fonts.googleapis.com/css?family=Source+Code+Pro:400,300,700,900&subset=latin,latin-ext");
 @import url("https://fonts.googleapis.com/css?family=Fjord+One");
@@ -775,8 +776,8 @@ input, select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none; }
-    .element-form input:hover, .element-form input:active, .element-form input:focus + label {
-      color: #98c4fe; }
+  .element-form input:hover + label, .element-form input:active + label, .element-form input:focus + label, .element-form select:hover + label, .element-form select:active + label, .element-form select:focus + label, .element-form .input-wrapper:hover + label, .element-form .input-wrapper:active + label, .element-form .input-wrapper:focus + label {
+    color: #98c4fe; }
   .element-form .input-line {
     position: relative;
     padding-top: 20px;
@@ -806,13 +807,39 @@ input, select {
     display: inline-block;
     box-sizing: border-box;
     font-size: 1em;
-    padding: 10px 15px;
+    padding: 8px 15px;
     margin: 8px 0;
     border: 2px solid #000000;
     line-height: 1.6em;
     width: 100%; }
     .element-form input[type=text]:hover, .element-form input[type=text]:active, .element-form input[type=text]:focus, .element-form input[type=number]:hover, .element-form input[type=number]:active, .element-form input[type=number]:focus {
       border-color: #98c4fe; }
+  .element-form .input-wrapper::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 39px;
+    right: 25px;
+    font-family: FontAwesome;
+    font-size: 1.5em; }
+  .element-form .input-wrapper select {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    border-radius: 4px;
+    background-clip: padding-box;
+    display: inline-block;
+    box-sizing: border-box;
+    font-size: 0.9em;
+    padding: 5px 15px;
+    margin: 8px 0;
+    border: 2px solid #000000;
+    line-height: 1.6em;
+    outline: none;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    -moz-appearance: none; }
   .element-form .errorlist {
     font-size: 0.7rem;
     font-weight: 200;

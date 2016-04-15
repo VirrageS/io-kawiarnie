@@ -109,9 +109,9 @@
     -moz-appearance: none
     appearance: none
 
-    &:hover, &:active, &:focus + label
+  input, select, .input-wrapper
+    &:hover + label, &:active + label, &:focus + label
       color: #98c4fe
-
 
   .input-line
     position: relative
@@ -134,7 +134,7 @@
     display: inline-block
     box-sizing: border-box
     font-size: 1em
-    padding: 10px 15px
+    padding: 8px 15px
     margin: 8px 0
     border: 2px solid #000000
     line-height: 1.6em
@@ -142,6 +142,33 @@
 
     &:hover, &:active, &:focus
       border-color: #98c4fe
+
+
+  .input-wrapper
+    &::after
+      content: "\f0d7"
+      display: inline-block
+      position: absolute
+      top: 39px
+      right: 25px
+      font-family: FontAwesome
+      font-size: 1.5em
+
+    select
+      +border-radius(4px)
+      display: inline-block
+      box-sizing: border-box
+      font-size: 0.9em
+      padding: 5px 15px
+      margin: 8px 0
+      border: 2px solid #000000
+      line-height: 1.6em
+      outline: none
+      width: 100%
+      -webkit-appearance: none
+      appearance: none
+      -moz-appearance: none
+
 
   .errorlist
     font-size: 0.7rem

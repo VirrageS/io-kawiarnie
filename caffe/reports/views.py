@@ -156,12 +156,12 @@ def reports_new_fullproduct(request):
             form.save()
             return redirect(reverse('reports_create'))
 
-    fullProducts = FullProduct.objects.all()
-    for fullProduct in fullProducts:
+    full_products = FullProduct.objects.all()
+    for full_product in full_products:
         elements.append({
-            'edit_href': reverse('reports_edit_fullproduct', args=(fullproduct.id,)),
-            'id': fullProduct.id,
-            'desc': str(fullProduct)
+            'edit_href': reverse('reports_edit_fullproduct', args=(full_product.id,)),
+            'id': full_product.id,
+            'desc': str(full_product)
         })
 
     return render(request, 'reports/new_element.html', {

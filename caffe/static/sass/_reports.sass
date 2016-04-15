@@ -9,6 +9,7 @@
 .reports-container
   display: flex
   flex-direction: row
+  flex-flow: row wrap
 
   .report
     flex: 1
@@ -23,9 +24,9 @@
   .date
     display: block
     font-size: 1.5rem
-    text-align: center
     padding: 10px
     margin-bottom: 30px
+    text-align: center
 
   .categories
     display: flex
@@ -66,7 +67,76 @@
             width: 25%
 
 
-.new-report
-  button
-    margin: 0 auto
+.elements
+  display: flex
+  justify-content: center
+  flex-direction: row
+  flex-flow: row wrap
+
+  .element
+    +border-radius(5px)
+    +transition(all 0.3s)
+    font-size: 1.3rem
+    padding: 20px
+    margin: 30px
+    border: 2px solid #000000
+    line-height: 1.7rem
     text-align: center
+    width: 250px
+
+    &:hover
+      background-color: #f2c53d
+      color: #ffffff
+      border-color: #ffffff
+
+    i
+      display: block
+      font-size: 2em
+      margin-bottom: 0.5em
+
+.element-form
+  font-size: 1rem
+  width: 500px
+  display: block
+  margin: 0 auto
+  border: 1px solid #cccccc
+  padding: 20px 30px
+  +border-radius(5px)
+
+  input
+    outline: none
+    -webkit-appearance: none
+    -moz-appearance: none
+    appearance: none
+
+  label
+    display: block
+    font-size: 0.9em
+    font-weight: 100
+    color: #6f6c6c
+    text-align: left
+    margin-top: 15px
+    margin-bottom: 8px
+
+  input[type=text]
+    width: 100%
+    display: inline-block
+    box-sizing: border-box
+    margin: 8px 0
+    border: 2px solid #ccc
+    +border-radius(4px)
+    padding: 10px 15px
+    font-size: 1em
+    line-height: 1.6em
+
+    &:hover, &:active, &:focus
+      border-color: #98c4fe
+
+  select
+    width: 100%
+    margin: 8px 0
+
+  button[type=submit]
+    display: block
+    margin: 0 auto
+    margin-top: 40px

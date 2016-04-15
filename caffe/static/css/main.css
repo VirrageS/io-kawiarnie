@@ -577,8 +577,8 @@ input, select {
   min-height: 100%; }
 
 .left-pane {
-  background-color: #2a2d34;
-  color: #696970 !important;
+  background-color: #2E3C54;
+  color: #a1b3bb !important;
   width: 80px;
   min-height: 100%;
   font-family: Circular, Helvetica, Arial, sans-serif;
@@ -593,8 +593,6 @@ input, select {
     list-style-type: none; }
     .left-pane ul li {
       font-size: 0.81rem !important;
-      padding: 30px 0px;
-      margin: 0 auto;
       text-align: center; }
       .left-pane ul li:first-child {
         margin-top: 0px; }
@@ -603,10 +601,15 @@ input, select {
         -o-transition: all 0.3s;
         -webkit-transition: all 0.3s;
         transition: all 0.3s;
-        color: #696970;
-        text-decoration: none; }
+        display: block;
+        padding: 20px 0px;
+        color: #a1b3bb;
+        text-decoration: none;
+        width: 100%;
+        height: 100%; }
         .left-pane ul li a:hover, .left-pane ul li a:active, .left-pane ul li a.active {
-          color: #ffffff; }
+          color: #ffffff;
+          background-color: #1b2432; }
       .left-pane ul li i {
         display: block;
         font-size: 2.3rem !important;
@@ -661,6 +664,7 @@ input, select {
     font-size: 2.5rem;
     font-weight: 100;
     margin: 20px 0;
+    margin-bottom: 40px;
     letter-spacing: 0.1em;
     line-height: normal;
     text-align: center;
@@ -677,7 +681,8 @@ input, select {
 
 .reports-container {
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+  flex-flow: row wrap; }
   .reports-container .report {
     flex: 1;
     width: auto; }
@@ -689,9 +694,9 @@ input, select {
   .show-report .date {
     display: block;
     font-size: 1.5rem;
-    text-align: center;
     padding: 10px;
-    margin-bottom: 30px; }
+    margin-bottom: 30px;
+    text-align: center; }
   .show-report .categories {
     display: flex;
     justify-content: flex-start;
@@ -722,9 +727,85 @@ input, select {
           .show-report .categories .category .products .product .amount, .show-report .categories .category .products .product .unit {
             width: 25%; }
 
-.new-report button {
+.elements {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-flow: row wrap; }
+  .elements .element {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    background-clip: padding-box;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    font-size: 1.3rem;
+    padding: 20px;
+    margin: 30px;
+    border: 2px solid #000000;
+    line-height: 1.7rem;
+    text-align: center;
+    width: 250px; }
+    .elements .element:hover {
+      background-color: #f2c53d;
+      color: #ffffff;
+      border-color: #ffffff; }
+    .elements .element i {
+      display: block;
+      font-size: 2em;
+      margin-bottom: 0.5em; }
+
+.element-form {
+  font-size: 1rem;
+  width: 500px;
+  display: block;
   margin: 0 auto;
-  text-align: center; }
+  border: 1px solid #cccccc;
+  padding: 20px 30px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  border-radius: 5px;
+  background-clip: padding-box; }
+  .element-form input {
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none; }
+  .element-form label {
+    display: block;
+    font-size: 0.9em;
+    font-weight: 100;
+    color: #6f6c6c;
+    text-align: left;
+    margin-top: 15px;
+    margin-bottom: 8px; }
+  .element-form input[type=text] {
+    width: 100%;
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 8px 0;
+    border: 2px solid #ccc;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    border-radius: 4px;
+    background-clip: padding-box;
+    padding: 10px 15px;
+    font-size: 1em;
+    line-height: 1.6em; }
+    .element-form input[type=text]:hover, .element-form input[type=text]:active, .element-form input[type=text]:focus {
+      border-color: #98c4fe; }
+  .element-form select {
+    width: 100%;
+    margin: 8px 0; }
+  .element-form button[type=submit] {
+    display: block;
+    margin: 0 auto;
+    margin-top: 40px; }
 
 .employees-container {
   display: flex;

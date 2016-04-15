@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<form method="POST" class="report-form">
+<form method="POST" class="element-form">
   {% csrf_token %}
   {{ form.as_p }}
 

@@ -127,6 +127,7 @@ def reports_new_product(request):
         'elements': elements
     })
 
+
 def reports_edit_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     form = ProductForm(request.POST or None, instance=product)
@@ -142,6 +143,7 @@ def reports_edit_product(request, product_id):
             'save_title': "Uaktualnij produkt"
         }
     })
+
 
 def reports_new_fullproduct(request):
     elements = []
@@ -172,6 +174,7 @@ def reports_new_fullproduct(request):
         'elements': elements
     })
 
+
 def reports_edit_fullproduct(request, fullproduct_id):
     fullproduct = get_object_or_404(Unit, id=fullproduct_id)
     form = FullProductForm(request.POST or None, instance=fullproduct)
@@ -187,6 +190,7 @@ def reports_edit_fullproduct(request, fullproduct_id):
             'save_title': "Uaktualnij pełny produkt"
         }
     })
+
 
 def reports_new_report(request):
     elements = []
@@ -220,6 +224,7 @@ def reports_new_report(request):
         },
         'elements': elements
     })
+
 
 def reports_edit_report(request, report_id):
     report = get_object_or_404(Unit, id=report_id)

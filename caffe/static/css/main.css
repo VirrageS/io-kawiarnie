@@ -726,13 +726,15 @@ input, select {
   .show-report .date {
     display: block;
     font-size: 1.4rem;
+    line-height: 1.5em;
     padding: 10px;
     margin-bottom: 50px;
     text-align: center; }
   .show-report .categories {
     display: flex;
     justify-content: flex-start;
-    flex-direction: row; }
+    flex-direction: row;
+    flex-flow: row wrap; }
     .show-report .categories .category {
       padding: 1rem;
       padding-top: 0;
@@ -812,7 +814,7 @@ input, select {
   padding: 20px 30px;
   margin: 0 auto;
   border: 1px solid #cccccc;
-  width: 500px; }
+  max-width: 500px; }
   .element-form input {
     outline: none;
     -webkit-appearance: none;

@@ -1,14 +1,27 @@
 from django.test import TestCase
 from django.utils import timezone
 from django.db import transaction
-
+from django import forms
 
 from datetime import datetime
 
-from .models import Report, Category, Product, Unit, FullProduct
-# Create your tests here.
+from .models import \
+  Category, \
+  Product, \
+  Unit, \
+  FullProduct, \
+  Report
 
-class ReportTest(TestCase):
+from .forms import \
+  ProductForm, \
+  CategoryForm, \
+  UnitForm, \
+  FullProductForm, \
+  ReportForm
+
+############## MODELS TESTS #################
+
+class ReportModelTest(TestCase):
   def setUp(self):
     Report.objects.create(id = 1)
     Report.objects.create(id = 2)
@@ -19,7 +32,7 @@ class ReportTest(TestCase):
     #self.assertTrue(datetime.now() - r1.created_on > 0)
     #self.assertTrue(now < r1.created_on)
 
-class CategoryTest(TestCase):
+class CategoryModelTest(TestCase):
   def setUp(self):    
     Category.objects.create(name = "first")
     Category.objects.create(name = "second")
@@ -34,7 +47,7 @@ class CategoryTest(TestCase):
     self.assertRaises(Exception, Category.objects.create, name = "first")
     self.assertRaises(Exception, Category.objects.create, name = "second")
 
-class UnitTest(TestCase):
+class UnitModelTest(TestCase):
   def setUp(self):
     Unit.objects.create(name = "gram")
     Unit.objects.create(name = "liter")
@@ -49,7 +62,7 @@ class UnitTest(TestCase):
 
 
 
-class ProductTest(TestCase):
+class ProductModelTest(TestCase):
   def setUp(self):    
     Category.objects.create(name = "first")
     Category.objects.create(name = "second")
@@ -108,7 +121,7 @@ class ProductTest(TestCase):
       unit = gram
     )
 
-class FullProductTest(TestCase):
+class FullProductModelTest(TestCase):
   def setUp(self):      
     first_cat = Category.objects.create(name = "first")
     second_cat = Category.objects.create(name = "second")
@@ -196,4 +209,114 @@ class FullProductTest(TestCase):
     )
     '''
     
+################### FORMS TESTS ###########################
 
+class CategoryFormTest(TestCase):
+
+  def test_category(self):
+    form_incorrect = CategoryForm({
+      'name':''
+    })
+
+    self.assertFalse(form_incorrect.is_valid())
+
+    form_incorrect = CategoryForm({
+      'no_such':'field'
+    })
+
+    self.assertFalse(form_incorrect.is_valid())
+
+    form_correct = CategoryForm({
+      'name':'Category is correct'
+    })
+
+    self.assertTrue(form_correct.is_valid())
+
+    form_correct = CategoryForm({
+      'name':'This.is.correct123!@#$%"^&"*():?>M'
+    })
+
+    self.assertTrue(form_correct.is_valid())
+
+'''
+class FullProductFormTest(TestCase):
+
+  def setUp(self):
+    first_cat = Category.objects.create(name = "first")
+    second_cat = Category.objects.create(name = "second")
+
+    gram = Unit.objects.create(name = "gram")
+    liter = Unit.objects.create(name = "liter")   
+
+    Product.objects.create(
+      name = "product1", 
+      category = first_cat, 
+      unit = gram
+    )
+
+  def test_full_product(self):
+    form_correct = FullProductForm({
+      'product':p1,
+      'amount':10
+    })
+
+    self.assertTrue(form_correct.is_valid())
+
+    form_incorrect = FullProductForm({
+      'product':'',
+      'amount':10
+    })
+
+    self.assertFalse(form_incorrect.is_valid())
+
+    form_incorrect = FullProductForm({
+      'product':'Product',
+      'amount':-10
+    })
+
+    self.assertFalse(form_incorrect.is_valid())
+
+    form_incorrect = FullProductForm({
+      'no_such':'field'
+    })
+
+    self.assertFalse(form_incorrect.is_valid())
+    
+
+    form_correct = FullProductForm({
+      'product':'This.is.correct123!@#$%"^&"*():?>M',
+      'amount':10000000
+    })
+
+    self.assertTrue(form_correct.is_valid())
+'''
+#to fix, smthg wrong
+'''
+class UnitForm(TestCase):
+
+  def test_unit(self):
+    
+    form_incorrect = UnitForm({
+      'name':'aasd'
+    })
+
+    self.assertFalse(form_incorrect.is_valid())
+
+    form_incorrect = UnitForm({
+      'no_such':'field'
+    })
+
+    self.assertFalse(form_incorrect.is_valid())
+
+    form_correct = UnitForm({
+      'name':'Category is correct'
+    })
+
+    self.assertTrue(form_correct.is_valid())
+
+    form_correct = UnitForm({
+      'name':'This.is.correct123!@#$%"^&"*():?>M'
+    })
+
+    self.assertTrue(form_correct.is_valid())
+    '''

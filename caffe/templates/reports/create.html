@@ -5,11 +5,26 @@ Dodaj element
 {% endblock %}
 
 {% block content %}
-<div class="">
-  <a href="{% url 'reports_new_category' %}">Nowa kategoria</a>
-  <a href="{% url 'reports_new_unit' %}">Nowa jednostka</a>
-  <a href="{% url 'reports_new_product' %}">Nowy produkt</a>
-  <a href="{% url 'reports_new_fullproduct' %}">Nowy pełny produkt</a>
-  <a href="{% url 'reports_new_report' %}">Nowy raport</a>
+<div class="elements">
+  <a href="{% url 'reports_new_unit' %}" class="element">
+    <i class="fa fa-percent" aria-hidden="true"></i>
+    Nowa jednostka
+  </a>
+  <a href="{% url 'reports_new_category' %}" class="element">
+    <i class="fa fa-sitemap" aria-hidden="true"></i>
+    Nowa kategoria
+  </a>
+  <a href="{% url 'reports_new_product' %}" class="element">
+    <i class="fa fa-tag" aria-hidden="true"></i>
+    Nowy produkt
+  </a>
+  <a href="{% url 'reports_new_fullproduct' %}" class="element">
+    <i class="fa fa-tag" aria-hidden="true"></i>
+    Nowy pełny produkt
+  </a>
+  <a href="{% url 'reports_new_report' %}" class="element">
+    <i class="fa fa-wpforms" aria-hidden="true"></i>
+    Nowy raport
+  </a>
 </div>
 {% endblock %}

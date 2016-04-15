@@ -1,7 +1,7 @@
 {% extends "home/base.html" %}
 
 {% block title %}
-Zmień {{ context.title }}
+{{ context.title }}
 {% endblock %}
 
 {% block content %}
@@ -9,6 +9,6 @@ Zmień {{ context.title }}
 	{% csrf_token %}
 	{{ form.as_p }}
 
-	<button type="submit" class="button button-rounded button-green">Zapisz {{ context.title }}</button>
+	<button type="submit" class="button button-rounded button-green">Uaktualnij</button>
 </form>
 {% endblock %}

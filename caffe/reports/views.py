@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 
@@ -41,7 +41,7 @@ def reports_new_category(request):
     categories = Category.objects.all()
     for category in categories:
         elements.append({
-            'edit_href': 'reports_edit_category',
+            'edit_href': reverse('reports_edit_category', args=(category.id,)),
             'id': category.id,
             'desc': str(category)
         })
@@ -54,6 +54,22 @@ def reports_new_category(request):
             'message': ""
         },
         'elements': elements
+    })
+
+def reports_edit_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    form = CategoryForm(request.POST or None, instance=category)
+
+    if form.is_valid():
+        form.save()
+        return redirect(reverse('reports_create'))
+
+    return render(request, 'reports/edit_element.html', {
+        'form': form,
+        'context': {
+            'title': "Edytuj kategorię",
+            'save_title': "Uaktualnij kategorię"
+        }
     })
 
 
@@ -71,7 +87,7 @@ def reports_new_unit(request):
     units = Unit.objects.all()
     for unit in units:
         elements.append({
-            'edit_href': 'reports_edit_unit',
+            'edit_href': reverse('reports_edit_unit', args=(unit.id,)),
             'id': unit.id,
             'desc': str(unit)
         })
@@ -85,6 +101,23 @@ def reports_new_unit(request):
         },
         'elements': elements
     })
+
+def reports_edit_unit(request, unit_id):
+    unit = get_object_or_404(Unit, id=unit_id)
+    form = UnitForm(request.POST or None, instance=unit)
+
+    if form.is_valid():
+        form.save()
+        return redirect(reverse('reports_create'))
+
+    return render(request, 'reports/edit_element.html', {
+        'form': form,
+        'context': {
+            'title': "Edytuj jednostkę",
+            'save_title': "Uaktualnij jednostkę"
+        }
+    })
+
 
 def reports_new_product(request):
     elements = []
@@ -100,7 +133,7 @@ def reports_new_product(request):
     products = Product.objects.all()
     for product in products:
         elements.append({
-            'edit_href': 'reports_edit_product',
+            'edit_href': reverse('reports_edit_product', args=(product.id,)),
             'id': product.id,
             'desc': str(product)
         })
@@ -113,6 +146,22 @@ def reports_new_product(request):
             'message': ""
         },
         'elements': elements
+    })
+
+def reports_edit_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    form = ProductForm(request.POST or None, instance=product)
+
+    if form.is_valid():
+        form.save()
+        return redirect(reverse('reports_create'))
+
+    return render(request, 'reports/edit_element.html', {
+        'form': form,
+        'context': {
+            'title': "Edytuj produkt",
+            'save_title': "Uaktualnij produkt"
+        }
     })
 
 def reports_new_fullproduct(request):
@@ -129,7 +178,7 @@ def reports_new_fullproduct(request):
     fullProducts = FullProduct.objects.all()
     for fullProduct in fullProducts:
         elements.append({
-            'edit_href': 'reports_edit_fullproduct',
+            'edit_href': reverse('reports_edit_fullproduct', args=(fullproduct.id,)),
             'id': fullProduct.id,
             'desc': str(fullProduct)
         })
@@ -142,6 +191,22 @@ def reports_new_fullproduct(request):
             'message': ""
         },
         'elements': elements
+    })
+
+def reports_edit_fullproduct(request, fullproduct_id):
+    fullproduct = get_object_or_404(Unit, id=fullproduct_id)
+    form = FullProductForm(request.POST or None, instance=fullproduct)
+
+    if form.is_valid():
+        form.save()
+        return redirect(reverse('reports_create'))
+
+    return render(request, 'reports/edit_element.html', {
+        'form': form,
+        'context': {
+            'title': "Edytuj pełny produkt",
+            'save_title': "Uaktualnij pełny produkt"
+        }
     })
 
 def reports_new_report(request):
@@ -162,7 +227,7 @@ def reports_new_report(request):
     reports = Report.objects.all()
     for report in reports:
         elements.append({
-            'edit_href': 'reports_edit_report',
+            'edit_href': reverse('reports_edit_report', args=(report.id,)),
             'id': report.id,
             'desc': str(report)
         })
@@ -175,6 +240,22 @@ def reports_new_report(request):
             'message': ""
         },
         'elements': elements
+    })
+
+def reports_edit_report(request, report_id):
+    report = get_object_or_404(Unit, id=report_id)
+    form = ReportForm(request.POST or None, instance=report)
+
+    if form.is_valid():
+        form.save()
+        return redirect(reverse('reports_create'))
+
+    return render(request, 'reports/edit_element.html', {
+        'form': form,
+        'context': {
+            'title': "Edytuj raport",
+            'save_title': "Uaktualnij raport"
+        }
     })
 
 

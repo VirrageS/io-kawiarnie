@@ -95,13 +95,13 @@
       margin-bottom: 0.5em
 
 .element-form
-  font-size: 1rem
-  width: 500px
+  +border-radius(5px)
   display: block
+  font-size: 1rem
+  padding: 20px 30px
   margin: 0 auto
   border: 1px solid #cccccc
-  padding: 20px 30px
-  +border-radius(5px)
+  width: 500px
 
   input
     outline: none
@@ -109,32 +109,55 @@
     -moz-appearance: none
     appearance: none
 
+    &:hover, &:active, &:focus + label
+      color: #98c4fe
+
+
+  .input-line
+    position: relative
+    padding-top: 20px
+    margin: 15px 0
+
   label
-    display: block
+    +transition(all 0.3s)
+    position: absolute
+    top: 0
+    left: 0
     font-size: 0.9em
     font-weight: 100
-    color: #6f6c6c
+    color: #989595
     text-align: left
-    margin-top: 15px
-    margin-bottom: 8px
 
-  input[type=text]
-    width: 100%
+  input[type=text], input[type=number]
+    +border-radius(4px)
+    +transition(all 0.3s)
     display: inline-block
     box-sizing: border-box
-    margin: 8px 0
-    border: 2px solid #ccc
-    +border-radius(4px)
-    padding: 10px 15px
     font-size: 1em
+    padding: 10px 15px
+    margin: 8px 0
+    border: 2px solid #000000
     line-height: 1.6em
+    width: 100%
 
     &:hover, &:active, &:focus
       border-color: #98c4fe
 
+  .errorlist
+    font-size: 0.7rem
+    font-weight: 200
+    color: #f44242
+    padding: 0
+    margin: 0
+    margin-bottom: 20px
+
+    li
+      padding: 10px 0
+      margin-left: 40px
+
   select
-    width: 100%
     margin: 8px 0
+    width: 100%
 
   button[type=submit]
     display: block

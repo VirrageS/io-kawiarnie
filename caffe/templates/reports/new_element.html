@@ -7,7 +7,14 @@
 {% block content %}
 <form method="POST" class="element-form">
   {% csrf_token %}
-  {{ form.as_p }}
+
+  {% for field in form %}
+    <div class="input-line">
+      {{ field }}
+      {{ field.label_tag }}
+    </div>
+    {{ field.errors }}
+  {% endfor %}
 
   <button type="submit" class="button button-rounded button-green">Dodaj</button>
 </form>

@@ -33,6 +33,7 @@ class UnitForm(forms.ModelForm):
         fields = ('name',)
 
     def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
         super(UnitForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = 'Nazwa'
 
@@ -43,6 +44,7 @@ class FullProductForm(forms.ModelForm):
         fields = ('product', 'amount',)
 
     def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
         super(FullProductForm, self).__init__(*args, **kwargs)
         self.fields['product'].label = 'Produkt'
         self.fields['amount'].label = u'Ilość'
@@ -51,6 +53,7 @@ class ReportForm(forms.ModelForm):
     full_products = forms.ModelMultipleChoiceField(queryset=None)
 
     def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
         super(ReportForm, self).__init__(*args, **kwargs)
         self.fields['full_products'].queryset = FullProduct.objects.filter(report__isnull=True)
         self.fields['full_products'].label = u'Pełne produkty'

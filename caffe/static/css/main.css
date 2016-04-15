@@ -759,49 +759,73 @@ input, select {
       margin-bottom: 0.5em; }
 
 .element-form {
-  font-size: 1rem;
-  width: 500px;
-  display: block;
-  margin: 0 auto;
-  border: 1px solid #cccccc;
-  padding: 20px 30px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   border-radius: 5px;
-  background-clip: padding-box; }
+  background-clip: padding-box;
+  display: block;
+  font-size: 1rem;
+  padding: 20px 30px;
+  margin: 0 auto;
+  border: 1px solid #cccccc;
+  width: 500px; }
   .element-form input {
     outline: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none; }
+    .element-form input:hover, .element-form input:active, .element-form input:focus + label {
+      color: #98c4fe; }
+  .element-form .input-line {
+    position: relative;
+    padding-top: 20px;
+    margin: 15px 0; }
   .element-form label {
-    display: block;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    position: absolute;
+    top: 0;
+    left: 0;
     font-size: 0.9em;
     font-weight: 100;
-    color: #6f6c6c;
-    text-align: left;
-    margin-top: 15px;
-    margin-bottom: 8px; }
-  .element-form input[type=text] {
-    width: 100%;
-    display: inline-block;
-    box-sizing: border-box;
-    margin: 8px 0;
-    border: 2px solid #ccc;
+    color: #989595;
+    text-align: left; }
+  .element-form input[type=text], .element-form input[type=number] {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
     border-radius: 4px;
     background-clip: padding-box;
-    padding: 10px 15px;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    display: inline-block;
+    box-sizing: border-box;
     font-size: 1em;
-    line-height: 1.6em; }
-    .element-form input[type=text]:hover, .element-form input[type=text]:active, .element-form input[type=text]:focus {
+    padding: 10px 15px;
+    margin: 8px 0;
+    border: 2px solid #000000;
+    line-height: 1.6em;
+    width: 100%; }
+    .element-form input[type=text]:hover, .element-form input[type=text]:active, .element-form input[type=text]:focus, .element-form input[type=number]:hover, .element-form input[type=number]:active, .element-form input[type=number]:focus {
       border-color: #98c4fe; }
+  .element-form .errorlist {
+    font-size: 0.7rem;
+    font-weight: 200;
+    color: #f44242;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 20px; }
+    .element-form .errorlist li {
+      padding: 10px 0;
+      margin-left: 40px; }
   .element-form select {
-    width: 100%;
-    margin: 8px 0; }
+    margin: 8px 0;
+    width: 100%; }
   .element-form button[type=submit] {
     display: block;
     margin: 0 auto;

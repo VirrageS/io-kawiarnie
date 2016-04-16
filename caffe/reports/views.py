@@ -114,8 +114,7 @@ def reports_new_product(request):
     return render(request, 'reports/new_element.html', {
         'form': form,
         'context': {
-            'title': "Nowy produkt",
-            'save_title': "Zapisz produkt"
+            'title': u'Nowy produkt'
         },
         'elements': elements
     })
@@ -132,8 +131,7 @@ def reports_edit_product(request, product_id):
     return render(request, 'reports/edit_element.html', {
         'form': form,
         'context': {
-            'title': "Edytuj produkt",
-            'save_title': "Uaktualnij produkt"
+            'title': u'Edytuj produkt'
         }
     })
 

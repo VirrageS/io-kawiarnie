@@ -1,7 +1,14 @@
 version: '2'
 services:
   db:
-    image: postgres
+    restart: always
+    image: sameersbn/postgresql:9.4-18
+    ports:
+      - "5432:5432"
+    environment:
+      - DEBUG=false
+    volumes:
+      - /srv/docker/postgresql:/var/lib/postgresql
   web:
     build: .
     command: ./start-web.sh

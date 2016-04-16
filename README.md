@@ -16,7 +16,14 @@ funkcjonalności do mastera.
     $ git push origin master
 
 Potem znowu albo tworzymy nowego brancha `git checkout -b ...` albo po prostu
-rozwijamy poprzedniego `git checkout ...` (bez opcji `-b`).
+rozwijamy poprzedniego `git checkout ...` (bez opcji `-b`). Aby łatwo powrócić
+starym branchem do poziomu mastera wystarczy:
+
+    $ git checkout [nazwa_brancha]
+    $ git rebase origin/master
+    $ git push
+
+Po tych operacjach powinniśmy być na takim samym commicie co master
 
 ## Setup
 
@@ -39,6 +46,25 @@ Teraz jesteśmy gotowi, aby odpalić serwer:
     (venv)$ python manage.py migrate
     (venv)$ python manage.py runserver
 
+## Testing
+
+Do testowania używamy `coverage`. Aby użyć tego narzędzia wystarczy wpisać.
+
+    $ coverage run --source="." --omit="*migrations*" manage.py test
+    $ coverage report
+    $ coverage html
+    $ cd htmlcov; open index.html; cd ..;
+
+
+1. W pierwszej linijce, na końcu możemy wyspecifkować jaką aplikację teraz
+testujemy np. `reports` lub `employees`.
+2. W drugiej generujemy raport na podstawie testów jakie przeszły. Możemy także
+dodać opcję `-m`, która dokładnie pokaże nam linijki, które nigdy się nie
+wykonały w testach (!).
+3. W trzeciej linijce generujemy html'owy raport, w którym dokładnie możemy
+sprawdzić, jakie części kodu się wykonały, a które nie. Super przydatne i ładne.
+4. Czwarta linijka to proste makro, które odpala nam html'owy raport w
+przeglądarce.
 
 ## Rules
 

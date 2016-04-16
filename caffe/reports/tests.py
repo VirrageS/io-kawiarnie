@@ -1,12 +1,13 @@
-from django.test import TestCase
+from django.test import TestCase, Client
+from django.core.urlresolvers import reverse, NoReverseMatch
 from django.utils import timezone
 from django.db import transaction
-
 
 from datetime import datetime
 
 from .models import Report, Category, Product, Unit, FullProduct
-# Create your tests here.
+from .forms import CategoryForm, UnitForm, ProductForm
+from .forms import FullProductForm, ReportForm
 
 class ReportTest(TestCase):
   def setUp(self):
@@ -20,7 +21,7 @@ class ReportTest(TestCase):
     #self.assertTrue(now < r1.created_on)
 
 class CategoryTest(TestCase):
-  def setUp(self):    
+  def setUp(self):
     Category.objects.create(name = "first")
     Category.objects.create(name = "second")
 
@@ -50,12 +51,12 @@ class UnitTest(TestCase):
 
 
 class ProductTest(TestCase):
-  def setUp(self):    
+  def setUp(self):
     Category.objects.create(name = "first")
     Category.objects.create(name = "second")
 
     Unit.objects.create(name = "gram")
-    Unit.objects.create(name = "liter")   
+    Unit.objects.create(name = "liter")
 
   def test_product(self):
     first_cat = Category.objects.get(name = "first")
@@ -65,8 +66,8 @@ class ProductTest(TestCase):
     liter = Unit.objects.get(name = "liter")
 
     p1 = Product.objects.create(
-      name = "product1", 
-      category = first_cat, 
+      name = "product1",
+      category = first_cat,
       unit = gram
     )
     p2 = Product.objects.create(
@@ -109,16 +110,16 @@ class ProductTest(TestCase):
     )
 
 class FullProductTest(TestCase):
-  def setUp(self):      
+  def setUp(self):
     first_cat = Category.objects.create(name = "first")
     second_cat = Category.objects.create(name = "second")
 
     gram = Unit.objects.create(name = "gram")
-    liter = Unit.objects.create(name = "liter")   
+    liter = Unit.objects.create(name = "liter")
 
     Product.objects.create(
-      name = "product1", 
-      category = first_cat, 
+      name = "product1",
+      category = first_cat,
       unit = gram
     )
     Product.objects.create(
@@ -170,7 +171,7 @@ class FullProductTest(TestCase):
       report = r2
     )
 
-    self.assertEqual(fp1.product.name, "product1")      
+    self.assertEqual(fp1.product.name, "product1")
     self.assertEqual(fp2.amount, 100)
     self.assertEqual(fp2.report.id, r1.id)
 
@@ -188,12 +189,165 @@ class FullProductTest(TestCase):
     '''
     self.assertRaises(Exception, fp1.save)
     self.assertRaises(
-      Exception, 
+      Exception,
       FullProduct.objects.create,
       product = p1,
       amount = 50,
       report = r1
     )
     '''
-    
 
+
+
+
+###########################
+####### VIEWS TESTS #######
+###########################
+
+class CategoryViewsTests(TestCase):
+    def setUp(self):
+        client = Client()
+
+        self.caffees = Category.objects.create(name='Kawy')
+        self.cakes = Category.objects.create(name='Ciasta')
+
+    def test_new_category(self):
+        response = self.client.get(reverse('reports_new_category'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'reports/new_element.html')
+
+        # check context
+        self.assertIsInstance(response.context['form'], CategoryForm)
+
+        self.assertEqual(len(response.context['context']), 1)
+        self.assertEqual(response.context['context']['title'], 'Nowa kategoria')
+
+        elements = response.context['elements']
+        self.assertEqual(len(elements), 2)
+
+        for element in elements:
+            self.assertEqual(len(element), 3)
+            self.assertIn(
+                element['edit_href'], [
+                    reverse('reports_edit_category', args=(self.caffees.id,)),
+                    reverse('reports_edit_category', args=(self.cakes.id,))
+                ]
+            )
+            self.assertIn(element['id'], [self.caffees.id, self.cakes.id])
+            self.assertIn(element['desc'], [str(self.caffees), str(self.cakes)])
+
+
+    def test_new_category_post_fail(self):
+        """Checks if new category fails to create"""
+
+        response = self.client.post(
+            reverse('reports_new_category'),
+            {u'name': u''},
+            follow=True
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context['form'].is_valid())
+        self.assertEqual(response.context['form'].errors, {
+            'name': ['This field is required.'],
+        })
+        self.assertTemplateUsed(response, 'reports/new_element.html')
+
+    def test_new_category_post_success(self):
+        """Checks if new category successes to create"""
+
+        response = self.client.post(
+            reverse('reports_new_category'),
+            {u'name': u'Napoje'},
+            follow=True
+        )
+
+        self.assertRedirects(response, reverse('reports_create'))
+
+        # check if new category is displayed
+        response = self.client.get(reverse('reports_new_category'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['elements']), 3)
+
+    def test_edit_category(self):
+        response = self.client.get(
+            reverse('reports_edit_category', args=(self.caffees.id,))
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'reports/edit_element.html')
+
+        form = response.context['form']
+        self.assertIsInstance(form, CategoryForm)
+        self.assertEqual(form.instance, self.caffees)
+
+        self.assertEqual(len(response.context['context']), 1)
+        self.assertEqual(
+            response.context['context']['title'],
+            u'Edytuj kategorię'
+        )
+
+    def test_edit_category_404(self):
+        # check if 404 is displayed when category does not exists
+        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_could_not_resolve = [
+            -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
+        ]
+
+        for _id in ids_for_404:
+            response = self.client.get(
+                reverse('reports_edit_category', args=(_id,))
+            )
+            self.assertEqual(response.status_code, 404)
+
+        for _id in ids_could_not_resolve:
+            with self.assertRaises(NoReverseMatch):
+                reverse('reports_edit_category', args=(_id,))
+
+
+    def test_edit_category_post_fail(self):
+        """Checks if edit category fails to edit"""
+
+        response = self.client.post(
+            reverse('reports_edit_category', args=(self.cakes.id,)),
+            {u'name': u''},
+            follow=True
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context['form'].is_valid())
+        self.assertEqual(response.context['form'].errors, {
+            'name': ['This field is required.'],
+        })
+        self.assertTemplateUsed(response, 'reports/edit_element.html')
+
+    def test_edit_category_post_success(self):
+        """Checks if edit category successes to edit"""
+
+        response = self.client.post(
+            reverse('reports_edit_category', args=(self.cakes.id,)),
+            {u'name': u'Napoje'},
+            follow=True
+        )
+
+        self.assertRedirects(response, reverse('reports_create'))
+
+        # check if category caffees has changed
+        category = Category.objects.get(id=self.cakes.id)
+        self.assertEqual(category.name, u'Napoje')
+
+        # check if edited category is displayed
+        response = self.client.get(reverse('reports_new_category'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['elements']), 2)
+
+class UnitViewsTests(TestCase):
+    pass
+
+class ProductViewsTests(TestCase):
+    pass
+
+class FullProductViewsTests(TestCase):
+    pass
+
+class ReportViewsTests(TestCase):
+    pass

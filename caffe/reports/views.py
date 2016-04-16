@@ -28,9 +28,7 @@ def reports_new_category(request):
     return render(request, 'reports/new_element.html', {
         'form': form,
         'context': {
-            'title': "Nowa kategoria",
-            'save_title': "Zapisz kategorię",
-            'message': ""
+            'title': u'Nowa kategoria'
         },
         'elements': elements
     })
@@ -46,8 +44,7 @@ def reports_edit_category(request, category_id):
     return render(request, 'reports/edit_element.html', {
         'form': form,
         'context': {
-            'title': "Edytuj kategorię",
-            'save_title': "Uaktualnij kategorię"
+            'title': u'Edytuj kategorię'
         }
     })
 
@@ -75,8 +72,7 @@ def reports_new_unit(request):
         'form': form,
         'context': {
             'title': "Nowa jednostka",
-            'save_title': "Zapisz jednostkę",
-            'message': ""
+            'save_title': "Zapisz jednostkę"
         },
         'elements': elements
     })
@@ -121,8 +117,7 @@ def reports_new_product(request):
         'form': form,
         'context': {
             'title': "Nowy produkt",
-            'save_title': "Zapisz produkt",
-            'message': ""
+            'save_title': "Zapisz produkt"
         },
         'elements': elements
     })
@@ -168,8 +163,7 @@ def reports_new_fullproduct(request):
         'form': form,
         'context': {
             'title': "Nowy pełny produkt",
-            'save_title': "Zapisz pełny produkt",
-            'message': ""
+            'save_title': "Zapisz pełny produkt"
         },
         'elements': elements
     })
@@ -219,8 +213,7 @@ def reports_new_report(request):
         'form': form,
         'context': {
             'title': "Nowy raport",
-            'save_title': "Zapisz raport",
-            'message': ""
+            'save_title': "Zapisz raport"
         },
         'elements': elements
     })

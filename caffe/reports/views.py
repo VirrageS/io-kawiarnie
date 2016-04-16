@@ -6,6 +6,7 @@ from .models import Report, FullProduct, Product, Unit, Category
 from .forms import ReportForm, ProductForm
 from .forms import FullProductForm, UnitForm, CategoryForm
 
+
 def reports_new_category(request):
     elements = []
     form = CategoryForm()
@@ -32,6 +33,7 @@ def reports_new_category(request):
         },
         'elements': elements
     })
+
 
 def reports_edit_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
@@ -75,6 +77,7 @@ def reports_new_unit(request):
         },
         'elements': elements
     })
+
 
 def reports_edit_unit(request, unit_id):
     unit = get_object_or_404(Unit, id=unit_id)
@@ -150,7 +153,10 @@ def reports_new_fullproduct(request):
     full_products = FullProduct.objects.all()
     for full_product in full_products:
         elements.append({
-            'edit_href': reverse('reports_edit_fullproduct', args=(full_product.id,)),
+            'edit_href': reverse(
+                'reports_edit_fullproduct',
+                args=(full_product.id,)
+            ),
             'id': full_product.id,
             'desc': str(full_product)
         })
@@ -189,9 +195,9 @@ def reports_new_report(request):
 
         if form.is_valid():
             report = form.save()
-            for fullProduct in form.cleaned_data['full_products']:
-                fullProduct.report = report
-                fullProduct.save()
+            for full_product in form.cleaned_data['full_products']:
+                full_product.report = report
+                full_product.save()
 
             return redirect(reverse('reports_create'))
 
@@ -231,6 +237,7 @@ def reports_edit_report(request, report_id):
 def reports_create(request):
     return render(request, 'reports/create.html')
 
+
 def reports_show_all_reports(request):
     reports = Report.objects.all()
     return render(request, 'reports/all.html', {'reports': reports})
@@ -240,10 +247,10 @@ def reports_show_report(request, report_id):
     report = get_object_or_404(Report, id=report_id)
 
     all_categories = {}
-    fullProducts = report.full_products.all()
+    full_products = report.full_products.all()
 
-    for fullProduct in fullProducts:
-        product = fullProduct.product
+    for full_product in full_products:
+        product = full_product.product
         category = product.category
         unit = product.unit
 
@@ -253,10 +260,9 @@ def reports_show_report(request, report_id):
 
         all_categories[category.name].append({
             'name': product.name,
-            'amount': fullProduct.amount,
+            'amount': full_product.amount,
             'unit': unit.name
         })
-
 
     return render(request, 'reports/show.html', {
         'report': report,

@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse, NoReverseMatch
 
 register = template.Library()
 
+
 @register.simple_tag(takes_context=True)
 def active(context, pattern_or_urlname):
     try:
@@ -15,6 +16,7 @@ def active(context, pattern_or_urlname):
     if re.search(pattern, path):
         return 'active'
     return ''
+
 
 @register.filter(name='field_type')
 def field_type(field):

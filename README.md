@@ -66,6 +66,24 @@ sprawdzić, jakie części kodu się wykonały, a które nie. Super przydatne i
 4. Czwarta linijka to proste makro, które odpala nam html'owy raport w
 przeglądarce.
 
+## Code Quality
+
+Do sprawdzenia kodu i jego jakości będziemy używać dwóch narzędzi. Jednym
+z nich jest `pep8`. Używamy go w katologu, który chcemy sprawdzić. Przechodzi
+rekursywnie po folderach, więc jest spoko.
+
+    $ pep8 .
+
+Drugim z nich (narzędzi) jest `pylint`. Bardzo fajne narzędzie, bo przyznaje
+punkty dla naszego kodu :) Musimy mieć zainstalowny `pylint-django` żeby był
+mądry i nie wywalał błędów, które wynikają ze struktury Django i jego aplikacji
+
+    $ pylint --load-plugins=pylint_django reports
+
+Ostatni parametr `reports` mówi dla `pylint`, którą aplikację chcemy
+przetestować. Czasami błędy są głupie no i nie da ich poprawić, wtedy po prostu
+zostawiamy - trudno...
+
 ## Rules
 
 1. Komentarze w kodzie piszemy po angielsku
@@ -74,3 +92,4 @@ przeglądarce.
 4. Staramy się niszczyć rzeczy we własnych branchach, a nie masterze
 5. Wszystkie możliwe funkcjonalności powinny mieć swoje testy - najlepiej przed
 wrzuceniem do mastera.
+6. Próbujmy pisać ładny kod, dlatego używamy `pep8` i `pylint`

@@ -3,6 +3,7 @@
 from django import forms
 from .models import Report, Category, Unit, FullProduct, Product
 
+
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
@@ -52,13 +53,15 @@ class FullProductForm(forms.ModelForm):
         self.fields['amount'].label = u'Ilość'
         self.fields['product'].empty_label = None
 
+
 class ReportForm(forms.ModelForm):
     full_products = forms.ModelMultipleChoiceField(queryset=None)
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')
         super(ReportForm, self).__init__(*args, **kwargs)
-        self.fields['full_products'].queryset = FullProduct.objects.filter(report__isnull=True)
+        self.fields['full_products'].queryset = \
+            FullProduct.objects.filter(report__isnull=True)
         self.fields['full_products'].label = u'Pełne produkty'
 
     class Meta:

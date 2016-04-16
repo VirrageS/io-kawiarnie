@@ -5,5 +5,6 @@ from django.contrib.auth.models import AbstractUser
 #     def employees(self):
 #         return Entry.objects.all()
 
+
 class Employee(AbstractUser):
     telephone_number = models.CharField(max_length=20)

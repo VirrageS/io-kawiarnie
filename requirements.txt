@@ -1,5 +1,7 @@
 Django
-psycopg2
 gunicorn
 coverage
-uwsgi
+psycopg2
+pep8
+pylint
+pylint-django

@@ -206,8 +206,7 @@ def reports_new_report(request):
     return render(request, 'reports/new_element.html', {
         'form': form,
         'context': {
-            'title': "Nowy raport",
-            'save_title': "Zapisz raport"
+            'title': u'Nowy raport'
         },
         'elements': elements
     })
@@ -224,8 +223,7 @@ def reports_edit_report(request, report_id):
     return render(request, 'reports/edit_element.html', {
         'form': form,
         'context': {
-            'title': "Edytuj raport",
-            'save_title': "Uaktualnij raport"
+            'title': u'Edytuj raport'
         }
     })
 

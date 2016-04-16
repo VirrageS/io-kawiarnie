@@ -28,6 +28,8 @@ urlpatterns = [
 
     url(r'^$', reports_show_all_reports, name='reports_show_all'),
     url(r'^new/$', reports_create, name='reports_create'),
+    url(r'^show/(?P<report_id>\d{0,17})/$',
+        reports_show_report, name='reports_show_report'),
 
     url(r'^new/category/$', reports_new_category, name='reports_new_category'),
     url(r'^edit/category/(?P<category_id>\d{0,17})/$',
@@ -49,7 +51,4 @@ urlpatterns = [
     url(r'^new/report/$', reports_new_report, name='reports_new_report'),
     url(r'^edit/report/(?P<report_id>\d{0,17})/$',
         reports_edit_report, name='reports_edit_report'),
-
-    url(r'^show/(?P<report_id>\d{0,17})/$',
-        reports_show_report, name='reports_show_report'),
 ]

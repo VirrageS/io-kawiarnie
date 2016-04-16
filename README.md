@@ -50,10 +50,10 @@ Teraz jesteśmy gotowi, aby odpalić serwer:
 
 Do testowania używamy `coverage`. Aby użyć tego narzędzia wystarczy wpisać.
 
-    $ coverage run --source="." --omit="*migrations*" manage.py test
-    $ coverage report
-    $ coverage html
-    $ cd htmlcov; open index.html; cd ..;
+    (venv)$ coverage run --source="." --omit="*migrations*" manage.py test
+    (venv)$ coverage report
+    (venv)$ coverage html
+    (venv)$ cd htmlcov; open index.html; cd ..;
 
 
 1. W pierwszej linijce, na końcu możemy wyspecifkować jaką aplikację teraz
@@ -68,20 +68,20 @@ przeglądarce.
 
 ## Code Quality
 
-Do sprawdzenia kodu i jego jakości będziemy używać dwóch narzędzi. Jednym
-z nich jest `pep8`. Używamy go w katologu, który chcemy sprawdzić. Przechodzi
+Jednym z narzędzi, których będziemy używać jest `pep8`. Używamy go
+w katologu, który chcemy sprawdzić jakość naszego kodu. Przechodzi
 rekursywnie po folderach, więc jest spoko.
 
-    $ pep8 .
+    (venv)$ pep8 .
 
 Drugim z nich (narzędzi) jest `pylint`. Bardzo fajne narzędzie, bo przyznaje
 punkty dla naszego kodu :) Musimy mieć zainstalowny `pylint-django` żeby był
-mądry i nie wywalał błędów, które wynikają ze struktury Django i jego aplikacji
+mądry i nie wywalał błędów, które wynikają ze struktury Django i jego aplikacji.
 
-    $ pylint --load-plugins=pylint_django reports
+    (venv)$ pylint --load-plugins=pylint_django reports
 
 Ostatni parametr `reports` mówi dla `pylint`, którą aplikację chcemy
-przetestować. Czasami błędy są głupie no i nie da ich poprawić, wtedy po prostu
+przetestować. Czasami błędy są głupie, no i nie da ich poprawić, wtedy po prostu
 zostawiamy - trudno...
 
 ## Rules

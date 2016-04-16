@@ -238,7 +238,7 @@ class CategoryFormTest(TestCase):
 
     self.assertTrue(form_correct.is_valid())
 
-'''
+
 class FullProductFormTest(TestCase):
 
   def setUp(self):
@@ -254,13 +254,38 @@ class FullProductFormTest(TestCase):
       unit = gram
     )
 
+    Product.objects.create(
+      name = "product2", 
+      category = second_cat, 
+      unit = liter
+    )
+
   def test_full_product(self):
+    p1 = Product.objects.get(name = "product1")
+    p2 = Product.objects.get(name = "product2")
+
     form_correct = FullProductForm({
-      'product':p1,
+      'product':p1.id,
       'amount':10
     })
 
     self.assertTrue(form_correct.is_valid())
+
+    form_correct = FullProductForm({
+      'product':p2.id,
+      'amount':10000000
+    })
+
+    self.assertTrue(form_correct.is_valid())
+
+    p2.delete()
+
+    form_incorrect = FullProductForm({
+      'product':p2.id,
+      'amount':10
+    })
+
+    self.assertFalse(form_incorrect.is_valid())
 
     form_incorrect = FullProductForm({
       'product':'',
@@ -281,15 +306,15 @@ class FullProductFormTest(TestCase):
     })
 
     self.assertFalse(form_incorrect.is_valid())
-    
 
-    form_correct = FullProductForm({
-      'product':'This.is.correct123!@#$%"^&"*():?>M',
-      'amount':10000000
+    form_incorrect = FullProductForm({
+      'product':1231,
+      'amount':100
     })
 
-    self.assertTrue(form_correct.is_valid())
-'''
+    self.assertFalse(form_incorrect.is_valid())
+    
+
 #to fix, smthg wrong
 '''
 class UnitForm(TestCase):

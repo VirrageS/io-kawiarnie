@@ -9,7 +9,7 @@ services:
       - DEBUG=false
       - DB_USER=postgres
       - DB_PASS=postgres
-      - DB_NAME=db
+      - DB_NAME=caffe
     volumes:
       - /srv/docker/postgresql:/var/lib/postgresql
   web:

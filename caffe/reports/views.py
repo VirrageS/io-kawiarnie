@@ -127,6 +127,7 @@ def reports_new_product(request):
         'elements': elements
     })
 
+
 def reports_edit_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     form = ProductForm(request.POST or None, instance=product)
@@ -143,6 +144,7 @@ def reports_edit_product(request, product_id):
         }
     })
 
+
 def reports_new_fullproduct(request):
     elements = []
     form = FullProductForm()
@@ -154,12 +156,12 @@ def reports_new_fullproduct(request):
             form.save()
             return redirect(reverse('reports_create'))
 
-    fullProducts = FullProduct.objects.all()
-    for fullProduct in fullProducts:
+    full_products = FullProduct.objects.all()
+    for full_product in full_products:
         elements.append({
-            'edit_href': reverse('reports_edit_fullproduct', args=(fullproduct.id,)),
-            'id': fullProduct.id,
-            'desc': str(fullProduct)
+            'edit_href': reverse('reports_edit_fullproduct', args=(full_product.id,)),
+            'id': full_product.id,
+            'desc': str(full_product)
         })
 
     return render(request, 'reports/new_element.html', {
@@ -172,8 +174,9 @@ def reports_new_fullproduct(request):
         'elements': elements
     })
 
+
 def reports_edit_fullproduct(request, fullproduct_id):
-    fullproduct = get_object_or_404(Unit, id=fullproduct_id)
+    fullproduct = get_object_or_404(FullProduct, id=fullproduct_id)
     form = FullProductForm(request.POST or None, instance=fullproduct)
 
     if form.is_valid():
@@ -187,6 +190,7 @@ def reports_edit_fullproduct(request, fullproduct_id):
             'save_title': "Uaktualnij pełny produkt"
         }
     })
+
 
 def reports_new_report(request):
     elements = []
@@ -221,8 +225,9 @@ def reports_new_report(request):
         'elements': elements
     })
 
+
 def reports_edit_report(request, report_id):
-    report = get_object_or_404(Unit, id=report_id)
+    report = get_object_or_404(Report, id=report_id)
     form = ReportForm(request.POST or None, instance=report)
 
     if form.is_valid():

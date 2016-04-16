@@ -3,89 +3,89 @@
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
-    <head>
-    {% block head %}
-      <title>Caffe</title>
+  <head>
+  {% block head %}
+    <title>Caffe</title>
 
-      <!-- <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/button.css' %}"> -->
-      <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
-      <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-      <meta charset="UTF-8">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/button.css' %}"> -->
+    <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+    <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-      <script type="text/javascript" src="{% static 'js/jquery.2.2.1.min.js' %}"></script>
-      <script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
-    {% endblock %}
-    </head>
-    <body>
-      <div class="container">
-        <div class="left-pane open">
-          <ul class="navigation">
-            <li>
-              <a href="/" class="{% active '^\/$' %}">
-                <i class="fa fa-coffee"></i>
-                <span class="description">Główna</span>
-              </a>
-            </li>
-            <li>
-              <a href="/reports/" class="{% active 'reports' %}">
-                <i class="fa fa-files-o"></i>
-                <div class="description">Raporty</div>
-              </a>
-            </li>
-            <li>
-              <a href="/calendar/" class="{% active 'calendar' %}">
-                <i class="fa fa-calendar-o"></i>
-                <div class="description">Kaledarz</div>
-              </a>
-            </li>
-            <li>
-              <a href="">
-                <i class="fa fa-line-chart"></i>
-                <div class="description">Statystki</div>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="right-pane">
-          <div class="navigation">
-            <div id="control-menu" class="expand">
-              <i class="fa fa-bars"></i>
-            </div>
-
-            <a href="/" class="button button-rounded button-light-blue">
-              Zaloguj
+    <script type="text/javascript" src="{% static 'js/jquery.2.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
+  {% endblock %}
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-pane open">
+        <ul class="navigation">
+          <li>
+            <a href="/" class="{% active '^\/$' %}">
+              <i class="fa fa-coffee"></i>
+              <span class="description">Główna</span>
             </a>
+          </li>
+          <li>
+            <a href="/reports/" class="{% active 'reports' %}">
+              <i class="fa fa-files-o"></i>
+              <div class="description">Raporty</div>
+            </a>
+          </li>
+          <li>
+            <a href="/calendar/" class="{% active 'calendar' %}">
+              <i class="fa fa-calendar-o"></i>
+              <div class="description">Kaledarz</div>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <i class="fa fa-line-chart"></i>
+              <div class="description">Statystki</div>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="right-pane">
+        <div class="navigation">
+          <div id="control-menu" class="expand">
+            <i class="fa fa-bars"></i>
           </div>
 
-          <div class="right-pane-container">
-            <h1 class="header">
-            {% block title %}
-              Konta
-            {% endblock %}
-            </h1>
+          <a href="/" class="button button-rounded button-light-blue">
+            Zaloguj
+          </a>
+        </div>
 
-            {% block content %}
-            <div class="employees-container">
-              {% if not employees %}
-                Nie stworzono żadnych kont
-              {% else %}
-                {% for employee in employees %}
-                  <div class="employee">
-                    <div class="meta">
-                      {{ employee.first_name }} {{ employee.last_name }}
-                    </div>
+        <div class="right-pane-container">
+          <h1 class="header">
+          {% block title %}
+            Konta
+          {% endblock %}
+          </h1>
 
-                    <a class="login" href="/login/{{ employee.id }}">Zaloguj się</a>
+          {% block content %}
+          <div class="employees-container">
+            {% if not employees %}
+              Nie stworzono żadnych kont
+            {% else %}
+              {% for employee in employees %}
+                <div class="employee">
+                  <div class="meta">
+                    {{ employee.first_name }} {{ employee.last_name }}
                   </div>
-                {% endfor %}
-              {% endif %}
-            </div>
-            {% endblock %}
+
+                  <a class="login" href="/login/{{ employee.id }}">Zaloguj się</a>
+                </div>
+              {% endfor %}
+            {% endif %}
           </div>
+          {% endblock %}
         </div>
       </div>
+    </div>
 
-      <script type="text/javascript" src="{% static 'js/functions.js' %}"></script>
-    </body>
+    <script type="text/javascript" src="{% static 'js/functions.js' %}"></script>
+  </body>
 </html>

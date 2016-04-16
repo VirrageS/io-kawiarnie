@@ -1,0 +1,23 @@
+{% load staticfiles %}
+{% load tags %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+  <head>
+  {% block head %}
+    <title>Caffe</title>
+
+    <!-- <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/button.css' %}"> -->
+    <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+    <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <script type="text/javascript" src="{% static 'js/jquery.2.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
+  {% endblock %}
+  </head>
+  <body>
+    <h1>To nie jest strona, której szukasz :C</h1>
+  </body>
+</html>

@@ -1,21 +1,49 @@
 {% extends "home/base.html" %}
+{% load tags %}
 
 {% block title %}
   {{ context.title }}
 {% endblock %}
 
 {% block content %}
-<form method="POST" class="report-form">
+<form method="POST" class="element-form">
   {% csrf_token %}
-  {{ form.as_p }}
+
+  {% for field in form %}
+    <div class="input-line">
+      {% with field|field_type as field_name %}
+      {% if field_name == "Select" %}
+        <div class="input-wrapper">
+          {{ field }}
+        </div>
+      {% else %}
+        {{ field }}
+      {% endif %}
+      {% endwith %}
+
+      {{ field.label_tag }}
+    </div>
+    {{ field.errors }}
+
+  {% endfor %}
 
   <button type="submit" class="button button-rounded button-green">Dodaj</button>
 </form>
 
-{{ context.message }}
+<h2 class="elements-subtitle">
+  Już istniejące
+</h2>
 
-{% for element in elements %}
-  <a href="{{ element.edit_href }}">{{ element.desc }}</a>
-{% endfor %}
-
+<ul class="elements-container">
+  {% for element in elements %}
+    <li class="element">
+      <span class="desc">
+        {{ element.desc }}
+      </span>
+      <a href="{{ element.edit_href }}" class="button button-rounded button-small button-red">
+        Edytuj
+      </a>
+    </li>
+  {% endfor %}
+</ul>
 {% endblock %}

@@ -15,3 +15,7 @@ def active(context, pattern_or_urlname):
     if re.search(pattern, path):
         return 'active'
     return ''
+
+@register.filter(name='field_type')
+def field_type(field):
+    return field.field.widget.__class__.__name__

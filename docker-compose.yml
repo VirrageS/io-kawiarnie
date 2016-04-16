@@ -10,22 +10,9 @@ services:
       - redis:redis
     volumes:
       - .:/app
-      - ./static:/app/static
     command: ./start-web.sh
     environment:
       - DJANGO_SETTINGS_MODULE=settings.production
-
-  nginx:
-    restart: always
-    build: ./nginx/
-    ports:
-      - "80:80"
-    volumes:
-      - /www/static
-    volumes_from:
-      - web
-    links:
-      - web:web
 
   postgres:
     restart: always

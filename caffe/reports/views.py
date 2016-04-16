@@ -71,8 +71,7 @@ def reports_new_unit(request):
     return render(request, 'reports/new_element.html', {
         'form': form,
         'context': {
-            'title': "Nowa jednostka",
-            'save_title': "Zapisz jednostkę"
+            'title': "Nowa jednostka"
         },
         'elements': elements
     })
@@ -88,8 +87,7 @@ def reports_edit_unit(request, unit_id):
     return render(request, 'reports/edit_element.html', {
         'form': form,
         'context': {
-            'title': "Edytuj jednostkę",
-            'save_title': "Uaktualnij jednostkę"
+            'title': "Edytuj jednostkę"
         }
     })
 

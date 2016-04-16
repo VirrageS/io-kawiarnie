@@ -269,6 +269,10 @@ class CategoryViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 3)
 
+        new_category = Category.objects.get(name='Napoje')
+        self.assertIsNotNone(new_category)
+        self.assertIsInstance(new_category, Category)
+
     def test_edit_category(self):
         response = self.client.get(
             reverse('reports_edit_category', args=(self.caffees.id,))
@@ -341,7 +345,144 @@ class CategoryViewsTests(TestCase):
         self.assertEqual(len(response.context['elements']), 2)
 
 class UnitViewsTests(TestCase):
-    pass
+    def setUp(self):
+        client = Client()
+
+        self.money = Unit.objects.create(name=u'złotówki')
+        self.grams = Unit.objects.create(name=u'gramy')
+
+    def test_new_unit(self):
+        response = self.client.get(reverse('reports_new_unit'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'reports/new_element.html')
+
+        # check context
+        self.assertIsInstance(response.context['form'], UnitForm)
+
+        self.assertEqual(len(response.context['context']), 1)
+        self.assertEqual(response.context['context']['title'], 'Nowa jednostka')
+
+        elements = response.context['elements']
+        self.assertEqual(len(elements), 2)
+
+        for element in elements:
+            self.assertEqual(len(element), 3)
+            self.assertIn(
+                element['edit_href'], [
+                    reverse('reports_edit_unit', args=(self.money.id,)),
+                    reverse('reports_edit_unit', args=(self.grams.id,))
+                ]
+            )
+            self.assertIn(element['id'], [self.money.id, self.grams.id])
+            self.assertIn(element['desc'], [str(self.money), str(self.grams)])
+
+
+    def test_new_unit_post_fail(self):
+        """Checks if new unit fails to create"""
+
+        response = self.client.post(
+            reverse('reports_new_unit'),
+            {u'name': u''},
+            follow=True
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context['form'].is_valid())
+        self.assertEqual(response.context['form'].errors, {
+            'name': ['This field is required.'],
+        })
+        self.assertTemplateUsed(response, 'reports/new_element.html')
+
+    def test_new_unit_post_success(self):
+        """Checks if new unit successes to create"""
+
+        response = self.client.post(
+            reverse('reports_new_unit'),
+            {u'name': u'sztuki'},
+            follow=True
+        )
+
+        self.assertRedirects(response, reverse('reports_create'))
+
+        # check if new unit is displayed
+        response = self.client.get(reverse('reports_new_unit'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['elements']), 3)
+
+        new_unit = Unit.objects.get(name='sztuki')
+        self.assertIsNotNone(new_unit)
+        self.assertIsInstance(new_unit, Unit)
+
+    def test_edit_unit(self):
+        response = self.client.get(
+            reverse('reports_edit_unit', args=(self.money.id,))
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'reports/edit_element.html')
+
+        form = response.context['form']
+        self.assertIsInstance(form, UnitForm)
+        self.assertEqual(form.instance, self.money)
+
+        self.assertEqual(len(response.context['context']), 1)
+        self.assertEqual(
+            response.context['context']['title'],
+            u'Edytuj jednostkę'
+        )
+
+    def test_edit_unit_404(self):
+        # check if 404 is displayed when unit does not exists
+        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_could_not_resolve = [
+            -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
+        ]
+
+        for _id in ids_for_404:
+            response = self.client.get(
+                reverse('reports_edit_unit', args=(_id,))
+            )
+            self.assertEqual(response.status_code, 404)
+
+        for _id in ids_could_not_resolve:
+            with self.assertRaises(NoReverseMatch):
+                reverse('reports_edit_unit', args=(_id,))
+
+
+    def test_edit_unit_post_fail(self):
+        """Checks if edit unit fails to edit"""
+
+        response = self.client.post(
+            reverse('reports_edit_unit', args=(self.grams.id,)),
+            {u'name': u''},
+            follow=True
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context['form'].is_valid())
+        self.assertEqual(response.context['form'].errors, {
+            'name': ['This field is required.'],
+        })
+        self.assertTemplateUsed(response, 'reports/edit_element.html')
+
+    def test_edit_unit_post_success(self):
+        """Checks if edit unit successes to edit"""
+
+        response = self.client.post(
+            reverse('reports_edit_unit', args=(self.grams.id,)),
+            {u'name': u'sztuki'},
+            follow=True
+        )
+
+        self.assertRedirects(response, reverse('reports_create'))
+
+        # check if unit caffees has changed
+        unit = Unit.objects.get(id=self.grams.id)
+        self.assertEqual(unit.name, u'sztuki')
+
+        # check if edited unit is displayed
+        response = self.client.get(reverse('reports_new_unit'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['elements']), 2)
 
 class ProductViewsTests(TestCase):
     pass

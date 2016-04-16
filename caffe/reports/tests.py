@@ -655,7 +655,197 @@ class ProductViewsTests(TestCase):
         self.assertEqual(len(response.context['elements']), 2)
 
 class FullProductViewsTests(TestCase):
-    pass
+    def setUp(self):
+        client = Client()
+
+        self.grams = Unit.objects.create(name=u'gramy')
+        self.pieces = Unit.objects.create(name=u'sztuki')
+
+        self.caffees = Category.objects.create(name='Kawy')
+        self.cakes = Category.objects.create(name='Ciasta')
+
+        self.caffee = Product.objects.create(
+            name='Kawa sypana',
+            category=self.caffees,
+            unit=self.grams
+        )
+
+        self.cake = Product.objects.create(
+            name='Szarlotka',
+            category=self.cakes,
+            unit=self.pieces
+        )
+
+        self.caffee_full = FullProduct.objects.create(
+            product=self.caffee,
+            amount=50
+        )
+
+        self.cake_full = FullProduct.objects.create(
+            product=self.cake,
+            amount=10
+        )
+
+    def test_new_fullproduct(self):
+        response = self.client.get(reverse('reports_new_fullproduct'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'reports/new_element.html')
+
+        # check context
+        self.assertIsInstance(response.context['form'], FullProductForm)
+
+        self.assertEqual(len(response.context['context']), 1)
+        self.assertEqual(
+            response.context['context']['title'],
+            'Nowy pełny produkt'
+        )
+
+        elements = response.context['elements']
+        self.assertEqual(len(elements), 2)
+
+        for element in elements:
+            self.assertEqual(len(element), 3)
+            self.assertIn(
+                element['edit_href'], [
+                    reverse(
+                        'reports_edit_fullproduct',
+                        args=(self.caffee_full.id,)
+                    ),
+                    reverse(
+                        'reports_edit_fullproduct',
+                        args=(self.cake_full.id,)
+                    )
+                ]
+            )
+
+            self.assertIn(
+                element['id'],
+                [self.caffee_full.id, self.cake_full.id]
+            )
+
+            self.assertIn(
+                element['desc'],
+                [str(self.caffee_full), str(self.cake_full)]
+            )
+
+
+    def test_new_fullproduct_post_fail(self):
+        """Checks if new fullproduct fails to create"""
+
+        response = self.client.post(
+            reverse('reports_new_fullproduct'),
+            {'amount': u''},
+            follow=True
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context['form'].is_valid())
+        self.assertEqual(response.context['form'].errors, {
+            'product': ['This field is required.'],
+            'amount': ['This field is required.'],
+        })
+        self.assertTemplateUsed(response, 'reports/new_element.html')
+
+    def test_new_fullproduct_post_success(self):
+        """Checks if new fullproduct successes to create"""
+
+        response = self.client.post(
+            reverse('reports_new_fullproduct'),
+            {
+                'product': self.cake.id,
+                'amount': 5000
+            },
+            follow=True
+        )
+
+        self.assertRedirects(response, reverse('reports_create'))
+
+        # check if new fullproduct is displayed
+        response = self.client.get(reverse('reports_new_fullproduct'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['elements']), 3)
+
+        new_fullproduct = FullProduct.objects.get(amount=5000)
+        self.assertIsNotNone(new_fullproduct)
+        self.assertIsInstance(new_fullproduct, FullProduct)
+        self.assertEqual(new_fullproduct.product, self.cake)
+        self.assertEqual(new_fullproduct.amount, 5000)
+
+    def test_edit_fullproduct(self):
+        response = self.client.get(
+            reverse('reports_edit_fullproduct', args=(self.caffee_full.id,))
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'reports/edit_element.html')
+
+        form = response.context['form']
+        self.assertIsInstance(form, FullProductForm)
+        self.assertEqual(form.instance, self.caffee_full)
+
+        self.assertEqual(len(response.context['context']), 1)
+        self.assertEqual(
+            response.context['context']['title'],
+            u'Edytuj pełny produkt'
+        )
+
+    def test_edit_fullproduct_404(self):
+        # check if 404 is displayed when fullproduct does not exists
+        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_could_not_resolve = [
+            -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
+        ]
+
+        for _id in ids_for_404:
+            response = self.client.get(
+                reverse('reports_edit_fullproduct', args=(_id,))
+            )
+            self.assertEqual(response.status_code, 404)
+
+        for _id in ids_could_not_resolve:
+            with self.assertRaises(NoReverseMatch):
+                reverse('reports_edit_fullproduct', args=(_id,))
+
+
+    def test_edit_fullproduct_post_fail(self):
+        """Checks if edit fullproduct fails to edit"""
+
+        response = self.client.post(
+            reverse('reports_edit_fullproduct', args=(self.cake_full.id,)),
+            {'amount': u''},
+            follow=True
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context['form'].is_valid())
+        self.assertEqual(response.context['form'].errors, {
+            'product': ['This field is required.'],
+            'amount': ['This field is required.']
+        })
+        self.assertTemplateUsed(response, 'reports/edit_element.html')
+
+    def test_edit_fullproduct_post_success(self):
+        """Checks if edit fullproduct successes to edit"""
+
+        response = self.client.post(
+            reverse('reports_edit_fullproduct', args=(self.cake_full.id,)),
+            {
+                'product': self.cake.id,
+                'amount': 5000
+            },
+            follow=True
+        )
+
+        self.assertRedirects(response, reverse('reports_create'))
+
+        # check if fullproduct caffees has changed
+        fullproduct = FullProduct.objects.get(id=self.cake_full.id)
+        self.assertEqual(fullproduct.product, self.cake)
+        self.assertEqual(fullproduct.amount, 5000)
+
+        # check if edited fullproduct is displayed
+        response = self.client.get(reverse('reports_new_fullproduct'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['elements']), 2)
 
 class ReportViewsTests(TestCase):
     pass

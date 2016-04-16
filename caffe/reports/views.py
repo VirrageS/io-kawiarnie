@@ -158,8 +158,7 @@ def reports_new_fullproduct(request):
     return render(request, 'reports/new_element.html', {
         'form': form,
         'context': {
-            'title': "Nowy pełny produkt",
-            'save_title': "Zapisz pełny produkt"
+            'title': u'Nowy pełny produkt'
         },
         'elements': elements
     })
@@ -176,8 +175,7 @@ def reports_edit_fullproduct(request, fullproduct_id):
     return render(request, 'reports/edit_element.html', {
         'form': form,
         'context': {
-            'title': "Edytuj pełny produkt",
-            'save_title': "Uaktualnij pełny produkt"
+            'title': u'Edytuj pełny produkt'
         }
     })
 

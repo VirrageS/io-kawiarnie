@@ -1,25 +1,49 @@
 version: '2'
 services:
-  db:
-    restart: always
-    image: sameersbn/postgresql:9.4-18
-    ports:
-      - "5432:5432"
-    environment:
-      - DEBUG=false
-      - DB_USER=postgres
-      - DB_PASS=postgres
-      - DB_NAME=caffe
-    volumes:
-      - /srv/docker/postgresql:/var/lib/postgresql
   web:
+    restart: always
     build: .
-    command: ./start-web.sh
+    expose:
+      - "8000"
+    links:
+      - postgres:postgres
+      - redis:redis
     volumes:
       - .:/app
-    ports:
-      - "80:8000"
-    depends_on:
-      - db
+      - ./static:/app/static
+    command: ./start-web.sh
     environment:
       - DJANGO_SETTINGS_MODULE=settings.production
+
+  nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+      - "80:80"
+    volumes:
+      - /www/static
+    volumes_from:
+      - web
+    links:
+      - web:web
+
+  postgres:
+    restart: always
+    image: postgres:latest
+    volumes_from:
+      - data
+    ports:
+      - "5432:5432"
+
+  redis:
+    restart: always
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  data:
+    restart: always
+    image: postgres:latest
+    volumes:
+      - /var/lib/postgresql
+    command: "true"

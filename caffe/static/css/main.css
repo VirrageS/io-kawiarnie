@@ -509,10 +509,10 @@ input, select {
   margin: 0;
   border-width: 2px;
   border-style: solid;
-  line-height: 40px;
+  line-height: 36px;
   text-align: center;
   width: auto;
-  height: 40px;
+  height: auto;
   text-decoration: none;
   appearance: none;
   background-color: transparent !important;
@@ -531,8 +531,12 @@ input, select {
     background-clip: padding-box; }
   .button.button-small {
     font-size: 0.85rem;
-    height: 30px;
-    line-height: 30px; }
+    height: auto;
+    line-height: 28px; }
+  .button.button-semi-big {
+    font-size: 1.1rem;
+    line-height: 48px;
+    border-width: 3px; }
   .button:hover, .button:focus {
     background-color: #000000 !important;
     color: #ffffff !important;
@@ -728,8 +732,11 @@ input, select {
     font-size: 1.4rem;
     line-height: 1.5em;
     padding: 10px;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
     text-align: center; }
+  .show-report .button {
+    display: table;
+    margin: 0px auto 60px auto; }
   .show-report .categories {
     display: flex;
     justify-content: flex-start;

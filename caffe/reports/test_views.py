@@ -2,16 +2,11 @@
 
 from django.test import TestCase, Client
 from django.core.urlresolvers import reverse, NoReverseMatch
+from django.utils import timezone
 
 from .models import Report, Category, Product, Unit, FullProduct
 from .forms import CategoryForm, UnitForm, ProductForm
 from .forms import FullProductForm, ReportForm
-
-'''
-##############################
-#### CATEGORY VIEWS TESTS ####
-##############################
-'''
 
 
 class CategoryViewsTests(TestCase):
@@ -165,12 +160,6 @@ class CategoryViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 2)
 
-'''
-##########################
-#### UNIT VIEWS TESTS ####
-##########################
-'''
-
 
 class UnitViewsTests(TestCase):
     """Tests all views for Unit model."""
@@ -320,15 +309,9 @@ class UnitViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 2)
 
-'''
-#############################
-#### PRODUCT VIEWS TESTS ####
-#############################
-'''
-
 
 class ProductViewsTests(TestCase):
-    """Tests all view for Product model."""
+    """Tests all views for Product model."""
 
     def setUp(self):
         self.client = Client()
@@ -501,15 +484,9 @@ class ProductViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 2)
 
-'''
-#################################
-#### FULLPRODUCT VIEWS TESTS ####
-#################################
-'''
-
 
 class FullProductViewsTests(TestCase):
-    """Test all view for FullProduct class."""
+    """Tests all views for FullProduct model."""
 
     def setUp(self):
         self.client = Client()
@@ -706,14 +683,10 @@ class FullProductViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 2)
 
-'''
-############################
-#### REPORT VIEWS TESTS ####
-############################
-'''
-
 
 class ReportViewsTests(TestCase):
+    """Tests all views for Report model."""
+
     def setUp(self):
         self.client = Client()
 
@@ -748,6 +721,11 @@ class ReportViewsTests(TestCase):
         self.cake_full = FullProduct.objects.create(
             product=self.cake,
             amount=10
+        )
+
+        self.cake_full_second = FullProduct.objects.create(
+            product=self.cake,
+            amount=50
         )
 
         self.minor_report = Report.objects.create()
@@ -821,30 +799,30 @@ class ReportViewsTests(TestCase):
         })
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
-    # def test_new_report_post_success(self):
-    #     """Checks if new report successes to create"""
-    #
-    #     response = self.client.post(
-    #         reverse('reports_new_report'),
-    #         {
-    #             'product': self.cake.id,
-    #             'amount': 5000
-    #         },
-    #         follow=True
-    #     )
-    #
-    #     self.assertRedirects(response, reverse('reports_create'))
-    #
-    #     # check if new report is displayed
-    #     response = self.client.get(reverse('reports_new_report'))
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertEqual(len(response.context['elements']), 3)
-    #
-    #     new_report = Report.objects.get(amount=5000)
-    #     self.assertIsNotNone(new_report)
-    #     self.assertIsInstance(new_report, Report)
-    #     self.assertEqual(new_report.product, self.cake)
-    #     self.assertEqual(new_report.amount, 5000)
+    def test_new_report_post_success(self):
+        """Checks if new report successes to create"""
+
+        response = self.client.post(
+            reverse('reports_new_report'),
+            {
+                'full_products': [self.cake_full_second.id],
+            },
+            follow=True
+        )
+
+        # print(response.context['form'])
+        self.assertRedirects(response, reverse('reports_create'))
+
+        # check if new report is displayed
+        response = self.client.get(reverse('reports_new_report'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['elements']), 3)
+
+        cake = FullProduct.objects.get(id=self.cake_full_second.id)
+        new_report = cake.report
+        self.assertIsNotNone(new_report)
+        self.assertIsInstance(new_report, Report)
+        self.assertTrue(new_report.created_on < timezone.now())
 
     def test_edit_report_show(self):
         """Checks if edit report is displayed properly"""
@@ -899,29 +877,29 @@ class ReportViewsTests(TestCase):
         })
         self.assertTemplateUsed(response, 'reports/edit_element.html')
 
-    # def test_edit_report_post_success(self):
-    #     """Checks if edit report successes to edit"""
-    #
-    #     response = self.client.post(
-    #         reverse('reports_edit_report', args=(self.cake_full.id,)),
-    #         {
-    #             'product': self.cake.id,
-    #             'amount': 5000
-    #         },
-    #         follow=True
-    #     )
-    #
-    #     self.assertRedirects(response, reverse('reports_create'))
-    #
-    #     # check if report caffees has changed
-    #     report = Report.objects.get(id=self.cake_full.id)
-    #     self.assertEqual(report.product, self.cake)
-    #     self.assertEqual(report.amount, 5000)
-    #
-    #     # check if edited report is displayed
-    #     response = self.client.get(reverse('reports_new_report'))
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertEqual(len(response.context['elements']), 2)
+    def test_edit_report_post_success(self):
+        """Checks if edit report successes to edit"""
+
+        response = self.client.post(
+            reverse('reports_edit_report', args=(self.caffee_full_second.id,)),
+            {
+                'full_products': [self.cake_full_second.id],
+            },
+            follow=True
+        )
+
+        self.assertRedirects(response, reverse('reports_create'))
+
+        # check if report caffees has changed
+        cake = FullProduct.objects.get(id=self.cake_full_second.id)
+        report = cake.report
+        self.assertIsNotNone(report)
+        self.assertIsInstance(report, Report)
+
+        # check if edited report is displayed
+        response = self.client.get(reverse('reports_new_report'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['elements']), 2)
 
     def test_create_report(self):
         """Checks if create report view is displayed properly"""

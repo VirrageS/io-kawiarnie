@@ -223,7 +223,19 @@ def reports_edit_report(request, report_id):
     form = ReportForm(request.POST or None, instance=report)
 
     if form.is_valid():
-        form.save()
+        report = form.save()
+
+        # clean all FullProduct's assigned to Report
+        full_products = FullProduct.objects.filter(report=report.id).all()
+        for full_product in full_products:
+            full_product.report = None
+            full_product.save()
+
+        # set new FullProduct's to Report
+        for full_product in form.cleaned_data['full_products']:
+            full_product.report = report
+            full_product.save()
+
         return redirect(reverse('reports_create'))
 
     return render(request, 'reports/edit_element.html', {

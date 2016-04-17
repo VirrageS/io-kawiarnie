@@ -891,8 +891,7 @@ class ReportViewsTests(TestCase):
         self.assertRedirects(response, reverse('reports_create'))
 
         # check if report caffees has changed
-        cake = FullProduct.objects.get(id=self.cake_full_second.id)
-        report = cake.report
+        report = FullProduct.objects.get(id=self.cake_full_second.id).report
         self.assertIsNotNone(report)
         self.assertIsInstance(report, Report)
 

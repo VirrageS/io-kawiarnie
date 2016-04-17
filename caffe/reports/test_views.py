@@ -8,12 +8,6 @@ from .models import Report, Category, Product, Unit, FullProduct
 from .forms import CategoryForm, UnitForm, ProductForm
 from .forms import FullProductForm, ReportForm
 
-'''
-##############################
-#### CATEGORY VIEWS TESTS ####
-##############################
-'''
-
 
 class CategoryViewsTests(TestCase):
     """Tests all views for Category model."""
@@ -166,12 +160,6 @@ class CategoryViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 2)
 
-'''
-##########################
-#### UNIT VIEWS TESTS ####
-##########################
-'''
-
 
 class UnitViewsTests(TestCase):
     """Tests all views for Unit model."""
@@ -321,15 +309,9 @@ class UnitViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 2)
 
-'''
-#############################
-#### PRODUCT VIEWS TESTS ####
-#############################
-'''
-
 
 class ProductViewsTests(TestCase):
-    """Tests all view for Product model."""
+    """Tests all views for Product model."""
 
     def setUp(self):
         self.client = Client()
@@ -502,15 +484,9 @@ class ProductViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 2)
 
-'''
-#################################
-#### FULLPRODUCT VIEWS TESTS ####
-#################################
-'''
-
 
 class FullProductViewsTests(TestCase):
-    """Test all view for FullProduct class."""
+    """Tests all views for FullProduct model."""
 
     def setUp(self):
         self.client = Client()
@@ -707,14 +683,10 @@ class FullProductViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 2)
 
-'''
-############################
-#### REPORT VIEWS TESTS ####
-############################
-'''
-
 
 class ReportViewsTests(TestCase):
+    """Tests all views for Report model."""
+
     def setUp(self):
         self.client = Client()
 

@@ -60,6 +60,7 @@ class ReportForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')
         super(ReportForm, self).__init__(*args, **kwargs)
+        self.fields['full_products'].label = u'Pełne produkty'
         self.fields['full_products'].queryset = \
             FullProduct.objects.filter(report__isnull=True)
 
@@ -69,8 +70,6 @@ class ReportForm(forms.ModelForm):
 
             self.fields['full_products'].queryset |= instance_fullproducts
             self.initial['full_products'] = instance_fullproducts
-
-        self.fields['full_products'].label = u'Pełne produkty'
 
     class Meta:
         model = Report

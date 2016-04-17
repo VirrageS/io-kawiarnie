@@ -62,6 +62,14 @@ class ReportForm(forms.ModelForm):
         super(ReportForm, self).__init__(*args, **kwargs)
         self.fields['full_products'].queryset = \
             FullProduct.objects.filter(report__isnull=True)
+
+        if self.instance.id:
+            instance_fullproducts = \
+                FullProduct.objects.filter(report=self.instance.id)
+
+            self.fields['full_products'].queryset |= instance_fullproducts
+            self.initial['full_products'] = instance_fullproducts
+
         self.fields['full_products'].label = u'Pełne produkty'
 
     class Meta:

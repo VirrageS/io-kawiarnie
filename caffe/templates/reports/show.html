@@ -10,6 +10,10 @@ Raport
     Data utworzenia: <b>{{ report.created_on }}</b>
   </div>
 
+  <a href="{% url 'reports_edit_report' report.id %}" class="button button-rounded button-red">
+    Edytuj
+  </a>
+
   <div class="categories">
     {% for category, products in categories.items %}
       <div class="category">

@@ -1,7 +1,10 @@
 Django
 gunicorn
 coverage
+<<<<<<< HEAD
 psycopg2
 pep8
 pylint
 pylint-django
+=======
+>>>>>>> tests

@@ -26,7 +26,7 @@
     checkMenuCookie();
 
     $('button[type=cancel]').click(function(){
-      parent.history.back();
+      window.history.back();
       return false;
     });
   }

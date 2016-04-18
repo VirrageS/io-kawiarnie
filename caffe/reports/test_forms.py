@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+
 from django.test import TestCase
 from django.utils import timezone
 from django.db import transaction
@@ -310,6 +311,3 @@ class ReportFormTest(TestCase):
         })
 
         self.assertTrue(form_correct.is_valid())
-
-
-        

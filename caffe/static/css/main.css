@@ -705,6 +705,11 @@ input, select {
   line-height: 1.5em;
   text-align: center; }
   .reports-container .report {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    background-clip: padding-box;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -712,12 +717,7 @@ input, select {
     margin: 20px;
     border: 2px solid #dedede;
     width: 300px;
-    height: 150px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    border-radius: 5px;
-    background-clip: padding-box; }
+    height: 150px; }
     .reports-container .report .meta {
       text-align: center; }
     .reports-container .report .button {
@@ -730,9 +730,9 @@ input, select {
   .show-report .date {
     display: block;
     font-size: 1.4rem;
-    line-height: 1.5em;
     padding: 10px;
     margin-bottom: 10px;
+    line-height: 1.5em;
     text-align: center; }
   .show-report .button {
     display: table;
@@ -745,9 +745,9 @@ input, select {
     .show-report .categories .category {
       padding: 1rem;
       padding-top: 0;
+      margin: 30px 20px;
       border: 3px solid #000000;
-      width: 430px;
-      margin: 30px 20px; }
+      width: 430px; }
       .show-report .categories .category .category-name {
         font-family: "Fjord One", sans-serif;
         font-size: 1.7rem;
@@ -833,6 +833,32 @@ input, select {
     position: relative;
     padding-top: 20px;
     margin: 15px 0; }
+    .element-form .input-line .amount {
+      display: flex; }
+      .element-form .input-line .amount input {
+        flex: 1;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px; }
+      .element-form .input-line .amount .unit {
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        -ms-border-radius: 4px;
+        border-radius: 4px;
+        background-clip: padding-box;
+        display: flex;
+        align-items: center;
+        font-family: "Circular", sans-serif;
+        font-weight: 100;
+        background-color: #eceeef;
+        color: #55595c;
+        padding: 0px 25px;
+        margin: 8px 0px;
+        border: 2px solid #000000;
+        border-left: none;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        line-height: normal;
+        text-align: center; }
   .element-form label {
     -moz-transition: all 0.3s;
     -o-transition: all 0.3s;

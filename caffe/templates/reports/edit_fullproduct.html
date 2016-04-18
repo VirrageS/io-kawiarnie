@@ -1,0 +1,28 @@
+{% extends "home/base.html" %}
+{% load tags %}
+
+{% block title %}
+  Edytuj pełny produkt
+{% endblock %}
+
+{% block content %}
+<form method="POST" class="element-form">
+  {% csrf_token %}
+
+  <div class="input-line">
+      <div class="input-wrapper">
+        {{ form.product }}
+      </div>
+      {{ form.product.label_tag }}
+  </div>
+  {{ form.product.errors }}
+
+  <div class="input-line">
+      {{ form.amount }}
+      {{ form.amount.label_tag }}
+  </div>
+  {{ form.amount.errors }}
+
+  <button type="submit" class="button button-rounded button-green">Uaktualnij</button>
+</form>
+{% endblock %}

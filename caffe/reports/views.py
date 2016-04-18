@@ -161,12 +161,17 @@ def reports_new_fullproduct(request):
             'desc': str(full_product)
         })
 
-    return render(request, 'reports/new_element.html', {
+
+    products = Product.objects.all()
+    products = [
+        {'id': product.id, 'unit': product.unit.name} for product in products
+    ]
+
+    return render(request, 'reports/new_fullproduct.html', {
         'form': form,
-        'context': {
-            'title': u'Nowy pełny produkt'
-        },
-        'elements': elements
+        'context': {},
+        'elements': elements,
+        'products': products
     })
 
 
@@ -178,11 +183,15 @@ def reports_edit_fullproduct(request, fullproduct_id):
         form.save()
         return redirect(reverse('reports_create'))
 
-    return render(request, 'reports/edit_element.html', {
+    products = Product.objects.all()
+    products = [
+        {'id': product.id, 'unit': product.unit.name} for product in products
+    ]
+
+    return render(request, 'reports/edit_fullproduct.html', {
         'form': form,
-        'context': {
-            'title': u'Edytuj pełny produkt'
-        }
+        'context': {},
+        'products': products
     })
 
 

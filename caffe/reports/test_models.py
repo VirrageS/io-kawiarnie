@@ -1,29 +1,8 @@
 # -*- encoding: utf-8 -*-
 from django.test import TestCase
 from django.utils import timezone
-from django.db import transaction
-from django import forms
 
 from .models import Report, Category, Product, Unit, FullProduct
-from .forms import CategoryForm, UnitForm, ProductForm
-from .forms import FullProductForm, ReportForm
-
-
-############## MODELS TESTS #################
-
-class ReportModelTest(TestCase):
-
-    def setUp(self):
-        Report.objects.create(id=1)
-        Report.objects.create(id=2)
-
-    def test_created_on(self):
-        now = timezone.now()
-        r1 = Report.objects.get(id=1)
-        self.assertEqual(Report.objects.count(), 2)
-        # self.assertTrue(datetime.now() - r1.created_on > 0)
-        # self.assertTrue(now < r1.created_on)
-
 
 class CategoryModelTest(TestCase):
 
@@ -194,15 +173,81 @@ class FullProductModelTest(TestCase):
 
         fp1.amount = -1
 
-        # this assertion should pass, but they dont
-        '''
-        #p1 already exists in previous FullProduct
-        self.assertRaises(
-            Exception, 
-            FullProduct.objects.create,
-            product = p1,
-            amount = 50,
-            report = r1
-        )
-        '''
 
+class ReportModelTest(TestCase):
+
+    def setUp(self):
+        r1 = Report.objects.create(id=1)
+        r2 = Report.objects.create(id=2)
+        r3 = Report.objects.create(id=3)
+        r4 = Report.objects.create(id=4)
+
+        first_cat = Category.objects.create(name="first")
+        second_cat = Category.objects.create(name="second")
+
+        gram = Unit.objects.create(name="gram")
+        liter = Unit.objects.create(name="liter")
+
+        p1 = Product.objects.create(
+            name="product1",
+            category=first_cat,
+            unit=gram
+        )
+        p2 = Product.objects.create(
+            name="product2",
+            category=first_cat,
+            unit=liter
+        )
+        p3 = Product.objects.create(
+            name="product3",
+            category=second_cat,
+            unit=gram
+        )
+        p4 = Product.objects.create(
+            name="product4",
+            category=second_cat,
+            unit=liter
+        )
+
+        fp1 = FullProduct.objects.create(
+            product=p1,
+            amount=10,
+            report=r1
+
+        )
+
+        fp2 = FullProduct.objects.create(
+            product=p2,
+            amount=100,
+            report=r2
+        )
+
+        fp3 = FullProduct.objects.create(
+            product=p3,
+            amount=0,
+            report=r3
+        )
+
+        fp4 = FullProduct.objects.create(
+            product=p4,
+            amount=1000,
+            report=r4
+        )
+
+    def test_created_on(self):
+        now = timezone.now()
+        r1 = Report.objects.get(id=1)
+        self.assertEqual(Report.objects.count(), 4)
+
+    def test_doubles(self):
+        r1 = Report.objects.get(id=1)
+
+        p = FullProduct.objects.first().product
+
+        fp = FullProduct.objects.create(
+            product=p,
+            amount=1,
+            report=r1
+        )
+
+        #self.assertRaises(Exception, fp.save)

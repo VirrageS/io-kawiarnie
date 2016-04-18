@@ -236,3 +236,80 @@ class ProductFormTest(TestCase):
         })
 
         self.assertFalse(form_incorrect.is_valid())
+
+
+class ReportFormTest(TestCase):
+
+    def setUp(self):
+        first_cat = Category.objects.create(name="first")
+        second_cat = Category.objects.create(name="second")
+
+        gram = Unit.objects.create(name="gram")
+        liter = Unit.objects.create(name="liter")
+
+        p1 = Product.objects.create(
+            name="product1",
+            category=first_cat,
+            unit=gram
+        )
+        p2 = Product.objects.create(
+            name="product2",
+            category=first_cat,
+            unit=liter
+        )
+        p3 = Product.objects.create(
+            name="product3",
+            category=second_cat,
+            unit=gram
+        )
+        p4 = Product.objects.create(
+            name="product4",
+            category=second_cat,
+            unit=liter
+        )
+
+        fp1 = FullProduct.objects.create(
+            product=p1,
+            amount=10
+        )
+
+        fp2 = FullProduct.objects.create(
+            product=p2,
+            amount=100
+        )
+
+        fp3 = FullProduct.objects.create(
+            product=p3,
+            amount=0
+        )
+
+        fp4 = FullProduct.objects.create(
+            product=p4,
+            amount=1000
+        )
+
+    def test_report(self):
+        all_fp =  [x.id for x in FullProduct.objects.all()]
+        form_correct = ReportForm({
+            'full_products':all_fp
+        })
+
+        self.assertTrue(form_correct.is_valid())
+
+        p1 = Product.objects.get(name="product1")
+        fp5 = FullProduct.objects.create(
+            product=p1,
+            amount=10
+        )
+
+        fp5.save()
+
+        all_fp =  [x.id for x in FullProduct.objects.all()[:2]]
+        form_correct = ReportForm({
+            'full_products':all_fp
+        })
+
+        self.assertTrue(form_correct.is_valid())
+
+
+        

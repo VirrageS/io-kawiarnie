@@ -821,6 +821,7 @@ input, select {
   padding: 20px 30px;
   margin: 0 auto;
   border: 1px solid #cccccc;
+  text-align: center;
   max-width: 500px; }
   .element-form input {
     outline: none;
@@ -929,9 +930,9 @@ input, select {
   .element-form select {
     margin: 8px 0;
     width: 100%; }
-  .element-form button[type=submit] {
-    display: block;
-    margin: 0 auto;
+  .element-form button[type=submit], .element-form button[type=cancel] {
+    display: inline-block;
+    margin: 0 15px;
     margin-top: 40px; }
 
 .elements-subtitle {

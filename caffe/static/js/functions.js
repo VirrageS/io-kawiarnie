@@ -24,6 +24,11 @@
   function init() {
     $("#control-menu").on('click', changeMenuState);
     checkMenuCookie();
+
+    $('button[type=cancel]').click(function(){
+      parent.history.back();
+      return false;
+    });
   }
 
   $(document).ready(function () {

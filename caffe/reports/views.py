@@ -161,7 +161,6 @@ def reports_new_fullproduct(request):
             'desc': str(full_product)
         })
 
-
     products = Product.objects.all()
     products = [
         {'id': product.id, 'unit': product.unit.name} for product in products

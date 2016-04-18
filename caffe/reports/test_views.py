@@ -524,16 +524,20 @@ class FullProductViewsTests(TestCase):
 
         response = self.client.get(reverse('reports_new_fullproduct'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'reports/new_element.html')
+        self.assertTemplateUsed(response, 'reports/new_fullproduct.html')
 
         # check context
         self.assertIsInstance(response.context['form'], FullProductForm)
+        self.assertEqual(len(response.context['context']), 0)
 
-        self.assertEqual(len(response.context['context']), 1)
-        self.assertEqual(
-            response.context['context']['title'],
-            'Nowy pełny produkt'
-        )
+        products_count = Product.objects.count()
+        self.assertEqual(len(response.context['products']), products_count)
+
+        for product in response.context['products']:
+            product_found = Product.objects.get(id=product['id'])
+            self.assertIsNotNone(product_found)
+            self.assertIsInstance(product_found, Product)
+            self.assertEqual(product_found.unit.name, product['unit'])
 
         elements = response.context['elements']
         self.assertEqual(len(elements), 2)
@@ -578,7 +582,7 @@ class FullProductViewsTests(TestCase):
             'product': ['This field is required.'],
             'amount': ['This field is required.'],
         })
-        self.assertTemplateUsed(response, 'reports/new_element.html')
+        self.assertTemplateUsed(response, 'reports/new_fullproduct.html')
 
     def test_new_fullproduct_post_success(self):
         """Checks if new fullproduct successes to create when form is valid."""
@@ -612,17 +616,22 @@ class FullProductViewsTests(TestCase):
             reverse('reports_edit_fullproduct', args=(self.caffee_full.id,))
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'reports/edit_element.html')
+        self.assertTemplateUsed(response, 'reports/edit_fullproduct.html')
 
         form = response.context['form']
         self.assertIsInstance(form, FullProductForm)
         self.assertEqual(form.instance, self.caffee_full)
 
-        self.assertEqual(len(response.context['context']), 1)
-        self.assertEqual(
-            response.context['context']['title'],
-            u'Edytuj pełny produkt'
-        )
+        self.assertEqual(len(response.context['context']), 0)
+
+        products_count = Product.objects.count()
+        self.assertEqual(len(response.context['products']), products_count)
+
+        for product in response.context['products']:
+            product_found = Product.objects.get(id=product['id'])
+            self.assertIsNotNone(product_found)
+            self.assertIsInstance(product_found, Product)
+            self.assertEqual(product_found.unit.name, product['unit'])
 
     def test_edit_fullproduct_404(self):
         """Checks if 404 is displayed when fullproduct does not exists."""
@@ -657,7 +666,7 @@ class FullProductViewsTests(TestCase):
             'product': ['This field is required.'],
             'amount': ['This field is required.']
         })
-        self.assertTemplateUsed(response, 'reports/edit_element.html')
+        self.assertTemplateUsed(response, 'reports/edit_fullproduct.html')
 
     def test_edit_fullproduct_post_success(self):
         """Checks if edit fullproduct successes to edit when form is valid."""

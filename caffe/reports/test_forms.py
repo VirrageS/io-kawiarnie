@@ -9,6 +9,7 @@ from .models import Report, Category, Product, Unit, FullProduct
 from .forms import CategoryForm, UnitForm, ProductForm
 from .forms import FullProductForm, ReportForm
 
+
 class CategoryFormTest(TestCase):
 
     def test_category(self):

@@ -63,7 +63,7 @@ class CategoryViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())
         self.assertEqual(response.context['form'].errors, {
-            'name': ['This field is required.'],
+            'name': ['To pole jest wymagane.'],
         })
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
@@ -136,7 +136,7 @@ class CategoryViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())
         self.assertEqual(response.context['form'].errors, {
-            'name': ['This field is required.'],
+            'name': ['To pole jest wymagane.'],
         })
         self.assertTemplateUsed(response, 'reports/edit_element.html')
 
@@ -212,7 +212,7 @@ class UnitViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())
         self.assertEqual(response.context['form'].errors, {
-            'name': ['This field is required.'],
+            'name': ['To pole jest wymagane.'],
         })
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
@@ -285,7 +285,7 @@ class UnitViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())
         self.assertEqual(response.context['form'].errors, {
-            'name': ['This field is required.'],
+            'name': ['To pole jest wymagane.'],
         })
         self.assertTemplateUsed(response, 'reports/edit_element.html')
 
@@ -373,9 +373,9 @@ class ProductViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())
         self.assertEqual(response.context['form'].errors, {
-            'name': ['This field is required.'],
-            'unit': ['This field is required.'],
-            'category': ['This field is required.']
+            'name': ['To pole jest wymagane.'],
+            'unit': ['To pole jest wymagane.'],
+            'category': ['To pole jest wymagane.']
         })
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
@@ -453,9 +453,9 @@ class ProductViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())
         self.assertEqual(response.context['form'].errors, {
-            'name': ['This field is required.'],
-            'unit': ['This field is required.'],
-            'category': ['This field is required.']
+            'name': ['To pole jest wymagane.'],
+            'unit': ['To pole jest wymagane.'],
+            'category': ['To pole jest wymagane.']
         })
         self.assertTemplateUsed(response, 'reports/edit_element.html')
 
@@ -579,8 +579,8 @@ class FullProductViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())
         self.assertEqual(response.context['form'].errors, {
-            'product': ['This field is required.'],
-            'amount': ['This field is required.'],
+            'product': ['To pole jest wymagane.'],
+            'amount': ['To pole jest wymagane.'],
         })
         self.assertTemplateUsed(response, 'reports/new_fullproduct.html')
 
@@ -663,8 +663,8 @@ class FullProductViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())
         self.assertEqual(response.context['form'].errors, {
-            'product': ['This field is required.'],
-            'amount': ['This field is required.']
+            'product': ['To pole jest wymagane.'],
+            'amount': ['To pole jest wymagane.']
         })
         self.assertTemplateUsed(response, 'reports/edit_fullproduct.html')
 
@@ -803,9 +803,12 @@ class ReportViewsTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())
-        self.assertEqual(response.context['form'].errors, {
-            'full_products': ['"" is not a valid value for a primary key.']
-        })
+        self.assertEqual(
+            response.context['form'].errors, {
+                'full_products':
+                    ['"" nie jest poprawną wartością klucza głównego.']
+            }
+        )
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
     def test_new_report_post_success(self):
@@ -881,9 +884,12 @@ class ReportViewsTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())
-        self.assertEqual(response.context['form'].errors, {
-            'full_products': ['"" is not a valid value for a primary key.']
-        })
+        self.assertEqual(
+            response.context['form'].errors, {
+                'full_products':
+                    ['"" nie jest poprawną wartością klucza głównego.']
+            }
+        )
         self.assertTemplateUsed(response, 'reports/edit_element.html')
 
     def test_edit_report_post_success(self):
@@ -915,7 +921,7 @@ class ReportViewsTests(TestCase):
         response = self.client.get(reverse('reports_create'))
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'reports/create.html')
+        self.assertTemplateUsed(response, 'reports/create_report.html')
 
     def test_show_all_reports_show(self):
         """Checks if show all reports view actually shows all reports"""

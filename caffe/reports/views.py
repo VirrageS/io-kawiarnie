@@ -255,7 +255,7 @@ def reports_edit_report(request, report_id):
 
 
 def reports_create(request):
-    return render(request, 'reports/create.html')
+    return render(request, 'reports/create_report.html')
 
 
 def reports_show_all_reports(request):

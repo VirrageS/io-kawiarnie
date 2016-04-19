@@ -21,5 +21,6 @@ urlpatterns = [
 
     url(r'', include('home.urls')),
     url(r'reports/', include('reports.urls')),
+    url(r'stencils/', include('stencils.urls')),
     url(r'employees/', include('employees.urls')),
 ]

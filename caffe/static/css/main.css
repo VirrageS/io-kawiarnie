@@ -578,12 +578,30 @@ input, select {
       color: #ffffff !important;
       outline: none;
       text-decoration: none; }
+  .button.button-blue {
+    background-color: transparent !important;
+    color: #337ab7 !important;
+    border-color: #337ab7 !important; }
+    .button.button-blue:hover, .button.button-blue:focus {
+      background-color: #337ab7 !important;
+      color: #ffffff !important;
+      outline: none;
+      text-decoration: none; }
   .button.button-red {
     background-color: transparent !important;
     color: #e75f5f !important;
     border-color: #e75f5f !important; }
     .button.button-red:hover, .button.button-red:focus {
       background-color: #e75f5f !important;
+      color: #ffffff !important;
+      outline: none;
+      text-decoration: none; }
+  .button.button-orange {
+    background-color: transparent !important;
+    color: #f0ad4e !important;
+    border-color: #f0ad4e !important; }
+    .button.button-orange:hover, .button.button-orange:focus {
+      background-color: #f0ad4e !important;
       color: #ffffff !important;
       outline: none;
       text-decoration: none; }
@@ -696,6 +714,19 @@ input, select {
   margin-bottom: 60px;
   text-align: center;
   width: 100%; }
+  .new a {
+    margin: 0px 20px; }
+
+.subtitle {
+  display: block;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 1.9rem;
+  font-weight: 100;
+  margin: 120px 0 30px 0;
+  letter-spacing: 0.1em;
+  line-height: 2.4rem;
+  text-align: center;
+  text-transform: uppercase; }
 
 .reports-container {
   display: flex;
@@ -717,11 +748,13 @@ input, select {
     margin: 20px;
     border: 2px solid #dedede;
     width: 300px;
-    height: 150px; }
+    height: 130px; }
     .reports-container .report .meta {
       text-align: center; }
     .reports-container .report .button {
-      margin-top: auto; }
+      margin: auto;
+      margin-bottom: 0;
+      max-width: 150px; }
 
 .show-report {
   display: block;
@@ -739,7 +772,7 @@ input, select {
     margin: 0px auto 60px auto; }
   .show-report .categories {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     flex-direction: row;
     flex-flow: row wrap; }
     .show-report .categories .category {

@@ -6,6 +6,9 @@ $red-color: #e75f5f
 $green-color: #2ebd59
 
 $light-blue-color: #4cb0f9
+$blue-color: #337ab7
+
+$orange-color: #f0ad4e
 
 @mixin button-base
   +transition(all 0.3s)
@@ -79,5 +82,11 @@ $light-blue-color: #4cb0f9
   &.button-light-blue
     +button-color($white-color, $light-blue-color)
 
+  &.button-blue
+    +button-color($white-color, $blue-color)
+
   &.button-red
     +button-color($white-color, $red-color)
+
+  &.button-orange
+    +button-color($white-color, $orange-color)

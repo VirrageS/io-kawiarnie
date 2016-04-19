@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^$', reports_show_all_reports, name='reports_show_all'),
-    url(r'^new/$', reports_create, name='reports_create'),
+    url(r'^create/$', reports_create, name='reports_create'),
     url(r'^show/(?P<report_id>\d{0,17})/$',
         reports_show_report, name='reports_show_report'),
 

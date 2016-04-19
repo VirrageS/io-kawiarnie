@@ -5,4 +5,4 @@ python:
 install:
   - pip install -r requirements.txt
 script:
-  - coverage run --source="." --omit="*migrations*" manage.py test 
+  - coverage run --source="." --omit="*migrations*" caffe/manage.py test caffe

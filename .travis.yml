@@ -8,5 +8,3 @@ script:
   - coverage run --source="." --omit="*migrations*" caffe/manage.py test caffe
 notifications:
   slack: io-kawiarnie:9weIop9A462y5IzoQEBI90Ps
-    on_success: always
-    on_failure: always

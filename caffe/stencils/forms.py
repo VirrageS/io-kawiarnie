@@ -13,7 +13,8 @@ class StencilForm(forms.ModelForm):
         kwargs.setdefault('label_suffix', '')
         super(StencilForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = 'Nazwa'
+        self.fields['categories'].label = 'Kategorie'
         self.fields['categories'].queryset = Category.objects.all()
 
         if self.instance.id:
-            self.initial['categories'] = [c.id for c in self.instance.category_set.all()]
+            self.initial['categories'] = [c.id for c in self.instance.categories.all()]

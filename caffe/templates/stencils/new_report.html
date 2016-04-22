@@ -1,0 +1,46 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Nowy raport
+{% endblock %}
+
+{% block content %}
+<div class="show-report">
+  <div class="date">
+    Nazwa: <b>{{ stencil.name }}</b>
+  </div>
+
+  <!-- <a href="{% url 'reports_edit_report' report.id %}" class="button button-rounded button-red">
+    Edytuj
+  </a> -->
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="categories">
+      {% for category in categories %}
+        <div class="category">
+          <div class="category-name">
+            {{ category.name }} - {{ category.id }}
+          </div>
+
+          <div class="products">
+            <div class="product">
+              <input type="hidden" name="product1" value="1"/>
+              <input type="number" name="product1" value="10"/>
+            </div>
+
+            <!-- <div class="product">
+              <div class="name">{{ product.name }}</div>
+              <div class="amount">{{ product.amount }}</div>
+              <div class="unit">{{ product.unit }}</div>
+            </div> -->
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="button button-rounded button-green">Dodaj</button>
+  </form>
+</div>
+{% endblock %}

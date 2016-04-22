@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from django.core.urlresolvers import reverse
+
+from reports.models import Product
 
 from .forms import StencilForm
 from .models import Stencil
@@ -38,8 +41,32 @@ def stencils_show_stencil(request, stencil_id):
     return render(request, 'stencils/show_stencil.html')
 
 
-def stencils_new_report(request):
-    return render(request, 'stencils/new_report.html')
+def stencils_show_all_stencils(request):
+    stencils = Stencil.objects.all()
+    return render(request, 'stencils/show_all_stencils.html', {
+        'stencils': stencils
+    })
+
+
+def stencils_new_report(request, stencil_id):
+    stencil = get_object_or_404(Stencil, id=stencil_id)
+    categories = stencil.categories.all()
+
+    all_categories = []
+    for category in categories:
+        all_categories.append({
+            'id': category.id,
+            'name': category.name,
+            'products': Product.objects.filter(category=category).all()
+        })
+
+    # if request.POST:
+    #     full_products = request.POST.getlist('product#1')
+
+    return render(request, 'stencils/new_report.html', {
+        'stencil': stencil,
+        'categories': all_categories
+    })
 
 
 def stencils_edit_report(request, report_id):

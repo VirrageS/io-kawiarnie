@@ -1,0 +1,21 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Szablony
+{% endblock %}
+
+{% block content %}
+  <div class="reports-container">
+    {% for stencil in stencils %}
+      <div class="report">
+        <a href="{% url 'stencils_show_stencil' stencil.id %}" class="meta">
+          {{ stencil.name }}
+        </a>
+
+        <a href="{% url 'stencils_new_report' stencil.id %}" class="button button-rounded button-green">
+          <i class="fa fa-wpforms" aria-hidden="true"></i> Nowy raport
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

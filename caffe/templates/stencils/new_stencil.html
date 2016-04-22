@@ -1,0 +1,48 @@
+{% extends "home/base.html" %}
+{% load tags %}
+
+{% block title %}
+  Nowy szablon
+{% endblock %}
+
+{% block content %}
+<form method="POST" class="element-form">
+  {% csrf_token %}
+
+  <div class="input-line">
+    {{ form.name }}
+    {{ form.name.label_tag }}
+  </div>
+  {{ form.name.errors }}
+
+  <div class="input-line">
+    {{ form.categories }}
+    {{ form.categories.label_tag }}
+  </div>
+  {{ form.categories.errors }}
+
+  <button type="submit" class="button button-rounded button-green">Dodaj</button>
+</form>
+
+<h2 class="elements-subtitle">
+  Już istniejące
+</h2>
+
+<ul class="elements-container">
+  {% for stencil in stencils %}
+    <li class="element">
+      <span class="desc">
+        {{ stencil.desc }}
+      </span>
+
+      <a href="{{ stencil.show_href }}" class="button button-rounded button-small button-blue">
+        Pokaż
+      </a>
+
+      <a href="{{ stencil.edit_href }}" class="button button-rounded button-small button-red">
+        Edytuj
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

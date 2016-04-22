@@ -26,8 +26,11 @@
     checkMenuCookie();
 
     $('button[type=cancel]').click(function(){
-      window.history.back();
-      return false;
+      var href = $(this).children('a').attr('href');
+      if (!href) {
+        window.history.back();
+        return false;
+      }
     });
   }
 

@@ -46,7 +46,8 @@ def reports_edit_category(request, category_id):
     return render(request, 'reports/edit_element.html', {
         'form': form,
         'context': {
-            'title': u'Edytuj kategorię'
+            'title': u'Edytuj kategorię',
+            'cancel_href': reverse('reports_new_category')
         }
     })
 
@@ -90,7 +91,8 @@ def reports_edit_unit(request, unit_id):
     return render(request, 'reports/edit_element.html', {
         'form': form,
         'context': {
-            'title': "Edytuj jednostkę"
+            'title': 'Edytuj jednostkę',
+            'cancel_href': reverse('reports_new_unit')
         }
     })
 
@@ -134,7 +136,8 @@ def reports_edit_product(request, product_id):
     return render(request, 'reports/edit_element.html', {
         'form': form,
         'context': {
-            'title': u'Edytuj produkt'
+            'title': u'Edytuj produkt',
+            'cancel_href': reverse('reports_new_product')
         }
     })
 
@@ -189,7 +192,9 @@ def reports_edit_fullproduct(request, fullproduct_id):
 
     return render(request, 'reports/edit_fullproduct.html', {
         'form': form,
-        'context': {},
+        'context': {
+            'cancel_href': reverse('reports_new_fullproduct')
+        },
         'products': products
     })
 
@@ -249,7 +254,8 @@ def reports_edit_report(request, report_id):
     return render(request, 'reports/edit_element.html', {
         'form': form,
         'context': {
-            'title': u'Edytuj raport'
+            'title': u'Edytuj raport',
+            'cancel_href': reverse('reports_show_report', args=(report.id,))
         }
     })
 

@@ -44,6 +44,8 @@
   {{ form.amount.errors }}
 
   <button type="submit" class="button button-rounded button-green">Uaktualnij</button>
-  <button type="cancel" class="button button-rounded button-red">Anuluj</button>
+  <button type="cancel" class="button button-rounded button-red">
+    <a href="{{ context.cancel_href }}">Anuluj</a>
+  </button>
 </form>
 {% endblock %}

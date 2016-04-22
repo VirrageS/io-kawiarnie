@@ -100,10 +100,14 @@ class CategoryViewsTests(TestCase):
         self.assertIsInstance(form, CategoryForm)
         self.assertEqual(form.instance, self.caffees)
 
-        self.assertEqual(len(response.context['context']), 1)
+        self.assertEqual(len(response.context['context']), 2)
         self.assertEqual(
             response.context['context']['title'],
             u'Edytuj kategorię'
+        )
+        self.assertEqual(
+            response.context['context']['cancel_href'],
+            reverse('reports_new_category')
         )
 
     def test_edit_category_404(self):
@@ -249,10 +253,14 @@ class UnitViewsTests(TestCase):
         self.assertIsInstance(form, UnitForm)
         self.assertEqual(form.instance, self.money)
 
-        self.assertEqual(len(response.context['context']), 1)
+        self.assertEqual(len(response.context['context']), 2)
         self.assertEqual(
             response.context['context']['title'],
             u'Edytuj jednostkę'
+        )
+        self.assertEqual(
+            response.context['context']['cancel_href'],
+            reverse('reports_new_unit')
         )
 
     def test_edit_unit_404(self):
@@ -417,10 +425,14 @@ class ProductViewsTests(TestCase):
         self.assertIsInstance(form, ProductForm)
         self.assertEqual(form.instance, self.caffee)
 
-        self.assertEqual(len(response.context['context']), 1)
+        self.assertEqual(len(response.context['context']), 2)
         self.assertEqual(
             response.context['context']['title'],
             u'Edytuj produkt'
+        )
+        self.assertEqual(
+            response.context['context']['cancel_href'],
+            reverse('reports_new_product')
         )
 
     def test_edit_product_404(self):
@@ -622,7 +634,11 @@ class FullProductViewsTests(TestCase):
         self.assertIsInstance(form, FullProductForm)
         self.assertEqual(form.instance, self.caffee_full)
 
-        self.assertEqual(len(response.context['context']), 0)
+        self.assertEqual(len(response.context['context']), 1)
+        self.assertEqual(
+            response.context['context']['cancel_href'],
+            reverse('reports_new_fullproduct')
+        )
 
         products_count = Product.objects.count()
         self.assertEqual(len(response.context['products']), products_count)
@@ -849,10 +865,14 @@ class ReportViewsTests(TestCase):
         self.assertIsInstance(form, ReportForm)
         self.assertEqual(form.instance, self.major_report)
 
-        self.assertEqual(len(response.context['context']), 1)
+        self.assertEqual(len(response.context['context']), 2)
         self.assertEqual(
             response.context['context']['title'],
             u'Edytuj raport'
+        )
+        self.assertEqual(
+            response.context['context']['cancel_href'],
+            reverse('reports_show_report', args=(self.major_report.id,))
         )
 
     def test_edit_report_404(self):

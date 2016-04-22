@@ -973,6 +973,8 @@ input, select {
   border: 1px solid #cccccc;
   text-align: center;
   max-width: 500px; }
+  .element-form button a {
+    color: inherit; }
 
 .elements-subtitle {
   margin: 100px 0 50px 0; }

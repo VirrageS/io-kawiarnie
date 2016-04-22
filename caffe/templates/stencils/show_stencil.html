@@ -1,0 +1,27 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Szablon
+{% endblock %}
+
+{% block content %}
+<div class="show-report">
+  <div class="date">
+    Nazwa: <b>{{ stencil.name }}</b>
+  </div>
+
+  <a href="{% url 'stencil_edit_stencil' stencil.id %}" class="button button-rounded button-red">
+    Edytuj
+  </a>
+
+  <div class="categories">
+    {% for category in categories %}
+      <div class="category">
+        <div class="category-name">
+          {{ category }}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

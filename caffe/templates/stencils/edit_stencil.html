@@ -1,0 +1,27 @@
+{% extends "home/base.html" %}
+{% load tags %}
+
+{% block title %}
+Edytuj szablon
+{% endblock %}
+
+{% block content %}
+<form method="POST" class="element-form">
+  {% csrf_token %}
+
+  <div class="input-line">
+    {{ form.name }}
+    {{ form.name.label_tag }}
+  </div>
+  {{ form.name.errors }}
+
+  <div class="input-line">
+    {{ form.categories }}
+    {{ form.categories.label_tag }}
+  </div>
+  {{ form.categories.errors }}
+
+  <button type="submit" class="button button-rounded button-green">Uaktualnij</button>
+  <button type="cancel" class="button button-rounded button-red">Anuluj</button>
+</form>
+{% endblock %}

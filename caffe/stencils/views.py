@@ -54,14 +54,26 @@ def stencils_new_report(request, stencil_id):
 
     all_categories = []
     for category in categories:
+        products = Product.objects.filter(category=category).all()
+
+        all_products = []
+        for product in products:
+            all_products.append({
+                'id': product.id,
+                'name': product.name,
+                'unit': product.unit.name
+            })
+
         all_categories.append({
             'id': category.id,
             'name': category.name,
-            'products': Product.objects.filter(category=category).all()
+            'products': all_products
         })
 
-    # if request.POST:
-    #     full_products = request.POST.getlist('product#1')
+    if request.POST:
+        # print(request.POST)
+        # full_products = request.POST.getlist('1')
+        pass
 
     return render(request, 'stencils/new_report.html', {
         'stencil': stencil,

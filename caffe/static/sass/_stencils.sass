@@ -1,0 +1,52 @@
+.stencils-new-report
+  @extend .display-report
+  display: block
+  margin: 0 auto
+  margin-top: 60px
+
+
+  .button
+    display: table !important
+    margin: 50px auto 60px auto !important
+
+  .stencil-name
+    display: block
+    font-family: "Helvetica Neue", sans-serif
+    font-size: 2rem
+    font-weight: 700
+    padding: 10px
+    margin-bottom: 10px
+    line-height: 1.5em
+    text-align: center
+
+  .category
+    width: 500px !important
+
+  .product
+    .name
+      flex: 4 !important
+
+    .amount, .unit
+      flex: 2 !important
+
+    .unit
+      text-align: center !important
+
+    .trash
+      flex: 1 !important
+      font-size: 2em
+      color: $red-color
+      cursor: pointer
+      text-align: center
+      // padding-right: 15px
+
+.stencil-report-form
+  @extend .form
+
+  .select-product
+    margin-top: -10px
+    margin-bottom: 40px
+
+  input[type=number]
+    font-size: 0.85em
+    padding: 5px 15px

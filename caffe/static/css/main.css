@@ -707,17 +707,7 @@ input, select {
     width: 100%;
     text-transform: uppercase; }
 
-.new {
-  display: block;
-  margin: 0 auto;
-  margin-top: 40px;
-  margin-bottom: 60px;
-  text-align: center;
-  width: 100%; }
-  .new a {
-    margin: 0px 20px; }
-
-.subtitle {
+.subtitle, .elements-subtitle {
   display: block;
   font-family: "Helvetica Neue", sans-serif;
   font-size: 1.9rem;
@@ -727,6 +717,128 @@ input, select {
   line-height: 2.4rem;
   text-align: center;
   text-transform: uppercase; }
+
+.form input, .element-form input, .stencil-report-form input {
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; }
+.form input:hover + label, .element-form input:hover + label, .stencil-report-form input:hover + label, .form input:active + label, .element-form input:active + label, .stencil-report-form input:active + label, .form input:focus + label, .element-form input:focus + label, .stencil-report-form input:focus + label, .form select:hover + label, .element-form select:hover + label, .stencil-report-form select:hover + label, .form select:active + label, .element-form select:active + label, .stencil-report-form select:active + label, .form select:focus + label, .element-form select:focus + label, .stencil-report-form select:focus + label, .form .select-wrapper:hover + label, .element-form .select-wrapper:hover + label, .stencil-report-form .select-wrapper:hover + label, .form .select-wrapper:active + label, .element-form .select-wrapper:active + label, .stencil-report-form .select-wrapper:active + label, .form .select-wrapper:focus + label, .element-form .select-wrapper:focus + label, .stencil-report-form .select-wrapper:focus + label {
+  color: #98c4fe; }
+.form .input-line, .element-form .input-line, .stencil-report-form .input-line {
+  position: relative;
+  padding-top: 20px;
+  margin: 15px 0; }
+  .form .input-line .amount, .element-form .input-line .amount, .stencil-report-form .input-line .amount {
+    display: flex; }
+    .form .input-line .amount input, .element-form .input-line .amount input, .stencil-report-form .input-line .amount input {
+      flex: 1;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px; }
+    .form .input-line .amount .unit, .element-form .input-line .amount .unit, .stencil-report-form .input-line .amount .unit {
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      -ms-border-radius: 4px;
+      border-radius: 4px;
+      background-clip: padding-box;
+      display: flex;
+      align-items: center;
+      font-family: "Circular", sans-serif;
+      font-weight: 100;
+      padding: 0px 25px;
+      margin: 8px 0px;
+      border: 2px solid #000000;
+      border-left: none;
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+      line-height: normal;
+      text-align: center; }
+.form label, .element-form label, .stencil-report-form label {
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.9em;
+  font-weight: 100;
+  color: #989595;
+  text-align: left; }
+.form input[type=text], .element-form input[type=text], .stencil-report-form input[type=text], .form input[type=number], .element-form input[type=number], .stencil-report-form input[type=number] {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  border-radius: 4px;
+  background-clip: padding-box;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  display: inline-block;
+  box-sizing: border-box;
+  font-size: 1em;
+  padding: 8px 15px;
+  margin: 8px 0;
+  border: 2px solid #000000;
+  line-height: 1.6em;
+  width: 100%; }
+  .form input[type=text]:hover, .element-form input[type=text]:hover, .stencil-report-form input[type=text]:hover, .form input[type=text]:active, .element-form input[type=text]:active, .stencil-report-form input[type=text]:active, .form input[type=text]:focus, .element-form input[type=text]:focus, .stencil-report-form input[type=text]:focus, .form input[type=number]:hover, .element-form input[type=number]:hover, .stencil-report-form input[type=number]:hover, .form input[type=number]:active, .element-form input[type=number]:active, .stencil-report-form input[type=number]:active, .form input[type=number]:focus, .element-form input[type=number]:focus, .stencil-report-form input[type=number]:focus {
+    border-color: #98c4fe; }
+.form .select-wrapper::after, .element-form .select-wrapper::after, .stencil-report-form .select-wrapper::after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: 39px;
+  right: 25px;
+  font-family: FontAwesome;
+  font-size: 1.5em; }
+.form .select-wrapper select, .element-form .select-wrapper select, .stencil-report-form .select-wrapper select {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  border-radius: 4px;
+  background-clip: padding-box;
+  display: inline-block;
+  box-sizing: border-box;
+  font-size: 0.9em;
+  padding: 5px 15px;
+  margin: 8px 0;
+  border: 2px solid #000000;
+  line-height: 1.6em;
+  outline: none;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  -moz-appearance: none; }
+.form .errorlist, .element-form .errorlist, .stencil-report-form .errorlist {
+  font-size: 0.8rem;
+  font-weight: 200;
+  color: #f44242;
+  padding: 0;
+  margin: 0;
+  margin-top: -15px;
+  margin-bottom: 20px; }
+  .form .errorlist li, .element-form .errorlist li, .stencil-report-form .errorlist li {
+    padding: 10px 0;
+    margin-left: 40px; }
+.form select, .element-form select, .stencil-report-form select {
+  margin: 8px 0;
+  width: 100%; }
+.form button[type=submit], .element-form button[type=submit], .stencil-report-form button[type=submit], .form button[type=cancel], .element-form button[type=cancel], .stencil-report-form button[type=cancel] {
+  display: inline-block;
+  margin: 0 15px;
+  margin-top: 40px; }
+
+.new {
+  display: block;
+  margin: 0 auto;
+  margin-top: 40px;
+  margin-bottom: 60px;
+  text-align: center;
+  width: 100%; }
+  .new a {
+    margin: 0px 20px; }
 
 .reports-container {
   display: flex;
@@ -756,6 +868,55 @@ input, select {
       margin-bottom: 0;
       max-width: 150px; }
 
+.display-report .button, .show-report .button, .stencils-new-report .button {
+  display: table;
+  margin: 0px auto 60px auto; }
+.display-report .categories, .show-report .categories, .stencils-new-report .categories {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-flow: row wrap; }
+  .display-report .categories .category, .show-report .categories .category, .stencils-new-report .categories .category {
+    padding: 1rem;
+    padding-top: 0;
+    margin: 30px 20px;
+    border: 3px solid #000000;
+    width: 430px;
+    height: 100%; }
+    .display-report .categories .category .category-name, .show-report .categories .category .category-name, .stencils-new-report .categories .category .category-name {
+      font-family: "Fjord One", sans-serif;
+      font-size: 1.7rem;
+      font-weight: 400;
+      margin-bottom: 1.5em;
+      border-bottom: 2px solid #000000;
+      letter-spacing: 0.1em;
+      line-height: 1.8em;
+      text-align: center; }
+    .display-report .categories .category .products, .show-report .categories .category .products, .stencils-new-report .categories .category .products {
+      display: block; }
+      .display-report .categories .category .products .product, .show-report .categories .category .products .product, .stencils-new-report .categories .category .products .product {
+        display: flex;
+        font-size: 1.1rem;
+        font-weight: 100;
+        margin: 20px 0;
+        align-items: center; }
+        .display-report .categories .category .products .product::before, .show-report .categories .category .products .product::before, .stencils-new-report .categories .category .products .product::before {
+          content: "";
+          display: inline; }
+        .display-report .categories .category .products .product .name, .show-report .categories .category .products .product .name, .stencils-new-report .categories .category .products .product .name, .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount, .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit {
+          display: inline-block; }
+        .display-report .categories .category .products .product .name, .show-report .categories .category .products .product .name, .stencils-new-report .categories .category .products .product .name {
+          flex: 2;
+          font-weight: 600; }
+        .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount, .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit {
+          flex: 1; }
+        .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount {
+          text-align: center; }
+        .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit {
+          font-family: "Circular", sans-serif;
+          font-weight: 100;
+          text-align: right; }
+
 .show-report {
   display: block;
   margin: 0 auto;
@@ -767,50 +928,6 @@ input, select {
     margin-bottom: 10px;
     line-height: 1.5em;
     text-align: center; }
-  .show-report .button {
-    display: table;
-    margin: 0px auto 60px auto; }
-  .show-report .categories {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    flex-flow: row wrap; }
-    .show-report .categories .category {
-      padding: 1rem;
-      padding-top: 0;
-      margin: 30px 20px;
-      border: 3px solid #000000;
-      width: 430px; }
-      .show-report .categories .category .category-name {
-        font-family: "Fjord One", sans-serif;
-        font-size: 1.7rem;
-        font-weight: 400;
-        margin-bottom: 1.5em;
-        border-bottom: 2px solid #000000;
-        letter-spacing: 0.1em;
-        line-height: 1.8em;
-        text-align: center; }
-      .show-report .categories .category .products {
-        display: block; }
-        .show-report .categories .category .products .product {
-          display: flex;
-          font-size: 1.1rem;
-          font-weight: 100;
-          margin: 20px 0; }
-          .show-report .categories .category .products .product::before {
-            content: "";
-            display: inline; }
-          .show-report .categories .category .products .product .name, .show-report .categories .category .products .product .amount, .show-report .categories .category .products .product .unit {
-            display: inline-block; }
-          .show-report .categories .category .products .product .name {
-            flex: 2;
-            font-weight: 600; }
-          .show-report .categories .category .products .product .amount, .show-report .categories .category .products .product .unit {
-            flex: 1; }
-          .show-report .categories .category .products .product .amount {
-            text-align: center; }
-          .show-report .categories .category .products .product .unit {
-            text-align: right; }
 
 .elements {
   display: flex;
@@ -856,128 +973,9 @@ input, select {
   border: 1px solid #cccccc;
   text-align: center;
   max-width: 500px; }
-  .element-form input {
-    outline: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none; }
-  .element-form input:hover + label, .element-form input:active + label, .element-form input:focus + label, .element-form select:hover + label, .element-form select:active + label, .element-form select:focus + label, .element-form .input-wrapper:hover + label, .element-form .input-wrapper:active + label, .element-form .input-wrapper:focus + label {
-    color: #98c4fe; }
-  .element-form .input-line {
-    position: relative;
-    padding-top: 20px;
-    margin: 15px 0; }
-    .element-form .input-line .amount {
-      display: flex; }
-      .element-form .input-line .amount input {
-        flex: 1;
-        border-top-right-radius: 0px;
-        border-bottom-right-radius: 0px; }
-      .element-form .input-line .amount .unit {
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
-        -ms-border-radius: 4px;
-        border-radius: 4px;
-        background-clip: padding-box;
-        display: flex;
-        align-items: center;
-        font-family: "Circular", sans-serif;
-        font-weight: 100;
-        padding: 0px 25px;
-        margin: 8px 0px;
-        border: 2px solid #000000;
-        border-left: none;
-        border-top-left-radius: 0px;
-        border-bottom-left-radius: 0px;
-        line-height: normal;
-        text-align: center; }
-  .element-form label {
-    -moz-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s;
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 0.9em;
-    font-weight: 100;
-    color: #989595;
-    text-align: left; }
-  .element-form input[type=text], .element-form input[type=number] {
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    -ms-border-radius: 4px;
-    border-radius: 4px;
-    background-clip: padding-box;
-    -moz-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s;
-    display: inline-block;
-    box-sizing: border-box;
-    font-size: 1em;
-    padding: 8px 15px;
-    margin: 8px 0;
-    border: 2px solid #000000;
-    line-height: 1.6em;
-    width: 100%; }
-    .element-form input[type=text]:hover, .element-form input[type=text]:active, .element-form input[type=text]:focus, .element-form input[type=number]:hover, .element-form input[type=number]:active, .element-form input[type=number]:focus {
-      border-color: #98c4fe; }
-  .element-form .input-wrapper::after {
-    content: "";
-    display: inline-block;
-    position: absolute;
-    top: 39px;
-    right: 25px;
-    font-family: FontAwesome;
-    font-size: 1.5em; }
-  .element-form .input-wrapper select {
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    -ms-border-radius: 4px;
-    border-radius: 4px;
-    background-clip: padding-box;
-    display: inline-block;
-    box-sizing: border-box;
-    font-size: 0.9em;
-    padding: 5px 15px;
-    margin: 8px 0;
-    border: 2px solid #000000;
-    line-height: 1.6em;
-    outline: none;
-    width: 100%;
-    -webkit-appearance: none;
-    appearance: none;
-    -moz-appearance: none; }
-  .element-form .errorlist {
-    font-size: 0.8rem;
-    font-weight: 200;
-    color: #f44242;
-    padding: 0;
-    margin: 0;
-    margin-top: -15px;
-    margin-bottom: 20px; }
-    .element-form .errorlist li {
-      padding: 10px 0;
-      margin-left: 40px; }
-  .element-form select {
-    margin: 8px 0;
-    width: 100%; }
-  .element-form button[type=submit], .element-form button[type=cancel] {
-    display: inline-block;
-    margin: 0 15px;
-    margin-top: 40px; }
 
 .elements-subtitle {
-  display: block;
-  font-family: "Helvetica Neue", sans-serif;
-  font-size: 1.9rem;
-  font-weight: 100;
-  margin: 100px 0 50px 0;
-  letter-spacing: 0.1em;
-  line-height: 2.4rem;
-  text-align: center;
-  text-transform: uppercase; }
+  margin: 100px 0 50px 0; }
 
 .elements-container {
   font-size: 1.1rem;
@@ -1015,3 +1013,41 @@ input, select {
       color: #6bb6ec; }
       .employees-container .employee .login:hover {
         color: #adb6ff; }
+
+.stencils-new-report {
+  display: block;
+  margin: 0 auto;
+  margin-top: 60px; }
+  .stencils-new-report .button {
+    display: table !important;
+    margin: 50px auto 60px auto !important; }
+  .stencils-new-report .stencil-name {
+    display: block;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    padding: 10px;
+    margin-bottom: 10px;
+    line-height: 1.5em;
+    text-align: center; }
+  .stencils-new-report .category {
+    width: 500px !important; }
+  .stencils-new-report .product .name {
+    flex: 4 !important; }
+  .stencils-new-report .product .amount, .stencils-new-report .product .unit {
+    flex: 2 !important; }
+  .stencils-new-report .product .unit {
+    text-align: center !important; }
+  .stencils-new-report .product .trash {
+    flex: 1 !important;
+    font-size: 2em;
+    color: #e75f5f;
+    cursor: pointer;
+    text-align: center; }
+
+.stencil-report-form .select-product {
+  margin-top: -10px;
+  margin-bottom: 40px; }
+.stencil-report-form input[type=number] {
+  font-size: 0.85em;
+  padding: 5px 15px; }

@@ -5,36 +5,108 @@ Nowy raport
 {% endblock %}
 
 {% block content %}
-<div class="show-report">
-  <div class="date">
-    Nazwa: <b>{{ stencil.name }}</b>
+<script type="text/javascript">
+(function ($) {
+  "use strict"
+
+
+  var categories;
+
+  function getProduct(product_id) {
+    var product;
+
+    for (var i = 0; i < categories.length; ++i) {
+      for (var j = 0; j < categories[i].products.length; ++j) {
+        if (product_id == categories[i].products[j]['id']) {
+          product = categories[i].products[j];
+        }
+      }
+    }
+
+    return product;
+  }
+
+  $(document).ready(function() {
+    categories = {{ categories|safe }};
+    // console.log(categories);
+
+    $('select').on('change', function() {
+      var category = $(this).closest('.category'); //.attr('id')
+      var products = category.children('.products');
+
+      var product = getProduct(this.value);
+      if (product) {
+        $(this).find(":selected").remove();
+
+        products.append('\
+          <div id="' + product.id + '" class="product">\
+            <input type="hidden" name="' + product.id + '" value="' + product.id + '"/>\
+            <div class="name">\
+              ' + product.name +'\
+            </div>\
+            <div class="amount">\
+              <input type="number" name="' + product.id + '" value=""/>\
+            </div>\
+            <div class="unit">\
+              ' + product.unit + '\
+            </div>\
+            <div class="trash">\
+              <i class="fa fa-trash-o" aria-hidden="true"></i>\
+            </div>\
+          </div>\
+        ');
+      }
+    });
+
+    $(document).on('click', '.trash', function() {
+      var product = $(this).closest('.product');
+
+      var p = getProduct(product.attr('id'));
+      if (p) {
+        var select = product.closest('.category').find('select');
+        select.append('\
+          <option value="' + p.id + '">' + p.name + '</option>\
+        ');
+
+        product.remove();
+      }
+    });
+  });
+})(jQuery);
+</script>
+
+<div class="stencils-new-report">
+  <div class="stencil-name">
+    {{ stencil.name }}
   </div>
 
   <!-- <a href="{% url 'reports_edit_report' report.id %}" class="button button-rounded button-red">
     Edytuj
   </a> -->
 
-  <form method="POST">
+  <form method="POST" class="stencil-report-form">
     {% csrf_token %}
 
     <div class="categories">
       {% for category in categories %}
-        <div class="category">
+        <div id="{{ category.id }}" class="category">
           <div class="category-name">
-            {{ category.name }} - {{ category.id }}
+            {{ category.name }}
+          </div>
+
+          <div class="select-product input-line">
+            <div class="select-wrapper">
+              <select>
+                <option value="-1">-------------</option>
+                {% for product in category.products %}
+                  <option value="{{ product.id }}">{{ product.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <label for="">Wybierz produkt</label>
           </div>
 
           <div class="products">
-            <div class="product">
-              <input type="hidden" name="product1" value="1"/>
-              <input type="number" name="product1" value="10"/>
-            </div>
-
-            <!-- <div class="product">
-              <div class="name">{{ product.name }}</div>
-              <div class="amount">{{ product.amount }}</div>
-              <div class="unit">{{ product.unit }}</div>
-            </div> -->
           </div>
         </div>
       {% endfor %}

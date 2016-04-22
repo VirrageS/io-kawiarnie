@@ -39,7 +39,7 @@ def stencils_edit_stencil(request, stencil_id):
 
     if form.is_valid():
         stencil = form.save()
-
+        #nothing else to change?
         return redirect(reverse('stencils_create'))
 
     return render(request, 'stencils/edit_stencil.html', {

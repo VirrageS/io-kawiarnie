@@ -17,6 +17,6 @@ class StencilViewTests(TestCase):
         self.cakes = Category.objects.create(name='Ciasta')
 
     def test_new_category_show(self):
-        """Checks if new category view is displayed properly."""
+        """Check if new category view is displayed properly."""
 
         pass

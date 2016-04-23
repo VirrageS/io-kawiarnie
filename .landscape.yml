@@ -7,11 +7,17 @@ pylint:
   run: true
 pep8:
   full: true
+pep257:
+  disable:
+    - D100
+    - D203
+    - D202
 python-targets:
   - 3
 requirements:
   - requirements.txt
 ignore-patterns:
   - (^|/)migrations(/|$)
+  - (^|/)settings(/|$)
 strictness: veryhigh
 test-warnings: yes

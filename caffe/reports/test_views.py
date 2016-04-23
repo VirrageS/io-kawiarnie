@@ -19,7 +19,7 @@ class CategoryViewsTests(TestCase):
         self.cakes = Category.objects.create(name='Ciasta')
 
     def test_new_category_show(self):
-        """Checks if new category view is displayed properly."""
+        """Check if new category view is displayed properly."""
 
         response = self.client.get(reverse('reports_new_category'))
         self.assertEqual(response.status_code, 200)
@@ -52,7 +52,7 @@ class CategoryViewsTests(TestCase):
             )
 
     def test_new_category_post_fail(self):
-        """Checks if new category fails to create when form is not valid."""
+        """Check if new category fails to create when form is not valid."""
 
         response = self.client.post(
             reverse('reports_new_category'),
@@ -68,7 +68,7 @@ class CategoryViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
     def test_new_category_post_success(self):
-        """Checks if new category successes to create when form is valid."""
+        """Check if new category successes to create when form is valid."""
 
         response = self.client.post(
             reverse('reports_new_category'),
@@ -88,7 +88,7 @@ class CategoryViewsTests(TestCase):
         self.assertIsInstance(new_category, Category)
 
     def test_edit_category_show(self):
-        """Checks if edit category view is displayed properly"""
+        """Check if edit category view is displayed properly."""
 
         response = self.client.get(
             reverse('reports_edit_category', args=(self.caffees.id,))
@@ -111,7 +111,7 @@ class CategoryViewsTests(TestCase):
         )
 
     def test_edit_category_404(self):
-        """Checks if 404 is displayed when category does not exists."""
+        """Check if 404 is displayed when category does not exists."""
 
         ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
         ids_could_not_resolve = [
@@ -129,7 +129,7 @@ class CategoryViewsTests(TestCase):
                 reverse('reports_edit_category', args=(_id,))
 
     def test_edit_category_post_fail(self):
-        """Checks if edit category fails to edit when form is not valid."""
+        """Check if edit category fails to edit when form is not valid."""
 
         response = self.client.post(
             reverse('reports_edit_category', args=(self.cakes.id,)),
@@ -145,7 +145,7 @@ class CategoryViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/edit_element.html')
 
     def test_edit_category_post_success(self):
-        """Checks if edit category successes to edit when form is valid."""
+        """Check if edit category successes to edit when form is valid."""
 
         response = self.client.post(
             reverse('reports_edit_category', args=(self.cakes.id,)),
@@ -175,7 +175,7 @@ class UnitViewsTests(TestCase):
         self.grams = Unit.objects.create(name=u'gramy')
 
     def test_new_unit_show(self):
-        """Checks if new unit view is displayed properly."""
+        """Check if new unit view is displayed properly."""
 
         response = self.client.get(reverse('reports_new_unit'))
         self.assertEqual(response.status_code, 200)
@@ -205,7 +205,7 @@ class UnitViewsTests(TestCase):
             self.assertIn(element['desc'], [str(self.money), str(self.grams)])
 
     def test_new_unit_post_fail(self):
-        """Checks if new unit fails to create when form is not valid."""
+        """Check if new unit fails to create when form is not valid."""
 
         response = self.client.post(
             reverse('reports_new_unit'),
@@ -221,7 +221,7 @@ class UnitViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
     def test_new_unit_post_success(self):
-        """Checks if new unit successes to create if form is valid."""
+        """Check if new unit successes to create if form is valid."""
 
         response = self.client.post(
             reverse('reports_new_unit'),
@@ -241,7 +241,7 @@ class UnitViewsTests(TestCase):
         self.assertIsInstance(new_unit, Unit)
 
     def test_edit_unit_show(self):
-        """Checks if edit unit view is displayed properly."""
+        """Check if edit unit view is displayed properly."""
 
         response = self.client.get(
             reverse('reports_edit_unit', args=(self.money.id,))
@@ -282,7 +282,7 @@ class UnitViewsTests(TestCase):
                 reverse('reports_edit_unit', args=(_id,))
 
     def test_edit_unit_post_fail(self):
-        """Checks if edit unit fails to edit when form is not valid."""
+        """Check if edit unit fails to edit when form is not valid."""
 
         response = self.client.post(
             reverse('reports_edit_unit', args=(self.grams.id,)),
@@ -298,7 +298,7 @@ class UnitViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/edit_element.html')
 
     def test_edit_unit_post_success(self):
-        """Checks if edit unit successes to edit when form is valid."""
+        """Check if edit unit successes to edit when form is valid."""
 
         response = self.client.post(
             reverse('reports_edit_unit', args=(self.grams.id,)),
@@ -343,7 +343,7 @@ class ProductViewsTests(TestCase):
         )
 
     def test_new_product_show(self):
-        """Checks if new product view is displayed properly."""
+        """Check if new product view is displayed properly."""
 
         response = self.client.get(reverse('reports_new_product'))
         self.assertEqual(response.status_code, 200)
@@ -370,7 +370,7 @@ class ProductViewsTests(TestCase):
             self.assertIn(element['desc'], [str(self.caffee), str(self.cake)])
 
     def test_new_product_post_fail(self):
-        """Checks if new product fails to create when form is not valid."""
+        """Check if new product fails to create when form is not valid."""
 
         response = self.client.post(
             reverse('reports_new_product'),
@@ -388,7 +388,7 @@ class ProductViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
     def test_new_product_post_success(self):
-        """Checks if new product successes to create when form is valid."""
+        """Check if new product successes to create when form is valid."""
 
         response = self.client.post(
             reverse('reports_new_product'), {
@@ -413,7 +413,7 @@ class ProductViewsTests(TestCase):
         self.assertEqual(new_product.unit, self.pieces)
 
     def test_edit_product_show(self):
-        """Checks if edit product view is displayed properly."""
+        """Check if edit product view is displayed properly."""
 
         response = self.client.get(
             reverse('reports_edit_product', args=(self.caffee.id,))
@@ -436,7 +436,7 @@ class ProductViewsTests(TestCase):
         )
 
     def test_edit_product_404(self):
-        """Checks if 404 is displayed when product does not exists."""
+        """Check if 404 is displayed when product does not exists."""
 
         ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
         ids_could_not_resolve = [
@@ -454,7 +454,7 @@ class ProductViewsTests(TestCase):
                 reverse('reports_edit_product', args=(_id,))
 
     def test_edit_product_post_fail(self):
-        """Checks if edit product fails to edit when form is not valid."""
+        """Check if edit product fails to edit when form is not valid."""
 
         response = self.client.post(
             reverse('reports_edit_product', args=(self.cake.id,)),
@@ -472,7 +472,7 @@ class ProductViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/edit_element.html')
 
     def test_edit_product_post_success(self):
-        """Checks if edit product successes to edit when form is valid."""
+        """Check if edit product successes to edit when form is valid."""
 
         response = self.client.post(
             reverse('reports_edit_product', args=(self.cake.id,)), {
@@ -532,7 +532,7 @@ class FullProductViewsTests(TestCase):
         )
 
     def test_new_fullproduct_show(self):
-        """Checks if new FullProduct view is displayed properly."""
+        """Check if new FullProduct view is displayed properly."""
 
         response = self.client.get(reverse('reports_new_fullproduct'))
         self.assertEqual(response.status_code, 200)
@@ -580,7 +580,7 @@ class FullProductViewsTests(TestCase):
             )
 
     def test_new_fullproduct_post_fail(self):
-        """Checks if new fullproduct fails to create when form is not valid."""
+        """Check if new fullproduct fails to create when form is not valid."""
 
         response = self.client.post(
             reverse('reports_new_fullproduct'),
@@ -597,7 +597,7 @@ class FullProductViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/new_fullproduct.html')
 
     def test_new_fullproduct_post_success(self):
-        """Checks if new fullproduct successes to create when form is valid."""
+        """Check if new fullproduct successes to create when form is valid."""
 
         response = self.client.post(
             reverse('reports_new_fullproduct'),
@@ -622,7 +622,7 @@ class FullProductViewsTests(TestCase):
         self.assertEqual(new_fullproduct.amount, 5000)
 
     def test_edit_fullproduct_show(self):
-        """Checks if edit FullProduct view is displayed properly."""
+        """Check if edit FullProduct view is displayed properly."""
 
         response = self.client.get(
             reverse('reports_edit_fullproduct', args=(self.caffee_full.id,))
@@ -650,7 +650,7 @@ class FullProductViewsTests(TestCase):
             self.assertEqual(product_found.unit.name, product['unit'])
 
     def test_edit_fullproduct_404(self):
-        """Checks if 404 is displayed when fullproduct does not exists."""
+        """Check if 404 is displayed when fullproduct does not exists."""
 
         ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
         ids_could_not_resolve = [
@@ -668,7 +668,7 @@ class FullProductViewsTests(TestCase):
                 reverse('reports_edit_fullproduct', args=(_id,))
 
     def test_edit_fullproduct_post_fail(self):
-        """Checks if edit fullproduct fails to edit when form is not valid."""
+        """Check if edit fullproduct fails to edit when form is not valid."""
 
         response = self.client.post(
             reverse('reports_edit_fullproduct', args=(self.cake_full.id,)),
@@ -685,7 +685,7 @@ class FullProductViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/edit_fullproduct.html')
 
     def test_edit_fullproduct_post_success(self):
-        """Checks if edit fullproduct successes to edit when form is valid."""
+        """Check if edit fullproduct successes to edit when form is valid."""
 
         response = self.client.post(
             reverse('reports_edit_fullproduct', args=(self.cake_full.id,)),
@@ -765,7 +765,7 @@ class ReportViewsTests(TestCase):
         self.cake_full.save()
 
     def test_new_report_show(self):
-        """Checks if new report view is displayed properly"""
+        """Check if new report view is displayed properly"""
 
         response = self.client.get(reverse('reports_new_report'))
         self.assertEqual(response.status_code, 200)
@@ -809,7 +809,7 @@ class ReportViewsTests(TestCase):
             )
 
     def test_new_report_post_fail(self):
-        """Checks if new report fails to create when form is not valid."""
+        """Check if new report fails to create when form is not valid."""
 
         response = self.client.post(
             reverse('reports_new_report'),
@@ -828,7 +828,7 @@ class ReportViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
     def test_new_report_post_success(self):
-        """Checks if new report successes to create"""
+        """Check if new report successes to create"""
 
         response = self.client.post(
             reverse('reports_new_report'),
@@ -853,7 +853,7 @@ class ReportViewsTests(TestCase):
         self.assertTrue(new_report.created_on < timezone.now())
 
     def test_edit_report_show(self):
-        """Checks if edit report is displayed properly"""
+        """Check if edit report is displayed properly"""
 
         response = self.client.get(
             reverse('reports_edit_report', args=(self.major_report.id,))
@@ -876,7 +876,7 @@ class ReportViewsTests(TestCase):
         )
 
     def test_edit_report_404(self):
-        """Checks if 404 is displayed when report does not exists."""
+        """Check if 404 is displayed when report does not exists."""
 
         ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
         ids_could_not_resolve = [
@@ -894,7 +894,7 @@ class ReportViewsTests(TestCase):
                 reverse('reports_edit_report', args=(_id,))
 
     def test_edit_report_post_fail(self):
-        """Checks if edit report fails to edit"""
+        """Check if edit report fails to edit"""
 
         response = self.client.post(
             reverse('reports_edit_report', args=(self.major_report.id,)),
@@ -913,7 +913,7 @@ class ReportViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/edit_element.html')
 
     def test_edit_report_post_success(self):
-        """Checks if edit report successes to edit"""
+        """Check if edit report successes to edit"""
 
         response = self.client.post(
             reverse('reports_edit_report', args=(self.caffee_full_second.id,)),
@@ -936,7 +936,7 @@ class ReportViewsTests(TestCase):
         self.assertEqual(len(response.context['elements']), 2)
 
     def test_create_report(self):
-        """Checks if create report view is displayed properly"""
+        """Check if create report view is displayed properly"""
 
         response = self.client.get(reverse('reports_create'))
 
@@ -944,7 +944,7 @@ class ReportViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/create_report.html')
 
     def test_show_all_reports_show(self):
-        """Checks if show all reports view actually shows all reports"""
+        """Check if show all reports view actually shows all reports"""
 
         response = self.client.get(reverse('reports_show_all'))
 
@@ -955,7 +955,7 @@ class ReportViewsTests(TestCase):
         self.assertListEqual(list(response.context['reports']), list(reports))
 
     def test_show_report_show(self):
-        """Checks if show report view actually shows report"""
+        """Check if show report view actually shows report"""
 
         response = self.client.get(
             reverse('reports_show_report', args=(self.major_report.id,))
@@ -980,7 +980,7 @@ class ReportViewsTests(TestCase):
         self.assertEqual(len(categories[self.cakes.name]), 1)
 
     def test_show_report_404(self):
-        """Checks if 404 is displayed when report does not exists."""
+        """Check if 404 is displayed when report does not exists."""
 
         ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
         ids_could_not_resolve = [

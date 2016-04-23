@@ -1,6 +1,7 @@
+# -*- encoding: utf-8 -*-
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
-from django.contrib import messages
 
 from .models import Report, FullProduct, Product, Unit, Category
 from .forms import ReportForm, ProductForm

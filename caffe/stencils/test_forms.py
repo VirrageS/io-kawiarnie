@@ -16,9 +16,8 @@ class StencilFormTest(TestCase):
         self.cakes = Category.objects.create(name='Ciasta')
 
     def test_stencil_form_correct(self):
-        """Checks possible cases when StencilForm is correct."""
+        """Check possible cases when StencilForm is correct."""
 
-        categories = [category.id for category in Category.objects.all()]
         form_correct = StencilForm({
             'name': 'Poranny',
             'description': '',
@@ -37,7 +36,7 @@ class StencilFormTest(TestCase):
         )
 
     def test_stencil_form_incorrect(self):
-        """Checks possible cases when StencilForm is not correct."""
+        """Check possible cases when StencilForm is not correct."""
 
         form_incorrect = StencilForm({
             'name': '',
@@ -53,9 +52,8 @@ class StencilFormTest(TestCase):
 
         self.assertFalse(form_incorrect.is_valid())
 
-
     def test_stencil_form_instance(self):
-        """Checks Stencil form with loaded instance."""
+        """Check Stencil form with loaded instance."""
 
         stencil = Stencil.objects.create(name='Poranny')
         stencil.categories.add(self.caffees, self.cakes)

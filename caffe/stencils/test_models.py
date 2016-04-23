@@ -13,7 +13,7 @@ class StencilModelTest(TestCase):
         self.cakes = Category.objects.create(name='Ciasta')
 
     def test_stencil_name(self):
-        """Checks if name for Stencil is saved properly."""
+        """Check if name for Stencil is saved properly."""
 
         stencil = Stencil.objects.create(name='Poranny')
 
@@ -21,14 +21,15 @@ class StencilModelTest(TestCase):
         self.assertEqual(get_stencil.name, 'Poranny')
 
     def test_stencil_same_name(self):
-        """Checks if two Stencils cannot have the same name."""
+        """Check if two Stencils cannot have the same name."""
 
-        stencil = Stencil.objects.create(name='Poranny')
+        Stencil.objects.create(name='Poranny')
+
         with self.assertRaises(Exception):
-            stencil = Stencil.objects.create(name='Poranny')
+            Stencil.objects.create(name='Poranny')
 
     def test_stencil_description(self):
-        """Checks if description for Stencil is saved properly."""
+        """Check if description for Stencil is saved properly."""
 
         stencil = Stencil.objects.create(
             name='Poranny',
@@ -42,7 +43,7 @@ class StencilModelTest(TestCase):
         )
 
     def test_stencil_categories(self):
-        """Checks if category/categories for Stencil are saved properly."""
+        """Check if category/categories for Stencil are saved properly."""
 
         stencil = Stencil.objects.create(name='Poranny')
         stencil.categories.add(self.caffees, self.cakes)
@@ -54,7 +55,7 @@ class StencilModelTest(TestCase):
         )
 
     def test_stencil_to_string(self):
-        """Checks if str() on Stencil returns good value."""
+        """Check if str() on Stencil returns good value."""
 
         stencil = Stencil.objects.create(name='Poranny', description='Hello')
         stencil.categories.add(self.caffees, self.cakes)

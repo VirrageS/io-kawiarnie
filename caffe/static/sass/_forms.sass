@@ -9,10 +9,58 @@
     &:hover + label, &:active + label, &:focus + label
       color: #98c4fe
 
+  label
+    +transition(all 0.3s)
+    position: absolute
+    top: 0
+    left: 0
+    font-size: 0.9em
+    font-weight: 100
+    color: #989595
+    text-align: left
+
   .input-line
     position: relative
     padding-top: 20px
     margin: 15px 0
+
+    ul
+      margin-top: 15px
+      list-style: none
+
+      li
+        margin: 20px 0
+        margin-left: 15px
+        text-align: left !important
+
+        &:first-child
+          margin-top: 0
+
+        &:last-child
+          margin-bottom: 0
+
+        label
+          display: inline-block
+          position: relative
+          font-size: 1.2rem
+          color: #000000
+          vertical-align: middle
+
+          &::before
+            content: "\f096"
+            font-family: "FontAwesome"
+            font-size: 1.5rem
+            display: inline-block
+            margin-right: 10px
+            text-align: left
+            vertical-align: middle
+            width: 30px
+
+          &.checked-box::before
+            content: "\f046"
+
+          input[type=checkbox]
+            display: none
 
     .amount
       display: flex
@@ -37,16 +85,6 @@
         line-height: normal
         text-align: center
 
-  label
-    +transition(all 0.3s)
-    position: absolute
-    top: 0
-    left: 0
-    font-size: 0.9em
-    font-weight: 100
-    color: #989595
-    text-align: left
-
   input[type=text], input[type=number]
     +border-radius(4px)
     +transition(all 0.3s)
@@ -62,6 +100,11 @@
     &:hover, &:active, &:focus
       border-color: #98c4fe
 
+  input[type=checkbox]
+    outline: initial !important
+    -webkit-appearance: checkbox !important
+    -moz-appearance: checkbox !important
+    appearance: checkbox !important
 
   .select-wrapper
     &::after

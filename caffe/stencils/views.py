@@ -38,8 +38,7 @@ def stencils_edit_stencil(request, stencil_id):
     form = StencilForm(request.POST or None, instance=stencil)
 
     if form.is_valid():
-        stencil = form.save()
-        #nothing else to change?
+        form.save()
         return redirect(reverse('stencils_create'))
 
     return render(request, 'stencils/edit_stencil.html', {

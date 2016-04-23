@@ -32,6 +32,17 @@
         return false;
       }
     });
+
+    // checkboxes
+    $('label input[type=checkbox]').each(function(index) {
+      if ($(this).is(':checked')) {
+        $(this).parent().addClass('checked-box');
+      }
+    });
+
+    $('label input[type=checkbox]').on('change', function() {
+      $(this).parent().toggleClass('checked-box');
+    });
   }
 
   $(document).ready(function () {

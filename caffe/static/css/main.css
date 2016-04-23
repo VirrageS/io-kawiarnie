@@ -737,10 +737,52 @@ input, select {
   appearance: none; }
 .form input:hover + label, .element-form input:hover + label, .stencil-report-form input:hover + label, .form input:active + label, .element-form input:active + label, .stencil-report-form input:active + label, .form input:focus + label, .element-form input:focus + label, .stencil-report-form input:focus + label, .form select:hover + label, .element-form select:hover + label, .stencil-report-form select:hover + label, .form select:active + label, .element-form select:active + label, .stencil-report-form select:active + label, .form select:focus + label, .element-form select:focus + label, .stencil-report-form select:focus + label, .form .select-wrapper:hover + label, .element-form .select-wrapper:hover + label, .stencil-report-form .select-wrapper:hover + label, .form .select-wrapper:active + label, .element-form .select-wrapper:active + label, .stencil-report-form .select-wrapper:active + label, .form .select-wrapper:focus + label, .element-form .select-wrapper:focus + label, .stencil-report-form .select-wrapper:focus + label {
   color: #98c4fe; }
+.form label, .element-form label, .stencil-report-form label {
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.9em;
+  font-weight: 100;
+  color: #989595;
+  text-align: left; }
 .form .input-line, .element-form .input-line, .stencil-report-form .input-line {
   position: relative;
   padding-top: 20px;
   margin: 15px 0; }
+  .form .input-line ul, .element-form .input-line ul, .stencil-report-form .input-line ul {
+    margin-top: 15px;
+    list-style: none; }
+    .form .input-line ul li, .element-form .input-line ul li, .stencil-report-form .input-line ul li {
+      margin: 20px 0;
+      margin-left: 15px;
+      text-align: left !important; }
+      .form .input-line ul li:first-child, .element-form .input-line ul li:first-child, .stencil-report-form .input-line ul li:first-child {
+        margin-top: 0; }
+      .form .input-line ul li:last-child, .element-form .input-line ul li:last-child, .stencil-report-form .input-line ul li:last-child {
+        margin-bottom: 0; }
+      .form .input-line ul li label, .element-form .input-line ul li label, .stencil-report-form .input-line ul li label {
+        display: inline-block;
+        position: relative;
+        font-size: 1.2rem;
+        color: #000000;
+        vertical-align: middle; }
+        .form .input-line ul li label::before, .element-form .input-line ul li label::before, .stencil-report-form .input-line ul li label::before {
+          content: "";
+          font-family: "FontAwesome";
+          font-size: 1.5rem;
+          display: inline-block;
+          margin-right: 10px;
+          text-align: left;
+          vertical-align: middle;
+          width: 30px; }
+        .form .input-line ul li label.checked-box::before, .element-form .input-line ul li label.checked-box::before, .stencil-report-form .input-line ul li label.checked-box::before {
+          content: ""; }
+        .form .input-line ul li label input[type=checkbox], .element-form .input-line ul li label input[type=checkbox], .stencil-report-form .input-line ul li label input[type=checkbox] {
+          display: none; }
   .form .input-line .amount, .element-form .input-line .amount, .stencil-report-form .input-line .amount {
     display: flex; }
     .form .input-line .amount input, .element-form .input-line .amount input, .stencil-report-form .input-line .amount input {
@@ -765,18 +807,6 @@ input, select {
       border-bottom-left-radius: 0px;
       line-height: normal;
       text-align: center; }
-.form label, .element-form label, .stencil-report-form label {
-  -moz-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 0.9em;
-  font-weight: 100;
-  color: #989595;
-  text-align: left; }
 .form input[type=text], .element-form input[type=text], .stencil-report-form input[type=text], .form input[type=number], .element-form input[type=number], .stencil-report-form input[type=number] {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -797,6 +827,11 @@ input, select {
   width: 100%; }
   .form input[type=text]:hover, .element-form input[type=text]:hover, .stencil-report-form input[type=text]:hover, .form input[type=text]:active, .element-form input[type=text]:active, .stencil-report-form input[type=text]:active, .form input[type=text]:focus, .element-form input[type=text]:focus, .stencil-report-form input[type=text]:focus, .form input[type=number]:hover, .element-form input[type=number]:hover, .stencil-report-form input[type=number]:hover, .form input[type=number]:active, .element-form input[type=number]:active, .stencil-report-form input[type=number]:active, .form input[type=number]:focus, .element-form input[type=number]:focus, .stencil-report-form input[type=number]:focus {
     border-color: #98c4fe; }
+.form input[type=checkbox], .element-form input[type=checkbox], .stencil-report-form input[type=checkbox] {
+  outline: initial !important;
+  -webkit-appearance: checkbox !important;
+  -moz-appearance: checkbox !important;
+  appearance: checkbox !important; }
 .form .select-wrapper::after, .element-form .select-wrapper::after, .stencil-report-form .select-wrapper::after {
   content: "";
   display: inline-block;

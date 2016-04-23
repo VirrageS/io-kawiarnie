@@ -27,6 +27,20 @@ class StencilModelTest(TestCase):
         with self.assertRaises(Exception):
             stencil = Stencil.objects.create(name='Poranny')
 
+    def test_stencil_description(self):
+        """Checks if description for Stencil is saved properly."""
+
+        stencil = Stencil.objects.create(
+            name='Poranny',
+            description=u'Szablon do raportów na sam początek dnia'
+        )
+
+        get_stencil = Stencil.objects.get(id=stencil.id)
+        self.assertEqual(
+            get_stencil.description,
+            u'Szablon do raportów na sam początek dnia'
+        )
+
     def test_stencil_categories(self):
         """Checks if category/categories for Stencil are saved properly."""
 
@@ -38,3 +52,11 @@ class StencilModelTest(TestCase):
             list(get_stencil.categories.all()),
             [self.caffees, self.cakes]
         )
+
+    def test_stencil_to_string(self):
+        """Checks if str() on Stencil returns good value."""
+
+        stencil = Stencil.objects.create(name='Poranny', description='Hello')
+        stencil.categories.add(self.caffees, self.cakes)
+
+        self.assertEqual(stencil.name, str(stencil))

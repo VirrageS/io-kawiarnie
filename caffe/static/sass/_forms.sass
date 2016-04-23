@@ -5,7 +5,7 @@
     -moz-appearance: none
     appearance: none
 
-  input, select, .select-wrapper
+  input, select, .select-wrapper, textarea, ul
     &:hover + label, &:active + label, &:focus + label
       color: #98c4fe
 
@@ -85,7 +85,7 @@
         line-height: normal
         text-align: center
 
-  input[type=text], input[type=number]
+  input[type=text], input[type=number], textarea
     +border-radius(4px)
     +transition(all 0.3s)
     display: inline-block
@@ -105,6 +105,14 @@
     -webkit-appearance: checkbox !important
     -moz-appearance: checkbox !important
     appearance: checkbox !important
+
+
+  textarea
+    +transition(all 0.1s)
+    min-height: 50px
+    height: 150px
+    max-width: 100%
+
 
   .select-wrapper
     &::after

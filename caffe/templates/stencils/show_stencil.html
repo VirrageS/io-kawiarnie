@@ -7,7 +7,11 @@ Szablon
 {% block content %}
 <div class="show-report">
   <div class="date">
-    Nazwa: <b>{{ stencil.name }}</b>
+    <b>{{ stencil.name }}</b>
+    <br>
+    {% if stencil.description %}
+      {{ stencil.description }}
+    {% endif %}
   </div>
 
   <a href="{% url 'stencils_edit_stencil' stencil.id %}" class="button button-rounded button-red">

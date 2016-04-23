@@ -735,7 +735,7 @@ input, select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none; }
-.form input:hover + label, .element-form input:hover + label, .stencil-report-form input:hover + label, .form input:active + label, .element-form input:active + label, .stencil-report-form input:active + label, .form input:focus + label, .element-form input:focus + label, .stencil-report-form input:focus + label, .form select:hover + label, .element-form select:hover + label, .stencil-report-form select:hover + label, .form select:active + label, .element-form select:active + label, .stencil-report-form select:active + label, .form select:focus + label, .element-form select:focus + label, .stencil-report-form select:focus + label, .form .select-wrapper:hover + label, .element-form .select-wrapper:hover + label, .stencil-report-form .select-wrapper:hover + label, .form .select-wrapper:active + label, .element-form .select-wrapper:active + label, .stencil-report-form .select-wrapper:active + label, .form .select-wrapper:focus + label, .element-form .select-wrapper:focus + label, .stencil-report-form .select-wrapper:focus + label {
+.form input:hover + label, .element-form input:hover + label, .stencil-report-form input:hover + label, .form input:active + label, .element-form input:active + label, .stencil-report-form input:active + label, .form input:focus + label, .element-form input:focus + label, .stencil-report-form input:focus + label, .form select:hover + label, .element-form select:hover + label, .stencil-report-form select:hover + label, .form select:active + label, .element-form select:active + label, .stencil-report-form select:active + label, .form select:focus + label, .element-form select:focus + label, .stencil-report-form select:focus + label, .form .select-wrapper:hover + label, .element-form .select-wrapper:hover + label, .stencil-report-form .select-wrapper:hover + label, .form .select-wrapper:active + label, .element-form .select-wrapper:active + label, .stencil-report-form .select-wrapper:active + label, .form .select-wrapper:focus + label, .element-form .select-wrapper:focus + label, .stencil-report-form .select-wrapper:focus + label, .form textarea:hover + label, .element-form textarea:hover + label, .stencil-report-form textarea:hover + label, .form textarea:active + label, .element-form textarea:active + label, .stencil-report-form textarea:active + label, .form textarea:focus + label, .element-form textarea:focus + label, .stencil-report-form textarea:focus + label, .form ul:hover + label, .element-form ul:hover + label, .stencil-report-form ul:hover + label, .form ul:active + label, .element-form ul:active + label, .stencil-report-form ul:active + label, .form ul:focus + label, .element-form ul:focus + label, .stencil-report-form ul:focus + label {
   color: #98c4fe; }
 .form label, .element-form label, .stencil-report-form label {
   -moz-transition: all 0.3s;
@@ -807,7 +807,7 @@ input, select {
       border-bottom-left-radius: 0px;
       line-height: normal;
       text-align: center; }
-.form input[type=text], .element-form input[type=text], .stencil-report-form input[type=text], .form input[type=number], .element-form input[type=number], .stencil-report-form input[type=number] {
+.form input[type=text], .element-form input[type=text], .stencil-report-form input[type=text], .form input[type=number], .element-form input[type=number], .stencil-report-form input[type=number], .form textarea, .element-form textarea, .stencil-report-form textarea {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
@@ -825,13 +825,21 @@ input, select {
   border: 2px solid #000000;
   line-height: 1.6em;
   width: 100%; }
-  .form input[type=text]:hover, .element-form input[type=text]:hover, .stencil-report-form input[type=text]:hover, .form input[type=text]:active, .element-form input[type=text]:active, .stencil-report-form input[type=text]:active, .form input[type=text]:focus, .element-form input[type=text]:focus, .stencil-report-form input[type=text]:focus, .form input[type=number]:hover, .element-form input[type=number]:hover, .stencil-report-form input[type=number]:hover, .form input[type=number]:active, .element-form input[type=number]:active, .stencil-report-form input[type=number]:active, .form input[type=number]:focus, .element-form input[type=number]:focus, .stencil-report-form input[type=number]:focus {
+  .form input[type=text]:hover, .element-form input[type=text]:hover, .stencil-report-form input[type=text]:hover, .form input[type=text]:active, .element-form input[type=text]:active, .stencil-report-form input[type=text]:active, .form input[type=text]:focus, .element-form input[type=text]:focus, .stencil-report-form input[type=text]:focus, .form input[type=number]:hover, .element-form input[type=number]:hover, .stencil-report-form input[type=number]:hover, .form input[type=number]:active, .element-form input[type=number]:active, .stencil-report-form input[type=number]:active, .form input[type=number]:focus, .element-form input[type=number]:focus, .stencil-report-form input[type=number]:focus, .form textarea:hover, .element-form textarea:hover, .stencil-report-form textarea:hover, .form textarea:active, .element-form textarea:active, .stencil-report-form textarea:active, .form textarea:focus, .element-form textarea:focus, .stencil-report-form textarea:focus {
     border-color: #98c4fe; }
 .form input[type=checkbox], .element-form input[type=checkbox], .stencil-report-form input[type=checkbox] {
   outline: initial !important;
   -webkit-appearance: checkbox !important;
   -moz-appearance: checkbox !important;
   appearance: checkbox !important; }
+.form textarea, .element-form textarea, .stencil-report-form textarea {
+  -moz-transition: all 0.1s;
+  -o-transition: all 0.1s;
+  -webkit-transition: all 0.1s;
+  transition: all 0.1s;
+  min-height: 50px;
+  height: 150px;
+  max-width: 100%; }
 .form .select-wrapper::after, .element-form .select-wrapper::after, .stencil-report-form .select-wrapper::after {
   content: "";
   display: inline-block;

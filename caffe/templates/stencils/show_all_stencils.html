@@ -20,6 +20,10 @@ Szablony
       <div class="stencil">
         <a href="{% url 'stencils_show_stencil' stencil.id %}" class="meta">
           {{ stencil.name }}
+          <br>
+          {% if stencil.description %}
+            {{ stencil.description }}
+          {% endif %}
         </a>
 
         <div class="buttons">

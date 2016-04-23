@@ -1,6 +1,7 @@
 # IO-Kawiarnie
 
 [![Build Status](https://travis-ci.org/VirrageS/io-kawiarnie.svg?branch=master)](https://travis-ci.org/VirrageS/io-kawiarnie)
+[![Code Health](https://landscape.io/github/VirrageS/io-kawiarnie/master/landscape.svg?style=flat)](https://landscape.io/github/VirrageS/io-kawiarnie/master)
 
 ## Workflow
 

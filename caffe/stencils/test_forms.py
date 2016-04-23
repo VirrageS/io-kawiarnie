@@ -21,6 +21,7 @@ class StencilFormTest(TestCase):
         categories = [category.id for category in Category.objects.all()]
         form_correct = StencilForm({
             'name': 'Poranny',
+            'description': '',
             'categories': [self.caffees.id]
         })
 
@@ -54,6 +55,8 @@ class StencilFormTest(TestCase):
 
 
     def test_stencil_form_instance(self):
+        """Checks Stencil form with loaded instance."""
+
         stencil = Stencil.objects.create(name='Poranny')
         stencil.categories.add(self.caffees, self.cakes)
 

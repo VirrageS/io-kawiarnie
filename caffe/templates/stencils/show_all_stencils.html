@@ -5,16 +5,38 @@ Szablony
 {% endblock %}
 
 {% block content %}
-  <div class="reports-container">
+  <section class="new">
+    <a class="button button-rounded button-green button-semi-big" href="{% url 'stencils_new_stencil' %}">
+      Zarządzaj szablonami
+    </a>
+  </section>
+
+  <section class="subtitle">
+    Utworzone
+  </section>
+
+  <div class="stencils-container">
     {% for stencil in stencils %}
-      <div class="report">
+      <div class="stencil">
         <a href="{% url 'stencils_show_stencil' stencil.id %}" class="meta">
           {{ stencil.name }}
         </a>
 
-        <a href="{% url 'stencils_new_report' stencil.id %}" class="button button-rounded button-green">
-          <i class="fa fa-wpforms" aria-hidden="true"></i> Nowy raport
-        </a>
+        <div class="buttons">
+          <a href="{% url 'stencils_show_stencil' stencil.id %}" class="button button-rounded button-blue button-with-icon">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <span>
+              Pokaż szablon
+            </span>
+          </a>
+
+          <a href="{% url 'stencils_new_report' stencil.id %}" class="button button-rounded button-green button-with-icon">
+            <i class="fa fa-wpforms" aria-hidden="true"></i>
+            <span>
+              Nowy raport
+            </span>
+          </a>
+        </div>
       </div>
     {% endfor %}
   </div>

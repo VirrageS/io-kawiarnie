@@ -20,7 +20,7 @@
     text-align: center
 
   .category
-    width: 500px !important
+    width: 480px !important
 
   .product
     .name
@@ -38,7 +38,10 @@
       color: $red-color
       cursor: pointer
       text-align: center
-      // padding-right: 15px
+
+      &:hover, &:active, &:focus
+        font-size: 2.3em
+        color: darken($red-color, 20%)
 
 .stencil-report-form
   @extend .form
@@ -50,3 +53,32 @@
   input[type=number]
     font-size: 0.85em
     padding: 5px 15px
+
+.stencils-container
+  display: flex
+  flex-direction: row
+  flex-flow: row wrap
+  justify-content: space-around
+  font-size: 1.2rem
+  line-height: 1.5em
+  text-align: center
+
+  .stencil
+    +border-radius(5px)
+    display: flex
+    justify-content: space-between
+    flex-direction: column
+    padding: 20px
+    margin: 20px
+    border: 2px solid #dedede
+    width: 420px
+    height: 150px
+
+    .meta
+      font-size: 1.2em
+      text-align: center
+
+    .buttons
+      display: flex
+      align-items: center
+      justify-content: space-around

@@ -47,6 +47,21 @@ $orange-color: #f0ad4e
     line-height: 48px
     border-width: 3px
 
+  &.button-with-icon
+    display: flex
+    align-items: center
+    justify-content: center
+    max-width: 150px
+    line-height: normal
+    padding: 0.5em 1.4em
+
+    i
+      font-size: 1.4em
+      margin-right: 15px
+
+    span
+      font-size: 1em
+
 @mixin button-color($bg-color, $color, $filled: false)
   @if $filled == true
     background-color: $bg-color !important

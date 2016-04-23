@@ -26,8 +26,11 @@ Raporty
           {{ report.created_on }}
         </a>
 
-        <a href="{% url 'reports_show_report' report.id %}" class="button button-rounded button-blue">
-          <i class="fa fa-search" aria-hidden="true"></i> Pokaż
+        <a href="{% url 'reports_show_report' report.id %}" class="button button-rounded button-blue button-with-icon">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <span>
+            Pokaż raport
+          </span>
         </a>
       </div>
     {% endfor %}

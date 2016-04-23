@@ -537,6 +537,18 @@ input, select {
     font-size: 1.1rem;
     line-height: 48px;
     border-width: 3px; }
+  .button.button-with-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 150px;
+    line-height: normal;
+    padding: 0.5em 1.4em; }
+    .button.button-with-icon i {
+      font-size: 1.4em;
+      margin-right: 15px; }
+    .button.button-with-icon span {
+      font-size: 1em; }
   .button:hover, .button:focus {
     background-color: #000000 !important;
     color: #ffffff !important;
@@ -844,6 +856,7 @@ input, select {
   display: flex;
   flex-direction: row;
   flex-flow: row wrap;
+  justify-content: space-around;
   font-size: 1.2rem;
   line-height: 1.5em;
   text-align: center; }
@@ -1033,7 +1046,7 @@ input, select {
     line-height: 1.5em;
     text-align: center; }
   .stencils-new-report .category {
-    width: 500px !important; }
+    width: 480px !important; }
   .stencils-new-report .product .name {
     flex: 4 !important; }
   .stencils-new-report .product .amount, .stencils-new-report .product .unit {
@@ -1046,6 +1059,9 @@ input, select {
     color: #e75f5f;
     cursor: pointer;
     text-align: center; }
+    .stencils-new-report .product .trash:hover, .stencils-new-report .product .trash:active, .stencils-new-report .product .trash:focus {
+      font-size: 2.3em;
+      color: #c31d1d; }
 
 .stencil-report-form .select-product {
   margin-top: -10px;
@@ -1053,3 +1069,33 @@ input, select {
 .stencil-report-form input[type=number] {
   font-size: 0.85em;
   padding: 5px 15px; }
+
+.stencils-container {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  font-size: 1.2rem;
+  line-height: 1.5em;
+  text-align: center; }
+  .stencils-container .stencil {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    background-clip: padding-box;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 20px;
+    margin: 20px;
+    border: 2px solid #dedede;
+    width: 420px;
+    height: 150px; }
+    .stencils-container .stencil .meta {
+      font-size: 1.2em;
+      text-align: center; }
+    .stencils-container .stencil .buttons {
+      display: flex;
+      align-items: center;
+      justify-content: space-around; }

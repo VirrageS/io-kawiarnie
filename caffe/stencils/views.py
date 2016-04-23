@@ -34,11 +34,28 @@ def stencils_new_stencil(request):
 
 
 def stencils_edit_stencil(request, stencil_id):
-    return render(request, 'stencils/edit_stencil.html')
+    stencil = get_object_or_404(Stencil, id=stencil_id)
+    form = StencilForm(request.POST or None, instance=stencil)
+
+    if form.is_valid():
+        stencil = form.save()
+        #nothing else to change?
+        return redirect(reverse('stencils_create'))
+
+    return render(request, 'stencils/edit_stencil.html', {
+        'form': form,
+        'stencil': stencil
+    })
 
 
 def stencils_show_stencil(request, stencil_id):
-    return render(request, 'stencils/show_stencil.html')
+    stencil = get_object_or_404(Stencil, id=stencil_id)
+    categories = stencil.categories.all()
+
+    return render(request, 'stencils/show_stencil.html', {
+        'stencil': stencil,
+        'categories': categories
+    })
 
 
 def stencils_show_all_stencils(request):

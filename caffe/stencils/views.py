@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse
+from django import forms
 
-from reports.models import Product
+from reports.models import Product, Report, FullProduct
 
 from .forms import StencilForm
 from .models import Stencil
+from reports.forms import FullProductForm
 
 
 def stencils_new_stencil(request):
@@ -63,7 +66,7 @@ def stencils_show_all_stencils(request):
         'stencils': stencils
     })
 
-
+@csrf_exempt
 def stencils_new_report(request, stencil_id):
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.all()
@@ -87,9 +90,20 @@ def stencils_new_report(request, stencil_id):
         })
 
     if request.POST:
-        # print(request.POST)
-        # full_products = request.POST.getlist('1')
-        pass
+        full_products = request.POST
+        report = Report.objects.create()
+
+        for full_product in full_products:
+            fp_list = full_products.getlist(full_product)
+
+            fp = FullProduct.objects.create(
+                product=Product.objects.get(id=fp_list[0]),
+                amount=fp_list[1],
+                report=report
+            )
+            fp.save()
+
+        report.save()
 
     return render(request, 'stencils/new_report.html', {
         'stencil': stencil,

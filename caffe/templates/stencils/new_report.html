@@ -85,7 +85,7 @@ Nowy raport
   </a> -->
 
   <form method="POST" class="stencil-report-form">
-    {% csrf_token %}
+    <!---{% csrf_token %} -->
 
     <div class="categories">
       {% for category in categories %}
@@ -97,9 +97,9 @@ Nowy raport
           <div class="select-product input-line">
             <div class="select-wrapper">
               <select>
-                <option value="-1">-------------</option>
+                <option name="product" value="-1">-------------</option>
                 {% for product in category.products %}
-                  <option value="{{ product.id }}">{{ product.name }}</option>
+                  <option name="product" value="{{ product.id }}">{{ product.name }}</option>
                 {% endfor %}
               </select>
             </div>

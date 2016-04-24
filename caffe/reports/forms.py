@@ -55,7 +55,10 @@ class FullProductForm(forms.ModelForm):
 
 
 class ReportForm(forms.ModelForm):
-    full_products = forms.ModelMultipleChoiceField(queryset=None)
+    full_products = forms.ModelMultipleChoiceField(
+        queryset=None,
+        widget=forms.CheckboxSelectMultiple
+    )
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')

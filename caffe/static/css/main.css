@@ -827,19 +827,20 @@ input, select {
   width: 100%; }
   .form input[type=text]:hover, .element-form input[type=text]:hover, .stencil-report-form input[type=text]:hover, .form input[type=text]:active, .element-form input[type=text]:active, .stencil-report-form input[type=text]:active, .form input[type=text]:focus, .element-form input[type=text]:focus, .stencil-report-form input[type=text]:focus, .form input[type=number]:hover, .element-form input[type=number]:hover, .stencil-report-form input[type=number]:hover, .form input[type=number]:active, .element-form input[type=number]:active, .stencil-report-form input[type=number]:active, .form input[type=number]:focus, .element-form input[type=number]:focus, .stencil-report-form input[type=number]:focus, .form textarea:hover, .element-form textarea:hover, .stencil-report-form textarea:hover, .form textarea:active, .element-form textarea:active, .stencil-report-form textarea:active, .form textarea:focus, .element-form textarea:focus, .stencil-report-form textarea:focus {
     border-color: #98c4fe; }
-.form input[type=checkbox], .element-form input[type=checkbox], .stencil-report-form input[type=checkbox] {
-  outline: initial !important;
-  -webkit-appearance: checkbox !important;
-  -moz-appearance: checkbox !important;
-  appearance: checkbox !important; }
 .form textarea, .element-form textarea, .stencil-report-form textarea {
   -moz-transition: all 0.1s;
   -o-transition: all 0.1s;
   -webkit-transition: all 0.1s;
   transition: all 0.1s;
+  font-size: 0.85em;
   min-height: 50px;
   height: 150px;
   max-width: 100%; }
+.form input[type=checkbox], .element-form input[type=checkbox], .stencil-report-form input[type=checkbox] {
+  outline: initial !important;
+  -webkit-appearance: checkbox !important;
+  -moz-appearance: checkbox !important;
+  appearance: checkbox !important; }
 .form .select-wrapper::after, .element-form .select-wrapper::after, .stencil-report-form .select-wrapper::after {
   content: "";
   display: inline-block;
@@ -924,22 +925,22 @@ input, select {
       margin-bottom: 0;
       max-width: 150px; }
 
-.display-report .button, .show-report .button, .stencils-new-report .button {
+.display-report .button, .show-report .button, .stencils-new-report .button, .show-stencil .button {
   display: table;
   margin: 0px auto 60px auto; }
-.display-report .categories, .show-report .categories, .stencils-new-report .categories {
+.display-report .categories, .show-report .categories, .stencils-new-report .categories, .show-stencil .categories {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   flex-flow: row wrap; }
-  .display-report .categories .category, .show-report .categories .category, .stencils-new-report .categories .category {
+  .display-report .categories .category, .show-report .categories .category, .stencils-new-report .categories .category, .show-stencil .categories .category {
     padding: 1rem;
     padding-top: 0;
     margin: 30px 20px;
     border: 3px solid #000000;
     width: 430px;
     height: 100%; }
-    .display-report .categories .category .category-name, .show-report .categories .category .category-name, .stencils-new-report .categories .category .category-name {
+    .display-report .categories .category .category-name, .show-report .categories .category .category-name, .stencils-new-report .categories .category .category-name, .show-stencil .categories .category .category-name {
       font-family: "Fjord One", sans-serif;
       font-size: 1.7rem;
       font-weight: 400;
@@ -948,27 +949,27 @@ input, select {
       letter-spacing: 0.1em;
       line-height: 1.8em;
       text-align: center; }
-    .display-report .categories .category .products, .show-report .categories .category .products, .stencils-new-report .categories .category .products {
+    .display-report .categories .category .products, .show-report .categories .category .products, .stencils-new-report .categories .category .products, .show-stencil .categories .category .products {
       display: block; }
-      .display-report .categories .category .products .product, .show-report .categories .category .products .product, .stencils-new-report .categories .category .products .product {
+      .display-report .categories .category .products .product, .show-report .categories .category .products .product, .stencils-new-report .categories .category .products .product, .show-stencil .categories .category .products .product {
         display: flex;
         font-size: 1.1rem;
         font-weight: 100;
         margin: 20px 0;
         align-items: center; }
-        .display-report .categories .category .products .product::before, .show-report .categories .category .products .product::before, .stencils-new-report .categories .category .products .product::before {
+        .display-report .categories .category .products .product::before, .show-report .categories .category .products .product::before, .stencils-new-report .categories .category .products .product::before, .show-stencil .categories .category .products .product::before {
           content: "";
           display: inline; }
-        .display-report .categories .category .products .product .name, .show-report .categories .category .products .product .name, .stencils-new-report .categories .category .products .product .name, .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount, .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit {
+        .display-report .categories .category .products .product .name, .show-report .categories .category .products .product .name, .stencils-new-report .categories .category .products .product .name, .show-stencil .categories .category .products .product .name, .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount, .show-stencil .categories .category .products .product .amount, .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit, .show-stencil .categories .category .products .product .unit {
           display: inline-block; }
-        .display-report .categories .category .products .product .name, .show-report .categories .category .products .product .name, .stencils-new-report .categories .category .products .product .name {
+        .display-report .categories .category .products .product .name, .show-report .categories .category .products .product .name, .stencils-new-report .categories .category .products .product .name, .show-stencil .categories .category .products .product .name {
           flex: 2;
           font-weight: 600; }
-        .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount, .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit {
+        .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount, .show-stencil .categories .category .products .product .amount, .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit, .show-stencil .categories .category .products .product .unit {
           flex: 1; }
-        .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount {
+        .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount, .show-stencil .categories .category .products .product .amount {
           text-align: center; }
-        .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit {
+        .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit, .show-stencil .categories .category .products .product .unit {
           font-family: "Circular", sans-serif;
           font-weight: 100;
           text-align: right; }
@@ -1072,6 +1073,27 @@ input, select {
       .employees-container .employee .login:hover {
         color: #adb6ff; }
 
+.stencil-meta, .stencils-container .stencil .stencil-meta {
+  display: block;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 1.7rem;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 15px;
+  letter-spacing: 0.05em; }
+  .stencil-meta .name, .stencils-container .stencil .stencil-meta .name {
+    display: block;
+    padding: 10px;
+    margin-bottom: 5px;
+    line-height: normal;
+    font-weight: 900; }
+  .stencil-meta .description, .stencils-container .stencil .stencil-meta .description {
+    display: block;
+    font-size: 0.64em;
+    font-weight: 200;
+    line-height: normal;
+    margin-bottom: 35px; }
+
 .stencils-new-report {
   display: block;
   margin: 0 auto;
@@ -1079,15 +1101,6 @@ input, select {
   .stencils-new-report .button {
     display: table !important;
     margin: 50px auto 60px auto !important; }
-  .stencils-new-report .stencil-name {
-    display: block;
-    font-family: "Helvetica Neue", sans-serif;
-    font-size: 2rem;
-    font-weight: 700;
-    padding: 10px;
-    margin-bottom: 10px;
-    line-height: 1.5em;
-    text-align: center; }
   .stencils-new-report .category {
     width: 480px !important; }
   .stencils-new-report .product .name {
@@ -1134,11 +1147,34 @@ input, select {
     margin: 20px;
     border: 2px solid #dedede;
     width: 420px;
-    height: 150px; }
-    .stencils-container .stencil .meta {
-      font-size: 1.2em;
-      text-align: center; }
+    height: 100%; }
+    .stencils-container .stencil .stencil-meta {
+      font-size: 1.5rem; }
     .stencils-container .stencil .buttons {
       display: flex;
       align-items: center;
       justify-content: space-around; }
+
+.show-stencil {
+  display: block;
+  margin: 0 auto;
+  margin-top: 60px; }
+  .show-stencil .meta {
+    display: block;
+    font-size: 1.7rem;
+    text-align: center;
+    width: 70%;
+    margin: 0 auto;
+    margin-bottom: 15px; }
+    .show-stencil .meta .name {
+      display: block;
+      padding: 10px;
+      margin-bottom: 5px;
+      line-height: normal;
+      font-weight: 700; }
+    .show-stencil .meta .description {
+      display: block;
+      font-size: 0.65em;
+      font-weight: 100;
+      line-height: normal;
+      margin-bottom: 35px; }

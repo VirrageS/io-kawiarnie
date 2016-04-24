@@ -18,13 +18,17 @@ Szablony
   <div class="stencils-container">
     {% for stencil in stencils %}
       <div class="stencil">
-        <a href="{% url 'stencils_show_stencil' stencil.id %}" class="meta">
-          {{ stencil.name }}
-          <br>
+        <div class="stencil-meta">
+          <a href="{% url 'stencils_show_stencil' stencil.id %}" class="name">
+            {{ stencil.name }}
+          </a>
+
           {% if stencil.description %}
-            {{ stencil.description }}
+            <a href="{% url 'stencils_show_stencil' stencil.id %}" class="description">
+                {{ stencil.description }}
+            </a>
           {% endif %}
-        </a>
+        </div>
 
         <div class="buttons">
           <a href="{% url 'stencils_show_stencil' stencil.id %}" class="button button-rounded button-blue button-with-icon">

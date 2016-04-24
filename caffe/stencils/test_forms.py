@@ -12,7 +12,7 @@ class StencilFormTest(TestCase):
     """Tests Stencil form."""
 
     def setUp(self):
-        """Initializes all Categories needed for further tests."""
+        """Initialize all Categories needed for further tests."""
 
         self.caffees = Category.objects.create(name='Kawy')
         self.cakes = Category.objects.create(name='Ciasta')

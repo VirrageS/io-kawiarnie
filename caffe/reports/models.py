@@ -73,7 +73,7 @@ class FullProduct(models.Model):
 
     Intended to be used once, only in one report.
     """
-    
+
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     amount = models.FloatField(validators=[MinValueValidator(0)])
     report = models.ForeignKey(

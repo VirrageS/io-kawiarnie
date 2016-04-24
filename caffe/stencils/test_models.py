@@ -10,7 +10,7 @@ class StencilModelTest(TestCase):
     """Test for Stencil model."""
 
     def setUp(self):
-        """Initializes all categories needed in tests."""
+        """Initialize all categories needed in tests."""
 
         self.caffees = Category.objects.create(name='Kawy')
         self.cakes = Category.objects.create(name='Ciasta')

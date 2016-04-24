@@ -13,7 +13,7 @@ class CategoryViewsTests(TestCase):
     """Test all views of the Category model."""
 
     def setUp(self):
-        """Initializes all categories needed in tests."""
+        """Initialize all categories needed in tests."""
 
         self.client = Client()
 
@@ -29,7 +29,6 @@ class CategoryViewsTests(TestCase):
 
         # check context
         self.assertIsInstance(response.context['form'], CategoryForm)
-
         self.assertEqual(len(response.context['context']), 1)
         self.assertEqual(
             response.context['context']['title'],
@@ -171,7 +170,7 @@ class UnitViewsTests(TestCase):
     """Test all views of the Unit model."""
 
     def setUp(self):
-        """Initializes all units needed in tests."""
+        """Initialize all units needed in tests."""
 
         self.client = Client()
 
@@ -187,7 +186,6 @@ class UnitViewsTests(TestCase):
 
         # check context
         self.assertIsInstance(response.context['form'], UnitForm)
-
         self.assertEqual(len(response.context['context']), 1)
         self.assertEqual(
             response.context['context']['title'],
@@ -326,7 +324,7 @@ class ProductViewsTests(TestCase):
     """Test all views of the Product model."""
 
     def setUp(self):
-        """Initializes all elements needed in tests."""
+        """Initialize all elements needed in tests."""
 
         self.client = Client()
 
@@ -341,7 +339,6 @@ class ProductViewsTests(TestCase):
             category=self.caffees,
             unit=self.grams
         )
-
         self.cake = Product.objects.create(
             name='Szarlotka',
             category=self.cakes,
@@ -507,7 +504,7 @@ class FullProductViewsTests(TestCase):
     """Test all views of the FullProduct model."""
 
     def setUp(self):
-        """Initializes all elements needed in tests."""
+        """Initialize all elements needed in tests."""
 
         self.client = Client()
 
@@ -522,7 +519,6 @@ class FullProductViewsTests(TestCase):
             category=self.caffees,
             unit=self.grams
         )
-
         self.cake = Product.objects.create(
             name='Szarlotka',
             category=self.cakes,
@@ -533,7 +529,6 @@ class FullProductViewsTests(TestCase):
             product=self.caffee,
             amount=50
         )
-
         self.cake_full = FullProduct.objects.create(
             product=self.cake,
             amount=10
@@ -721,7 +716,7 @@ class ReportViewsTests(TestCase):
     """Test all views of the Report model."""
 
     def setUp(self):
-        """Initializes all elements needed in tests."""
+        """Initialize all elements needed in tests."""
 
         self.client = Client()
 
@@ -747,17 +742,14 @@ class ReportViewsTests(TestCase):
             product=self.caffee,
             amount=50
         )
-
         self.caffee_full_second = FullProduct.objects.create(
             product=self.caffee,
             amount=40
         )
-
         self.cake_full = FullProduct.objects.create(
             product=self.cake,
             amount=10
         )
-
         self.cake_full_second = FullProduct.objects.create(
             product=self.cake,
             amount=50
@@ -807,12 +799,10 @@ class ReportViewsTests(TestCase):
                     )
                 ]
             )
-
             self.assertIn(
                 element['id'],
                 [self.minor_report.id, self.major_report.id]
             )
-
             self.assertIn(
                 element['desc'],
                 [str(self.minor_report), str(self.major_report)]

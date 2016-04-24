@@ -9,8 +9,7 @@ from .models import Category, FullProduct, Product, Report, Unit
 
 
 def reports_new_category(request):
-    """Show form to create new Category and show already existing Categories.
-    """
+    """Show form to create new Category and show existing Categories."""
 
     elements = []
     form = CategoryForm()
@@ -169,9 +168,7 @@ def reports_edit_product(request, product_id):
 
 
 def reports_new_fullproduct(request):
-    """Show form to create new FullProduct and show already
-    existing FullProducts.
-    """
+    """Show form to create new FullProduct and show existing FullProducts."""
 
     elements = []
     form = FullProductForm()

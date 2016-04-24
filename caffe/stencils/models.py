@@ -4,8 +4,7 @@ from reports.models import Category
 
 
 class Stencil(models.Model):
-    """Stores template of Report which can be used to create Reports in faster
-    manner.
+    """Stores template of Report which can be used to create Reports faster.
 
     Attributes:
         name (str): Name for given Stencil.

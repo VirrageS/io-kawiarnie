@@ -8,7 +8,7 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def active(context, pattern_or_urlname):
-    """Checks if pattern matches in URL.
+    """Check if pattern matches in URL.
 
     Args:
         context (str): Context which has to be checked.
@@ -29,6 +29,6 @@ def active(context, pattern_or_urlname):
 
 @register.filter(name='field_type')
 def field_type(field):
-    """Gets field type from field."""
+    """Get field type from field."""
 
     return field.field.widget.__class__.__name__

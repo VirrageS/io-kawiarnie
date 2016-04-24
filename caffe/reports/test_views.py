@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# pylint: disable=C0103,R0902
 
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
@@ -767,7 +768,7 @@ class ReportViewsTests(TestCase):
         self.cake_full.save()
 
     def test_new_report_show(self):
-        """Check if new report view is displayed properly"""
+        """Check if new report view is displayed properly."""
 
         response = self.client.get(reverse('reports_new_report'))
         self.assertEqual(response.status_code, 200)
@@ -828,7 +829,7 @@ class ReportViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
     def test_new_report_post_success(self):
-        """Check if new report successes to create"""
+        """Check if new report successes to create."""
 
         response = self.client.post(
             reverse('reports_new_report'),
@@ -853,7 +854,7 @@ class ReportViewsTests(TestCase):
         self.assertTrue(new_report.created_on < timezone.now())
 
     def test_edit_report_show(self):
-        """Check if edit report is displayed properly"""
+        """Check if edit report is displayed properly."""
 
         response = self.client.get(
             reverse('reports_edit_report', args=(self.major_report.id,))
@@ -894,7 +895,7 @@ class ReportViewsTests(TestCase):
                 reverse('reports_edit_report', args=(_id,))
 
     def test_edit_report_post_fail(self):
-        """Check if edit report fails to edit"""
+        """Check if edit report fails to edit."""
 
         response = self.client.post(
             reverse('reports_edit_report', args=(self.major_report.id,)),
@@ -913,7 +914,7 @@ class ReportViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/edit_element.html')
 
     def test_edit_report_post_success(self):
-        """Check if edit report successes to edit"""
+        """Check if edit report successes to edit."""
 
         response = self.client.post(
             reverse('reports_edit_report', args=(self.caffee_full_second.id,)),
@@ -936,7 +937,7 @@ class ReportViewsTests(TestCase):
         self.assertEqual(len(response.context['elements']), 2)
 
     def test_create_report(self):
-        """Check if create report view is displayed properly"""
+        """Check if create report view is displayed properly."""
 
         response = self.client.get(reverse('reports_create'))
 
@@ -955,7 +956,7 @@ class ReportViewsTests(TestCase):
         self.assertListEqual(list(response.context['reports']), list(reports))
 
     def test_show_report_show(self):
-        """Check if show report view actually shows report"""
+        """Check if show report view actually shows report."""
 
         response = self.client.get(
             reverse('reports_show_report', args=(self.major_report.id,))

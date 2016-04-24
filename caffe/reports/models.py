@@ -18,6 +18,7 @@ class Report(models.Model):
 
     Date of creation is set automatically.
     """
+
     created_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -30,6 +31,7 @@ class Category(models.Model):
 
     Intended to be created once and then to reuse it in future reports.
     """
+
     name = models.CharField(max_length=100, unique=True,)
 
     def __str__(self):
@@ -43,6 +45,7 @@ class Product(models.Model):
     Intended to be created once and then to reuse it in future reports.
     Unit specifies how the amount of product is counted.
     """
+
     name = models.CharField(max_length=100, unique=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE)
@@ -57,6 +60,7 @@ class Unit(models.Model):
 
     Intended to be created once and then to reuse it in future reports.
     """
+
     name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
@@ -69,6 +73,7 @@ class FullProduct(models.Model):
 
     Intended to be used once, only in one report.
     """
+    
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     amount = models.FloatField(validators=[MinValueValidator(0)])
     report = models.ForeignKey(

@@ -1,3 +1,4 @@
+"""reports forms tests module"""
 # -*- encoding: utf-8 -*-
 
 from django.test import TestCase
@@ -8,8 +9,10 @@ from .forms import FullProductForm, ReportForm
 
 
 class CategoryFormTest(TestCase):
+    """tests of CategoryForm"""
 
     def test_category(self):
+        """checks validation"""
         form_incorrect = CategoryForm({
             'name': ''
         })
@@ -36,8 +39,10 @@ class CategoryFormTest(TestCase):
 
 
 class FullProductFormTest(TestCase):
-
+    """FullProductForm tests"""
     def setUp(self):
+        """initialize data for furthers FullProductForm tests"""
+
         first_cat = Category.objects.create(name="first")
         second_cat = Category.objects.create(name="second")
 
@@ -57,30 +62,32 @@ class FullProductFormTest(TestCase):
         )
 
     def test_full_product(self):
-        p1 = Product.objects.get(name="product1")
-        p2 = Product.objects.get(name="product2")
+        """checks validation and adding/deleting products"""
+        product1 = Product.objects.get(name="product1")
+        product2 = Product.objects.get(name="product2")
 
         form_correct = FullProductForm({
-            'product': p1.id,
+            'product': product1.id,
             'amount': 10
         })
 
         self.assertTrue(form_correct.is_valid())
 
         form_correct = FullProductForm({
-            'product': p2.id,
+            'product': product2.id,
             'amount': 10000000
         })
 
         self.assertTrue(form_correct.is_valid())
 
-        p2.delete()
+        product2.delete()
 
         form_incorrect = FullProductForm({
-            'product': p2.id,
+            'product': product2.id,
             'amount': 10
         })
 
+        # should not pass with deleted product
         self.assertFalse(form_incorrect.is_valid())
 
         form_incorrect = FullProductForm({
@@ -90,20 +97,12 @@ class FullProductFormTest(TestCase):
 
         self.assertFalse(form_incorrect.is_valid())
 
-        '''
         form_incorrect = FullProductForm({
-            'product':'1',
-            'amount':10
-        })
-
-        self.assertFalse(form_incorrect.is_valid())
-        '''
-
-        form_incorrect = FullProductForm({
-            'product': p1.id,
+            'product': product1.id,
             'amount': -10
         })
 
+        # amount should not be negative
         self.assertFalse(form_incorrect.is_valid())
 
         form_incorrect = FullProductForm({
@@ -117,13 +116,15 @@ class FullProductFormTest(TestCase):
             'amount': 100
         })
 
+        # not existing product id
         self.assertFalse(form_incorrect.is_valid())
 
 
 class UnitFormTest(TestCase):
+    """UnitForm tets"""
 
     def test_unit_form(self):
-
+        """validation tests"""
         form_correct = UnitForm({
             "name": "correct"
         })
@@ -134,6 +135,7 @@ class UnitFormTest(TestCase):
             'no_such': 'field'
         })
 
+        # should not pass with not-existent
         self.assertFalse(form_incorrect.is_valid())
 
         form_correct = UnitForm({
@@ -146,10 +148,12 @@ class UnitFormTest(TestCase):
             'name': 'This.is.correct123!@#$%"^&"*():?>M'
         })
 
+        # should pass with ascii characters
         self.assertTrue(form_correct.is_valid())
 
 
 class ProductFormTest(TestCase):
+    """ProductForm tests"""
 
     def setUp(self):
         Category.objects.create(name="first")
@@ -159,6 +163,8 @@ class ProductFormTest(TestCase):
         Unit.objects.create(name="liter")
 
     def test_product_form(self):
+        """checks validation"""
+
         first_cat = Category.objects.get(name="first")
         second_cat = Category.objects.get(name="second")
 
@@ -183,13 +189,14 @@ class ProductFormTest(TestCase):
 
         form_incorrect = ProductForm({
             'name': "This is to long name!@dg#d!%#@fd%$f1c@%!#$!"
-            "#!@$#@%@#%$@%!#FaSDCARADASFVXT#Q%#$@!$!@$"
+                    "#!@$#@%@#%$@%!#FaSDCARADASFVXT#Q%#$@!$!@$"
                     "#FWB THRYu%#$^u6uyj6#$Tga5%@4rFEtwGEQWEFZ"
                     "eQEQWvgrtuT(;p8O8olkTU8Uyhdasa213r63634e5",
             'category': second_cat.id,
             'unit': liter.id
         })
 
+        # too long name
         self.assertFalse(form_incorrect.is_valid())
 
         form_incorrect = ProductForm({
@@ -238,56 +245,58 @@ class ProductFormTest(TestCase):
 
 
 class ReportFormTest(TestCase):
-
+    """ReportForm tests"""
     def setUp(self):
+        """categories, products, units, fullproducts init"""
         first_cat = Category.objects.create(name="first")
         second_cat = Category.objects.create(name="second")
 
         gram = Unit.objects.create(name="gram")
         liter = Unit.objects.create(name="liter")
 
-        p1 = Product.objects.create(
+        product1 = Product.objects.create(
             name="product1",
             category=first_cat,
             unit=gram
         )
-        p2 = Product.objects.create(
+        product2 = Product.objects.create(
             name="product2",
             category=first_cat,
             unit=liter
         )
-        p3 = Product.objects.create(
+        product3 = Product.objects.create(
             name="product3",
             category=second_cat,
             unit=gram
         )
-        p4 = Product.objects.create(
+        product4 = Product.objects.create(
             name="product4",
             category=second_cat,
             unit=liter
         )
 
         FullProduct.objects.create(
-            product=p1,
+            product=product1,
             amount=10
         )
 
         FullProduct.objects.create(
-            product=p2,
+            product=product2,
             amount=100
         )
 
         FullProduct.objects.create(
-            product=p3,
+            product=product3,
             amount=0
         )
 
         FullProduct.objects.create(
-            product=p4,
+            product=product4,
             amount=1000
         )
 
     def test_report(self):
+        """checks validation"""
         all_fp = [x.id for x in FullProduct.objects.all()]
         form_correct = ReportForm({
             'full_products': all_fp
@@ -295,9 +304,9 @@ class ReportFormTest(TestCase):
 
         self.assertTrue(form_correct.is_valid())
 
-        p1 = Product.objects.get(name="product1")
+        product1 = Product.objects.get(name="product1")
         fp5 = FullProduct.objects.create(
-            product=p1,
+            product=product1,
             amount=10
         )
 

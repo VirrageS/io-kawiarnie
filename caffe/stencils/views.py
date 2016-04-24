@@ -1,11 +1,12 @@
+"""stencils views module"""
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 
-from reports.models import Product, Report, FullProduct
+from reports.models import Product, Report
+from reports.forms import FullProductForm
 
 from .forms import StencilForm
 from .models import Stencil
-from reports.forms import FullProductForm
 
 
 def stencils_new_stencil(request):
@@ -97,12 +98,14 @@ def stencils_new_report(request, stencil_id):
         })
 
     if request.POST:
+        full_products = request.POST
         forms = []
 
-        for full_product in request.POST:
-            # csrf ignore
+        for full_product in full_products:
+            # csrf token ignore
             if full_product == 'csrfmiddlewaretoken':
                 continue
+
 
             fp_list = full_products.getlist(full_product)
             form = FullProductForm({
@@ -122,9 +125,9 @@ def stencils_new_report(request, stencil_id):
             report = Report.objects.create()
 
             for form in forms:
-                fp = form.save()
-                fp.report = report
-                fp.save()
+                full_product = form.save()
+                full_product.report = report
+                full_product.save()
 
             report.save()
 
@@ -135,8 +138,10 @@ def stencils_new_report(request, stencil_id):
 
 
 def stencils_edit_report(request, report_id):
+    """renders reports edit"""
     return render(request, 'stencils/edit_report.html')
 
 
 def stencils_create(request):
+    """renders stencil create"""
     return render(request, 'stencils/create_stencil.html')

@@ -9,6 +9,7 @@ from reports.forms import FullProductForm
 
 
 def stencils_new_stencil(request):
+    """creates new stencil with given categories"""
     final_stencils = []
     form = StencilForm()
 
@@ -35,6 +36,7 @@ def stencils_new_stencil(request):
 
 
 def stencils_edit_stencil(request, stencil_id):
+    """edits already existing stencil with stencil_id"""
     stencil = get_object_or_404(Stencil, id=stencil_id)
     form = StencilForm(request.POST or None, instance=stencil)
 
@@ -49,6 +51,7 @@ def stencils_edit_stencil(request, stencil_id):
 
 
 def stencils_show_stencil(request, stencil_id):
+    """shows stencil with stencil_id"""
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.all()
 
@@ -59,6 +62,7 @@ def stencils_show_stencil(request, stencil_id):
 
 
 def stencils_show_all_stencils(request):
+    """shows all existing stencils"""
     stencils = Stencil.objects.all()
     return render(request, 'stencils/show_all_stencils.html', {
         'stencils': stencils
@@ -93,10 +97,9 @@ def stencils_new_report(request, stencil_id):
         })
 
     if request.POST:
-        full_products = request.POST
         forms = []
 
-        for full_product in full_products:
+        for full_product in request.POST:
             # csrf ignore
             if full_product == 'csrfmiddlewaretoken':
                 continue

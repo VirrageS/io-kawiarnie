@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^create/$', stencils_create, name='stencils_create'),
+    url(r'^show/all/$',
+        stencils_show_all_stencils, name='stencils_show_all_stencils'),
     url(r'^show/(?P<stencil_id>\d{0,17})/$',
         stencils_show_stencil, name='stencils_show_stencil'),
 
@@ -17,9 +19,8 @@ urlpatterns = [
     url(r'^edit/stencil/(?P<stencil_id>\d{0,17})/$',
         stencils_edit_stencil, name='stencils_edit_stencil'),
 
-    url(r'^show/all/$',
-        stencils_show_all_stencils, name='stencils_show_all_stencils'),
-    url(r'^new/report/(?P<stencil_id>\d{0,17})/$', stencils_new_report, name='stencils_new_report'),
+    url(r'^new/report/(?P<stencil_id>\d{0,17})/$',
+        stencils_new_report, name='stencils_new_report'),
     url(r'^edit/report/(?P<report_id>\d{0,17})/$',
         stencils_edit_report, name='stencils_edit_report'),
 ]

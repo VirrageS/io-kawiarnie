@@ -9,6 +9,9 @@ from .models import Category, FullProduct, Product, Report, Unit
 
 
 def reports_new_category(request):
+    """Show form to create new Category and show already existing Categories.
+    """
+
     elements = []
     form = CategoryForm()
 
@@ -37,6 +40,12 @@ def reports_new_category(request):
 
 
 def reports_edit_category(request, category_id):
+    """Show form to edit Category.
+
+    Args:
+        category_id (int): Id of Category which is edited.
+    """
+
     category = get_object_or_404(Category, id=category_id)
     form = CategoryForm(request.POST or None, instance=category)
 
@@ -54,6 +63,8 @@ def reports_edit_category(request, category_id):
 
 
 def reports_new_unit(request):
+    """Show form to create new Unit and show already existing Units."""
+
     elements = []
     form = UnitForm()
 
@@ -82,6 +93,12 @@ def reports_new_unit(request):
 
 
 def reports_edit_unit(request, unit_id):
+    """Show form to edit Unit.
+
+    Args:
+        unit_id (int): Id of Unit which is edited.
+    """
+
     unit = get_object_or_404(Unit, id=unit_id)
     form = UnitForm(request.POST or None, instance=unit)
 
@@ -99,6 +116,8 @@ def reports_edit_unit(request, unit_id):
 
 
 def reports_new_product(request):
+    """Show form to create new Product and show already existing Products."""
+
     elements = []
     form = ProductForm()
 
@@ -127,6 +146,12 @@ def reports_new_product(request):
 
 
 def reports_edit_product(request, product_id):
+    """Show form to edit Product.
+
+    Args:
+        product_id (int): Id of Product which is edited.
+    """
+
     product = get_object_or_404(Product, id=product_id)
     form = ProductForm(request.POST or None, instance=product)
 
@@ -144,6 +169,10 @@ def reports_edit_product(request, product_id):
 
 
 def reports_new_fullproduct(request):
+    """Show form to create new FullProduct and show already
+    existing FullProducts.
+    """
+
     elements = []
     form = FullProductForm()
 
@@ -179,6 +208,12 @@ def reports_new_fullproduct(request):
 
 
 def reports_edit_fullproduct(request, fullproduct_id):
+    """Show form to edit FullProduct.
+
+    Args:
+        fullproduct_id (int): Id of FullProduct which is edited.
+    """
+
     fullproduct = get_object_or_404(FullProduct, id=fullproduct_id)
     form = FullProductForm(request.POST or None, instance=fullproduct)
 
@@ -201,6 +236,8 @@ def reports_edit_fullproduct(request, fullproduct_id):
 
 
 def reports_new_report(request):
+    """Show form to create new Report and show already existing Report."""
+
     elements = []
     form = ReportForm()
 
@@ -233,6 +270,12 @@ def reports_new_report(request):
 
 
 def reports_edit_report(request, report_id):
+    """Show form to edit Report.
+
+    Args:
+        report_id (int): Id of Report which is edited.
+    """
+
     report = get_object_or_404(Report, id=report_id)
     form = ReportForm(request.POST or None, instance=report)
 
@@ -261,16 +304,13 @@ def reports_edit_report(request, report_id):
     })
 
 
-def reports_create(request):
-    return render(request, 'reports/create_report.html')
-
-
-def reports_show_all_reports(request):
-    reports = Report.objects.all()
-    return render(request, 'reports/all.html', {'reports': reports})
-
-
 def reports_show_report(request, report_id):
+    """Show Report with all Categories, Products, Units and FullProducts.
+
+    Args:
+        report_id (int): Id of Report which have to be shown.
+    """
+
     report = get_object_or_404(Report, id=report_id)
 
     all_categories = {}
@@ -295,3 +335,16 @@ def reports_show_report(request, report_id):
         'report': report,
         'categories': all_categories
     })
+
+
+def reports_create(request):
+    """Show navigation view for reports."""
+
+    return render(request, 'reports/create_report.html')
+
+
+def reports_show_all_reports(request):
+    """Show all existing Reports."""
+
+    reports = Report.objects.all()
+    return render(request, 'reports/all.html', {'reports': reports})

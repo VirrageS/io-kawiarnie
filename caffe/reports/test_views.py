@@ -10,9 +10,11 @@ from .models import Category, FullProduct, Product, Report, Unit
 
 
 class CategoryViewsTests(TestCase):
-    """Tests all views for Category model."""
+    """Test all views of the Category model."""
 
     def setUp(self):
+        """Initializes all categories needed in tests."""
+
         self.client = Client()
 
         self.caffees = Category.objects.create(name='Kawy')
@@ -166,9 +168,11 @@ class CategoryViewsTests(TestCase):
 
 
 class UnitViewsTests(TestCase):
-    """Tests all views for Unit model."""
+    """Test all views of the Unit model."""
 
     def setUp(self):
+        """Initializes all units needed in tests."""
+
         self.client = Client()
 
         self.money = Unit.objects.create(name=u'złotówki')
@@ -319,9 +323,11 @@ class UnitViewsTests(TestCase):
 
 
 class ProductViewsTests(TestCase):
-    """Tests all views for Product model."""
+    """Test all views of the Product model."""
 
     def setUp(self):
+        """Initializes all elements needed in tests."""
+
         self.client = Client()
 
         self.grams = Unit.objects.create(name=u'gramy')
@@ -498,9 +504,11 @@ class ProductViewsTests(TestCase):
 
 
 class FullProductViewsTests(TestCase):
-    """Tests all views for FullProduct model."""
+    """Test all views of the FullProduct model."""
 
     def setUp(self):
+        """Initializes all elements needed in tests."""
+
         self.client = Client()
 
         self.grams = Unit.objects.create(name=u'gramy')
@@ -710,9 +718,11 @@ class FullProductViewsTests(TestCase):
 
 
 class ReportViewsTests(TestCase):
-    """Tests all views for Report model."""
+    """Test all views of the Report model."""
 
     def setUp(self):
+        """Initializes all elements needed in tests."""
+
         self.client = Client()
 
         self.grams = Unit.objects.create(name=u'gramy')

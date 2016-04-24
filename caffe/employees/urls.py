@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.conf.urls import url
 from django.contrib import admin
 
 from employees.views import employees_login_employee, employees_logout_employee

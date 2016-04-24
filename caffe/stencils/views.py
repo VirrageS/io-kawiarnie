@@ -8,6 +8,8 @@ from .models import Stencil
 
 
 def stencils_new_stencil(request):
+    """Show form to create new stencil and show existing stencils."""
+
     final_stencils = []
     form = StencilForm()
 

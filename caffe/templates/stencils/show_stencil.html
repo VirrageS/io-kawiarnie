@@ -5,12 +5,15 @@ Szablon
 {% endblock %}
 
 {% block content %}
-<div class="show-report">
-  <div class="date">
-    <b>{{ stencil.name }}</b>
-    <br>
+<div class="show-stencil">
+  <div class="stencil-meta">
+    <div class="name">
+      {{ stencil.name }}
+    </div>
     {% if stencil.description %}
-      {{ stencil.description }}
+      <div class="description">
+        {{ stencil.description }}
+      </div>
     {% endif %}
   </div>
 

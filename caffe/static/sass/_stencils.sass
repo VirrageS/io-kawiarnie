@@ -1,23 +1,35 @@
+.stencil-meta
+  display: block
+  font-family: "Helvetica Neue", sans-serif
+  font-size: 1.7rem
+  text-align: center
+  margin: 0 auto
+  margin-bottom: 15px
+  letter-spacing: 0.05em
+
+  .name
+    display: block
+    padding: 10px
+    margin-bottom: 5px
+    line-height: normal
+    font-weight: 900
+
+  .description
+    display: block
+    font-size: 0.64em
+    font-weight: 200
+    line-height: normal
+    margin-bottom: 35px
+
 .stencils-new-report
   @extend .display-report
   display: block
   margin: 0 auto
   margin-top: 60px
 
-
   .button
     display: table !important
     margin: 50px auto 60px auto !important
-
-  .stencil-name
-    display: block
-    font-family: "Helvetica Neue", sans-serif
-    font-size: 2rem
-    font-weight: 700
-    padding: 10px
-    margin-bottom: 10px
-    line-height: 1.5em
-    text-align: center
 
   .category
     width: 480px !important
@@ -72,13 +84,43 @@
     margin: 20px
     border: 2px solid #dedede
     width: 420px
-    height: 150px
+    height: 100%
 
-    .meta
-      font-size: 1.2em
-      text-align: center
+    .stencil-meta
+      @extend .stencil-meta
+      font-size: 1.5rem
 
     .buttons
       display: flex
       align-items: center
       justify-content: space-around
+
+
+.show-stencil
+  @extend .display-report
+
+  display: block
+  margin: 0 auto
+  margin-top: 60px
+
+  .meta
+    display: block
+    font-size: 1.7rem
+    text-align: center
+    width: 70%
+    margin: 0 auto
+    margin-bottom: 15px
+
+    .name
+      display: block
+      padding: 10px
+      margin-bottom: 5px
+      line-height: normal
+      font-weight: 700
+
+    .description
+      display: block
+      font-size: 0.65em
+      font-weight: 100
+      line-height: normal
+      margin-bottom: 35px

@@ -76,8 +76,16 @@ Nowy raport
 </script>
 
 <div class="stencils-new-report">
-  <div class="stencil-name">
-    {{ stencil.name }}
+  <div class="stencil-meta">
+    <div class="name">
+      {{ stencil.name }}
+    </div>
+
+    {% if stencil.description %}
+      <div class="description">
+        {{ stencil.description }}
+      </div>
+    {% endif %}
   </div>
 
   <!-- <a href="{% url 'reports_edit_report' report.id %}" class="button button-rounded button-red">

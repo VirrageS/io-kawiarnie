@@ -5,6 +5,8 @@ uses:
   - django
 pylint:
   run: true
+  disable:
+    - C0111
 pep8:
   full: true
 pep257:

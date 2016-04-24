@@ -51,10 +51,10 @@ Teraz jesteśmy gotowi, aby odpalić serwer:
 
 Do testowania używamy `coverage`. Aby użyć tego narzędzia wystarczy wpisać.
 
-    (venv)$ coverage run --source="." --omit="*migrations*" manage.py test
+    (venv)$ coverage run --source="caffe" --omit="*migrations*, *venv*, *env*" caffe/manage.py test caffe
     (venv)$ coverage report
     (venv)$ coverage html
-    (venv)$ cd htmlcov; open index.html; cd ..;
+    (venv)$ open htmlcov/index.html
 
 
 1. W pierwszej linijce, na końcu możemy wyspecifkować jaką aplikację teraz

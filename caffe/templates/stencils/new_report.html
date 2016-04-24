@@ -93,7 +93,7 @@ Nowy raport
   </a> -->
 
   <form method="POST" class="stencil-report-form">
-    <!---{% csrf_token %} -->
+    {% csrf_token %}
 
     <div class="categories">
       {% for category in categories %}

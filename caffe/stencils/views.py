@@ -66,7 +66,6 @@ def stencils_show_all_stencils(request):
         'stencils': stencils
     })
 
-@csrf_exempt
 def stencils_new_report(request, stencil_id):
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.all()
@@ -91,10 +90,14 @@ def stencils_new_report(request, stencil_id):
 
     if request.POST:
         full_products = request.POST
-
         forms = []
 
         for full_product in full_products:
+            if full_product == 'csrfmiddlewaretoken':
+                continue
+
+            print(full_product)
+
             fp_list = full_products.getlist(full_product)
             form = FullProductForm({
                 'product': fp_list[0],
@@ -108,7 +111,6 @@ def stencils_new_report(request, stencil_id):
                 })
 
             forms.append(form)
-
 
         report = Report.objects.create()
 

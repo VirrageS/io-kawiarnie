@@ -30,8 +30,8 @@ class UnitModelTest(TestCase):
 
     def test_unit(self):
         u_gram = Unit.objects.get(name="gram")
-        u_liter = Unit.objects.get(name="liter")
         u_gram2 = Unit.objects.get(name="gram")
+        Unit.objects.get(name="liter")
 
         self.assertEqual(u_gram.id, u_gram2.id)
         self.assertRaises(Exception, Unit.objects.create, name="liter")
@@ -53,39 +53,38 @@ class ProductModelTest(TestCase):
         gram = Unit.objects.get(name="gram")
         liter = Unit.objects.get(name="liter")
 
-        p1 = Product.objects.create(
+        Product.objects.create(
             name="product1",
             category=first_cat,
             unit=gram
         )
-        p2 = Product.objects.create(
-            name="product2",
-            category=first_cat,
-            unit=liter
-        )
-        p3 = Product.objects.create(
-            name="product3",
-            category=second_cat,
-            unit=gram
-        )
-        p4 = Product.objects.create(
+        Product.objects.create(
             name="product4",
             category=second_cat,
             unit=liter
         )
-
+        p1 = Product.objects.create(
+            name="product2",
+            category=first_cat,
+            unit=liter
+        )
+        p2 = Product.objects.create(
+            name="product3",
+            category=second_cat,
+            unit=gram
+        )
         self.assertEqual(first_cat.product_set.count(), 2)
-        p2.delete()
+        p1.delete()
         self.assertEqual(first_cat.product_set.count(), 1)
-        p3.category = first_cat
-        p3.save()
+        p2.category = first_cat
+        p2.save()
         self.assertEqual(first_cat.product_set.count(), 2)
         self.assertEqual(second_cat.product_set.count(), 1)
-        p3.category = second_cat
-        p3.save()
+        p2.category = second_cat
+        p2.save()
 
         self.assertEqual(gram.product_set.count(), 2)
-        p3.delete()
+        p2.delete()
         self.assertEqual(gram.product_set.count(), 1)
 
         self.assertRaises(
@@ -141,22 +140,19 @@ class FullProductModelTest(TestCase):
             amount=10,
             report=r1
         )
-
         fp2 = FullProduct.objects.create(
             product=p2,
             amount=100,
             report=r1
         )
-
         fp3 = FullProduct.objects.create(
-            product=p3,
-            amount=0,
-            report=r2
-        )
-
-        fp4 = FullProduct.objects.create(
             product=p4,
             amount=1000,
+            report=r2
+        )
+        FullProduct.objects.create(
+            product=p3,
+            amount=0,
             report=r2
         )
 
@@ -165,7 +161,7 @@ class FullProductModelTest(TestCase):
         self.assertEqual(fp2.report.id, r1.id)
 
         self.assertEqual(r2.full_products.count(), 2)
-        fp4.delete()
+        fp3.delete()
         self.assertEqual(r2.full_products.count(), 1)
 
         self.assertEqual(r1.full_products.count(), 2)
@@ -210,34 +206,30 @@ class ReportModelTest(TestCase):
             unit=liter
         )
 
-        fp1 = FullProduct.objects.create(
+        FullProduct.objects.create(
             product=p1,
             amount=10,
             report=r1
-
         )
 
-        fp2 = FullProduct.objects.create(
+        FullProduct.objects.create(
             product=p2,
             amount=100,
             report=r2
         )
-
-        fp3 = FullProduct.objects.create(
+        FullProduct.objects.create(
             product=p3,
             amount=0,
             report=r3
         )
 
-        fp4 = FullProduct.objects.create(
+        FullProduct.objects.create(
             product=p4,
             amount=1000,
             report=r4
         )
 
-    def test_created_on(self):
-        now = timezone.now()
-        r1 = Report.objects.get(id=1)
+    def test_create(self):
         self.assertEqual(Report.objects.count(), 4)
 
     def test_doubles(self):
@@ -251,4 +243,6 @@ class ReportModelTest(TestCase):
             report=r1
         )
 
+        #should pass when two FullProducts of the same
+        #Product are not allowed in the same Report
         #self.assertRaises(Exception, fp.save)

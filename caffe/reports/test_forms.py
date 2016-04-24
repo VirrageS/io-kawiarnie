@@ -1,11 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 from django.test import TestCase
-from django.utils import timezone
-from django.db import transaction
-from django import forms
 
-from .models import Report, Category, Product, Unit, FullProduct
+from .models import Category, Product, Unit, FullProduct
 from .forms import CategoryForm, UnitForm, ProductForm
 from .forms import FullProductForm, ReportForm
 
@@ -270,22 +267,22 @@ class ReportFormTest(TestCase):
             unit=liter
         )
 
-        fp1 = FullProduct.objects.create(
+        FullProduct.objects.create(
             product=p1,
             amount=10
         )
 
-        fp2 = FullProduct.objects.create(
+        FullProduct.objects.create(
             product=p2,
             amount=100
         )
 
-        fp3 = FullProduct.objects.create(
+        FullProduct.objects.create(
             product=p3,
             amount=0
         )
 
-        fp4 = FullProduct.objects.create(
+        FullProduct.objects.create(
             product=p4,
             amount=1000
         )

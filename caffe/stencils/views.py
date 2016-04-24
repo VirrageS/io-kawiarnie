@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse
-from django import forms
 
 from reports.models import Product, Report, FullProduct
 
@@ -67,6 +65,11 @@ def stencils_show_all_stencils(request):
     })
 
 def stencils_new_report(request, stencil_id):
+    """creates new report from given stencil
+    validation is correct if FullProduct validation is and
+    report is not empty
+    """
+
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.all()
 
@@ -93,10 +96,9 @@ def stencils_new_report(request, stencil_id):
         forms = []
 
         for full_product in full_products:
+            #csrf ignore
             if full_product == 'csrfmiddlewaretoken':
                 continue
-
-            print(full_product)
 
             fp_list = full_products.getlist(full_product)
             form = FullProductForm({
@@ -112,14 +114,15 @@ def stencils_new_report(request, stencil_id):
 
             forms.append(form)
 
-        report = Report.objects.create()
+        if len(forms) > 0:
+            report = Report.objects.create()
 
-        for form in forms:
-            fp = form.save() 
-            fp.report = report
-            fp.save()
+            for form in forms:
+                fp = form.save() 
+                fp.report = report
+                fp.save()
 
-        report.save()
+            report.save()
 
     return render(request, 'stencils/new_report.html', {
         'stencil': stencil,

@@ -9,9 +9,10 @@
     FullProduct: a product with its quantity.
 """
 
-from django.db import models
 from django.core.validators import MinValueValidator
+from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+
 
 @python_2_unicode_compatible
 class Report(models.Model):

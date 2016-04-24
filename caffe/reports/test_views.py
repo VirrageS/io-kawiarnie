@@ -1,12 +1,12 @@
 # -*- encoding: utf-8 -*-
 
-from django.test import TestCase, Client
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.core.urlresolvers import NoReverseMatch, reverse
+from django.test import Client, TestCase
 from django.utils import timezone
 
-from .models import Report, Category, Product, Unit, FullProduct
-from .forms import CategoryForm, UnitForm, ProductForm
-from .forms import FullProductForm, ReportForm
+from .forms import (CategoryForm, FullProductForm, ProductForm, ReportForm,
+                    UnitForm)
+from .models import Category, FullProduct, Product, Report, Unit
 
 
 class CategoryViewsTests(TestCase):

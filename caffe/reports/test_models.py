@@ -3,7 +3,8 @@
 from django.test import TestCase
 from django.utils import timezone
 
-from .models import Report, Category, Product, Unit, FullProduct
+from .models import Category, FullProduct, Product, Report, Unit
+
 
 class CategoryModelTest(TestCase):
 

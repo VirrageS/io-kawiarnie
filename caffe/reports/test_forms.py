@@ -1,13 +1,13 @@
 # -*- encoding: utf-8 -*-
 
+from django import forms
+from django.db import transaction
 from django.test import TestCase
 from django.utils import timezone
-from django.db import transaction
-from django import forms
 
-from .models import Report, Category, Product, Unit, FullProduct
-from .forms import CategoryForm, UnitForm, ProductForm
-from .forms import FullProductForm, ReportForm
+from .forms import (CategoryForm, FullProductForm, ProductForm, ReportForm,
+                    UnitForm)
+from .models import Category, FullProduct, Product, Report, Unit
 
 
 class CategoryFormTest(TestCase):

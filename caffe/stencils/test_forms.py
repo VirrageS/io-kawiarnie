@@ -3,9 +3,10 @@
 from django.test import TestCase
 from django.utils import timezone
 
-from .models import Stencil
-from .forms import StencilForm
 from reports.models import Category
+
+from .forms import StencilForm
+from .models import Stencil
 
 
 class StencilFormTest(TestCase):

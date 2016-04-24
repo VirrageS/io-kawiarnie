@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 from django import forms
-from .models import Report, Category, Unit, FullProduct, Product
+
+from .models import Category, FullProduct, Product, Report, Unit
 
 
 class ProductForm(forms.ModelForm):

@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 
-from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Report, FullProduct, Product, Unit, Category
-from .forms import ReportForm, ProductForm
-from .forms import FullProductForm, UnitForm, CategoryForm
+from .forms import (CategoryForm, FullProductForm, ProductForm, ReportForm,
+                    UnitForm)
+from .models import Category, FullProduct, Product, Report, Unit
 
 
 def reports_new_category(request):

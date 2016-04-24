@@ -1,8 +1,11 @@
 # -*- encoding: utf-8 -*-
 
 from django import forms
-from .models import Stencil
+
 from reports.models import Category
+
+from .models import Stencil
+
 
 class StencilForm(forms.ModelForm):
     categories = forms.ModelMultipleChoiceField(

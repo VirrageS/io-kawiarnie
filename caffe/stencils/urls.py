@@ -1,10 +1,10 @@
 from django.conf.urls import url
 from django.contrib import admin
 
-from .views import \
-    stencils_create, stencils_new_stencil, stencils_new_report, \
-    stencils_show_stencil, stencils_edit_stencil, stencils_edit_report, \
-    stencils_show_all_stencils
+from .views import (stencils_create, stencils_edit_report,
+                    stencils_edit_stencil, stencils_new_report,
+                    stencils_new_stencil, stencils_show_all_stencils,
+                    stencils_show_stencil)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

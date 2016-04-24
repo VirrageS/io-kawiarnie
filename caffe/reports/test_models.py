@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from .models import Report, Category, Product, Unit, FullProduct
 
+
 class CategoryModelTest(TestCase):
 
     def setUp(self):
@@ -243,6 +244,6 @@ class ReportModelTest(TestCase):
             report=r1
         )
 
-        #should pass when two FullProducts of the same
-        #Product are not allowed in the same Report
-        #self.assertRaises(Exception, fp.save)
+        # should pass when two FullProducts of the same
+        # Product are not allowed in the same Report
+        # self.assertRaises(Exception, fp.save)

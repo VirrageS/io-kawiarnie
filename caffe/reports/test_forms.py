@@ -288,9 +288,9 @@ class ReportFormTest(TestCase):
         )
 
     def test_report(self):
-        all_fp =  [x.id for x in FullProduct.objects.all()]
+        all_fp = [x.id for x in FullProduct.objects.all()]
         form_correct = ReportForm({
-            'full_products':all_fp
+            'full_products': all_fp
         })
 
         self.assertTrue(form_correct.is_valid())
@@ -303,9 +303,9 @@ class ReportFormTest(TestCase):
 
         fp5.save()
 
-        all_fp =  [x.id for x in FullProduct.objects.all()[:2]]
+        all_fp = [x.id for x in FullProduct.objects.all()[:2]]
         form_correct = ReportForm({
-            'full_products':all_fp
+            'full_products': all_fp
         })
 
         self.assertTrue(form_correct.is_valid())

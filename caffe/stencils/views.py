@@ -64,6 +64,7 @@ def stencils_show_all_stencils(request):
         'stencils': stencils
     })
 
+
 def stencils_new_report(request, stencil_id):
     """creates new report from given stencil
     validation is correct if FullProduct validation is and
@@ -96,7 +97,7 @@ def stencils_new_report(request, stencil_id):
         forms = []
 
         for full_product in full_products:
-            #csrf ignore
+            # csrf ignore
             if full_product == 'csrfmiddlewaretoken':
                 continue
 
@@ -118,7 +119,7 @@ def stencils_new_report(request, stencil_id):
             report = Report.objects.create()
 
             for form in forms:
-                fp = form.save() 
+                fp = form.save()
                 fp.report = report
                 fp.save()
 

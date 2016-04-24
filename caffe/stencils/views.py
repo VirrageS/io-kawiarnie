@@ -101,6 +101,7 @@ def stencils_new_report(request, stencil_id):
         full_products = request.POST
         forms = []
 
+        # chcek validation and create form for each fullproduct
         for full_product in full_products:
             # csrf token ignore
             if full_product == 'csrfmiddlewaretoken':
@@ -109,6 +110,7 @@ def stencils_new_report(request, stencil_id):
 
             fp_list = full_products.getlist(full_product)
             form = FullProductForm({
+                # sets product id and amount for fullproduct
                 'product': fp_list[0],
                 'amount': fp_list[1]
             })
@@ -121,9 +123,11 @@ def stencils_new_report(request, stencil_id):
 
             forms.append(form)
 
+        # check if some form exists
         if len(forms) > 0:
             report = Report.objects.create()
 
+            # for each form save it with its report
             for form in forms:
                 full_product = form.save()
                 full_product.report = report

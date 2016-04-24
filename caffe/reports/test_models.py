@@ -1,35 +1,37 @@
+"""reports models tests module"""
 # -*- encoding: utf-8 -*-
 
 from django.test import TestCase
-from django.utils import timezone
 
 from .models import Report, Category, Product, Unit, FullProduct
 
 
 class CategoryModelTest(TestCase):
-
+    """Category tests"""
     def setUp(self):
         Category.objects.create(name="first")
         Category.objects.create(name="second")
 
     def test_category_name(self):
-        c1 = Category(name="first")
-        c2 = Category(name="second")
+        """chceks correctness of setting names"""
+        category1 = Category(name="first")
+        category2 = Category(name="second")
 
-        self.assertTrue(c1.name != c2.name)
-        self.assertEqual(c1.name, "first")
-        self.assertEqual(c2.name, "second")
+        self.assertTrue(category1.name != category2.name)
+        self.assertEqual(category1.name, "first")
+        self.assertEqual(category2.name, "second")
         self.assertRaises(Exception, Category.objects.create, name="first")
         self.assertRaises(Exception, Category.objects.create, name="second")
 
 
 class UnitModelTest(TestCase):
-
+    """Unit tests"""
     def setUp(self):
         Unit.objects.create(name="gram")
         Unit.objects.create(name="liter")
 
     def test_unit(self):
+        """chceks creating units"""
         u_gram = Unit.objects.get(name="gram")
         u_gram2 = Unit.objects.get(name="gram")
         Unit.objects.get(name="liter")
@@ -39,7 +41,7 @@ class UnitModelTest(TestCase):
 
 
 class ProductModelTest(TestCase):
-
+    """Product tests"""
     def setUp(self):
         Category.objects.create(name="first")
         Category.objects.create(name="second")
@@ -48,6 +50,7 @@ class ProductModelTest(TestCase):
         Unit.objects.create(name="liter")
 
     def test_product(self):
+        """checks correctness of creating products and validation"""
         first_cat = Category.objects.get(name="first")
         second_cat = Category.objects.get(name="second")
 
@@ -64,30 +67,31 @@ class ProductModelTest(TestCase):
             category=second_cat,
             unit=liter
         )
-        p1 = Product.objects.create(
+        product1 = Product.objects.create(
             name="product2",
             category=first_cat,
             unit=liter
         )
-        p2 = Product.objects.create(
+        product2 = Product.objects.create(
             name="product3",
             category=second_cat,
             unit=gram
         )
         self.assertEqual(first_cat.product_set.count(), 2)
-        p1.delete()
+        product1.delete()
         self.assertEqual(first_cat.product_set.count(), 1)
-        p2.category = first_cat
-        p2.save()
+        product2.category = first_cat
+        product2.save()
         self.assertEqual(first_cat.product_set.count(), 2)
         self.assertEqual(second_cat.product_set.count(), 1)
-        p2.category = second_cat
-        p2.save()
+        product2.category = second_cat
+        product2.save()
 
         self.assertEqual(gram.product_set.count(), 2)
-        p2.delete()
+        product2.delete()
         self.assertEqual(gram.product_set.count(), 1)
 
+        # already exists product with name = "product1"
         self.assertRaises(
             Exception,
             Product.objects.create,
@@ -98,7 +102,7 @@ class ProductModelTest(TestCase):
 
 
 class FullProductModelTest(TestCase):
-
+    """FullProduct tests"""
     def setUp(self):
         first_cat = Category.objects.create(name="first")
         second_cat = Category.objects.create(name="second")
@@ -127,58 +131,60 @@ class FullProductModelTest(TestCase):
             unit=liter
         )
 
-    def test_fullProduct(self):
-        p1 = Product.objects.get(name="product1")
-        p2 = Product.objects.get(name="product2")
-        p3 = Product.objects.get(name="product3")
-        p4 = Product.objects.get(name="product4")
+    def test_full_product(self):
+        """tests creating FullProducts"""
+        product1 = Product.objects.get(name="product1")
+        product2 = Product.objects.get(name="product2")
+        product3 = Product.objects.get(name="product3")
+        product4 = Product.objects.get(name="product4")
 
-        r1 = Report.objects.create(id=1)
-        r2 = Report.objects.create(id=2)
+        report1 = Report.objects.create(id=1)
+        report2 = Report.objects.create(id=2)
 
-        fp1 = FullProduct.objects.create(
-            product=p1,
+        full_product1 = FullProduct.objects.create(
+            product=product1,
             amount=10,
-            report=r1
+            report=report1
         )
-        fp2 = FullProduct.objects.create(
-            product=p2,
+        full_product2 = FullProduct.objects.create(
+            product=product2,
             amount=100,
-            report=r1
+            report=report1
         )
-        fp3 = FullProduct.objects.create(
-            product=p4,
+        full_product3 = FullProduct.objects.create(
+            product=product4,
             amount=1000,
-            report=r2
+            report=report2
         )
         FullProduct.objects.create(
-            product=p3,
+            product=product3,
             amount=0,
-            report=r2
+            report=report2
         )
 
-        self.assertEqual(fp1.product.name, "product1")
-        self.assertEqual(fp2.amount, 100)
-        self.assertEqual(fp2.report.id, r1.id)
+        self.assertEqual(full_product1.product.name, "product1")
+        self.assertEqual(full_product2.amount, 100)
+        self.assertEqual(full_product2.report.id, report1.id)
 
-        self.assertEqual(r2.full_products.count(), 2)
-        fp3.delete()
-        self.assertEqual(r2.full_products.count(), 1)
+        self.assertEqual(report2.full_products.count(), 2)
+        full_product3.delete()
+        self.assertEqual(report2.full_products.count(), 1)
 
-        self.assertEqual(r1.full_products.count(), 2)
-        p2.delete()
-        self.assertEqual(r1.full_products.count(), 1)
+        self.assertEqual(report1.full_products.count(), 2)
+        product2.delete()
+        self.assertEqual(report1.full_products.count(), 1)
 
-        fp1.amount = -1
+        full_product1.amount = -1
 
 
 class ReportModelTest(TestCase):
+    """Report tests"""
 
     def setUp(self):
-        r1 = Report.objects.create(id=1)
-        r2 = Report.objects.create(id=2)
-        r3 = Report.objects.create(id=3)
-        r4 = Report.objects.create(id=4)
+        report1 = Report.objects.create(id=1)
+        report2 = Report.objects.create(id=2)
+        report3 = Report.objects.create(id=3)
+        report4 = Report.objects.create(id=4)
 
         first_cat = Category.objects.create(name="first")
         second_cat = Category.objects.create(name="second")
@@ -186,64 +192,68 @@ class ReportModelTest(TestCase):
         gram = Unit.objects.create(name="gram")
         liter = Unit.objects.create(name="liter")
 
-        p1 = Product.objects.create(
+        product1 = Product.objects.create(
             name="product1",
             category=first_cat,
             unit=gram
         )
-        p2 = Product.objects.create(
+        product2 = Product.objects.create(
             name="product2",
             category=first_cat,
             unit=liter
         )
-        p3 = Product.objects.create(
+        product3 = Product.objects.create(
             name="product3",
             category=second_cat,
             unit=gram
         )
-        p4 = Product.objects.create(
+        product4 = Product.objects.create(
             name="product4",
             category=second_cat,
             unit=liter
         )
 
         FullProduct.objects.create(
-            product=p1,
+            product=product1,
             amount=10,
-            report=r1
+            report=report1
         )
 
         FullProduct.objects.create(
-            product=p2,
+            product=product2,
             amount=100,
-            report=r2
+            report=report2
         )
         FullProduct.objects.create(
-            product=p3,
+            product=product3,
             amount=0,
-            report=r3
+            report=report3
         )
 
         FullProduct.objects.create(
-            product=p4,
+            product=product4,
             amount=1000,
-            report=r4
+            report=report4
         )
 
     def test_create(self):
+        """checks creating reports"""
         self.assertEqual(Report.objects.count(), 4)
 
     def test_doubles(self):
-        r1 = Report.objects.get(id=1)
+        """checks if reports with fullproducts with same product are
+        allowed. Shouldnt be
+        """
+        report1 = Report.objects.get(id=1)
 
-        p = FullProduct.objects.first().product
+        product = FullProduct.objects.first().product
 
-        fp = FullProduct.objects.create(
-            product=p,
+        full_product = FullProduct.objects.create(
+            product=product,
             amount=1,
-            report=r1
+            report=report1
         )
 
         # should pass when two FullProducts of the same
         # Product are not allowed in the same Report
-        # self.assertRaises(Exception, fp.save)
+        # self.assertRaises(Exception, full_product.save)

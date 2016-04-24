@@ -945,7 +945,7 @@ class ReportViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/create_report.html')
 
     def test_show_all_reports_show(self):
-        """Check if show all reports view actually shows all reports"""
+        """Check if show all reports view actually shows all reports."""
 
         response = self.client.get(reverse('reports_show_all'))
 

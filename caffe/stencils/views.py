@@ -91,16 +91,30 @@ def stencils_new_report(request, stencil_id):
 
     if request.POST:
         full_products = request.POST
-        report = Report.objects.create()
+
+        forms = []
 
         for full_product in full_products:
             fp_list = full_products.getlist(full_product)
+            form = FullProductForm({
+                'product': fp_list[0],
+                'amount': fp_list[1]
+            })
 
-            fp = FullProduct.objects.create(
-                product=Product.objects.get(id=fp_list[0]),
-                amount=fp_list[1],
-                report=report
-            )
+            if not form.is_valid():
+                return render(request, 'stencils/new_report.html', {
+                    'stencil': stencil,
+                    'categories': all_categories
+                })
+
+            forms.append(form)
+
+
+        report = Report.objects.create()
+
+        for form in forms:
+            fp = form.save() 
+            fp.report = report
             fp.save()
 
         report.save()

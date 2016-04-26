@@ -19,7 +19,12 @@ def get_report_categories(report_id):
         exists.
     """
 
-    report = Report.objects.filter(id=report_id).first()
+    report = None
+    try:
+        report = Report.objects.filter(id=report_id).first()
+    except:
+        return None
+
     if not report:
         return None
 
@@ -53,7 +58,7 @@ def reports_new_category(request):
 
         if form.is_valid():
             form.save()
-            return redirect(reverse('reports_create'))
+            return redirect(reverse('reports_navigate'))
 
     categories = Category.objects.all()
     for category in categories:
@@ -84,7 +89,7 @@ def reports_edit_category(request, category_id):
 
     if form.is_valid():
         form.save()
-        return redirect(reverse('reports_create'))
+        return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {
         'form': form,
@@ -106,7 +111,7 @@ def reports_new_unit(request):
 
         if form.is_valid():
             form.save()
-            return redirect(reverse('reports_create'))
+            return redirect(reverse('reports_navigate'))
 
     units = Unit.objects.all()
     for unit in units:
@@ -137,7 +142,7 @@ def reports_edit_unit(request, unit_id):
 
     if form.is_valid():
         form.save()
-        return redirect(reverse('reports_create'))
+        return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {
         'form': form,
@@ -159,7 +164,7 @@ def reports_new_product(request):
 
         if form.is_valid():
             form.save()
-            return redirect(reverse('reports_create'))
+            return redirect(reverse('reports_navigate'))
 
     products = Product.objects.all()
     for product in products:
@@ -190,7 +195,7 @@ def reports_edit_product(request, product_id):
 
     if form.is_valid():
         form.save()
-        return redirect(reverse('reports_create'))
+        return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {
         'form': form,
@@ -212,7 +217,7 @@ def reports_new_fullproduct(request):
 
         if form.is_valid():
             form.save()
-            return redirect(reverse('reports_create'))
+            return redirect(reverse('reports_navigate'))
 
     full_products = FullProduct.objects.all()
     for full_product in full_products:
@@ -250,7 +255,7 @@ def reports_edit_fullproduct(request, fullproduct_id):
 
     if form.is_valid():
         form.save()
-        return redirect(reverse('reports_create'))
+        return redirect(reverse('reports_navigate'))
 
     products = Product.objects.all()
     products = [
@@ -280,7 +285,7 @@ def reports_new_report(request):
                 full_product.report = report
                 full_product.save()
 
-            return redirect(reverse('reports_create'))
+            return redirect(reverse('reports_navigate'))
 
     # get last five reports
     latest_reports = Report.objects.order_by('-created_on')[:5]
@@ -317,7 +322,7 @@ def reports_edit_report(request, report_id):
             full_product.report = report
             full_product.save()
 
-        return redirect(reverse('reports_create'))
+        return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {
         'form': form,
@@ -352,5 +357,5 @@ def reports_navigate(request):
 def reports_show_all_reports(request):
     """Show all existing Reports."""
 
-    reports = Reports.objects.all()
-    return render(request, 'home/all.html', {'reports': reports})
+    reports = Report.objects.all()
+    return render(request, 'reports/all.html', {'reports': reports})

@@ -1,0 +1,76 @@
+{% extends "home/base.html" %}
+{% load tags %}
+
+{% block title %}
+Nowy raport
+{% endblock %}
+
+{% block content %}
+<script>
+(function ($) {
+  "use strict"
+
+  $(document).ready(function() {
+    $('.modaal').modaal();
+  });
+})(jQuery);
+</script>
+
+<form method="POST" class="element-form">
+  {% csrf_token %}
+
+  <div class="input-line">
+    {{ form.full_products }}
+    {{ form.full_products.label_tag }}
+  </div>
+  {{ form.full_products.errors }}
+
+  <button type="submit" class="button button-rounded button-green">Dodaj</button>
+</form>
+
+<section>
+  <div class="subtitle">
+    Ostatnio utworzone
+  </div>
+
+  <div class="reports-container">
+    {% for report in reports %}
+      <div class="report">
+        <a href="#modaal{{ report.id }}" class="meta">
+          {{ report.created_on }}
+        </a>
+
+        <a href="#modaal{{ report.id }}" class="modaal button button-rounded button-blue button-with-icon">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <span>
+            Podglądaj
+          </span>
+        </a>
+
+        <div id="modaal{{ report.id }}" class="hidden">
+          <div class="show-report">
+            <div class="categories">
+              {% for category, products in report.categories.items %}
+                <div class="category">
+                  <div class="category-name">
+                    {{ category }}
+                  </div>
+                  <div class="products">
+                    {% for product in products %}
+                      <div class="product">
+                        <div class="name">{{ product.name }}</div>
+                        <div class="amount">{{ product.amount }}</div>
+                        <div class="unit">{{ product.unit }}</div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

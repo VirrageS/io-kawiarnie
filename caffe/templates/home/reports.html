@@ -1,0 +1,83 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Raporty i szablony
+{% endblock %}
+
+{% block content %}
+<section class="elements-section">
+  <div class="elements elements-primary">
+    <a href="{% url 'reports_new_report' %}" class="element">
+      <i class="fa fa-wpforms" aria-hidden="true"></i>
+      Nowy raport
+    </a>
+
+    <a href="{% url 'stencils_show_all_stencils' %}" class="element">
+      <i class="fa fa-copy" aria-hidden="true"></i>
+      Nowy raport z szablonu
+    </a>
+  </div>
+</section>
+
+<section class="elements-section">
+  <div class="elements-subtitle">
+    Tworzenie elementów raportów
+  </div>
+
+  <div class="elements elements-green">
+    <a href="{% url 'reports_new_unit' %}" class="element">
+      <i class="fa fa-percent" aria-hidden="true"></i>
+      Jednostki
+    </a>
+    <a href="{% url 'reports_new_category' %}" class="element">
+      <i class="fa fa-columns" aria-hidden="true"></i>
+      Kategorie
+    </a>
+    <a href="{% url 'reports_new_product' %}" class="element">
+      <i class="fa fa-tag" aria-hidden="true"></i>
+      Produkty
+    </a>
+    <a href="{% url 'reports_new_fullproduct' %}" class="element">
+      <i class="fa fa-tag" aria-hidden="true"></i>
+      Pełne produkty
+    </a>
+    <a href="{% url 'stencils_new_stencil' %}" class="element">
+      <i class="fa fa-edit" aria-hidden="true"></i>
+      Szablony
+    </a>
+  </div>
+</section>
+
+<section class="elements-section">
+  <div class="elements-subtitle">
+    Podgląd i edycja
+  </div>
+
+  <div class="elements elements-red">
+    <a href="{% url 'reports_new_unit' %}" class="element">
+      <i class="fa fa-percent" aria-hidden="true"></i>
+      Jednostki
+    </a>
+    <a href="{% url 'reports_new_category' %}" class="element">
+      <i class="fa fa-columns" aria-hidden="true"></i>
+      Kategorie
+    </a>
+    <a href="{% url 'reports_new_product' %}" class="element">
+      <i class="fa fa-tag" aria-hidden="true"></i>
+      Produkty
+    </a>
+    <a href="{% url 'reports_new_fullproduct' %}" class="element">
+      <i class="fa fa-tag" aria-hidden="true"></i>
+      Pełne produkty
+    </a>
+    <a href="{% url 'reports_new_report' %}" class="element">
+      <i class="fa fa-wpforms" aria-hidden="true"></i>
+      Raporty
+    </a>
+    <a href="{% url 'stencils_new_stencil' %}" class="element">
+      <i class="fa fa-edit" aria-hidden="true"></i>
+      Szablony
+    </a>
+  </div>
+</section>
+{% endblock %}

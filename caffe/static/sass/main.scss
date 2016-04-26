@@ -37,12 +37,16 @@ $on-laptop:        1200px;
 }
 
 @import
+  "vendor/modaal",
+
   "mixins",
   "base",
   "button",
   "home",
   "forms",
+  "elements",
+
   "reports",
-  "employees",
-  "stencils"
+  "stencils",
+  "employees"
 ;

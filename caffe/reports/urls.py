@@ -1,18 +1,17 @@
 from django.conf.urls import url
 from django.contrib import admin
 
-from .views import (reports_create, reports_edit_category,
+from .views import (reports_edit_category,
                     reports_edit_fullproduct, reports_edit_product,
                     reports_edit_report, reports_edit_unit,
                     reports_new_category, reports_new_fullproduct,
                     reports_new_product, reports_new_report, reports_new_unit,
-                    reports_show_all_reports, reports_show_report)
+                    reports_navigate, reports_show_report)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^$', reports_show_all_reports, name='reports_show_all'),
-    url(r'^create/$', reports_create, name='reports_create'),
+    url(r'^$', reports_navigate, name='reports_navigate'),
     url(r'^show/(?P<report_id>\d{0,17})/$',
         reports_show_report, name='reports_show_report'),
 

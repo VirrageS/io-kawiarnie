@@ -48,7 +48,10 @@ Nowy raport
         </a>
 
         <div id="modaal{{ report.id }}" class="hidden">
-          <div class="show-report">
+          <div class="modal-report">
+            <div class="meta-report">
+              {{ report.created_on }}
+            </div>
             <div class="categories">
               {% for category, products in report.categories.items %}
                 <div class="category">

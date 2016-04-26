@@ -1,41 +1,4 @@
-@font-face {
-  font-family: Circular;
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-light.eot);
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-light.eot?#iefix) format('embedded-opentype'), url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-light.woff) format('woff');
-  font-weight: 200;
-  font-style: normal
-}
-
-@font-face {
-  font-family: Circular;
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-book.eot);
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-book.eot?#iefix) format('embedded-opentype'), url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-book.woff) format('woff');
-  font-weight: 400;
-  font-style: normal
-}
-
-@font-face {
-  font-family: Circular;
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-medium.eot);
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-medium.eot?#iefix) format('embedded-opentype'), url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-medium.woff) format('woff');
-  font-weight: 600;
-  font-style: normal
-}
-
-@font-face {
-  font-family: Circular;
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-bold.eot);
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-bold.eot?#iefix) format('embedded-opentype'), url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-bold.woff) format('woff');
-  font-weight: 800;
-  font-style: normal
-}
-
-.hidden {
-  display: none;
-}
-
-
-/*! normalize.css v4.0.0 | MIT License | github.com/necolas/normalize.css */
+/*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
 
 /**
  * 1. Change the default font family in all browsers (opinionated).
@@ -122,11 +85,13 @@ template, /* 1 */
    ========================================================================== */
 
 /**
- * Remove the gray background on active links in IE 10.
+ * 1. Remove the gray background on active links in IE 10.
+ * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
  */
 
 a {
-  background-color: transparent;
+  background-color: transparent; /* 1 */
+  -webkit-text-decoration-skip: objects; /* 2 */
 }
 
 /**
@@ -285,14 +250,16 @@ hr {
    ========================================================================== */
 
 /**
- * Change font properties to `inherit` in all browsers (opinionated).
+ * 1. Change font properties to `inherit` in all browsers (opinionated).
+ * 2. Remove the margin in Firefox and Safari.
  */
 
 button,
 input,
 select,
 textarea {
-  font: inherit;
+  font: inherit; /* 1 */
+  margin: 0; /* 2 */
 }
 
 /**
@@ -306,25 +273,11 @@ optgroup {
 /**
  * Show the overflow in IE.
  * 1. Show the overflow in Edge.
- * 2. Show the overflow in Edge, Firefox, and IE.
  */
 
 button,
-input, /* 1 */
-select { /* 2 */
+input { /* 1 */
   overflow: visible;
-}
-
-/**
- * Remove the margin in Safari.
- * 1. Remove the margin in Firefox and Safari.
- */
-
-button,
-input,
-select,
-textarea { /* 1 */
-  margin: 0;
 }
 
 /**
@@ -338,28 +291,9 @@ select { /* 1 */
 }
 
 /**
- * Change the cursor in all browsers (opinionated).
- */
-
-button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
-  cursor: pointer;
-}
-
-/**
- * Restore the default cursor to disabled elements unset by the previous rule.
- */
-
-[disabled] {
-  cursor: default;
-}
-
-/**
  * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
  *    controls in Android 4.
- * 2. Correct the inability to style clickable types in iOS.
+ * 2. Correct the inability to style clickable types in iOS and Safari.
  */
 
 button,
@@ -374,8 +308,10 @@ html [type="button"], /* 1 */
  */
 
 button::-moz-focus-inner,
-input::-moz-focus-inner {
-  border: 0;
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
   padding: 0;
 }
 
@@ -384,7 +320,9 @@ input::-moz-focus-inner {
  */
 
 button:-moz-focusring,
-input:-moz-focusring {
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
   outline: 1px dotted ButtonText;
 }
 
@@ -443,16 +381,17 @@ textarea {
 }
 
 /**
- * Correct the odd appearance of search inputs in Chrome and Safari.
+ * 1. Correct the odd appearance in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
  */
 
 [type="search"] {
-  -webkit-appearance: textfield;
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
 }
 
 /**
- * Remove the inner padding and cancel buttons in Chrome on OS X and
- * Safari on OS X.
+ * Remove the inner padding and cancel buttons in Chrome and Safari on OS X.
  */
 
 [type="search"]::-webkit-search-cancel-button,
@@ -460,107 +399,21 @@ textarea {
   -webkit-appearance: none;
 }
 
+/**
+ * Correct the text style of placeholders in Chrome, Edge, and Safari.
+ */
 
-
-html, body, div, span, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-abbr, address, cite, code,
-del, dfn, em, img, ins, kbd, q, samp,
-small, strong, sub, sup, var,
-b, i,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section, summary,
-time, mark, audio, video {
-  margin:0;
-  padding:0;
-  border:0;
-  outline:0;
-  font-size:100%;
-  vertical-align:baseline;
-  background:transparent;
+::-webkit-input-placeholder {
+  color: inherit;
+  opacity: 0.54;
 }
 
-body {
-  line-height:1;
-}
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
 
-:root, body, html {
-  min-height: 100%;
-  height: 100%;
-  font-family: $base-font-family;
-  font-size: $base-font-size;
-  line-height: $base-line-height;
-}
-
-article,aside,details,figcaption,figure,
-footer,header,hgroup,menu,nav,section {
-  display:block;
-}
-
-nav ul {
-  list-style:none;
-}
-
-blockquote, q {
-  quotes:none;
-}
-
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content:'';
-  content:none;
-}
-
-a {
-  margin:0;
-  padding:0;
-  font-size:100%;
-  vertical-align:baseline;
-  background:transparent;
-}
-
-/* change colours to suit your needs */
-ins {
-  background-color:#ff9;
-  color:#000;
-  text-decoration:none;
-}
-
-/* change colours to suit your needs */
-mark {
-  background-color:#ff9;
-  color:#000;
-  font-style:italic;
-  font-weight:bold;
-}
-
-del {
-  text-decoration: line-through;
-}
-
-abbr[title], dfn[title] {
-  border-bottom:1px dotted;
-  cursor:help;
-}
-
-table {
-  border-collapse:collapse;
-  border-spacing:0;
-}
-
-/* change border colour to suit your needs */
-hr {
-  display:block;
-  height:1px;
-  border:0;
-  border-top:1px solid #cccccc;
-  margin:1em 0;
-  padding:0;
-}
-
-input, select {
-  vertical-align:middle;
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
 }

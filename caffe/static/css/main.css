@@ -670,34 +670,7 @@
 /**
   CLEARFIX
   **/
-@font-face {
-  font-family: Circular;
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-light.eot);
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-light.eot?#iefix) format("embedded-opentype"), url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-light.woff) format("woff");
-  font-weight: 200;
-  font-style: normal; }
-@font-face {
-  font-family: Circular;
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-book.eot);
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-book.eot?#iefix) format("embedded-opentype"), url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-book.woff) format("woff");
-  font-weight: 400;
-  font-style: normal; }
-@font-face {
-  font-family: Circular;
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-medium.eot);
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-medium.eot?#iefix) format("embedded-opentype"), url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-medium.woff) format("woff");
-  font-weight: 600;
-  font-style: normal; }
-@font-face {
-  font-family: Circular;
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-bold.eot);
-  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-bold.eot?#iefix) format("embedded-opentype"), url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-bold.woff) format("woff");
-  font-weight: 800;
-  font-style: normal; }
-.hidden {
-  display: none; }
-
-/*! normalize.css v4.0.0 | MIT License | github.com/necolas/normalize.css */
+/*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
 /**
  * 1. Change the default font family in all browsers (opinionated).
  * 2. Prevent adjustments of font size after orientation changes in IE and iOS.
@@ -771,10 +744,14 @@ template,
 /* Links
    ========================================================================== */
 /**
- * Remove the gray background on active links in IE 10.
+ * 1. Remove the gray background on active links in IE 10.
+ * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
  */
 a {
-  background-color: transparent; }
+  background-color: transparent;
+  /* 1 */
+  -webkit-text-decoration-skip: objects;
+  /* 2 */ }
 
 /**
  * Remove the outline on focused links when they are also active or hovered
@@ -906,13 +883,17 @@ hr {
 /* Forms
    ========================================================================== */
 /**
- * Change font properties to `inherit` in all browsers (opinionated).
+ * 1. Change font properties to `inherit` in all browsers (opinionated).
+ * 2. Remove the margin in Firefox and Safari.
  */
 button,
 input,
 select,
 textarea {
-  font: inherit; }
+  font: inherit;
+  /* 1 */
+  margin: 0;
+  /* 2 */ }
 
 /**
  * Restore the font weight unset by the previous rule.
@@ -923,24 +904,11 @@ optgroup {
 /**
  * Show the overflow in IE.
  * 1. Show the overflow in Edge.
- * 2. Show the overflow in Edge, Firefox, and IE.
  */
 button,
-input,
-select {
-  /* 2 */
-  overflow: visible; }
-
-/**
- * Remove the margin in Safari.
- * 1. Remove the margin in Firefox and Safari.
- */
-button,
-input,
-select,
-textarea {
+input {
   /* 1 */
-  margin: 0; }
+  overflow: visible; }
 
 /**
  * Remove the inheritance of text transform in Edge, Firefox, and IE.
@@ -952,24 +920,9 @@ select {
   text-transform: none; }
 
 /**
- * Change the cursor in all browsers (opinionated).
- */
-button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
-  cursor: pointer; }
-
-/**
- * Restore the default cursor to disabled elements unset by the previous rule.
- */
-[disabled] {
-  cursor: default; }
-
-/**
  * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
  *    controls in Android 4.
- * 2. Correct the inability to style clickable types in iOS.
+ * 2. Correct the inability to style clickable types in iOS and Safari.
  */
 button,
 html [type="button"],
@@ -982,15 +935,19 @@ html [type="button"],
  * Remove the inner border and padding in Firefox.
  */
 button::-moz-focus-inner,
-input::-moz-focus-inner {
-  border: 0;
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
   padding: 0; }
 
 /**
  * Restore the focus styles unset by the previous rule.
  */
 button:-moz-focusring,
-input:-moz-focusring {
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
   outline: 1px dotted ButtonText; }
 
 /**
@@ -1046,39 +1003,63 @@ textarea {
   height: auto; }
 
 /**
- * Correct the odd appearance of search inputs in Chrome and Safari.
+ * 1. Correct the odd appearance in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
  */
 [type="search"] {
-  -webkit-appearance: textfield; }
+  -webkit-appearance: textfield;
+  /* 1 */
+  outline-offset: -2px;
+  /* 2 */ }
 
 /**
- * Remove the inner padding and cancel buttons in Chrome on OS X and
- * Safari on OS X.
+ * Remove the inner padding and cancel buttons in Chrome and Safari on OS X.
  */
 [type="search"]::-webkit-search-cancel-button,
 [type="search"]::-webkit-search-decoration {
   -webkit-appearance: none; }
 
-html, body, div, span, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-abbr, address, cite, code,
-del, dfn, em, img, ins, kbd, q, samp,
-small, strong, sub, sup, var,
-b, i,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  background: transparent; }
+/**
+ * Correct the text style of placeholders in Chrome, Edge, and Safari.
+ */
+::-webkit-input-placeholder {
+  color: inherit;
+  opacity: 0.54; }
 
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  /* 1 */
+  font: inherit;
+  /* 2 */ }
+
+@font-face {
+  font-family: Circular;
+  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-light.eot);
+  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-light.eot?#iefix) format("embedded-opentype"), url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-light.woff) format("woff");
+  font-weight: 200;
+  font-style: normal; }
+@font-face {
+  font-family: Circular;
+  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-book.eot);
+  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-book.eot?#iefix) format("embedded-opentype"), url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-book.woff) format("woff");
+  font-weight: 400;
+  font-style: normal; }
+@font-face {
+  font-family: Circular;
+  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-medium.eot);
+  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-medium.eot?#iefix) format("embedded-opentype"), url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-medium.woff) format("woff");
+  font-weight: 600;
+  font-style: normal; }
+@font-face {
+  font-family: Circular;
+  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-bold.eot);
+  src: url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-bold.eot?#iefix) format("embedded-opentype"), url(https://sp-bootstrap.global.ssl.fastly.net/5.0.1/fonts/circular-bold.woff) format("woff");
+  font-weight: 800;
+  font-style: normal; }
 body {
   line-height: 1; }
 
@@ -1087,65 +1068,13 @@ body {
   height: 100%;
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
   font-size: 18px;
-  line-height: 1em; }
+  line-height: 1.4; }
 
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-  display: block; }
-
-nav ul {
-  list-style: none; }
-
-blockquote, q {
-  quotes: none; }
-
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content: '';
-  content: none; }
-
-a {
-  margin: 0;
-  padding: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  background: transparent; }
-
-/* change colours to suit your needs */
-ins {
-  background-color: #ff9;
-  color: #000;
-  text-decoration: none; }
-
-/* change colours to suit your needs */
-mark {
-  background-color: #ff9;
-  color: #000;
-  font-style: italic;
-  font-weight: bold; }
-
-del {
-  text-decoration: line-through; }
-
-abbr[title], dfn[title] {
-  border-bottom: 1px dotted;
-  cursor: help; }
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0; }
-
-/* change border colour to suit your needs */
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #cccccc;
-  margin: 1em 0;
+ul {
   padding: 0; }
 
-input, select {
-  vertical-align: middle; }
+.hidden {
+  display: none; }
 
 .button {
   -moz-transition: all 0.3s;
@@ -1270,118 +1199,6 @@ input, select {
       outline: none;
       text-decoration: none; }
 
-.container {
-  display: flex;
-  flex-direction: row;
-  min-width: 100%;
-  min-height: 100%; }
-
-.left-pane {
-  background-color: #2E3C54;
-  color: #a1b3bb !important;
-  width: 80px;
-  min-height: 100%;
-  font-family: Circular, Helvetica, Arial, sans-serif;
-  font-weight: 400; }
-  .left-pane.open {
-    width: 150px; }
-    .left-pane.open .description {
-      opacity: 1;
-      visibility: visible; }
-  .left-pane ul {
-    width: 100%;
-    list-style-type: none; }
-    .left-pane ul li {
-      font-size: 0.81rem !important;
-      text-align: center; }
-      .left-pane ul li:first-child {
-        margin-top: 0px; }
-      .left-pane ul li a {
-        -moz-transition: all 0.3s;
-        -o-transition: all 0.3s;
-        -webkit-transition: all 0.3s;
-        transition: all 0.3s;
-        display: block;
-        padding: 20px 0px;
-        color: #a1b3bb;
-        text-decoration: none;
-        width: 100%;
-        height: 100%; }
-        .left-pane ul li a:hover, .left-pane ul li a:active, .left-pane ul li a.active {
-          color: #ffffff;
-          background-color: #1b2432; }
-      .left-pane ul li i {
-        display: block;
-        font-size: 2.3rem !important;
-        padding: 0.18em 0px; }
-      .left-pane ul li .description {
-        -moz-transition: opacity 0.5s;
-        -o-transition: opacity 0.5s;
-        -webkit-transition: opacity 0.5s;
-        transition: opacity 0.5s;
-        opacity: 0;
-        visibility: hidden; }
-
-/**
- * RIGHT PANE
- */
-.right-pane {
-  flex: 1;
-  background-color: #ffffff;
-  color: #000000 !important;
-  min-height: 100%; }
-  .right-pane a {
-    color: #000000;
-    text-decoration: none; }
-  .right-pane .navigation {
-    display: flex;
-    flex-direction: row;
-    background-color: #f1f1f1;
-    color: #000000 !important;
-    border-bottom: 2px solid black;
-    width: 100%;
-    height: 70px; }
-    .right-pane .navigation .expand {
-      -moz-transition: all 0.3s;
-      -o-transition: all 0.3s;
-      -webkit-transition: all 0.3s;
-      transition: all 0.3s;
-      display: inline-block;
-      font-size: 2rem;
-      cursor: pointer;
-      margin-left: 50px;
-      margin-right: auto;
-      line-height: 70px; }
-      .right-pane .navigation .expand:hover {
-        color: #0d7587; }
-    .right-pane .navigation .button {
-      margin: auto 40px auto auto; }
-  .right-pane .right-pane-container {
-    padding: 20px 60px; }
-  .right-pane .header {
-    display: block;
-    font-family: "Helvetica Neue", sans-serif;
-    font-size: 2.5rem;
-    font-weight: 100;
-    margin: 20px 0;
-    margin-bottom: 40px;
-    letter-spacing: 0.1em;
-    line-height: normal;
-    text-align: center;
-    width: 100%;
-    text-transform: uppercase; }
-
-.subtitle, .elements-section .elements-subtitle, .elements-subtitle {
-  display: block;
-  font-family: "Helvetica Neue", sans-serif;
-  font-size: 1.9rem;
-  font-weight: 100;
-  margin: 120px 0 30px 0;
-  letter-spacing: 0.1em;
-  line-height: 2.4rem;
-  text-align: center;
-  text-transform: uppercase; }
-
 .form input, .element-form input, .stencil-report-form input {
   outline: none;
   -webkit-appearance: none;
@@ -1497,7 +1314,7 @@ input, select {
   content: "";
   display: inline-block;
   position: absolute;
-  top: 39px;
+  top: 30px;
   right: 25px;
   font-family: FontAwesome;
   font-size: 1.5em; }
@@ -1537,6 +1354,118 @@ input, select {
   display: inline-block;
   margin: 0 15px;
   margin-top: 40px; }
+
+.container {
+  display: flex;
+  flex-direction: row;
+  min-width: 100%;
+  min-height: 100%; }
+
+.left-pane {
+  background-color: #2E3C54;
+  color: #a1b3bb !important;
+  width: 80px;
+  min-height: 100%;
+  font-family: Circular, Helvetica, Arial, sans-serif;
+  font-weight: 400; }
+  .left-pane.open {
+    width: 150px; }
+    .left-pane.open .description {
+      opacity: 1;
+      visibility: visible; }
+  .left-pane ul {
+    width: 100%;
+    list-style-type: none; }
+    .left-pane ul li {
+      font-size: 0.81rem !important;
+      text-align: center; }
+      .left-pane ul li:first-child {
+        margin-top: 0px; }
+      .left-pane ul li a {
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+        display: block;
+        padding: 20px 0px;
+        color: #a1b3bb;
+        text-decoration: none;
+        width: 100%;
+        height: 100%; }
+        .left-pane ul li a:hover, .left-pane ul li a:active, .left-pane ul li a.active {
+          color: #ffffff;
+          background-color: #1b2432; }
+      .left-pane ul li i {
+        display: block;
+        font-size: 2.3rem !important;
+        padding: 0.18em 0px; }
+      .left-pane ul li .description {
+        -moz-transition: opacity 0.5s;
+        -o-transition: opacity 0.5s;
+        -webkit-transition: opacity 0.5s;
+        transition: opacity 0.5s;
+        opacity: 0;
+        visibility: hidden; }
+
+/**
+ * RIGHT PANE
+ */
+.right-pane {
+  flex: 1;
+  background-color: #ffffff;
+  color: #000000 !important;
+  min-height: 100%; }
+  .right-pane a {
+    color: #000000;
+    text-decoration: none; }
+  .right-pane .navigation {
+    display: flex;
+    flex-direction: row;
+    background-color: #f1f1f1;
+    color: #000000 !important;
+    border-bottom: 2px solid black;
+    width: 100%;
+    height: 70px; }
+    .right-pane .navigation .expand {
+      -moz-transition: all 0.3s;
+      -o-transition: all 0.3s;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+      display: inline-block;
+      font-size: 2rem;
+      cursor: pointer;
+      margin-left: 50px;
+      margin-right: auto;
+      line-height: 70px; }
+      .right-pane .navigation .expand:hover {
+        color: #0d7587; }
+    .right-pane .navigation .button {
+      margin: auto 40px auto auto; }
+  .right-pane .right-pane-container {
+    padding: 20px 60px; }
+  .right-pane .header {
+    display: block;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 100;
+    margin: 20px 0;
+    margin-bottom: 40px;
+    letter-spacing: 0.1em;
+    line-height: normal;
+    text-align: center;
+    width: 100%;
+    text-transform: uppercase; }
+
+.subtitle, .elements-section .elements-subtitle, .elements-subtitle {
+  display: block;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 1.9rem;
+  font-weight: 100;
+  margin: 120px 0 30px 0;
+  letter-spacing: 0.1em;
+  line-height: 2.4rem;
+  text-align: center;
+  text-transform: uppercase; }
 
 .elements-section {
   margin-top: 130px; }
@@ -1630,22 +1559,22 @@ input, select {
       margin-bottom: 0;
       max-width: 150px; }
 
-.display-report .button, .show-report .button, .stencils-new-report .button, .show-stencil .button {
+.display-report .button, .show-report .button, .modal-report .button, .stencils-new-report .button, .show-stencil .button {
   display: table;
   margin: 0px auto 60px auto; }
-.display-report .categories, .show-report .categories, .stencils-new-report .categories, .show-stencil .categories {
+.display-report .categories, .show-report .categories, .modal-report .categories, .stencils-new-report .categories, .show-stencil .categories {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   flex-flow: row wrap; }
-  .display-report .categories .category, .show-report .categories .category, .stencils-new-report .categories .category, .show-stencil .categories .category {
+  .display-report .categories .category, .show-report .categories .category, .modal-report .categories .category, .stencils-new-report .categories .category, .show-stencil .categories .category {
     padding: 1rem;
     padding-top: 0;
     margin: 30px 20px;
     border: 3px solid #000000;
     width: 430px;
     height: 100%; }
-    .display-report .categories .category .category-name, .show-report .categories .category .category-name, .stencils-new-report .categories .category .category-name, .show-stencil .categories .category .category-name {
+    .display-report .categories .category .category-name, .show-report .categories .category .category-name, .modal-report .categories .category .category-name, .stencils-new-report .categories .category .category-name, .show-stencil .categories .category .category-name {
       font-family: "Fjord One", sans-serif;
       font-size: 1.7rem;
       font-weight: 400;
@@ -1654,27 +1583,27 @@ input, select {
       letter-spacing: 0.1em;
       line-height: 1.8em;
       text-align: center; }
-    .display-report .categories .category .products, .show-report .categories .category .products, .stencils-new-report .categories .category .products, .show-stencil .categories .category .products {
+    .display-report .categories .category .products, .show-report .categories .category .products, .modal-report .categories .category .products, .stencils-new-report .categories .category .products, .show-stencil .categories .category .products {
       display: block; }
-      .display-report .categories .category .products .product, .show-report .categories .category .products .product, .stencils-new-report .categories .category .products .product, .show-stencil .categories .category .products .product {
+      .display-report .categories .category .products .product, .show-report .categories .category .products .product, .modal-report .categories .category .products .product, .stencils-new-report .categories .category .products .product, .show-stencil .categories .category .products .product {
         display: flex;
         font-size: 1.1rem;
         font-weight: 100;
         margin: 20px 0;
         align-items: center; }
-        .display-report .categories .category .products .product::before, .show-report .categories .category .products .product::before, .stencils-new-report .categories .category .products .product::before, .show-stencil .categories .category .products .product::before {
+        .display-report .categories .category .products .product::before, .show-report .categories .category .products .product::before, .modal-report .categories .category .products .product::before, .stencils-new-report .categories .category .products .product::before, .show-stencil .categories .category .products .product::before {
           content: "";
           display: inline; }
-        .display-report .categories .category .products .product .name, .show-report .categories .category .products .product .name, .stencils-new-report .categories .category .products .product .name, .show-stencil .categories .category .products .product .name, .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount, .show-stencil .categories .category .products .product .amount, .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit, .show-stencil .categories .category .products .product .unit {
+        .display-report .categories .category .products .product .name, .show-report .categories .category .products .product .name, .modal-report .categories .category .products .product .name, .stencils-new-report .categories .category .products .product .name, .show-stencil .categories .category .products .product .name, .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .modal-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount, .show-stencil .categories .category .products .product .amount, .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .modal-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit, .show-stencil .categories .category .products .product .unit {
           display: inline-block; }
-        .display-report .categories .category .products .product .name, .show-report .categories .category .products .product .name, .stencils-new-report .categories .category .products .product .name, .show-stencil .categories .category .products .product .name {
+        .display-report .categories .category .products .product .name, .show-report .categories .category .products .product .name, .modal-report .categories .category .products .product .name, .stencils-new-report .categories .category .products .product .name, .show-stencil .categories .category .products .product .name {
           flex: 2;
           font-weight: 600; }
-        .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount, .show-stencil .categories .category .products .product .amount, .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit, .show-stencil .categories .category .products .product .unit {
+        .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .modal-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount, .show-stencil .categories .category .products .product .amount, .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .modal-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit, .show-stencil .categories .category .products .product .unit {
           flex: 1; }
-        .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount, .show-stencil .categories .category .products .product .amount {
+        .display-report .categories .category .products .product .amount, .show-report .categories .category .products .product .amount, .modal-report .categories .category .products .product .amount, .stencils-new-report .categories .category .products .product .amount, .show-stencil .categories .category .products .product .amount {
           text-align: center; }
-        .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit, .show-stencil .categories .category .products .product .unit {
+        .display-report .categories .category .products .product .unit, .show-report .categories .category .products .product .unit, .modal-report .categories .category .products .product .unit, .stencils-new-report .categories .category .products .product .unit, .show-stencil .categories .category .products .product .unit {
           font-family: "Circular", sans-serif;
           font-weight: 100;
           text-align: right; }
@@ -1689,6 +1618,16 @@ input, select {
     padding: 10px;
     margin-bottom: 10px;
     line-height: 1.5em;
+    text-align: center; }
+
+.modal-report {
+  display: block;
+  margin: 0 auto; }
+  .modal-report .meta-report {
+    display: block;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    font-weight: 600;
     text-align: center; }
 
 .element-form {

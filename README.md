@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/VirrageS/io-kawiarnie.svg?branch=master)](https://travis-ci.org/VirrageS/io-kawiarnie)
 [![Code Health](https://landscape.io/github/VirrageS/io-kawiarnie/master/landscape.svg?style=flat)](https://landscape.io/github/VirrageS/io-kawiarnie/master)
+[![Coverage Status](https://coveralls.io/repos/github/VirrageS/io-kawiarnie/badge.svg?branch=master)](https://coveralls.io/github/VirrageS/io-kawiarnie?branch=master)
 
 ## Workflow
 

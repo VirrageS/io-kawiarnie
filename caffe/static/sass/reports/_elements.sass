@@ -1,0 +1,62 @@
+
+.elements-section
+  margin-top: 130px
+
+  &:first-of-type
+    margin-top: 50px
+
+  .elements-subtitle
+    @extend .subtitle
+    font-size: 1.8em
+    margin-bottom: 20px
+    margin-top: 0
+
+  .elements
+    display: flex
+    justify-content: center
+    flex-direction: row
+    flex-flow: row wrap
+
+    .element
+      +border-radius(5px)
+      +transition(all 0.3s)
+      font-size: 1.3rem
+      padding: 20px 30px
+      margin: 30px
+      border: 2px solid #000000
+      line-height: 1.7rem
+      text-align: center
+      min-width: 220px
+      width: auto
+      height: 100%
+
+      &:hover
+        background-color: $yellow-color
+        color: #ffffff
+        border-color: #ffffff
+
+      i
+        display: block
+        font-size: 2em
+        margin-bottom: 0.5em
+
+    &.elements-green
+      .element
+        &:hover
+          background-color: $yellow-color
+          color: #ffffff
+          border-color: #ffffff
+
+    &.elements-green
+      .element
+        &:hover
+          background-color: $green-color
+          color: #ffffff
+          border-color: #ffffff
+
+    &.elements-red
+      .element
+        &:hover
+          background-color: $red-color
+          color: #ffffff
+          border-color: #ffffff

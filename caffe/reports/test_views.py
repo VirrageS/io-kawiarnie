@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-# pylint: disable=C0103,R0902
+# pylint: disable=C0103,R0902,C0302
 
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
@@ -8,6 +8,7 @@ from django.utils import timezone
 from .forms import (CategoryForm, FullProductForm, ProductForm, ReportForm,
                     UnitForm)
 from .models import Category, FullProduct, Product, Report, Unit
+from .views import get_report_categories
 
 
 class CategoryViewsTests(TestCase):
@@ -78,7 +79,7 @@ class CategoryViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_create'))
+        self.assertRedirects(response, reverse('reports_navigate'))
 
         # check if new category is displayed
         response = self.client.get(reverse('reports_new_category'))
@@ -155,7 +156,7 @@ class CategoryViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_create'))
+        self.assertRedirects(response, reverse('reports_navigate'))
 
         # check if category caffees has changed
         category = Category.objects.get(id=self.cakes.id)
@@ -232,7 +233,7 @@ class UnitViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_create'))
+        self.assertRedirects(response, reverse('reports_navigate'))
 
         # check if new unit is displayed
         response = self.client.get(reverse('reports_new_unit'))
@@ -309,7 +310,7 @@ class UnitViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_create'))
+        self.assertRedirects(response, reverse('reports_navigate'))
 
         # check if unit caffees has changed
         unit = Unit.objects.get(id=self.grams.id)
@@ -403,7 +404,7 @@ class ProductViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_create'))
+        self.assertRedirects(response, reverse('reports_navigate'))
 
         # check if new product is displayed
         response = self.client.get(reverse('reports_new_product'))
@@ -487,7 +488,7 @@ class ProductViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_create'))
+        self.assertRedirects(response, reverse('reports_navigate'))
 
         # check if product caffees has changed
         product = Product.objects.get(id=self.cake.id)
@@ -612,7 +613,7 @@ class FullProductViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_create'))
+        self.assertRedirects(response, reverse('reports_navigate'))
 
         # check if new fullproduct is displayed
         response = self.client.get(reverse('reports_new_fullproduct'))
@@ -700,7 +701,7 @@ class FullProductViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_create'))
+        self.assertRedirects(response, reverse('reports_navigate'))
 
         # check if fullproduct caffees has changed
         fullproduct = FullProduct.objects.get(id=self.cake_full.id)
@@ -772,42 +773,17 @@ class ReportViewsTests(TestCase):
 
         response = self.client.get(reverse('reports_new_report'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'reports/new_element.html')
+        self.assertTemplateUsed(response, 'reports/new_report.html')
 
         # check context
         self.assertIsInstance(response.context['form'], ReportForm)
 
-        self.assertEqual(len(response.context['context']), 1)
-        self.assertEqual(
-            response.context['context']['title'],
-            'Nowy raport'
-        )
+        reports = response.context['reports']
+        self.assertEqual(len(reports), 2)
 
-        elements = response.context['elements']
-        self.assertEqual(len(elements), 2)
-
-        for element in elements:
-            self.assertEqual(len(element), 3)
-            self.assertIn(
-                element['edit_href'], [
-                    reverse(
-                        'reports_edit_report',
-                        args=(self.minor_report.id,)
-                    ),
-                    reverse(
-                        'reports_edit_report',
-                        args=(self.major_report.id,)
-                    )
-                ]
-            )
-            self.assertIn(
-                element['id'],
-                [self.minor_report.id, self.major_report.id]
-            )
-            self.assertIn(
-                element['desc'],
-                [str(self.minor_report), str(self.major_report)]
-            )
+        for report in reports:
+            self.assertIsInstance(report, Report)
+            self.assertIsNotNone(report.categories)
 
     def test_new_report_post_fail(self):
         """Check if new report fails to create when form is not valid."""
@@ -826,7 +802,7 @@ class ReportViewsTests(TestCase):
                     ['"" nie jest poprawną wartością klucza głównego.']
             }
         )
-        self.assertTemplateUsed(response, 'reports/new_element.html')
+        self.assertTemplateUsed(response, 'reports/new_report.html')
 
     def test_new_report_post_success(self):
         """Check if new report successes to create."""
@@ -840,12 +816,12 @@ class ReportViewsTests(TestCase):
         )
 
         # print(response.context['form'])
-        self.assertRedirects(response, reverse('reports_create'))
+        self.assertRedirects(response, reverse('reports_navigate'))
 
         # check if new report is displayed
         response = self.client.get(reverse('reports_new_report'))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context['elements']), 3)
+        self.assertEqual(len(response.context['reports']), 3)
 
         cake = FullProduct.objects.get(id=self.cake_full_second.id)
         new_report = cake.report
@@ -924,7 +900,7 @@ class ReportViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_create'))
+        self.assertRedirects(response, reverse('reports_navigate'))
 
         # check if report caffees has changed
         report = FullProduct.objects.get(id=self.cake_full_second.id).report
@@ -934,20 +910,20 @@ class ReportViewsTests(TestCase):
         # check if edited report is displayed
         response = self.client.get(reverse('reports_new_report'))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context['elements']), 2)
+        self.assertEqual(len(response.context['reports']), 2)
 
     def test_create_report(self):
         """Check if create report view is displayed properly."""
 
-        response = self.client.get(reverse('reports_create'))
+        response = self.client.get(reverse('reports_navigate'))
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'reports/create_report.html')
+        self.assertTemplateUsed(response, 'home/reports.html')
 
     def test_show_all_reports_show(self):
         """Check if show all reports view actually shows all reports."""
 
-        response = self.client.get(reverse('reports_show_all'))
+        response = self.client.get(reverse('reports_show_all_reports'))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/all.html')
@@ -997,3 +973,33 @@ class ReportViewsTests(TestCase):
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
                 reverse('reports_show_report', args=(_id,))
+
+    def test_get_report_categories(self):
+        """Check if display categories and products when report is valid."""
+
+        categories = get_report_categories(self.major_report.id)
+        full_products = self.major_report.full_products.all()
+
+        for full_product in full_products:
+            product = full_product.product
+            self.assertIsNotNone(categories[product.category.name])
+            self.assertIn(
+                {
+                    'name': product.name,
+                    'amount': full_product.amount,
+                    'unit': product.unit.name
+                },
+                categories[product.category.name]
+            )
+
+    def test_get_report_categories_invalid(self):
+        """Check if does not display categories if report is invalid."""
+
+        ids_invalid = [
+            13, 23423, 24, 22, 242342322342, 2424242424224,
+            -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
+        ]
+
+        for _id in ids_invalid:
+            categories = get_report_categories(_id)
+            self.assertIsNone(categories)

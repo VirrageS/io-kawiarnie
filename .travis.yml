@@ -4,7 +4,10 @@ python:
   - 3.5
 install:
   - pip install -r requirements.txt
+  - pip install coveralls
 script:
-  - coverage run --source="." --omit="*migrations*" caffe/manage.py test caffe
+  - coverage run --source="caffe" --omit="*migrations*" caffe/manage.py test caffe
+after_success:
+  - coveralls
 notifications:
   slack: io-kawiarnie:9weIop9A462y5IzoQEBI90Ps

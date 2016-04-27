@@ -114,33 +114,18 @@
     line-height: 1.5em
     text-align: center
 
+.modal-report
+  @extend .display-report
 
-.elements
-  display: flex
-  justify-content: center
-  flex-direction: row
-  flex-flow: row wrap
+  display: block
+  margin: 0 auto
 
-  .element
-    +border-radius(5px)
-    +transition(all 0.3s)
-    font-size: 1.3rem
-    padding: 20px
-    margin: 30px
-    border: 2px solid #000000
-    line-height: 1.7rem
+  .meta-report
+    display: block
+    font-size: 1.4rem
+    margin-bottom: 20px
+    font-weight: $bold
     text-align: center
-    width: 250px
-
-    &:hover
-      background-color: #f2c53d
-      color: #ffffff
-      border-color: #ffffff
-
-    i
-      display: block
-      font-size: 2em
-      margin-bottom: 0.5em
 
 .element-form
   @extend .form

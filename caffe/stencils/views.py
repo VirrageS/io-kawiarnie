@@ -76,6 +76,8 @@ def stencils_new_report(request, stencil_id):
     report is not empty
     """
 
+    checked = []
+
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.all()
 
@@ -100,6 +102,7 @@ def stencils_new_report(request, stencil_id):
     if request.POST:
         full_products = request.POST
         forms = []
+        valid = True
 
         # chcek validation and create form for each fullproduct
         for full_product in full_products:
@@ -114,17 +117,24 @@ def stencils_new_report(request, stencil_id):
                 'product': fp_list[0],
                 'amount': fp_list[1]
             })
-
+            
             if not form.is_valid():
-                return render(request, 'stencils/new_report.html', {
-                    'stencil': stencil,
-                    'categories': all_categories
+                valid = False
+
+                checked.append({
+                    'product':fp_list[0],
+                    'amount':''
+                })
+            else:
+                checked.append({
+                    'product':fp_list[0],
+                    'amount':fp_list[1]
                 })
 
             forms.append(form)
 
         # check if some form exists
-        if len(forms) > 0:
+        if len(forms) > 0 and valid:
             report = Report.objects.create()
 
             # for each form save it with its report
@@ -135,10 +145,14 @@ def stencils_new_report(request, stencil_id):
 
             report.save()
 
+            return redirect(reverse('stencils_show_all_stencils'))
+
     return render(request, 'stencils/new_report.html', {
         'stencil': stencil,
-        'categories': all_categories
+        'categories': all_categories,
+        'checked':checked
     })
+
 
 
 def stencils_edit_report(request, report_id):

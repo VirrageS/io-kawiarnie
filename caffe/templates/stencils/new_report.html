@@ -11,6 +11,7 @@ Nowy raport
 
 
   var categories;
+  var checked;
 
   function getProduct(product_id) {
     var product;
@@ -26,9 +27,49 @@ Nowy raport
     return product;
   }
 
+  // append previously selected products to already selected
+  // and remove from avaible choices 
+  function appendCheckedAndRemove() {
+    for (var i = 0; i < categories.length; ++i) {
+      for (var j = 0; j < categories[i].products.length; ++j) {
+        for (var k = 0; k < checked.length; ++k) {
+          if (categories[i].products[j]['id'] == checked[k]['product']) {
+            var product = getProduct(checked[k]['product']);
+
+            //select category to which append
+            var selector = ".category#" + categories[i].id;
+            $(selector).children('.products').append('\
+              <div id="' + product.id + '" class="product">\
+                <input type="hidden" name="' + product.id + '" value="' + product.id + '"/>\
+                <div class="name">\
+                  ' + product.name +'\
+                </div>\
+                <div class="amount">\
+                  <input type="number" name="' + product.id + '" value="' + checked[k]['amount'] +'"/>\
+                </div>\
+                <div class="unit">\
+                  ' + product.unit + '\
+                </div>\
+                <div class="trash">\
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>\
+                </div>\
+              </div>\
+            ');
+
+            //remove previously selected from avaible choices
+            selector = "#" + checked[k]['product'];
+            $(".select-wrapper").find(selector).remove();
+          }
+        }
+      }
+    }
+  }
+
+
   $(document).ready(function() {
     categories = {{ categories|safe }};
-    // console.log(categories);
+    checked = {{ checked|safe }};
+    //console.log(categories);
 
     $('select').on('change', function() {
       var category = $(this).closest('.category'); //.attr('id')
@@ -57,6 +98,8 @@ Nowy raport
         ');
       }
     });
+      
+    appendCheckedAndRemove();
 
     $(document).on('click', '.trash', function() {
       var product = $(this).closest('.product');
@@ -105,9 +148,9 @@ Nowy raport
           <div class="select-product input-line">
             <div class="select-wrapper">
               <select>
-                <option name="product" value="-1">-------------</option>
+                <option name="product" id="-1" value="-1">-------------</option>
                 {% for product in category.products %}
-                  <option name="product" value="{{ product.id }}">{{ product.name }}</option>
+                  <option name="product" id="{{ product.id }}" value="{{ product.id }}">{{ product.name }}</option>
                 {% endfor %}
               </select>
             </div>

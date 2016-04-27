@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-# pylint: disable=C0103,R0902
+# pylint: disable=C0103,R0902,C0302
 
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
@@ -974,8 +974,8 @@ class ReportViewsTests(TestCase):
             with self.assertRaises(NoReverseMatch):
                 reverse('reports_show_report', args=(_id,))
 
-
     def test_get_report_categories(self):
+        """Check if display categories and products when report is valid.""" 
         categories = get_report_categories(self.major_report.id)
         full_products = self.major_report.full_products.all()
 
@@ -990,7 +990,6 @@ class ReportViewsTests(TestCase):
                 },
                 categories[product.category.name]
             )
-
 
     def test_get_report_categories_invalid(self):
         """Check if does not display categories if report is invalid."""

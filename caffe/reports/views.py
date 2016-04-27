@@ -9,7 +9,7 @@ from .models import Category, FullProduct, Product, Report, Unit
 
 
 def get_report_categories(report_id):
-    """Return all categories for given Report.
+    """Return all categories with products for given Report.
 
     Args:
         report_id (int): Id of Report which we want to display.
@@ -22,7 +22,7 @@ def get_report_categories(report_id):
     report = None
     try:
         report = Report.objects.filter(id=report_id).first()
-    except:
+    except Exception as e:
         return None
 
     if not report:

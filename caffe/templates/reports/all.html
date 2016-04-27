@@ -5,21 +5,7 @@ Raporty
 {% endblock %}
 
 {% block content %}
-  <section class="new">
-    <a class="button button-rounded button-green button-semi-big" href="{% url 'reports_navigate' %}">
-      Zarządzaj raportami
-    </a>
-
-    <a class="button button-rounded button-green button-semi-big" href="{% url 'stencils_create' %}">
-      Zarządzaj szablonami
-    </a>
-  </section>
-
-  <section class="subtitle">
-    Utworzone
-  </section>
-
-  <div class="reports-container">
+  <section class="reports">
     {% for report in reports %}
       <div class="report">
         <a href="{% url 'reports_show_report' report.id %}" class="meta">
@@ -34,5 +20,5 @@ Raporty
         </a>
       </div>
     {% endfor %}
-  </div>
+  </section>
 {% endblock %}

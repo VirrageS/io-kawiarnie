@@ -1,0 +1,55 @@
+.categories
+  display: flex
+  justify-content: space-between
+  flex-direction: row
+  flex-flow: row wrap
+
+.category
+  padding: 1rem
+  padding-top: 0
+  margin: 30px 20px
+  border: 3px solid #000000
+  width: 430px
+  height: 100%
+
+  .category-name
+    font-family: "Fjord One", sans-serif
+    font-size: 1.7rem
+    font-weight: 400
+    margin-bottom: 1.5em
+    border-bottom: 2px solid #000000
+    letter-spacing: 0.1em
+    line-height: 1.8em
+    text-align: center
+
+.products
+  display: block
+
+.product
+  display: flex
+  font-size: 1.1rem
+  font-weight: 100
+  margin: 20px 0
+  align-items: center
+
+  &::before
+    content: ""
+    display: inline
+
+  .name, .amount, .unit
+    display: inline-block
+
+  .name
+    flex: 2
+    font-weight: 600
+
+  .amount, .unit
+    flex: 1
+
+  .amount
+    text-align: center
+
+  .unit
+    font-family: "Circular", sans-serif
+    font-weight: 100
+    text-align: right

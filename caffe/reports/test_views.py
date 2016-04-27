@@ -975,7 +975,8 @@ class ReportViewsTests(TestCase):
                 reverse('reports_show_report', args=(_id,))
 
     def test_get_report_categories(self):
-        """Check if display categories and products when report is valid.""" 
+        """Check if display categories and products when report is valid."""
+
         categories = get_report_categories(self.major_report.id)
         full_products = self.major_report.full_products.all()
 

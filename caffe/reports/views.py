@@ -22,7 +22,7 @@ def get_report_categories(report_id):
     report = None
     try:
         report = Report.objects.filter(id=report_id).first()
-    except Exception as e:
+    except:
         return None
 
     if not report:

@@ -53,7 +53,7 @@ def stencils_show_stencil(request, stencil_id):
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.all()
 
-    return render(request, 'stencils/show_stencil.html', {
+    return render(request, 'stencils/show.html', {
         'stencil': stencil,
         'categories': categories
     })
@@ -61,7 +61,7 @@ def stencils_show_stencil(request, stencil_id):
 
 def stencils_show_all_stencils(request):
     stencils = Stencil.objects.all()
-    return render(request, 'stencils/show_all_stencils.html', {
+    return render(request, 'stencils/all.html', {
         'stencils': stencils
     })
 

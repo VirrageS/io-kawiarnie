@@ -1,0 +1,21 @@
+%clearfix::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+%subtitle {
+  display: block;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 1.9rem;
+  font-weight: 100;
+  margin: 120px 0 30px 0;
+  letter-spacing: 0.1em;
+  line-height: 2.4rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.subtitle {
+ @extend %subtitle;
+}

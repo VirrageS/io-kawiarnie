@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^create/$', stencils_create, name='stencils_create'),
-    url(r'^show/all/$',
+    url(r'^all/$',
         stencils_show_all_stencils, name='stencils_show_all_stencils'),
     url(r'^show/(?P<stencil_id>\d{0,17})/$',
         stencils_show_stencil, name='stencils_show_stencil'),

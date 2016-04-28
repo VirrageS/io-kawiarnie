@@ -25,13 +25,17 @@
     margin: 15px 0
 
     ul
+      +border-radius(4px)
       margin-top: 15px
+      border: 2px solid $black-color
       list-style: none
+      padding: 10px
 
       li
-        margin: 20px 0
+        margin: 10px 0
         margin-left: 15px
         text-align: left !important
+        cursor: pointer
 
         &:first-child
           margin-top: 0
@@ -43,18 +47,20 @@
           display: inline-block
           position: relative
           font-size: 1.2rem
+          line-height: normal
           color: #000000
           vertical-align: middle
+          cursor: pointer
 
           &::before
             content: "\f096"
+            display: inline-block
             font-family: "FontAwesome"
             font-size: 1.5rem
-            display: inline-block
             margin-right: 10px
             text-align: left
-            vertical-align: middle
             width: 30px
+            vertical-align: middle
 
           &.checked-box::before
             content: "\f046"
@@ -100,12 +106,15 @@
     &:hover, &:active, &:focus
       border-color: #98c4fe
 
+  input[type=number]
+    font-family: "Source Code Pro", sans-serif
+
   textarea
     +transition(all 0.1s)
     font-size: 0.85em
-    min-height: 50px
     height: 150px
     max-width: 100%
+    min-height: 50px
 
   input[type=checkbox]
     outline: initial !important

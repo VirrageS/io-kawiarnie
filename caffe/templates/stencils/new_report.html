@@ -35,11 +35,16 @@ Nowy raport
         for (var k = 0; k < checked.length; ++k) {
           if (categories[i].products[j]['id'] == checked[k]['product']) {
             var product = getProduct(checked[k]['product']);
-
+            var errorMessage = '';
+            console.log(checked[k]['error']['amount'])
+            if (checked[k]['error']) {
+              errorMessage = checked[k]['error']['amount']
+            }
             //select category to which append
             var selector = ".category#" + categories[i].id;
             $(selector).children('.products').append('\
               <div id="' + product.id + '" class="product">\
+                <div>' + errorMessage + '</div>\
                 <input type="hidden" name="' + product.id + '" value="' + product.id + '"/>\
                 <div class="name">\
                   ' + product.name +'\

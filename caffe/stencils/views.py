@@ -120,15 +120,16 @@ def stencils_new_report(request, stencil_id):
             
             if not form.is_valid():
                 valid = False
-
                 checked.append({
                     'product':fp_list[0],
-                    'amount':''
+                    'amount':'',
+                    'error':form.errors
                 })
             else:
                 checked.append({
                     'product':fp_list[0],
-                    'amount':fp_list[1]
+                    'amount':fp_list[1],
+                    'error':''
                 })
 
             forms.append(form)

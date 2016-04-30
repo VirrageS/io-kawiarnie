@@ -78,11 +78,11 @@ def stencils_new_report(request, stencil_id):
     """
 
     checked = []
-
+    all_categories = []
+    
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.all()
 
-    all_categories = []
     for category in categories:
         products = Product.objects.filter(category=category).all()
 
@@ -111,26 +111,25 @@ def stencils_new_report(request, stencil_id):
             if full_product == 'csrfmiddlewaretoken':
                 continue
 
-
             fp_list = full_products.getlist(full_product)
             form = FullProductForm({
                 # sets product id and amount for fullproduct
                 'product': fp_list[0],
                 'amount': fp_list[1]
             })
-            
+
             if not form.is_valid():
                 valid = False
                 checked.append({
-                    'product':fp_list[0],
-                    'amount':'',
-                    'error':form.errors['amount']
+                    'product': fp_list[0],
+                    'amount': '',
+                    'error': form.errors['amount']
                 })
             else:
                 checked.append({
-                    'product':fp_list[0],
-                    'amount':fp_list[1],
-                    'error':''
+                    'product': fp_list[0],
+                    'amount': fp_list[1],
+                    'error': ''
                 })
 
             forms.append(form)
@@ -152,9 +151,8 @@ def stencils_new_report(request, stencil_id):
     return render(request, 'stencils/new_report.html', {
         'stencil': stencil,
         'categories': all_categories,
-        'checked':checked
+        'checked': checked
     })
-
 
 
 def stencils_edit_report(request, report_id):

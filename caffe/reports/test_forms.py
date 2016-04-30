@@ -10,7 +10,6 @@ from .forms import CategoryForm, UnitForm, ProductForm
 from .forms import FullProductForm, ReportForm
 
 
-
 class CategoryFormTest(TestCase):
     """tests of CategoryForm"""
 
@@ -321,3 +320,4 @@ class ReportFormTest(TestCase):
         })
 
         self.assertTrue(form_correct.is_valid())
+

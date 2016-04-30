@@ -1,0 +1,77 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Raporty i szablony
+{% endblock %}
+
+{% block content %}
+<section class="cards cards-primary">
+  <a href="{% url 'reports_new_report' %}" class="card">
+    <i class="fa fa-wpforms" aria-hidden="true"></i>
+    Nowy raport
+  </a>
+
+  <a href="{% url 'stencils_show_all_stencils' %}" class="card">
+    <i class="fa fa-copy" aria-hidden="true"></i>
+    Nowy raport z szablonu
+  </a>
+</section>
+
+<section class="cards cards-green">
+  <h2 class="card-subtitle">
+    Tworzenie elementów raportu
+  </h2>
+
+  <a href="{% url 'reports_new_unit' %}" class="card">
+    <i class="fa fa-percent" aria-hidden="true"></i>
+    Jednostki
+  </a>
+  <a href="{% url 'reports_new_category' %}" class="card">
+    <i class="fa fa-columns" aria-hidden="true"></i>
+    Kategorie
+  </a>
+  <a href="{% url 'reports_new_product' %}" class="card">
+    <i class="fa fa-tag" aria-hidden="true"></i>
+    Produkty
+  </a>
+  <a href="{% url 'reports_new_fullproduct' %}" class="card">
+    <i class="fa fa-tag" aria-hidden="true"></i>
+    Pełne produkty
+  </a>
+  <a href="{% url 'stencils_new_stencil' %}" class="card">
+    <i class="fa fa-edit" aria-hidden="true"></i>
+    Szablony
+  </a>
+</section>
+
+<section class="cards cards-red">
+  <h2 class="card-subtitle">
+    Podgląd i edycja
+  </h2>
+
+  <a href="{% url 'reports_new_unit' %}" class="card">
+    <i class="fa fa-percent" aria-hidden="true"></i>
+    Jednostki
+  </a>
+  <a href="{% url 'reports_new_category' %}" class="card">
+    <i class="fa fa-columns" aria-hidden="true"></i>
+    Kategorie
+  </a>
+  <a href="{% url 'reports_new_product' %}" class="card">
+    <i class="fa fa-tag" aria-hidden="true"></i>
+    Produkty
+  </a>
+  <a href="{% url 'reports_new_fullproduct' %}" class="card">
+    <i class="fa fa-tag" aria-hidden="true"></i>
+    Pełne produkty
+  </a>
+  <a href="{% url 'reports_show_all_reports' %}" class="card">
+    <i class="fa fa-wpforms" aria-hidden="true"></i>
+    Raporty
+  </a>
+  <a href="{% url 'stencils_show_all_stencils' %}" class="card">
+    <i class="fa fa-edit" aria-hidden="true"></i>
+    Szablony
+  </a>
+</section>
+{% endblock %}

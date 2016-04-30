@@ -1,14 +1,55 @@
 # -*- encoding: utf-8 -*-
 
-from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Report, FullProduct, Product, Unit, Category
-from .forms import ReportForm, ProductForm
-from .forms import FullProductForm, UnitForm, CategoryForm
+from .forms import (CategoryForm, FullProductForm, ProductForm, ReportForm,
+                    UnitForm)
+from .models import Category, FullProduct, Product, Report, Unit
+
+
+def get_report_categories(report_id):
+    """Return all categories with products for given Report.
+
+    Args:
+        report_id (int): Id of Report which we want to display.
+
+    Returns:
+        All categories with products for Report, or None if Report does not
+        exists.
+    """
+
+    report = None
+    try:
+        report = Report.objects.filter(id=report_id).first()
+    except:
+        return None
+
+    if not report:
+        return None
+
+    all_categories = {}
+    for full_product in report.full_products.all():
+        product = full_product.product
+        category = product.category
+        unit = product.unit
+
+        # add product to specific category
+        if category.name not in all_categories:
+            all_categories[category.name] = []
+
+        all_categories[category.name].append({
+            'name': product.name,
+            'amount': full_product.amount,
+            'unit': unit.name
+        })
+
+    return all_categories
 
 
 def reports_new_category(request):
+    """Show form to create new Category and show existing Categories."""
+
     elements = []
     form = CategoryForm()
 
@@ -17,7 +58,7 @@ def reports_new_category(request):
 
         if form.is_valid():
             form.save()
-            return redirect(reverse('reports_create'))
+            return redirect(reverse('reports_navigate'))
 
     categories = Category.objects.all()
     for category in categories:
@@ -37,12 +78,18 @@ def reports_new_category(request):
 
 
 def reports_edit_category(request, category_id):
+    """Show form to edit Category.
+
+    Args:
+        category_id (int): Id of Category which is edited.
+    """
+
     category = get_object_or_404(Category, id=category_id)
     form = CategoryForm(request.POST or None, instance=category)
 
     if form.is_valid():
         form.save()
-        return redirect(reverse('reports_create'))
+        return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {
         'form': form,
@@ -54,6 +101,8 @@ def reports_edit_category(request, category_id):
 
 
 def reports_new_unit(request):
+    """Show form to create new Unit and show already existing Units."""
+
     elements = []
     form = UnitForm()
 
@@ -62,7 +111,7 @@ def reports_new_unit(request):
 
         if form.is_valid():
             form.save()
-            return redirect(reverse('reports_create'))
+            return redirect(reverse('reports_navigate'))
 
     units = Unit.objects.all()
     for unit in units:
@@ -82,12 +131,18 @@ def reports_new_unit(request):
 
 
 def reports_edit_unit(request, unit_id):
+    """Show form to edit Unit.
+
+    Args:
+        unit_id (int): Id of Unit which is edited.
+    """
+
     unit = get_object_or_404(Unit, id=unit_id)
     form = UnitForm(request.POST or None, instance=unit)
 
     if form.is_valid():
         form.save()
-        return redirect(reverse('reports_create'))
+        return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {
         'form': form,
@@ -99,6 +154,8 @@ def reports_edit_unit(request, unit_id):
 
 
 def reports_new_product(request):
+    """Show form to create new Product and show already existing Products."""
+
     elements = []
     form = ProductForm()
 
@@ -107,7 +164,7 @@ def reports_new_product(request):
 
         if form.is_valid():
             form.save()
-            return redirect(reverse('reports_create'))
+            return redirect(reverse('reports_navigate'))
 
     products = Product.objects.all()
     for product in products:
@@ -127,12 +184,18 @@ def reports_new_product(request):
 
 
 def reports_edit_product(request, product_id):
+    """Show form to edit Product.
+
+    Args:
+        product_id (int): Id of Product which is edited.
+    """
+
     product = get_object_or_404(Product, id=product_id)
     form = ProductForm(request.POST or None, instance=product)
 
     if form.is_valid():
         form.save()
-        return redirect(reverse('reports_create'))
+        return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {
         'form': form,
@@ -144,6 +207,8 @@ def reports_edit_product(request, product_id):
 
 
 def reports_new_fullproduct(request):
+    """Show form to create new FullProduct and show existing FullProducts."""
+
     elements = []
     form = FullProductForm()
 
@@ -152,7 +217,7 @@ def reports_new_fullproduct(request):
 
         if form.is_valid():
             form.save()
-            return redirect(reverse('reports_create'))
+            return redirect(reverse('reports_navigate'))
 
     full_products = FullProduct.objects.all()
     for full_product in full_products:
@@ -179,12 +244,18 @@ def reports_new_fullproduct(request):
 
 
 def reports_edit_fullproduct(request, fullproduct_id):
+    """Show form to edit FullProduct.
+
+    Args:
+        fullproduct_id (int): Id of FullProduct which is edited.
+    """
+
     fullproduct = get_object_or_404(FullProduct, id=fullproduct_id)
     form = FullProductForm(request.POST or None, instance=fullproduct)
 
     if form.is_valid():
         form.save()
-        return redirect(reverse('reports_create'))
+        return redirect(reverse('reports_navigate'))
 
     products = Product.objects.all()
     products = [
@@ -201,7 +272,8 @@ def reports_edit_fullproduct(request, fullproduct_id):
 
 
 def reports_new_report(request):
-    elements = []
+    """Show form to create new Report and show already existing Report."""
+
     form = ReportForm()
 
     if request.POST:
@@ -213,26 +285,26 @@ def reports_new_report(request):
                 full_product.report = report
                 full_product.save()
 
-            return redirect(reverse('reports_create'))
+            return redirect(reverse('reports_navigate'))
 
-    reports = Report.objects.all()
-    for report in reports:
-        elements.append({
-            'edit_href': reverse('reports_edit_report', args=(report.id,)),
-            'id': report.id,
-            'desc': str(report)
-        })
+    # get last five reports
+    latest_reports = Report.objects.order_by('-created_on')[:5]
+    for report in latest_reports:
+        report.categories = get_report_categories(report.id)
 
-    return render(request, 'reports/new_element.html', {
+    return render(request, 'reports/new_report.html', {
         'form': form,
-        'context': {
-            'title': u'Nowy raport'
-        },
-        'elements': elements
+        'reports': latest_reports
     })
 
 
 def reports_edit_report(request, report_id):
+    """Show form to edit Report.
+
+    Args:
+        report_id (int): Id of Report which is edited.
+    """
+
     report = get_object_or_404(Report, id=report_id)
     form = ReportForm(request.POST or None, instance=report)
 
@@ -250,7 +322,7 @@ def reports_edit_report(request, report_id):
             full_product.report = report
             full_product.save()
 
-        return redirect(reverse('reports_create'))
+        return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {
         'form': form,
@@ -261,37 +333,29 @@ def reports_edit_report(request, report_id):
     })
 
 
-def reports_create(request):
-    return render(request, 'reports/create_report.html')
-
-
-def reports_show_all_reports(request):
-    reports = Report.objects.all()
-    return render(request, 'reports/all.html', {'reports': reports})
-
-
 def reports_show_report(request, report_id):
+    """Show Report with all Categories, Products, Units and FullProducts.
+
+    Args:
+        report_id (int): Id of Report which have to be shown.
+    """
+
     report = get_object_or_404(Report, id=report_id)
-
-    all_categories = {}
-    full_products = report.full_products.all()
-
-    for full_product in full_products:
-        product = full_product.product
-        category = product.category
-        unit = product.unit
-
-        # add product to specific category
-        if category.name not in all_categories:
-            all_categories[category.name] = []
-
-        all_categories[category.name].append({
-            'name': product.name,
-            'amount': full_product.amount,
-            'unit': unit.name
-        })
 
     return render(request, 'reports/show.html', {
         'report': report,
-        'categories': all_categories
+        'categories': get_report_categories(report.id)
     })
+
+
+def reports_navigate(request):
+    """Show navigation view for reports."""
+
+    return render(request, 'home/reports.html')
+
+
+def reports_show_all_reports(request):
+    """Show all existing Reports."""
+
+    reports = Report.objects.all()
+    return render(request, 'reports/all.html', {'reports': reports})

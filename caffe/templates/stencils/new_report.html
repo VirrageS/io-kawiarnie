@@ -103,52 +103,50 @@ Nowy raport
 })(jQuery);
 </script>
 
-<div class="stencils-new-report">
-  <div class="stencil-meta">
-    <div class="name">
-      {{ stencil.name }}
-    </div>
-
-    {% if stencil.description %}
-      <div class="description">
-        {{ stencil.description }}
-      </div>
-    {% endif %}
+<section class="stencil-title">
+  <div class="name">
+    {{ stencil.name }}
   </div>
 
-  <!-- <a href="{% url 'reports_edit_report' report.id %}" class="button button-rounded button-red">
-    Edytuj
-  </a> -->
-
-  <form method="POST" class="stencil-report-form">
-    {% csrf_token %}
-
-    <div class="categories">
-      {% for category in categories %}
-        <div id="{{ category.id }}" class="category">
-          <div class="category-name">
-            {{ category.name }}
-          </div>
-
-          <div class="select-product input-line">
-            <div class="select-wrapper">
-              <select>
-                <option name="product" id="-1" value="-1">-------------</option>
-                {% for product in category.products %}
-                  <option name="product" id="{{ product.id }}" value="{{ product.id }}">{{ product.name }}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <label for="">Wybierz produkt</label>
-          </div>
-
-          <div class="products">
-          </div>
-        </div>
-      {% endfor %}
+  {% if stencil.description %}
+    <div class="description">
+      {{ stencil.description }}
     </div>
+  {% endif %}
+</section>
 
-    <button type="submit" class="button button-rounded button-green">Dodaj</button>
-  </form>
-</div>
+<!-- <a href="{% url 'reports_edit_report' report.id %}" class="button button-rounded button-red">
+  Edytuj
+</a> -->
+
+<form method="POST" class="stencil-report-form">
+  {% csrf_token %}
+
+
+  <div class="categories">
+    {% for category in categories %}
+      <div id="{{ category.id }}" class="category">
+        <div class="category-name">
+          {{ category.name }}
+        </div>
+        <div class="select-product input-line">
+          <div class="select-wrapper">
+            <select>
+              <option value="-1">-------------</option>
+              {% for product in category.products %}
+                <option value="{{ product.id }}">{{ product.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <label for="">Wybierz produkt</label>
+        </div>
+
+        <div class="products">
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <button type="submit" class="button button-rounded button-green">Dodaj</button>
+</form>
 {% endblock %}

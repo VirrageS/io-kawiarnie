@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
-from django.test import TestCase, Client
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.core.urlresolvers import NoReverseMatch, reverse
+from django.test import Client, TestCase
 from django.utils import timezone
 
 from reports.models import Category

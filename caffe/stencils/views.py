@@ -1,6 +1,7 @@
 """stencils views module"""
-from django.shortcuts import render, redirect, get_object_or_404
+
 from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404, redirect, render
 
 from reports.models import Product, Report
 from reports.forms import FullProductForm
@@ -10,7 +11,8 @@ from .models import Stencil
 
 
 def stencils_new_stencil(request):
-    """creates new stencil with given categories"""
+    """Show form to create new stencil and show existing stencils."""
+
     final_stencils = []
     form = StencilForm()
 
@@ -56,7 +58,7 @@ def stencils_show_stencil(request, stencil_id):
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.all()
 
-    return render(request, 'stencils/show_stencil.html', {
+    return render(request, 'stencils/show.html', {
         'stencil': stencil,
         'categories': categories
     })
@@ -65,7 +67,7 @@ def stencils_show_stencil(request, stencil_id):
 def stencils_show_all_stencils(request):
     """shows all existing stencils"""
     stencils = Stencil.objects.all()
-    return render(request, 'stencils/show_all_stencils.html', {
+    return render(request, 'stencils/all.html', {
         'stencils': stencils
     })
 

@@ -1,17 +1,19 @@
 # -*- encoding: utf-8 -*-
 
 from django.test import TestCase
-from django.utils import timezone
 
-from .models import Stencil
-from .forms import StencilForm
 from reports.models import Category
+
+from .forms import StencilForm
+from .models import Stencil
 
 
 class StencilFormTest(TestCase):
     """Tests Stencil form."""
 
     def setUp(self):
+        """Initialize all Categories needed for further tests."""
+
         self.caffees = Category.objects.create(name='Kawy')
         self.cakes = Category.objects.create(name='Ciasta')
 

@@ -1,0 +1,41 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Szablony
+{% endblock %}
+
+{% block content %}
+<section class="stencils">
+  {% for stencil in stencils %}
+    <div class="stencil">
+      <div class="stencil-meta">
+        <a href="{% url 'stencils_show_stencil' stencil.id %}" class="name">
+          {{ stencil.name }}
+        </a>
+
+        {% if stencil.description %}
+          <a href="{% url 'stencils_show_stencil' stencil.id %}" class="description">
+              {{ stencil.description }}
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="stencil-buttons">
+        <a href="{% url 'stencils_show_stencil' stencil.id %}" class="button button-rounded button-blue button-with-icon">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <span>
+            Pokaż szablon
+          </span>
+        </a>
+
+        <a href="{% url 'stencils_new_report' stencil.id %}" class="button button-rounded button-green button-with-icon">
+          <i class="fa fa-wpforms" aria-hidden="true"></i>
+          <span>
+            Nowy raport
+          </span>
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+</sections>
+{% endblock %}

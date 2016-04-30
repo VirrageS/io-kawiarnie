@@ -1,0 +1,55 @@
+// Font weights
+$light: 100;
+$regular: 400;
+$bold: 600;
+$super-bold: 900;
+
+// Base Font
+$base-font-family: "Open Sans", Helvetica, Arial, sans-serif;
+$base-font-weight: $regular;
+$base-font-size: 18px;
+$base-line-height: 1.4;
+
+// Fixed Font
+$fixed-font-family: monospace;
+$fixed-font-size: 85%;
+$fixed-line-height: $base-line-height;
+
+// Headings
+$header-font-weight: $bold;
+
+// Colors
+$white-color: #ffffff;
+$black-color: #000000;
+
+$green-color: #2ebd59;
+
+$light-blue-color: #4cb0f9;
+$blue-color: #337ab7;
+
+$red-color: #e75f5f;
+$orange-color: #f0ad4e;
+$yellow-color: #f2c53d;
+
+$grey-color:       #828282;
+$grey-color-light: lighten($grey-color, 40%);
+$grey-color-semidark:  darken($grey-color, 10%);
+$grey-color-dark:  darken($grey-color, 25%);
+
+// Panes
+$left-pane-background-color: #2E3C54;
+$left-pane-color-inactive: #a1b3bb;
+$left-pane-color-active-bg: #1b2432;
+$left-pane-color: #ffffff;
+
+$right-pane-background-color: #ffffff;
+$right-pane-color: #000000;
+
+$navigation-bar-background-color: #f1f1f1;
+$navigation-bar-color: #000000;
+
+// Width of the content area
+$on-phone:         480px;
+$on-palmtop:       768px;
+$on-tablet:        992px;
+$on-laptop:        1200px;

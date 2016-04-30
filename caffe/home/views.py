@@ -5,12 +5,16 @@ from employees.models import Employee
 
 
 def home_show_employees_view(request):
+    """Show all existing Employees."""
+
     employees = Employee.objects.all()
 
     return render(request, 'home/base.html', {'employees': employees})
 
 
 def handler404(request):
+    """Show 404 page whenever 404 error occurs."""
+
     response = render_to_response(
         'home/404.html',
         {},
@@ -22,6 +26,8 @@ def handler404(request):
 
 
 def handler500(request):
+    """Show 500 page whenever 500 error occurs."""
+
     response = render_to_response(
         'home/500.html',
         {},

@@ -33,8 +33,8 @@ Nowy raport
     checked = {{ checked|safe }};
     //console.log(categories);
 
-    $('select').on('change', function() {
-      console.log("(on change)");
+    $('select').on('change', {error:'default error', amount:-100}, function(event, obj) {
+
       var category = $(this).closest('.category'); //.attr('id')
       var products = category.children('.products');
       
@@ -42,16 +42,28 @@ Nowy raport
       var product = getProduct(this.value);
       if (product) {
         console.log("(if product)");
+
+        if (obj) {
+          var error = obj.error;
+          var amount = obj.amount;
+        }
+        else {
+          var error = event.data.error;
+          var amount = event.data.amount;
+        }
+        console.log("error",error);
+
         $(this).find(":selected").remove();
 
         products.append('\
+          <div>' + error + '</div>\
           <div id="' + product.id + '" class="product">\
             <input type="hidden" name="' + product.id + '" value="' + product.id + '"/>\
             <div class="name">\
               ' + product.name +'\
             </div>\
             <div class="amount">\
-              <input type="number" name="' + product.id + '" value=""/>\
+              <input type="number" name="' + product.id + '" value="' + amount +'"/>\
             </div>\
             <div class="unit">\
               ' + product.unit + '\
@@ -63,15 +75,14 @@ Nowy raport
         ');
       }
     });
-      
-    console.log(checked);
+
     for (var k = 0; k < checked.length; ++k) {
       var p = getProduct(checked[k]['product']);
 
-      var prod_selector = '#' + p.id;// 
-      var product = $('select').find(prod_selector);
-      console.log("product val", product.val());
-      product.trigger('change');
+      $('select').find('#' + p.id).parent().val(p.id).trigger(
+        'change', 
+        [{error:checked[k]['error']['amount'], amount:checked[k]['amount']}]
+      );
     }
 
     $(document).on('click', '.trash', function() {

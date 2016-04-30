@@ -1,4 +1,4 @@
-"""stencils views module"""
+"""stencils views module """
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 
@@ -10,7 +10,7 @@ from .models import Stencil
 
 
 def stencils_new_stencil(request):
-    """Show form to create new stencil and show existing stencils."""
+    """Show form to create new stencil and show existing stencils. """
 
     final_stencils = []
     form = StencilForm()
@@ -38,7 +38,7 @@ def stencils_new_stencil(request):
 
 
 def stencils_edit_stencil(request, stencil_id):
-    """edits already existing stencil with stencil_id"""
+    """edit already existing stencil with stencil_id """
     stencil = get_object_or_404(Stencil, id=stencil_id)
     form = StencilForm(request.POST or None, instance=stencil)
 
@@ -53,7 +53,7 @@ def stencils_edit_stencil(request, stencil_id):
 
 
 def stencils_show_stencil(request, stencil_id):
-    """shows stencil with stencil_id"""
+    """show stencil with stencil_id """
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.all()
 
@@ -64,7 +64,7 @@ def stencils_show_stencil(request, stencil_id):
 
 
 def stencils_show_all_stencils(request):
-    """shows all existing stencils"""
+    """show all existing stencils """
     stencils = Stencil.objects.all()
     return render(request, 'stencils/all.html', {
         'stencils': stencils
@@ -72,14 +72,14 @@ def stencils_show_all_stencils(request):
 
 
 def stencils_new_report(request, stencil_id):
-    """creates new report from given stencil
+    """create new report from given stencil
     validation is correct if FullProduct validation is and
     report is not empty
     """
 
     checked = []
     all_categories = []
-    
+
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.all()
 
@@ -156,10 +156,10 @@ def stencils_new_report(request, stencil_id):
 
 
 def stencils_edit_report(request, report_id):
-    """renders reports edit"""
+    """render reports edit """
     return render(request, 'stencils/edit_report.html')
 
 
 def stencils_create(request):
-    """renders stencil create"""
+    """render stencil create """
     return render(request, 'stencils/create_stencil.html')

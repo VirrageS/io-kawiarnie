@@ -27,49 +27,6 @@ Nowy raport
     return product;
   }
 
-  // append previously selected products to already selected
-  // and remove from avaible choices 
-  function appendCheckedAndRemove() {
-    for (var i = 0; i < categories.length; ++i) {
-      for (var j = 0; j < categories[i].products.length; ++j) {
-        for (var k = 0; k < checked.length; ++k) {
-          if (categories[i].products[j]['id'] == checked[k]['product']) {
-            var product = getProduct(checked[k]['product']);
-            var errorMessage = '';
-            console.log(checked[k]['error']['amount'])
-            if (checked[k]['error']) {
-              errorMessage = checked[k]['error']['amount']
-            }
-            //select category to which append
-            var selector = ".category#" + categories[i].id;
-            $(selector).children('.products').append('\
-              <div id="' + product.id + '" class="product">\
-                <div>' + errorMessage + '</div>\
-                <input type="hidden" name="' + product.id + '" value="' + product.id + '"/>\
-                <div class="name">\
-                  ' + product.name +'\
-                </div>\
-                <div class="amount">\
-                  <input type="number" name="' + product.id + '" value="' + checked[k]['amount'] +'"/>\
-                </div>\
-                <div class="unit">\
-                  ' + product.unit + '\
-                </div>\
-                <div class="trash">\
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>\
-                </div>\
-              </div>\
-            ');
-
-            //remove previously selected from avaible choices
-            selector = "#" + checked[k]['product'];
-            $(".select-wrapper").find(selector).remove();
-          }
-        }
-      }
-    }
-  }
-
 
   $(document).ready(function() {
     categories = {{ categories|safe }};
@@ -77,11 +34,14 @@ Nowy raport
     //console.log(categories);
 
     $('select').on('change', function() {
+      console.log("(on change)");
       var category = $(this).closest('.category'); //.attr('id')
       var products = category.children('.products');
-
+      
+      console.log("this.value", this.value);
       var product = getProduct(this.value);
       if (product) {
+        console.log("(if product)");
         $(this).find(":selected").remove();
 
         products.append('\
@@ -104,7 +64,15 @@ Nowy raport
       }
     });
       
-    appendCheckedAndRemove();
+    console.log(checked);
+    for (var k = 0; k < checked.length; ++k) {
+      var p = getProduct(checked[k]['product']);
+
+      var prod_selector = '#' + p.id;// 
+      var product = $('select').find(prod_selector);
+      console.log("product val", product.val());
+      product.trigger('change');
+    }
 
     $(document).on('click', '.trash', function() {
       var product = $(this).closest('.product');
@@ -113,7 +81,7 @@ Nowy raport
       if (p) {
         var select = product.closest('.category').find('select');
         select.append('\
-          <option value="' + p.id + '">' + p.name + '</option>\
+          <option id="' + p.id + '" value="' + p.id + '">' + p.name + '</option>\
         ');
 
         product.remove();

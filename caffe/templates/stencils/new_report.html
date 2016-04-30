@@ -93,7 +93,7 @@ Nowy raport
       if (p) {
         var select = product.closest('.category').find('select');
         select.append('\
-          <option value="' + p.id + '">' + p.name + '</option>\
+          <option id="' + p.id + '" value="' + p.id + '">' + p.name + '</option>\
         ');
 
         product.remove();
@@ -115,13 +115,8 @@ Nowy raport
   {% endif %}
 </section>
 
-<!-- <a href="{% url 'reports_edit_report' report.id %}" class="button button-rounded button-red">
-  Edytuj
-</a> -->
-
 <form method="POST" class="stencil-report-form">
   {% csrf_token %}
-
 
   <div class="categories">
     {% for category in categories %}
@@ -129,18 +124,17 @@ Nowy raport
         <div class="category-name">
           {{ category.name }}
         </div>
-        <div class="select-product input-line">
-          <div class="select-wrapper">
-            <select>
-              <option value="-1">-------------</option>
-              {% for product in category.products %}
-                <option value="{{ product.id }}">{{ product.name }}</option>
-              {% endfor %}
-            </select>
+          <div class="select-product input-line">
+            <div class="select-wrapper">
+              <select>
+                <option name="product" id="-1" value="-1">-------------</option>
+                {% for product in category.products %}
+                  <option name="product" id="{{ product.id }}" value="{{ product.id }}">{{ product.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <label for="">Wybierz produkt</label>
           </div>
-          <label for="">Wybierz produkt</label>
-        </div>
-
         <div class="products">
         </div>
       </div>

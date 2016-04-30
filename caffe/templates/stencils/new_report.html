@@ -33,37 +33,38 @@ Nowy raport
     checked = {{ checked|safe }};
     //console.log(categories);
 
-    $('select').on('change', {error:'', amount:''}, function(event, obj) {
-
+    $('select').on('change', function(event, obj) {
       var category = $(this).closest('.category'); //.attr('id')
       var products = category.children('.products');
       
-      console.log("this.value", this.value);
       var product = getProduct(this.value);
       if (product) {
-        console.log("(if product)");
+        var inputStyle = ''; //default input border color
 
         if (obj) {
-          var error = obj.error;
+          if (obj.error) {
+            //append error div if error occured
+            products.append('<div>' + obj.error + '</div>');
+            //change input border color if error occured
+            inputStyle = " style=\"border-color:red;\""; 
+          }
           var amount = obj.amount;
         }
         else {
-          var error = event.data.error;
-          var amount = event.data.amount;
+          var amount = '';
         }
-        console.log("error",error);
 
         $(this).find(":selected").remove();
 
         products.append('\
-          <div>' + error + '</div>\
           <div id="' + product.id + '" class="product">\
             <input type="hidden" name="' + product.id + '" value="' + product.id + '"/>\
             <div class="name">\
               ' + product.name +'\
             </div>\
             <div class="amount">\
-              <input type="number" name="' + product.id + '" value="' + amount +'"/>\
+              <input ' + inputStyle +' type="number"\
+              name="' + product.id + '" value="' + amount +'"/>\
             </div>\
             <div class="unit">\
               ' + product.unit + '\

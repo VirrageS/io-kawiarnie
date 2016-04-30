@@ -123,7 +123,7 @@ def stencils_new_report(request, stencil_id):
                 checked.append({
                     'product':fp_list[0],
                     'amount':'',
-                    'error':form.errors
+                    'error':form.errors['amount']
                 })
             else:
                 checked.append({

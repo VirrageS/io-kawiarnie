@@ -33,7 +33,7 @@ Nowy raport
     checked = {{ checked|safe }};
     //console.log(categories);
 
-    $('select').on('change', {error:'default error', amount:-100}, function(event, obj) {
+    $('select').on('change', {error:'', amount:''}, function(event, obj) {
 
       var category = $(this).closest('.category'); //.attr('id')
       var products = category.children('.products');
@@ -81,7 +81,7 @@ Nowy raport
 
       $('select').find('#' + p.id).parent().val(p.id).trigger(
         'change', 
-        [{error:checked[k]['error']['amount'], amount:checked[k]['amount']}]
+        [{error:checked[k]['error'], amount:checked[k]['amount']}]
       );
     }
 

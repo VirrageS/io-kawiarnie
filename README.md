@@ -12,20 +12,19 @@ funkcjonalności do mastera.
 
     $ git checkout -b [nazwa_brancha]
     $ ... commits ...
+
+Odpalamy przeglądarkę, wchodzimy na githubie na naszego brancha i
+klikamy `Pull request`. Następnie czekamy na łapki w góre i jeżeli
+wszystko jest zatwierdzone mergujemy pull requesta. Później usuwamy
+nieużywane branche:
+
     $ git checkout master
-    $ git pull origin master
-    $ git merge [nazwa_brancha]
-    $ git push origin master
+    $ git pull
+    $ git push origin --delete [nazwa_brancha]
+    $ git fetch --all --prune
 
-Potem znowu albo tworzymy nowego brancha `git checkout -b ...` albo po prostu
-rozwijamy poprzedniego `git checkout ...` (bez opcji `-b`). Aby łatwo powrócić
-starym branchem do poziomu mastera wystarczy:
-
-    $ git checkout [nazwa_brancha]
-    $ git rebase origin/master
-    $ git push
-
-Po tych operacjach powinniśmy być na takim samym commicie co master
+Potem znowu tworzymy nowego brancha `git checkout -b ...` i zaczynamy
+cykl od nowa.
 
 ## Setup
 

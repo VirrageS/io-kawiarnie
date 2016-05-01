@@ -1,8 +1,6 @@
-"""reports forms tests module """
+"""Reports forms tests module."""
 # -*- encoding: utf-8 -*-
 
-from django import forms
-from django.db import transaction
 from django.test import TestCase
 
 from .models import Category, Product, Unit, FullProduct
@@ -11,10 +9,10 @@ from .forms import FullProductForm, ReportForm
 
 
 class CategoryFormTest(TestCase):
-    """tests of CategoryForm """
+    """Tests of CategoryForm."""
 
     def test_category(self):
-        """check validation """
+        """Check validation."""
         form_incorrect = CategoryForm({
             'name': ''
         })
@@ -41,10 +39,10 @@ class CategoryFormTest(TestCase):
 
 
 class FullProductFormTest(TestCase):
-    """FullProductForm tests """
+    """FullProductForm tests."""
 
     def setUp(self):
-        """initialize data for furthers FullProductForm tests """
+        """Initialize data for furthers FullProductForm tests."""
 
         first_cat = Category.objects.create(name="first")
         second_cat = Category.objects.create(name="second")
@@ -65,7 +63,7 @@ class FullProductFormTest(TestCase):
         )
 
     def test_full_product(self):
-        """check validation and adding/deleting products """
+        """Check validation and adding/deleting products."""
         product1 = Product.objects.get(name="product1")
         product2 = Product.objects.get(name="product2")
 
@@ -124,10 +122,10 @@ class FullProductFormTest(TestCase):
 
 
 class UnitFormTest(TestCase):
-    """UnitForm tets """
+    """UnitForm tets."""
 
     def test_unit_form(self):
-        """validation tests """
+        """Validation tests."""
         form_correct = UnitForm({
             "name": "correct"
         })
@@ -156,9 +154,10 @@ class UnitFormTest(TestCase):
 
 
 class ProductFormTest(TestCase):
-    """ProductForm tests"""
+    """ProductForm tests."""
 
     def setUp(self):
+        """Test setup data."""
         Category.objects.create(name="first")
         Category.objects.create(name="second")
 
@@ -166,7 +165,7 @@ class ProductFormTest(TestCase):
         Unit.objects.create(name="liter")
 
     def test_product_form(self):
-        """check validation """
+        """Check validation."""
 
         first_cat = Category.objects.get(name="first")
         second_cat = Category.objects.get(name="second")
@@ -248,10 +247,10 @@ class ProductFormTest(TestCase):
 
 
 class ReportFormTest(TestCase):
-    """ReportForm tests """
+    """ReportForm tests."""
 
     def setUp(self):
-        """categories, products, units, fullproducts init """
+        """Categories, products, units, fullproducts init."""
         first_cat = Category.objects.create(name="first")
         second_cat = Category.objects.create(name="second")
 
@@ -300,7 +299,7 @@ class ReportFormTest(TestCase):
         )
 
     def test_report(self):
-        """check validation """
+        """Check validation."""
         all_fp = [x.id for x in FullProduct.objects.all()]
         form_correct = ReportForm({
             'full_products': all_fp

@@ -11,7 +11,7 @@ class StencilViewTests(TestCase):
     """Tests all views for Stencil model."""
 
     def setUp(self):
-        """test data setup """
+        """test data setup."""
         self.client = Client()
 
         self.caffees = Category.objects.create(name='Kawy')

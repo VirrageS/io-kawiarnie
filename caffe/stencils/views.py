@@ -1,4 +1,4 @@
-"""stencils views module """
+"""Stencils views module."""
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 
@@ -10,7 +10,7 @@ from .models import Stencil
 
 
 def stencils_new_stencil(request):
-    """Show form to create new stencil and show existing stencils. """
+    """Show form to create new stencil and show existing stencils."""
 
     final_stencils = []
     form = StencilForm()
@@ -38,7 +38,7 @@ def stencils_new_stencil(request):
 
 
 def stencils_edit_stencil(request, stencil_id):
-    """edit already existing stencil with stencil_id """
+    """Edit already existing stencil with stencil_id."""
     stencil = get_object_or_404(Stencil, id=stencil_id)
     form = StencilForm(request.POST or None, instance=stencil)
 
@@ -53,7 +53,7 @@ def stencils_edit_stencil(request, stencil_id):
 
 
 def stencils_show_stencil(request, stencil_id):
-    """show stencil with stencil_id """
+    """Show stencil with stencil_id."""
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.all()
 
@@ -64,17 +64,16 @@ def stencils_show_stencil(request, stencil_id):
 
 
 def stencils_show_all_stencils(request):
-    """show all existing stencils """
+    """Show all existing stencils."""
     stencils = Stencil.objects.all()
     return render(request, 'stencils/all.html', {
         'stencils': stencils
     })
 
-
 def stencils_new_report(request, stencil_id):
-    """create new report from given stencil
+    """Create new report from given stencil
     validation is correct if FullProduct validation is and
-    report is not empty
+    report is not empty.
     """
 
     checked = []
@@ -156,10 +155,10 @@ def stencils_new_report(request, stencil_id):
 
 
 def stencils_edit_report(request, report_id):
-    """render reports edit """
+    """Render edit_report."""
     return render(request, 'stencils/edit_report.html')
 
 
 def stencils_create(request):
-    """render stencil create """
+    """Eender create_stencil."""
     return render(request, 'stencils/create_stencil.html')

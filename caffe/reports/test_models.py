@@ -1,4 +1,4 @@
-"""Reports models tests module. """
+"""Reports models tests module."""
 # -*- encoding: utf-8 -*-
 
 from django.test import TestCase
@@ -7,15 +7,15 @@ from .models import Category, FullProduct, Product, Report, Unit
 
 
 class CategoryModelTest(TestCase):
-    """Category tests. """
+    """Category tests."""
 
     def setUp(self):
-        """test data setup """
+        """Test data setup."""
         Category.objects.create(name="first")
         Category.objects.create(name="second")
 
     def test_category_name(self):
-        """chcek correctness of setting names """
+        """Chcek correctness of setting names."""
         category1 = Category(name="first")
         category2 = Category(name="second")
 
@@ -27,15 +27,15 @@ class CategoryModelTest(TestCase):
 
 
 class UnitModelTest(TestCase):
-    """Unit tests. """
+    """Unit tests."""
 
     def setUp(self):
-        """test data setup """
+        """Test data setup."""
         Unit.objects.create(name="gram")
         Unit.objects.create(name="liter")
 
     def test_unit(self):
-        """chcek creating units """
+        """Chcek creating units."""
         u_gram = Unit.objects.get(name="gram")
         u_gram2 = Unit.objects.get(name="gram")
         Unit.objects.get(name="liter")
@@ -45,9 +45,10 @@ class UnitModelTest(TestCase):
 
 
 class ProductModelTest(TestCase):
-    """Product tests. """
+    """Product tests."""
 
     def setUp(self):
+        """Test data setup."""
         Category.objects.create(name="first")
         Category.objects.create(name="second")
 
@@ -55,7 +56,7 @@ class ProductModelTest(TestCase):
         Unit.objects.create(name="liter")
 
     def test_product(self):
-        """check correctness of creating products and validation """
+        """Check correctness of creating products and validation."""
         first_cat = Category.objects.get(name="first")
         second_cat = Category.objects.get(name="second")
 
@@ -107,9 +108,10 @@ class ProductModelTest(TestCase):
 
 
 class FullProductModelTest(TestCase):
-    """FullProduct tests """
+    """FullProduct tests."""
 
     def setUp(self):
+        """Test data setup."""
         first_cat = Category.objects.create(name="first")
         second_cat = Category.objects.create(name="second")
 
@@ -138,7 +140,7 @@ class FullProductModelTest(TestCase):
         )
 
     def test_full_product(self):
-        """test creating FullProducts """
+        """Test creating FullProducts."""
         product1 = Product.objects.get(name="product1")
         product2 = Product.objects.get(name="product2")
         product3 = Product.objects.get(name="product3")
@@ -184,10 +186,10 @@ class FullProductModelTest(TestCase):
 
 
 class ReportModelTest(TestCase):
-    """Report tests """
+    """Report tests."""
 
     def setUp(self):
-        """ Data setup for tests """
+        """Data setup for tests."""
         report1 = Report.objects.create(id=1)
         report2 = Report.objects.create(id=2)
         report3 = Report.objects.create(id=3)
@@ -244,13 +246,12 @@ class ReportModelTest(TestCase):
         )
 
     def test_create(self):
-        """check creating reports """
+        """Check creating reports."""
         self.assertEqual(Report.objects.count(), 4)
 
     def test_doubles(self):
-
-        """check if reports with fullproducts with same product are
-        allowed. Shouldnt be
+        """Check if reports with fullproducts with same product are
+        allowed. Shouldnt be.
         """
         report1 = Report.objects.get(id=1)
 

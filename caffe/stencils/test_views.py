@@ -120,3 +120,6 @@ class StencilViewTests(TestCase):
 
         stencil = response.context['stencil']
         self.assertTrue(self.compareStencils(stencil, self.toDrink))
+
+        #response = self.client.post(
+        #    reverse('stencils_new_report'),)

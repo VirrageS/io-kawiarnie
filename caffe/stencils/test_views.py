@@ -119,4 +119,4 @@ class StencilViewTests(TestCase):
         self.assertTemplateUsed(response, 'stencils/new_report.html')
 
         stencil = response.context['stencil']
-        self.assertTrue(compareStencils(stencil, self.toDrink.id))
+        self.assertTrue(self.compareStencils(stencil, self.toDrink))

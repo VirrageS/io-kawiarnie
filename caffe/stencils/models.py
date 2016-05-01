@@ -21,6 +21,8 @@ class Stencil(models.Model):
     categories = models.ManyToManyField(Category)
 
     def clean(self, *args, **kwargs):
+        """Clean data and check validation."""
+
         self.name = self.name.lstrip().rstrip()
         if self.name == '':
             raise ValidationError(_('Stencil name is not valid.'))
@@ -32,6 +34,8 @@ class Stencil(models.Model):
         super(Stencil, self).clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
+        """Save model into the database."""
+
         self.full_clean()
         super(Stencil, self).save(*args, **kwargs)
 

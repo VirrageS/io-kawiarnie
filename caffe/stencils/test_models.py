@@ -1,6 +1,5 @@
-"""Tests for all models in Stencil."""
-
 # -*- encoding: utf-8 -*-
+# pylint: disable=C0103
 
 from django.test import TestCase
 

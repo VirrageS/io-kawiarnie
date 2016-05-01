@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
+from django.utils import timezone
 
 from reports.models import Category
 
@@ -10,7 +11,7 @@ class StencilViewTests(TestCase):
     """Tests all views for Stencil model."""
 
     def setUp(self):
-        """test data setUp """
+        """test data setup """
         self.client = Client()
 
         self.caffees = Category.objects.create(name='Kawy')

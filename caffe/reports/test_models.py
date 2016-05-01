@@ -1,4 +1,4 @@
-"""reports models tests module """
+"""Reports models tests module. """
 # -*- encoding: utf-8 -*-
 
 from django.test import TestCase
@@ -7,9 +7,10 @@ from .models import Category, FullProduct, Product, Report, Unit
 
 
 class CategoryModelTest(TestCase):
-    """Category tests  """
+    """Category tests. """
 
     def setUp(self):
+        """test data setup """
         Category.objects.create(name="first")
         Category.objects.create(name="second")
 
@@ -26,9 +27,10 @@ class CategoryModelTest(TestCase):
 
 
 class UnitModelTest(TestCase):
-    """Unit tests """
+    """Unit tests. """
 
     def setUp(self):
+        """test data setup """
         Unit.objects.create(name="gram")
         Unit.objects.create(name="liter")
 
@@ -43,7 +45,7 @@ class UnitModelTest(TestCase):
 
 
 class ProductModelTest(TestCase):
-    """Product tests """
+    """Product tests. """
 
     def setUp(self):
         Category.objects.create(name="first")

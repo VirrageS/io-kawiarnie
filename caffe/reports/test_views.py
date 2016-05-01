@@ -1,9 +1,8 @@
 # -*- encoding: utf-8 -*-
 # pylint: disable=C0103,R0902,C0302
 
-from django.core.urlresolvers import NoReverseMatch, reverse
+from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
-from django.utils import timezone
 
 from .forms import (CategoryForm, FullProductForm, ProductForm, ReportForm,
                     UnitForm)

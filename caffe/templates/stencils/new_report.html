@@ -36,22 +36,21 @@ Nowy raport
     $('select').on('change', function(event, obj) {
       var category = $(this).closest('.category'); //.attr('id')
       var products = category.children('.products');
-      
+
       var product = getProduct(this.value);
       if (product) {
-        var inputStyle = ''; //default input border color
+        var errorClasses = '', amount = '', errors = '';
 
         if (obj) {
           if (obj.error) {
-            //append error div if error occured
-            products.append('<div>' + obj.error + '</div>');
-            //change input border color if error occured
-            inputStyle = " style=\"border-color:red;\""; 
+            // add error if error occured
+            errors = '<ul class="errorlist"><li>' + obj.error + '</li></ul>';
+
+            // change input border color if error occured
+            errorClasses = 'error';
           }
-          var amount = obj.amount;
-        }
-        else {
-          var amount = '';
+
+          amount = obj.amount;
         }
 
         $(this).find(":selected").remove();
@@ -63,8 +62,7 @@ Nowy raport
               ' + product.name +'\
             </div>\
             <div class="amount">\
-              <input ' + inputStyle +' type="number"\
-              name="' + product.id + '" value="' + amount +'"/>\
+              <input type="number" name="' + product.id + '" value="' + amount + '" class="' + errorClasses + '"/>\
             </div>\
             <div class="unit">\
               ' + product.unit + '\
@@ -74,6 +72,8 @@ Nowy raport
             </div>\
           </div>\
         ');
+
+        products.append(errors);
       }
     });
 
@@ -81,7 +81,7 @@ Nowy raport
       var p = getProduct(checked[k]['product']);
 
       $('select').find('#' + p.id).parent().val(p.id).trigger(
-        'change', 
+        'change',
         [{error:checked[k]['error'], amount:checked[k]['amount']}]
       );
     }
@@ -96,6 +96,10 @@ Nowy raport
           <option id="' + p.id + '" value="' + p.id + '">' + p.name + '</option>\
         ');
 
+        var errors = $(product).next('ul');
+        if (errors) {
+          errors.remove(); // remove error
+        }
         product.remove();
       }
     });

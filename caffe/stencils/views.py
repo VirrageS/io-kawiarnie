@@ -1,7 +1,9 @@
+"""Stencils views module."""
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
-from django.shortcuts import get_object_or_404, redirect, render
 
-from reports.models import Product
+from reports.models import Product, Report
+from reports.forms import FullProductForm
 
 from .forms import StencilForm
 from .models import Stencil
@@ -36,6 +38,7 @@ def stencils_new_stencil(request):
 
 
 def stencils_edit_stencil(request, stencil_id):
+    """Edit already existing stencil with stencil_id."""
     stencil = get_object_or_404(Stencil, id=stencil_id)
     form = StencilForm(request.POST or None, instance=stencil)
 
@@ -50,6 +53,7 @@ def stencils_edit_stencil(request, stencil_id):
 
 
 def stencils_show_stencil(request, stencil_id):
+    """Show stencil with stencil_id."""
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.all()
 
@@ -60,17 +64,24 @@ def stencils_show_stencil(request, stencil_id):
 
 
 def stencils_show_all_stencils(request):
+    """Show all existing stencils."""
     stencils = Stencil.objects.all()
     return render(request, 'stencils/all.html', {
         'stencils': stencils
     })
 
-
 def stencils_new_report(request, stencil_id):
+    """Create new report from given stencil
+    validation is correct if FullProduct validation is and
+    report is not empty.
+    """
+
+    checked = []
+    all_categories = []
+
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.all()
 
-    all_categories = []
     for category in categories:
         products = Product.objects.filter(category=category).all()
 
@@ -89,19 +100,65 @@ def stencils_new_report(request, stencil_id):
         })
 
     if request.POST:
-        # print(request.POST)
-        # full_products = request.POST.getlist('1')
-        pass
+        full_products = request.POST
+        forms = []
+        valid = True
+
+        # chcek validation and create form for each fullproduct
+        for full_product in full_products:
+            # csrf token ignore
+            if full_product == 'csrfmiddlewaretoken':
+                continue
+
+            fp_list = full_products.getlist(full_product)
+            form = FullProductForm({
+                # sets product id and amount for fullproduct
+                'product': fp_list[0],
+                'amount': fp_list[1]
+            })
+
+            if not form.is_valid():
+                valid = False
+                checked.append({
+                    'product': fp_list[0],
+                    'amount': '',
+                    'error': form.errors['amount']
+                })
+            else:
+                checked.append({
+                    'product': fp_list[0],
+                    'amount': fp_list[1],
+                    'error': ''
+                })
+
+            forms.append(form)
+
+        # check if some form exists
+        if len(forms) > 0 and valid:
+            report = Report.objects.create()
+
+            # for each form save it with its report
+            for form in forms:
+                full_product = form.save()
+                full_product.report = report
+                full_product.save()
+
+            report.save()
+
+            return redirect(reverse('stencils_show_all_stencils'))
 
     return render(request, 'stencils/new_report.html', {
         'stencil': stencil,
-        'categories': all_categories
+        'categories': all_categories,
+        'checked': checked
     })
 
 
 def stencils_edit_report(request, report_id):
+    """Render edit_report."""
     return render(request, 'stencils/edit_report.html')
 
 
 def stencils_create(request):
+    """Eender create_stencil."""
     return render(request, 'stencils/create_stencil.html')

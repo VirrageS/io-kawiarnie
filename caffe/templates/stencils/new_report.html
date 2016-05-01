@@ -11,6 +11,7 @@ Nowy raport
 
 
   var categories;
+  var checked;
 
   function getProduct(product_id) {
     var product;
@@ -26,16 +27,33 @@ Nowy raport
     return product;
   }
 
+
   $(document).ready(function() {
     categories = {{ categories|safe }};
-    // console.log(categories);
+    checked = {{ checked|safe }};
+    //console.log(categories);
 
-    $('select').on('change', function() {
+    $('select').on('change', function(event, obj) {
       var category = $(this).closest('.category'); //.attr('id')
       var products = category.children('.products');
-
+      
       var product = getProduct(this.value);
       if (product) {
+        var inputStyle = ''; //default input border color
+
+        if (obj) {
+          if (obj.error) {
+            //append error div if error occured
+            products.append('<div>' + obj.error + '</div>');
+            //change input border color if error occured
+            inputStyle = " style=\"border-color:red;\""; 
+          }
+          var amount = obj.amount;
+        }
+        else {
+          var amount = '';
+        }
+
         $(this).find(":selected").remove();
 
         products.append('\
@@ -45,7 +63,8 @@ Nowy raport
               ' + product.name +'\
             </div>\
             <div class="amount">\
-              <input type="number" name="' + product.id + '" value=""/>\
+              <input ' + inputStyle +' type="number"\
+              name="' + product.id + '" value="' + amount +'"/>\
             </div>\
             <div class="unit">\
               ' + product.unit + '\
@@ -58,6 +77,15 @@ Nowy raport
       }
     });
 
+    for (var k = 0; k < checked.length; ++k) {
+      var p = getProduct(checked[k]['product']);
+
+      $('select').find('#' + p.id).parent().val(p.id).trigger(
+        'change', 
+        [{error:checked[k]['error'], amount:checked[k]['amount']}]
+      );
+    }
+
     $(document).on('click', '.trash', function() {
       var product = $(this).closest('.product');
 
@@ -65,7 +93,7 @@ Nowy raport
       if (p) {
         var select = product.closest('.category').find('select');
         select.append('\
-          <option value="' + p.id + '">' + p.name + '</option>\
+          <option id="' + p.id + '" value="' + p.id + '">' + p.name + '</option>\
         ');
 
         product.remove();
@@ -87,10 +115,6 @@ Nowy raport
   {% endif %}
 </section>
 
-<!-- <a href="{% url 'reports_edit_report' report.id %}" class="button button-rounded button-red">
-  Edytuj
-</a> -->
-
 <form method="POST" class="stencil-report-form">
   {% csrf_token %}
 
@@ -100,19 +124,17 @@ Nowy raport
         <div class="category-name">
           {{ category.name }}
         </div>
-
-        <div class="select-product input-line">
-          <div class="select-wrapper">
-            <select>
-              <option value="-1">-------------</option>
-              {% for product in category.products %}
-                <option value="{{ product.id }}">{{ product.name }}</option>
-              {% endfor %}
-            </select>
+          <div class="select-product input-line">
+            <div class="select-wrapper">
+              <select>
+                <option name="product" id="-1" value="-1">-------------</option>
+                {% for product in category.products %}
+                  <option name="product" id="{{ product.id }}" value="{{ product.id }}">{{ product.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <label for="">Wybierz produkt</label>
           </div>
-          <label for="">Wybierz produkt</label>
-        </div>
-
         <div class="products">
         </div>
       </div>

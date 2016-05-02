@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 
 import collections
@@ -15,10 +15,10 @@ class StencilViewTests(TestCase):
 
     def compare_stencils(self, stencil1, stencil2):
         """
-        Comapre 2 stencils
+        Comapre 2 stencils.
             args: stencil1, stencil2
             return: True if stencils are equal
-                    False if are not.
+                    False if are not
         """
 
         if (stencil1.name != stencil2.name

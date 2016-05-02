@@ -21,16 +21,30 @@
     }
   }
 
+  function getHostFromUrl(url) {
+    var pathArray = url.split( '/' );
+    var protocol = pathArray[0];
+    var host = pathArray[2];
+
+    return protocol + '//' + host;
+  }
+
   function init() {
     $("#control-menu").on('click', changeMenuState);
     checkMenuCookie();
 
-    $('button[type=cancel]').click(function(){
+    $('button[type=cancel]').click(function() {
       var href = $(this).children('a').attr('href');
       if (!href) {
         window.history.back();
         return false;
       }
+    });
+
+    $('button.back-button').click(function() {
+      // check if we are still on our site
+      if (getHostFromUrl(document.referrer) == getHostFromUrl(window.location.href))
+        window.history.back();
     });
 
     // checkboxes

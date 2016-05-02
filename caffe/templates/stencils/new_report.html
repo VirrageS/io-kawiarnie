@@ -33,6 +33,8 @@ Nowy raport
     checked = {{ checked|safe }};
     //console.log(categories);
 
+    $('.modaal').modaal();
+
     $('select').on('change', function(event, obj) {
       var category = $(this).closest('.category'); //.attr('id')
       var products = category.children('.products');
@@ -147,4 +149,52 @@ Nowy raport
 
   <button type="submit" class="button button-rounded button-green">Dodaj</button>
 </form>
+
+<section class="subtitle">
+  Ostatnio utworzone
+</section>
+
+<section class="reports">
+  {% for report in reports %}
+    <div class="report">
+      <a href="#modaal{{ report.id }}" class="modaal meta">
+        {{ report.created_on }}
+      </a>
+
+      <a href="#modaal{{ report.id }}" class="modaal button button-rounded button-blue button-with-icon">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <span>
+          Podglądaj
+        </span>
+      </a>
+
+      <div id="modaal{{ report.id }}" class="hidden">
+        <div class="modal-report">
+          <section class="report-title">
+            {{ report.created_on }}
+          </section>
+
+          <section class="categories">
+            {% for category, products in report.categories.items %}
+              <div class="category">
+                <div class="category-name">
+                  {{ category }}
+                </div>
+                <div class="products">
+                  {% for product in products %}
+                    <div class="product">
+                      <div class="name">{{ product.name }}</div>
+                      <div class="amount">{{ product.amount }}</div>
+                      <div class="unit">{{ product.unit }}</div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </section>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</section>
 {% endblock %}

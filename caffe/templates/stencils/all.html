@@ -21,17 +21,17 @@ Szablony
       </div>
 
       <div class="stencil-buttons">
-        <a href="{% url 'stencils_show_stencil' stencil.id %}" class="button button-rounded button-blue button-with-icon">
-          <i class="fa fa-search" aria-hidden="true"></i>
-          <span>
-            Pokaż szablon
-          </span>
-        </a>
-
         <a href="{% url 'stencils_new_report' stencil.id %}" class="button button-rounded button-green button-with-icon">
           <i class="fa fa-wpforms" aria-hidden="true"></i>
           <span>
             Nowy raport
+          </span>
+        </a>
+
+        <a href="{% url 'stencils_show_stencil' stencil.id %}" class="button button-rounded button-blue button-with-icon">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <span>
+            Pokaż szablon
           </span>
         </a>
       </div>

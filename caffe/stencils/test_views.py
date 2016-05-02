@@ -6,7 +6,7 @@ from django.test import Client, TestCase
 import collections
 
 from stencils.models import Stencil
-from reports.models import Category
+from reports.models import Category, Report, Product, Unit
 
 from stencils.forms import StencilForm
 
@@ -36,11 +36,32 @@ class StencilViewTests(TestCase):
         self.cakes = Category.objects.create(name='Ciasta')
         self.tees = Category.objects.create(name='Herbaty')
         self.juices = Category.objects.create(name='Soki')
+        self.liter = Unit.objects.create(name='litr')
+
+        self.coke = Product.objects.create(
+            name="Cola",
+            category=self.juices,
+            unit=self.liter
+        )
+
+        self.greenTea = Product.objects.create(
+            name="Zielona Herbata",
+            category=self.tees,
+            unit=self.liter
+        )
+
+        self.blackCoffe = Product.objects.create(
+            name="Czarna kawa",
+            category=self.caffees,
+            unit=self.liter
+        )
+
 
         self.toDrink = Stencil.objects.create(
             name='Do picia',
             description='picie'
         )
+
 
         self.toDrink.categories.add(self.tees, self.juices) 
     
@@ -111,6 +132,7 @@ class StencilViewTests(TestCase):
         self.assertTemplateUsed(response, 'stencils/create_stencil.html')
 
     def test_new_stencil_report(self):
+        """Check rendering new stencil report page."""
 
         response = self.client.get(
             reverse('stencils_new_report', args=(self.toDrink.id,))
@@ -121,5 +143,50 @@ class StencilViewTests(TestCase):
         stencil = response.context['stencil']
         self.assertTrue(self.compareStencils(stencil, self.toDrink))
 
-        #response = self.client.post(
-        #    reverse('stencils_new_report'),)
+        with self.assertRaises(Exception):
+            self.client.get(
+                reverse('stencils_new_report', args=(-1,))
+            )
+
+
+    def test_new_stencil_report_post_success(self):
+        """Check success of creating new report from stencil."""
+        post = {}
+        post[self.coke.id] = [self.coke.id, 10]
+        post[self.greenTea.id] = [self.greenTea.id, 20]
+
+
+        response = self.client.post(
+            reverse('stencils_new_report', 
+            args=(self.toDrink.id,)), 
+            post
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Report.objects.count(), 1)
+
+    def test_new_stencil_report_post_fail(self):
+        """Check failure of creating new report from stencil."""
+        # wrong amount, should render the same page (200)
+        post = {}
+        post[self.coke.id] = [self.coke.id, -20]
+        post[self.greenTea.id] = [self.greenTea.id, 20]
+
+        response = self.client.post(
+            reverse('stencils_new_report', 
+            args=(self.toDrink.id,)), 
+            post
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        # report should not pass with no products
+        post = {}
+
+        response = self.client.post(
+            reverse('stencils_new_report', 
+            args=(self.toDrink.id,)), 
+            post
+        )
+
+        self.assertEqual(response.status_code, 200)

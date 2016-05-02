@@ -101,6 +101,7 @@ def stencils_new_report(request, stencil_id):
 
     if request.POST:
         full_products = request.POST
+        print("fp: ",full_products)
         forms = []
         valid = True
 

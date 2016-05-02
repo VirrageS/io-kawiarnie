@@ -15,7 +15,7 @@ class ProductForm(forms.ModelForm):
         fields = ('name', 'category', 'unit',)
 
     def __init__(self, *args, **kwargs):
-        """Initializes all Product's fields."""
+        """Initialize all Product's fields."""
 
         kwargs.setdefault('label_suffix', '')
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -34,7 +34,7 @@ class CategoryForm(forms.ModelForm):
         fields = ('name',)
 
     def __init__(self, *args, **kwargs):
-        """Initializes all Category's fields."""
+        """Initialize all Category's fields."""
 
         kwargs.setdefault('label_suffix', '')
         super(CategoryForm, self).__init__(*args, **kwargs)
@@ -49,7 +49,7 @@ class UnitForm(forms.ModelForm):
         fields = ('name',)
 
     def __init__(self, *args, **kwargs):
-        """Initializes all Unit's fields."""
+        """Initialize all Unit's fields."""
 
         kwargs.setdefault('label_suffix', '')
         super(UnitForm, self).__init__(*args, **kwargs)
@@ -64,7 +64,7 @@ class FullProductForm(forms.ModelForm):
         fields = ('product', 'amount',)
 
     def __init__(self, *args, **kwargs):
-        """Initializes all FullProduct's fields."""
+        """Initialize all FullProduct's fields."""
 
         kwargs.setdefault('label_suffix', '')
         super(FullProductForm, self).__init__(*args, **kwargs)
@@ -82,7 +82,7 @@ class ReportForm(forms.ModelForm):
     )
 
     def __init__(self, *args, **kwargs):
-        """Initializes all Report's fields."""
+        """Initialize all Report's fields."""
 
         kwargs.setdefault('label_suffix', '')
         super(ReportForm, self).__init__(*args, **kwargs)

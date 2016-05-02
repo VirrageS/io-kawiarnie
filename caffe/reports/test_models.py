@@ -250,19 +250,14 @@ class ReportModelTest(TestCase):
         self.assertEqual(Report.objects.count(), 4)
 
     def test_doubles(self):
-        """Check if reports with fullproducts with same product are
-        allowed. Shouldnt be.
-        """
-        report1 = Report.objects.get(id=1)
+        """Check if two fullproducts with same product are not allowed."""
 
+        report1 = Report.objects.get(id=1)
         product = FullProduct.objects.first().product
 
-        full_product = FullProduct.objects.create(
-            product=product,
-            amount=1,
-            report=report1
-        )
-
-        # should pass when two FullProducts of the same
-        # Product are not allowed in the same Report
-        # self.assertRaises(Exception, full_product.save)
+        with self.assertRaises(Exception):
+            FullProduct.objects.create(
+                product=product,
+                amount=1,
+                report=report1
+            )

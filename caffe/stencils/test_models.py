@@ -3,8 +3,9 @@
 
 from django.test import TestCase
 
-from .models import Stencil
 from reports.models import Category
+
+from .models import Stencil
 
 
 class StencilModelTest(TestCase):

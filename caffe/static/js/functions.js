@@ -21,17 +21,34 @@
     }
   }
 
+  function getHostFromUrl(url) {
+    var pathArray = url.split( '/' );
+    var protocol = pathArray[0];
+    var host = pathArray[2];
+
+    return protocol + '//' + host;
+  }
+
   function init() {
     $("#control-menu").on('click', changeMenuState);
     checkMenuCookie();
 
-    $('button[type=cancel]').click(function(){
+    $('button[type=cancel]').click(function() {
       var href = $(this).children('a').attr('href');
       if (!href) {
         window.history.back();
         return false;
       }
     });
+
+    $('button.back-button').click(function() {
+      window.history.back();
+    })
+
+    // do not show back button on redundant pages
+    if (['/reports/', '/', '/calendar/'].indexOf(window.location.pathname) !== -1) {
+      $('button.back-button').hide();
+    }
 
     // checkboxes
     $('label input[type=checkbox]').each(function(index) {

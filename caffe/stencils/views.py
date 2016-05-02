@@ -1,9 +1,9 @@
-"""Stencils views module."""
-from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404, redirect, render
 
-from reports.models import Product, Report
 from reports.forms import FullProductForm
+from reports.models import Product, Report
+from reports.views import get_report_categories
 
 from .forms import StencilForm
 from .models import Stencil
@@ -147,16 +147,17 @@ def stencils_new_report(request, stencil_id):
 
             return redirect(reverse('stencils_show_all_stencils'))
 
+    # get last five reports
+    latest_reports = Report.objects.order_by('-created_on')[:5]
+    for report in latest_reports:
+        report.categories = get_report_categories(report.id)
+
     return render(request, 'stencils/new_report.html', {
         'stencil': stencil,
         'categories': all_categories,
-        'checked': checked
+        'checked': checked,
+        'reports': latest_reports
     })
-
-
-def stencils_edit_report(request, report_id):
-    """Render edit_report."""
-    return render(request, 'stencils/edit_report.html')
 
 
 def stencils_create(request):

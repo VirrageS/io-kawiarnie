@@ -144,12 +144,12 @@ class StencilViewTests(TestCase):
         self.assertTrue(st_form.is_valid())
 
         response = self.client.post(
-            reverse('stencils_create'),
+            reverse('stencils_new_stencil'),
             form
         )
 
-        #self.assertEqual(Stencil.objects.count(), 3)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Stencil.objects.count(), 3)
+        self.assertEqual(response.status_code, 302)
 
     def test_new_Stencil_post_failure(self):
         """Check failure of new stencil post request."""
@@ -163,7 +163,7 @@ class StencilViewTests(TestCase):
         self.assertFalse(st_form.is_valid())
 
         response = self.client.post(
-            reverse('stencils_create'),
+            reverse('stencils_new_stencil'),
             form
         )
 

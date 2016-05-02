@@ -6,7 +6,7 @@ from django.test import Client, TestCase
 import collections
 
 from stencils.models import Stencil
-from reports.models import Category, Report, Product, Unit
+from reports.models import Category, FullProduct, Report, Product, Unit
 
 from stencils.forms import StencilForm
 
@@ -122,6 +122,60 @@ class StencilViewTests(TestCase):
 
         self.assertEqual(len(response.context), 2)
 
+    def test_edit_stencil_post_success(self):
+        """Check success of edit stencil post request."""
+
+        form = {}
+        form['name'] = u'Moj szablon'
+        form['description'] = u'Opis mojego szablonu'
+        form['categories'] = [self.cakes.id, self.tees.id]
+
+        st_form = StencilForm(form)
+        self.assertTrue(st_form.is_valid())
+
+        response = self.client.post(
+            reverse('stencils_edit_stencil', args=(self.to_drink.id,)),
+            form
+        )
+
+        self.assertEqual(Stencil.objects.count(), 2)
+        self.assertEqual(response.status_code, 302)
+
+    def test_edit_stencil_post_failure(self):
+        """Check failure of edit stencil post request."""
+
+        form = {}
+        form['name'] = u''
+        form['description'] = u'Opis mojego szablonu'
+        form['categories'] = [self.cakes.id, self.tees.id]
+
+        st_form = StencilForm(form)
+        self.assertFalse(st_form.is_valid())
+
+        response = self.client.post(
+            reverse('stencils_edit_stencil', args=(self.to_drink.id,)),
+            form
+        )
+
+        self.assertEqual(Stencil.objects.count(), 2)
+        self.assertEqual(response.status_code, 200)
+
+        form['name'] = u'Nazwa'
+        form['description'] = u'Opis mojego szablonu'
+        form['categories'] = [-10, self.tees.id]
+
+        st_form = StencilForm(form)
+        self.assertFalse(st_form.is_valid())
+
+        response = self.client.post(
+            reverse('stencils_edit_stencil', args=(self.to_eat.id,)),
+            form
+        )
+
+        self.assertEqual(Stencil.objects.count(), 2)
+        self.assertEqual(response.status_code, 200)
+
+
     def test_new_stencil(self):
         """Check form to create new stencil."""
 
@@ -183,6 +237,27 @@ class StencilViewTests(TestCase):
         self.assertEqual(Stencil.objects.count(), 2)
         self.assertEqual(response.status_code, 200)
 
+    # this view is not used anywhere
+    '''
+    def test_edit_stencil_report(self):
+        """Check rendering edit report form."""
+
+        full_product = FullProduct.objects.create(
+            product=self.black_coffe,
+            amount=10
+        )
+
+        report = Report.objects.create()
+
+        report.save()
+        full_product.report = report
+        full_product.save()
+
+        response = self.client.get(
+            reverse('stencils_edit_report', args=(report.id,))
+        )
+    '''   
+
     def test_new_stencil_report(self):
         """Check rendering new stencil report page."""
 
@@ -206,6 +281,7 @@ class StencilViewTests(TestCase):
         post = {}
         post[self.coke.id] = [self.coke.id, 10]
         post[self.green_tea.id] = [self.green_tea.id, 20]
+        post['csrfmiddlewaretoken'] = 'hasz hasz hasz ####'
 
 
         response = self.client.post(

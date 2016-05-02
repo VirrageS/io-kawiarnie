@@ -7,9 +7,9 @@ Unit: a measure of products.
 FullProduct: a product with its quantity.
 """
 
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
-from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 

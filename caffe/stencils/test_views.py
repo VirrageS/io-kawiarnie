@@ -22,9 +22,9 @@ class StencilViewTests(TestCase):
         """
 
         if (stencil1.name != stencil2.name
-            or stencil1.description != stencil2.description
-            or collections.Counter(stencil1.categories.all()) != 
-            collections.Counter(stencil2.categories.all())):
+                or stencil1.description != stencil2.description
+                or collections.Counter(stencil1.categories.all()) != 
+                    collections.Counter(stencil2.categories.all())):
             return False
 
         return True
@@ -175,7 +175,6 @@ class StencilViewTests(TestCase):
         self.assertEqual(Stencil.objects.count(), 2)
         self.assertEqual(response.status_code, 200)
 
-
     def test_new_stencil(self):
         """Check form to create new stencil."""
 
@@ -256,7 +255,7 @@ class StencilViewTests(TestCase):
         response = self.client.get(
             reverse('stencils_edit_report', args=(report.id,))
         )
-    '''   
+    '''
 
     def test_new_stencil_report(self):
         """Check rendering new stencil report page."""
@@ -283,10 +282,8 @@ class StencilViewTests(TestCase):
         post[self.green_tea.id] = [self.green_tea.id, 20]
         post['csrfmiddlewaretoken'] = 'hasz hasz hasz ####'
 
-
         response = self.client.post(
-            reverse('stencils_new_report',
-            args=(self.to_drink.id,)),
+            reverse('stencils_new_report', args=(self.to_drink.id,)),
             post
         )
 
@@ -302,8 +299,7 @@ class StencilViewTests(TestCase):
         post[self.green_tea.id] = [self.green_tea.id, 20]
 
         response = self.client.post(
-            reverse('stencils_new_report',
-            args=(self.to_drink.id,)),
+            reverse('stencils_new_report', args=(self.to_drink.id,)),
             post
         )
 
@@ -313,8 +309,7 @@ class StencilViewTests(TestCase):
         post = {}
 
         response = self.client.post(
-            reverse('stencils_new_report',
-            args=(self.to_drink.id,)),
+            reverse('stencils_new_report', args=(self.to_drink.id,)),
             post
         )
 

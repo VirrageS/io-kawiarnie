@@ -148,7 +148,6 @@ def stencils_new_report(request, stencil_id):
 
             return redirect(reverse('stencils_show_all_stencils'))
 
-
     # get last five reports
     latest_reports = Report.objects.order_by('-created_on')[:5]
     for report in latest_reports:

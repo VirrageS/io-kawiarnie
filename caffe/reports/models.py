@@ -9,10 +9,10 @@ FullProduct: a product with its quantity.
 
 from django.core.validators import MinValueValidator
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
 
-@python_2_unicode_compatible
 class Report(models.Model):
     """Stores a single report created from selected FullProducts.
 
@@ -25,7 +25,6 @@ class Report(models.Model):
         return 'Report created: {:%Y-%m-%d %H:%M} '.format(self.created_on)
 
 
-@python_2_unicode_compatible
 class Category(models.Model):
     """Stores the category of a product, e.g. cake, tea, sandwich.
 
@@ -38,7 +37,6 @@ class Category(models.Model):
         return '{}'.format(self.name)
 
 
-@python_2_unicode_compatible
 class Product(models.Model):
     """Stores a specific product, e.g. brownie, earl grey, PB&J sandwich.
 
@@ -54,7 +52,6 @@ class Product(models.Model):
         return '{}'.format(self.name)
 
 
-@python_2_unicode_compatible
 class Unit(models.Model):
     """Stores a type of unit used to count the amount of products.
 
@@ -67,7 +64,6 @@ class Unit(models.Model):
         return '{}'.format(self.name)
 
 
-@python_2_unicode_compatible
 class FullProduct(models.Model):
     """Stores a product with its quantity.
 
@@ -82,6 +78,28 @@ class FullProduct(models.Model):
         blank=True, null=True,
         related_name='full_products'
     )
+
+    def clean(self, *args, **kwargs):
+        """Clean data and check validation."""
+
+        # checks if there exists two same products
+        full_products = []
+        if self.report is not None:
+            full_products = self.report.full_products.all()
+
+        for full_product in full_products:
+            if full_product.product == self.product:
+                raise ValidationError(
+                    _('Report should not contain two same products.')
+                )
+
+        super(FullProduct, self).clean(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        """Save model into the database."""
+
+        self.full_clean()
+        super(FullProduct, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{0}, {1:g} {2}'.format(

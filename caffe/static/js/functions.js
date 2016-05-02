@@ -42,10 +42,13 @@
     });
 
     $('button.back-button').click(function() {
-      // check if we are still on our site
-      if (getHostFromUrl(document.referrer) == getHostFromUrl(window.location.href))
-        window.history.back();
-    });
+      window.history.back();
+    })
+
+    // do not show back button on redundant pages
+    if (['/reports/', '/', '/calendar/'].indexOf(window.location.pathname) !== -1) {
+      $('button.back-button').hide();
+    }
 
     // checkboxes
     $('label input[type=checkbox]').each(function(index) {

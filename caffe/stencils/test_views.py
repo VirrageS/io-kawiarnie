@@ -17,13 +17,13 @@ class StencilViewTests(TestCase):
         """
         Comapre 2 stencils
             args: stencil1, stencil2
-            return: True is stencils are equal
-                    False is are not
+            return: True if stencils are equal
+                    False if are not.
         """
 
         if (stencil1.name != stencil2.name
                 or stencil1.description != stencil2.description
-                or collections.Counter(stencil1.categories.all()) != 
+                or collections.Counter(stencil1.categories.all()) !=
                     collections.Counter(stencil2.categories.all())):
             return False
 
@@ -317,8 +317,7 @@ class StencilViewTests(TestCase):
 
         with self.assertRaises(NoReverseMatch):
             self.client.post(
-                reverse('stencils_new_report',
-                args=(-1,)),
+                reverse('stencils_new_report', args=(-1,)),
                 post
             )
 

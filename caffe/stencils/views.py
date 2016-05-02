@@ -161,5 +161,5 @@ def stencils_new_report(request, stencil_id):
 
 
 def stencils_create(request):
-    """Eender create_stencil."""
+    """Render create_stencil."""
     return render(request, 'stencils/create_stencil.html')

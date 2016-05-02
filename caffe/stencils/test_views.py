@@ -130,6 +130,60 @@ class StencilViewTests(TestCase):
         response = self.client.get(reverse('stencils_create'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'stencils/create_stencil.html')
+        self.assertEqual(Stencil.objects.count(), 2)
+
+    def test_new_stencil_post_success(self):
+        """Check success of new stencil post request."""
+
+        form = {}
+        form['name'] = u'Moj szablon'
+        form['description'] = u'Opis mojego szablonu'
+        form['categories'] = [self.cakes.id, self.tees.id]
+
+        st_form = StencilForm(form)
+        self.assertTrue(st_form.is_valid())
+
+        response = self.client.post(
+            reverse('stencils_create'),
+            form
+        )
+
+        #self.assertEqual(Stencil.objects.count(), 3)
+        self.assertEqual(response.status_code, 200)
+
+    def test_new_Stencil_post_failure(self):
+        """Check failure of new stencil post request."""
+
+        form = {}
+        form['name'] = u''
+        form['description'] = u'Opis mojego szablonu'
+        form['categories'] = [self.cakes.id, self.tees.id]
+
+        st_form = StencilForm(form)
+        self.assertFalse(st_form.is_valid())
+
+        response = self.client.post(
+            reverse('stencils_create'),
+            form
+        )
+
+        self.assertEqual(Stencil.objects.count(), 2)
+        self.assertEqual(response.status_code, 200)
+
+        form['name'] = u'Nazwa'
+        form['description'] = u'Opis mojego szablonu'
+        form['categories'] = [-10, self.tees.id]
+
+        st_form = StencilForm(form)
+        self.assertFalse(st_form.is_valid())
+
+        response = self.client.post(
+            reverse('stencils_create'),
+            form
+        )
+
+        self.assertEqual(Stencil.objects.count(), 2)
+        self.assertEqual(response.status_code, 200)
 
     def test_new_stencil_report(self):
         """Check rendering new stencil report page."""

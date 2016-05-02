@@ -22,6 +22,7 @@ nieużywane branche:
     $ git pull
     $ git push origin --delete [nazwa_brancha]
     $ git fetch --all --prune
+    $ git branch --merged master | grep -v 'master$' | xargs git branch -d
 
 Potem znowu tworzymy nowego brancha `git checkout -b ...` i zaczynamy
 cykl od nowa.

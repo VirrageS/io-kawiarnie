@@ -236,27 +236,6 @@ class StencilViewTests(TestCase):
         self.assertEqual(Stencil.objects.count(), 2)
         self.assertEqual(response.status_code, 200)
 
-    # this view is not used anywhere
-    '''
-    def test_edit_stencil_report(self):
-        """Check rendering edit report form."""
-
-        full_product = FullProduct.objects.create(
-            product=self.black_coffe,
-            amount=10
-        )
-
-        report = Report.objects.create()
-
-        report.save()
-        full_product.report = report
-        full_product.save()
-
-        response = self.client.get(
-            reverse('stencils_edit_report', args=(report.id,))
-        )
-    '''
-
     def test_new_stencil_report(self):
         """Check rendering new stencil report page."""
 
@@ -320,4 +299,3 @@ class StencilViewTests(TestCase):
                 reverse('stencils_new_report', args=(-1,)),
                 post
             )
-

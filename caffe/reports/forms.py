@@ -1,5 +1,3 @@
-"""Forms for setting up elements of a report and report itself."""
-
 # -*- encoding: utf-8 -*-
 
 from django import forms

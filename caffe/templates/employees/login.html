@@ -1,0 +1,25 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Logowanie
+{% endblock %}
+
+{% block content %}
+<form method="POST" class="element-form">
+  {% csrf_token %}
+
+  <div class="input-line">
+    {{ form.username }}
+    {{ form.username.label_tag }}
+  </div>
+  {{ form.username.errors }}
+
+  <div class="input-line">
+    {{ form.password }}
+    {{ form.password.label_tag }}
+  </div>
+  {{ form.password.errors }}
+
+  <button type="submit" class="button button-rounded button-green">Zaloguj</button>
+</form>
+{% endblock %}

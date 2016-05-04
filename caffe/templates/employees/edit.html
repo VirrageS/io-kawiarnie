@@ -1,0 +1,32 @@
+{% extends "home/base.html" %}
+{% load tags %}
+
+{% block title %}
+  Edytuj pracownika
+{% endblock %}
+
+{% block content %}
+<form method="POST" class="element-form">
+  {% csrf_token %}
+
+  {% for field in form %}
+    <div class="input-line">
+      {% with field|field_type as field_name %}
+      {% if field_name == "Select" %}
+        <div class="select-wrapper">
+          {{ field }}
+        </div>
+      {% else %}
+        {{ field }}
+      {% endif %}
+      {% endwith %}
+
+      {{ field.label_tag }}
+    </div>
+    {{ field.errors }}
+
+  {% endfor %}
+
+  <button type="submit" class="button button-rounded button-green">Uaktualnij</button>
+</form>
+{% endblock %}

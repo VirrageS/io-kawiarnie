@@ -1,0 +1,24 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Wylogowanie
+{% endblock %}
+
+{% block content %}
+<script>
+(function ($) {
+  "use strict"
+
+  $(document).ready(function() {
+    console.log(window.location);
+    setTimeout(function() {
+      window.location.replace(window.location.origin);
+    }, 3000);
+  });
+})(jQuery);
+</script>
+
+<div class="alert alert-rounded alert-green">
+  Zostałeś poprawnie wyglogowany.
+</div>
+{% endblock %}

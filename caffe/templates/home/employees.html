@@ -1,0 +1,30 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Pracownicy
+{% endblock %}
+
+{% block content %}
+<section class="cards cards-primary">
+  <a href="{% url 'new_employee' %}" class="card">
+    <i class="fa fa-user-plus" aria-hidden="true"></i>
+    Nowy pracownik
+  </a>
+
+  <a href="{% url 'login_employee' %}" class="card">
+    <i class="fa fa-sign-in" aria-hidden="true"></i>
+    Zaloguj
+  </a>
+</section>
+
+<section class="cards cards-red">
+  <h2 class="card-subtitle">
+    Podgląd i edycja
+  </h2>
+
+  <a href="{% url 'show_all_employees' %}" class="card">
+    <i class="fa fa-users" aria-hidden="true"></i>
+    Pracownicy
+  </a>
+</section>
+{% endblock %}

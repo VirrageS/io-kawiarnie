@@ -46,7 +46,7 @@
     })
 
     // do not show back button on redundant pages
-    if (['/reports/', '/', '/calendar/'].indexOf(window.location.pathname) !== -1) {
+    if (['/reports/', '/', '/calendar/', '/employees/'].indexOf(window.location.pathname) !== -1) {
       $('button.back-button').hide();
     }
 

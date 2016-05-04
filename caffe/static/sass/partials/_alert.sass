@@ -1,0 +1,85 @@
+@mixin alert-base
+  +transition(all 0.3s)
+  box-sizing: border-box
+  position: relative
+  font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
+  font-size: 0.95rem
+  background-color: $white-color
+  padding: 0em 1.5em
+  margin: 0 auto
+  border-width: 2px
+  border-style: solid
+  line-height: 36px
+  line-height: 50px
+  text-align: left
+  width: 70%
+  height: 50px
+  text-decoration: none
+  cursor: default
+  appearance: none
+  //
+  // &:hover
+  //   &::after
+  //     color: #ededed
+  //
+  // &::after
+  //   content: "\f00d"
+  //   position: absolute
+  //   top: 0px
+  //   right: 20px
+  //   font-family: "FontAwesome"
+
+  &.alert-rounded
+    +border-radius(0.3em)
+
+  &.alert-small
+    font-size: 0.85rem
+    line-height: 28px
+    height: auto
+
+  &.alert-semi-big
+    font-size: 1.1rem
+    border-width: 3px
+    line-height: 48px
+
+  &.alert-with-icon
+    display: flex
+    align-items: center
+    justify-content: center
+    padding: 0.5em 1.4em
+    line-height: normal
+    max-width: 150px
+
+    i
+      font-size: 1.4em
+      margin-right: 15px
+
+    span
+      font-size: 1em
+
+@mixin alert-color($color, $bg-color)
+  background-color: $bg-color !important
+  color: $color !important
+  border-color: $bg-color !important
+
+.alert
+  +alert-base
+  +alert-color($white-color, $black-color)
+
+  &.alert-green
+    +alert-color($white-color, $green-color)
+
+  &.alert-white
+    +alert-color($white-color, $black-color)
+
+  &.alert-light-blue
+    +alert-color($white-color, $light-blue-color)
+
+  &.alert-blue
+    +alert-color($white-color, $blue-color)
+
+  &.alert-red
+    +alert-color($white-color, $red-color)
+
+  &.alert-orange
+    +alert-color($white-color, $orange-color)

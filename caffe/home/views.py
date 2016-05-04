@@ -1,15 +1,10 @@
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 
-from employees.models import Employee
-
-
 def home_show_employees_view(request):
-    """Show all existing Employees."""
+    """Show main page."""
 
-    employees = Employee.objects.all()
-
-    return render(request, 'home/base.html', {'employees': employees})
+    return render(request, 'home/base.html')
 
 
 def handler404(request):

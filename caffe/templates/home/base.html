@@ -27,9 +27,15 @@
             </a>
           </li>
           <li>
-            <a href="/reports/" class="{% active 'reports' %} {% active 'stencils' %}">
+            <a href="{% url 'reports_navigate' %}" class="{% active 'reports' %} {% active 'stencils' %}">
               <i class="fa fa-files-o"></i>
               <div class="description">Raporty</div>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'employees_navigate' %}" class="{% active 'employees' %}">
+              <i class="fa fa-user"></i>
+              <div class="description">Konta</div>
             </a>
           </li>
           <li>
@@ -52,9 +58,16 @@
             <i class="fa fa-bars"></i>
           </div>
 
-          <a href="/" class="button button-rounded button-light-blue">
-            Zaloguj
-          </a>
+          {% if not user.is_authenticated %}
+            <a href="{% url 'login_employee' %}" class="button button-rounded button-light-blue">
+              Zaloguj
+            </a>
+          {% else %}
+            Witaj {{ user.username }}
+            <a href="{% url 'logout_employee' %}" class="button button-rounded button-light-blue">
+              Wygloguj
+            </a>
+          {% endif %}
         </div>
 
         <div class="right-pane-container">
@@ -64,26 +77,11 @@
 
           <h1 class="header">
           {% block title %}
-            Konta
+            Strona główna
           {% endblock %}
           </h1>
 
           {% block content %}
-          <div class="employees-container">
-            {% if not employees %}
-              Nie stworzono żadnych kont
-            {% else %}
-              {% for employee in employees %}
-                <div class="employee">
-                  <div class="meta">
-                    {{ employee.first_name }} {{ employee.last_name }}
-                  </div>
-
-                  <a class="login" href="/login/{{ employee.id }}">Zaloguj się</a>
-                </div>
-              {% endfor %}
-            {% endif %}
-          </div>
           {% endblock %}
         </div>
       </div>

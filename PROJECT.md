@@ -73,7 +73,6 @@ różnice z kasy.
 
 ### Iteracja 5
 
-**Zakres**: Grafik + kalendarz dla pracowników (godziny pracy tj. kto, kiedy pracuje).
-Dostawy - monitorowanie produktów (ich ilości).
+**Zakres**: Umożliwienie dodawania kawiarni. System powinien móc obsługiwać kilka kawiarni i umożliwiać do nich dostęp tylko dla osób upoważnionych tj. osób, które do tej kawiarni należą (zarówno pracowników jak i adminów).
 
 **Deadline**: 21/06

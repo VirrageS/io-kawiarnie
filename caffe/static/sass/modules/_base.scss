@@ -29,7 +29,7 @@ $light-blue-color: #4cb0f9;
 $blue-color: #337ab7;
 
 $red-color: #e75f5f;
-$orange-color: #f0ad4e;
+$orange-color: #f27c36;
 $yellow-color: #f2c53d;
 
 $grey-color:       #828282;
@@ -38,15 +38,15 @@ $grey-color-semidark:  darken($grey-color, 10%);
 $grey-color-dark:  darken($grey-color, 25%);
 
 // Panes
-$left-pane-background-color: #2E3C54;
-$left-pane-color-inactive: #a1b3bb;
-$left-pane-color-active-bg: #1b2432;
+$left-pane-background-color: rgb(27, 23, 29);
+$left-pane-color-inactive: rgb(191, 164, 205);
+$left-pane-color-active-bg: rgb(72, 59, 78);
 $left-pane-color: #ffffff;
 
 $right-pane-background-color: #ffffff;
 $right-pane-color: #000000;
 
-$navigation-bar-background-color: #f1f1f1;
+$navigation-bar-background-color: #ffffff;
 $navigation-bar-color: #000000;
 
 // Width of the content area

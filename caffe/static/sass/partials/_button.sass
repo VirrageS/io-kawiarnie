@@ -1,8 +1,9 @@
 @mixin button-base
   +transition(all 0.3s)
   display: inline-block
-  font-family: "Roboto", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif
+  font-family: "Roboto" sans-serif
   font-size: 0.95rem
+  letter-spacing: 0.03em
   background-color: $white-color
   cursor: pointer
   padding: 0em 1.5em
@@ -26,7 +27,7 @@
     +border-radius(0.3em)
 
   &.button-small
-    font-size: 0.85rem
+    font-size: 0.8rem
     height: auto
     line-height: 28px
 
@@ -39,13 +40,13 @@
     display: flex
     align-items: center
     justify-content: center
-    max-width: 150px
+    max-width: 160px
     line-height: normal
-    padding: 0.5em 1.4em
+    padding: 0.5em 1.2em
 
     i
       font-size: 1.4em
-      margin-right: 15px
+      margin-right: 12.5px
 
     span
       font-size: 1em

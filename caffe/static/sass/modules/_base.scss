@@ -1,7 +1,7 @@
 // Font weights
 $light: 100;
 $regular: 400;
-$bold: 600;
+$bold: 700;
 $super-bold: 900;
 
 // Base Font
@@ -11,7 +11,8 @@ $base-font-size: 18px;
 $base-line-height: 1.4;
 
 // Fixed Font
-$fixed-font-family: monospace;
+$fixed-font-family: "Source Code Pro";
+$fixed-font-weight: $light;
 $fixed-font-size: 85%;
 $fixed-line-height: $base-line-height;
 

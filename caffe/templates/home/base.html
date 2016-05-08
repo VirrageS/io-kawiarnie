@@ -21,7 +21,7 @@
       <div class="left-pane open">
         <ul class="navigation">
           <li>
-            <a href="/" class="{% active '^\/$' %}">
+            <a href="{% url 'caffe_navigate' %}" class="{% active '^\/$' %}">
               <i class="fa fa-coffee"></i>
               <span class="description">Kawiarnia</span>
             </a>
@@ -45,7 +45,7 @@
             </a>
           </li>
           <li>
-            <a href="">
+            <a href="{% url 'statistics_navigate' %}" class="{% active 'statistics' %}">
               <i class="fa fa-line-chart"></i>
               <div class="description">Statystki</div>
             </a>
@@ -76,9 +76,8 @@
           </button>
 
           <h1 class="header">
-          {% block title %}
-            Kawiarnia
-          {% endblock %}
+            {% block title %}
+            {% endblock %}
           </h1>
 
           {% block content %}

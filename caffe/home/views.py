@@ -1,10 +1,10 @@
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 
-def home_show_employees_view(request):
+def caffe_navigate(request):
     """Show main page."""
 
-    return render(request, 'home/base.html')
+    return render(request, 'home/caffe.html')
 
 
 def handler404(request):

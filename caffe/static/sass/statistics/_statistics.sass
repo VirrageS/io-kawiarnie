@@ -1,0 +1,29 @@
+.statistics
+  display: flex
+  justify-content: space-around
+  flex-direction: row
+
+  .statistic
+    +border-radius(10px)
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: space-between
+    align-content: center
+    padding: 20px
+    border: 1px solid #c1c1c1
+    width: 300px
+    height: 160px
+
+    .info, .description
+      text-align: center
+      width: 100%
+
+    .info
+      font-size: 5rem
+      font-weight: $light
+      font-family: "Nunito" sans-serif
+
+    .description
+      font-size: 1.4rem
+      font-weight: $light

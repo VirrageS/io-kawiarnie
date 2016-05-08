@@ -51,13 +51,11 @@
             </a>
           </li>
         </ul>
+
+        <div id="control-menu" class="expand"></div>
       </div>
       <div class="right-pane">
         <div class="navigation">
-          <!-- <div id="control-menu" class="expand">
-            <i class="fa fa-bars"></i>
-          </div> -->
-
           {% if not user.is_authenticated %}
             <a href="{% url 'login_employee' %}" class="button button-orange">
               Zaloguj

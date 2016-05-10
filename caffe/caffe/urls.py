@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'reports/', include('reports.urls')),
     url(r'stencils/', include('stencils.urls')),
     url(r'employees/', include('employees.urls')),
+    url(r'statistics/', include('stats.urls')),
 ]

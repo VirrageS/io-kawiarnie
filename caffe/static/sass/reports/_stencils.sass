@@ -1,20 +1,15 @@
 .stencil-title
-  display: block
-  font-family: "Source Sans Pro", sans-serif
-  font-size: 1.9rem
-  margin: 30px 0
-  text-align: center
+  @extend %title
 
   .name
     display: block
-    font-weight: $super-bold
-    margin-bottom: 5px
+    margin-bottom: 7.5px
 
   .description
     display: block
     font-size: 0.64em
     font-weight: 100
-    letter-spacing: 0.04em
+    letter-spacing: 0.03em
     line-height: normal
 
 .stencil-report-form
@@ -57,7 +52,7 @@
 
 .stencils
   display: flex
-  justify-content: space-around
+  justify-content: space-between
   flex-direction: row
   flex-flow: row wrap
   font-size: 1.2rem
@@ -69,15 +64,15 @@
     display: flex
     justify-content: space-between
     flex-direction: column
-    padding: 20px
+    padding: 20px 10px
     margin: 20px
     border: 2px solid #dedede
-    width: 430px
+    width: 450px
     height: 100%
 
     .stencil-meta
       @extend .stencil-title
-      font-size: 1.5rem
+      font-size: 1.6rem
       margin: 0
       margin-bottom: 40px
 

@@ -21,9 +21,9 @@
       <div class="left-pane open">
         <ul class="navigation">
           <li>
-            <a href="/" class="{% active '^\/$' %}">
+            <a href="{% url 'caffe_navigate' %}" class="{% active '^\/$' %}">
               <i class="fa fa-coffee"></i>
-              <span class="description">Główna</span>
+              <div class="description">Kawiarnia</div>
             </a>
           </li>
           <li>
@@ -39,32 +39,30 @@
             </a>
           </li>
           <li>
-            <a href="/calendar/" class="{% active 'calendar' %}">
+            <a href="" class="{% active 'calendar' %}">
               <i class="fa fa-calendar-o"></i>
               <div class="description">Kaledarz</div>
             </a>
           </li>
           <li>
-            <a href="">
+            <a href="{% url 'statistics_navigate' %}" class="{% active 'statistics' %}">
               <i class="fa fa-line-chart"></i>
               <div class="description">Statystki</div>
             </a>
           </li>
         </ul>
+
+        <div id="control-menu" class="expand"></div>
       </div>
       <div class="right-pane">
         <div class="navigation">
-          <div id="control-menu" class="expand">
-            <i class="fa fa-bars"></i>
-          </div>
-
           {% if not user.is_authenticated %}
-            <a href="{% url 'login_employee' %}" class="button button-rounded button-light-blue">
+            <a href="{% url 'login_employee' %}" class="button button-orange">
               Zaloguj
             </a>
           {% else %}
             Witaj {{ user.username }}
-            <a href="{% url 'logout_employee' %}" class="button button-rounded button-light-blue">
+            <a href="{% url 'logout_employee' %}" class="button button-light-blue">
               Wygloguj
             </a>
           {% endif %}
@@ -76,9 +74,8 @@
           </button>
 
           <h1 class="header">
-          {% block title %}
-            Strona główna
-          {% endblock %}
+            {% block title %}
+            {% endblock %}
           </h1>
 
           {% block content %}

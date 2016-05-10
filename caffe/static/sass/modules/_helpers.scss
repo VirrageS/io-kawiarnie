@@ -6,16 +6,26 @@
 
 %subtitle {
   display: block;
-  font-family: "Helvetica Neue", sans-serif;
-  font-size: 1.9rem;
-  font-weight: 100;
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 1.6rem;
+  font-weight: $light;
+  line-height: normal;
   margin: 120px 0 30px 0;
-  letter-spacing: 0.1em;
-  line-height: 2.4rem;
+  letter-spacing: 0.05em;
   text-align: center;
   text-transform: uppercase;
 }
 
 .subtitle {
- @extend %subtitle;
+  @extend %subtitle;
+}
+
+%title {
+  display: block;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1.9rem;
+  font-weight: $super-bold;
+  margin: 30px 0;
+  letter-spacing: 0.03em;
+  text-align: center;
 }

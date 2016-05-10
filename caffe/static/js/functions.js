@@ -14,6 +14,27 @@
     }
   }
 
+  $.fn.followFrom = function(pos, padding) {
+    var $this = this;
+
+    $window.scroll(function(e) {
+      var height = $window.scrollTop() + $window.height();
+      if (height < pos) {
+        $this.css({
+          position: 'fixed',
+          bottom: height - pos + padding
+        });
+      } else {
+        $this.css({
+          position: 'fixed',
+          bottom: padding
+        });
+      }
+    });
+
+    $window.scrollTop(1);
+  };
+
   function checkMenuCookie() {
     var cookieValue = Cookies.get('menu');
     if (cookieValue == "closed") {
@@ -31,6 +52,7 @@
 
   function init() {
     $("#control-menu").on('click', changeMenuState);
+    $("#control-menu").followFrom(750, 30);
     checkMenuCookie();
 
     $('button[type=cancel]').click(function() {
@@ -46,7 +68,7 @@
     })
 
     // do not show back button on redundant pages
-    if (['/reports/', '/', '/calendar/', '/employees/'].indexOf(window.location.pathname) !== -1) {
+    if (['/reports/', '/', '/calendar/', '/employees/', '/statistics/'].indexOf(window.location.pathname) !== -1) {
       $('button.back-button').hide();
     }
 

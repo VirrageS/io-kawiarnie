@@ -31,16 +31,16 @@
 
     ul
       +border-radius(4px)
+      padding: 10px
       margin-top: 15px
       border: 2px solid $black-color
       list-style: none
-      padding: 10px
 
       li
+        cursor: pointer
         margin: 10px 0
         margin-left: 15px
         text-align: left !important
-        cursor: pointer
 
         &:first-child
           margin-top: 0
@@ -52,10 +52,10 @@
           display: inline-block
           position: relative
           font-size: 1.2rem
-          line-height: normal
           color: #000000
-          vertical-align: middle
           cursor: pointer
+          line-height: normal
+          vertical-align: middle
 
           &::before
             content: "\f096"
@@ -85,8 +85,8 @@
         +border-radius(4px)
         display: flex
         align-items: center
-        font-family: "Circular", sans-serif
-        font-weight: 100
+        font-family: $fixed-font-family
+        font-weight: $fixed-font-weight
         padding: 0px 25px
         margin: 8px 0px
         border: 2px solid #000000
@@ -115,7 +115,8 @@
       border-color: $red-color !important
 
   input[type=number]
-    font-family: "Source Code Pro", sans-serif
+    font-family: $fixed-font-family
+    font-weight: $fixed-font-weight
 
   textarea
     +transition(all 0.1s)
@@ -157,15 +158,15 @@
 
 
   .errorlist
-    font-size: 0.8rem
-    font-weight: 200
+    font-size: 0.85rem
+    font-weight: $light
     color: #f44242
     padding: 0
     margin: 0
     margin-top: -15px
     margin-bottom: 20px
-    text-align: left
     margin-left: 40px
+    text-align: left
 
     li
       padding: 10px 5px !important

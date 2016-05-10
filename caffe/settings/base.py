@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'reports',
     'stencils',
     'home',
+    'stats',
 
     'django.contrib.admin',
     'django.contrib.auth',

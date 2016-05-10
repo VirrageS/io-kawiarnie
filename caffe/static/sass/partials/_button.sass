@@ -1,8 +1,9 @@
 @mixin button-base
   +transition(all 0.3s)
   display: inline-block
-  font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
+  font-family: "Roboto" sans-serif
   font-size: 0.95rem
+  letter-spacing: 0.03em
   background-color: $white-color
   cursor: pointer
   padding: 0em 1.5em
@@ -26,26 +27,26 @@
     +border-radius(0.3em)
 
   &.button-small
-    font-size: 0.85rem
+    font-size: 0.8rem
     height: auto
     line-height: 28px
 
   &.button-semi-big
     font-size: 1.1rem
-    line-height: 48px
+    line-height: 40px
     border-width: 3px
 
   &.button-with-icon
     display: flex
     align-items: center
     justify-content: center
-    max-width: 150px
+    max-width: 160px
     line-height: normal
-    padding: 0.5em 1.4em
+    padding: 0.5em 1.2em
 
     i
       font-size: 1.4em
-      margin-right: 15px
+      margin-right: 12.5px
 
     span
       font-size: 1em

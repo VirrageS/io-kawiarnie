@@ -96,7 +96,7 @@
         line-height: normal
         text-align: center
 
-  input[type=text], input[type=number], textarea
+  input[type=text], input[type=number], input[type=email], input[type=password], textarea
     +border-radius(4px)
     +transition(all 0.3s)
     display: inline-block
@@ -117,6 +117,10 @@
   input[type=number]
     font-family: $fixed-font-family
     font-weight: $fixed-font-weight
+
+  input[type=password]
+    font: large 'Verdana', sans-serif
+    letter-spacing: 0.5px
 
   textarea
     +transition(all 0.1s)
@@ -179,3 +183,10 @@
     display: inline-block
     margin: 0 15px
     margin-top: 40px
+
+  hr
+    +border-radius(4px)
+    height: 4px
+    background-color: $grey-color-light
+    border: 1px solid $white-color
+    margin: 30px 0

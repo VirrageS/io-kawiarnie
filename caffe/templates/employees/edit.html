@@ -9,23 +9,55 @@
 <form method="POST" class="element-form">
   {% csrf_token %}
 
-  {% for field in form %}
-    <div class="input-line">
-      {% with field|field_type as field_name %}
-      {% if field_name == "Select" %}
-        <div class="select-wrapper">
-          {{ field }}
-        </div>
-      {% else %}
-        {{ field }}
-      {% endif %}
-      {% endwith %}
+  <div class="input-line">
+    {{ form.first_name }}
+    {{ form.first_name.label_tag }}
+  </div>
+  {{ form.first_name.errors }}
 
-      {{ field.label_tag }}
-    </div>
-    {{ field.errors }}
+  <div class="input-line">
+    {{ form.last_name }}
+    {{ form.last_name.label_tag }}
+  </div>
+  {{ form.last_name.errors }}
 
-  {% endfor %}
+  <div class="input-line">
+    {{ form.telephone_number }}
+    {{ form.telephone_number.label_tag }}
+  </div>
+  {{ form.telephone_number.errors }}
+
+  <div class="input-line">
+    {{ form.email }}
+    {{ form.email.label_tag }}
+  </div>
+  {{ form.email.errors }}
+
+  <div class="input-line">
+    {{ form.favorite_coffee }}
+    {{ form.favorite_coffee.label_tag }}
+  </div>
+  {{ form.favorite_coffee.errors }}
+
+  <hr/>
+
+  <div class="input-line">
+    {{ form.username }}
+    {{ form.username.label_tag }}
+  </div>
+  {{ form.username.errors }}
+
+  <div class="input-line">
+    {{ form.password1 }}
+    {{ form.password1.label_tag }}
+  </div>
+  {{ form.password1.errors }}
+
+  <div class="input-line">
+    {{ form.password2 }}
+    {{ form.password2.label_tag }}
+  </div>
+  {{ form.password2.errors }}
 
   <button type="submit" class="button button-rounded button-green">Uaktualnij</button>
 </form>

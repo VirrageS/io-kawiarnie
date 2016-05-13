@@ -8,4 +8,7 @@ from django.db import models
 
 
 class Employee(AbstractUser):
+    """Employee model, extends AbstractUser fields."""
+
     telephone_number = models.CharField(max_length=20)
+    favorite_coffee = models.CharField(max_length=50)

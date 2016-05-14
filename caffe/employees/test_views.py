@@ -1,6 +1,6 @@
 """Test module for views of the employee utility."""
 
-from django.core.urlresolvers import NoReverseMatch, reverse
+from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 
 from .forms import EmployeeForm
@@ -15,7 +15,8 @@ class EmployeeViewsTests(TestCase):
 
         self.client = Client()
         self.emp1 = Employee.objects.create(username='marta', password='pass')
-        self.emp2 = Employee.objects.create(username='szkarta', password='passtoo')
+        self.emp2 = Employee.objects.create(username='szkarta',
+                                            password='pass')
 
     def test_show_all_employees(self):
         """Check if employees are all displayed properly."""
@@ -31,10 +32,11 @@ class EmployeeViewsTests(TestCase):
     def test_employees_edit(self):
         """Check if editing employees works as intended."""
 
-        response = self.client.get(reverse('edit_employee',  args=(42,)))
+        response = self.client.get(reverse('edit_employee', args=(42,)))
         self.assertEqual(response.status_code, 404)
 
-        response = self.client.get(reverse('edit_employee', args=(self.emp1.id,)))
+        response = self.client.get(reverse('edit_employee',
+                                           args=(self.emp1.id,)))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'employees/edit.html')
         self.assertIsInstance(response.context['form'], EmployeeForm)

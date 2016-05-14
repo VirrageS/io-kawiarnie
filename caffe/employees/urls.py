@@ -11,7 +11,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', employees_navigate, name='employees_navigate'),
 
-    url(r'^login/$', auth_views.login, {'template_name': 'employees/login.html'},
+    url(r'^login/$', auth_views.login, {'template_name':
+                                        'employees/login.html'},
         name='login_employee'),
     url(r'^logout/$', employees_logout_employee, name='logout_employee'),
     url(r'^new/$', employees_new_employee, name='new_employee'),

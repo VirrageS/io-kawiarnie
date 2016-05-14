@@ -28,7 +28,7 @@ class EmployeeForm(UserCreationForm):
             'last_name',
             'groups',
             'telephone_number',
-            'email', 
+            'email',
             'favorite_coffee'
         )
 

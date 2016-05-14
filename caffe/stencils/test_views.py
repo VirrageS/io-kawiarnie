@@ -1,14 +1,14 @@
 # -*- encoding: utf-8 -*-
 
+import collections
+
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 
-import collections
-
-from stencils.models import Stencil
-from reports.models import Category, FullProduct, Report, Product, Unit
-
+from reports.models import Category, FullProduct, Product, Report, Unit
 from stencils.forms import StencilForm
+from stencils.models import Stencil
+
 
 class StencilViewTests(TestCase):
     """Tests views for Stencil model."""

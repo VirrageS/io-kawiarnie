@@ -1,10 +1,12 @@
 # -*- encoding: utf-8 -*-
 
-from django import forms            
-from django.contrib.auth.models import User   # fill in custom user info then save it 
-from django.contrib.auth.forms import UserCreationForm      
-from .models import Employee
+from django import forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import \
+    User  # fill in custom user info then save it
+
+from .models import Employee
 
 
 class EmployeeForm(UserCreationForm):
@@ -43,4 +45,3 @@ class EmployeeForm(UserCreationForm):
             self.initial['telephone_number'] = self.instance.telephone_number
             self.initial['email'] = self.instance.email
             self.initial['favorite_coffee'] = self.instance.favorite_coffee
-

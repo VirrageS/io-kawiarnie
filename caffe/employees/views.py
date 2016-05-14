@@ -1,21 +1,26 @@
-from django.core.urlresolvers import reverse
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, redirect, render
+"""Module with views for the employee feature."""
+
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404, redirect, render
 
-
-from .models import Employee
 from .forms import EmployeeForm
+from .models import Employee
 
 
 @login_required
 def employees_logout_employee(request):
+    """Logout a user, default behaviour."""
+
     logout(request)
 
     return render(request, 'employees/logout.html')
 
 
 def employees_new_employee(request):
+    """Create a new employee."""
+
     new_emp_form = EmployeeForm(request.POST or None)
 
     if new_emp_form.is_valid():
@@ -28,6 +33,8 @@ def employees_new_employee(request):
 
 
 def employees_edit_employee(request, employee_id):
+    """Edit an employee."""
+
     employee = get_object_or_404(Employee, id=employee_id)
     edit_emp_form = EmployeeForm(request.POST or None, instance=employee)
 
@@ -42,6 +49,8 @@ def employees_edit_employee(request, employee_id):
 
 
 def employees_show_all_employees(request):
+    """Show employees."""
+
     employees = Employee.objects.all()
 
     return render(request, 'employees/all.html', {
@@ -50,4 +59,6 @@ def employees_show_all_employees(request):
 
 
 def employees_navigate(request):
+    """Show main employee page."""
+
     return render(request, 'home/employees.html')

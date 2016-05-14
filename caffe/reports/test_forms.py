@@ -3,9 +3,9 @@
 
 from django.test import TestCase
 
-from .models import Category, Product, Unit, FullProduct
-from .forms import CategoryForm, UnitForm, ProductForm
-from .forms import FullProductForm, ReportForm
+from .forms import (CategoryForm, FullProductForm, ProductForm, ReportForm,
+                    UnitForm)
+from .models import Category, FullProduct, Product, Unit
 
 
 class CategoryFormTest(TestCase):
@@ -42,7 +42,7 @@ class FullProductFormTest(TestCase):
     """FullProductForm tests."""
 
     def setUp(self):
-        """Initialize data for furthers FullProductForm tests."""
+        """Initialize data for further FullProductForm tests."""
 
         first_cat = Category.objects.create(name="first")
         second_cat = Category.objects.create(name="second")

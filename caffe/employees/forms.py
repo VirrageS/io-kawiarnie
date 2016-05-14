@@ -1,10 +1,12 @@
 # -*- encoding: utf-8 -*-
 
 from django import forms            
-from django.contrib.auth.models import User, Group   # fill in custom user info then save it 
-from django.contrib.auth.forms import UserCreationForm      
-from .models import Employee
+from django.contrib.auth.models import \
+    User, Group   # fill in custom user info then save it     
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
+
+from .models import Employee
 
 
 class EmployeeForm(UserCreationForm):
@@ -58,6 +60,3 @@ class EmployeeForm(UserCreationForm):
             except:
                 # no groups
                 pass
-            
-
-

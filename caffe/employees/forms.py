@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from django import forms            
-from django.contrib.auth.models import User   # fill in custom user info then save it 
+from django.contrib.auth.models import User, Group   # fill in custom user info then save it 
 from django.contrib.auth.forms import UserCreationForm      
 from .models import Employee
 from django.contrib.auth import get_user_model
@@ -13,12 +13,18 @@ class EmployeeForm(UserCreationForm):
     telephone_number = forms.CharField()
     email = forms.EmailField()
 
+    group = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+
     class Meta:
         model = Employee
         fields = (
             'username',
             'first_name',
             'last_name',
+            'groups',
             'telephone_number',
             'email', 
             'favorite_coffee'
@@ -35,6 +41,9 @@ class EmployeeForm(UserCreationForm):
         self.fields['telephone_number'].label = 'Numer telefonu'
         self.fields['email'].label = 'Adres email'
         self.fields['favorite_coffee'].label = 'Twoja ulubiona kawa?'
+        self.fields['group'].label = 'Grupy uprawnień użytkownika'
+
+        self.fields['group'].queryset |= Group.objects.all()
 
         if self.instance:
             self.initial['username'] = self.instance.username
@@ -43,4 +52,12 @@ class EmployeeForm(UserCreationForm):
             self.initial['telephone_number'] = self.instance.telephone_number
             self.initial['email'] = self.instance.email
             self.initial['favorite_coffee'] = self.instance.favorite_coffee
+            
+            try: 
+                self.initial['group'] = self.instance.group.get()
+            except:
+                # no groups
+                pass
+            
+
 

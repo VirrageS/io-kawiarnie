@@ -21,5 +21,6 @@ Logowanie
   {{ form.password.errors }}
 
   <button type="submit" class="button button-rounded button-green">Zaloguj</button>
+    <input type="hidden" name="next" value="{% url 'caffe_navigate' %}" />
 </form>
 {% endblock %}

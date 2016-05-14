@@ -14,7 +14,7 @@ class StencilFormTest(TestCase):
     def setUp(self):
         """Initialize all Categories needed for further tests."""
 
-        self.caffees = Category.objects.create(name='Kawy')
+        self.coffees = Category.objects.create(name='Kawy')
         self.cakes = Category.objects.create(name='Ciasta')
 
     def test_stencil_form_correct(self):
@@ -23,18 +23,18 @@ class StencilFormTest(TestCase):
         form_correct = StencilForm({
             'name': 'Poranny',
             'description': '',
-            'categories': [self.caffees.id]
+            'categories': [self.coffees.id]
         })
 
         self.assertListEqual(
             [cat for cat in form_correct.fields['categories'].choices],
-            [(cat.id, cat.name) for cat in [self.caffees, self.cakes]]
+            [(cat.id, cat.name) for cat in [self.coffees, self.cakes]]
         )
         self.assertTrue(form_correct.is_valid())
 
         self.assertListEqual(
             list(form_correct.cleaned_data['categories']),
-            [self.caffees]
+            [self.coffees]
         )
 
     def test_stencil_form_incorrect(self):
@@ -58,7 +58,7 @@ class StencilFormTest(TestCase):
         """Check Stencil form with loaded instance."""
 
         stencil = Stencil.objects.create(name='Poranny')
-        stencil.categories.add(self.caffees, self.cakes)
+        stencil.categories.add(self.coffees, self.cakes)
 
         get_stencil = Stencil.objects.get(id=stencil.id)
 

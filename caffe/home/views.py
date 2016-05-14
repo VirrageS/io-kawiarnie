@@ -1,6 +1,7 @@
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 
+
 def caffe_navigate(request):
     """Show main page."""
 

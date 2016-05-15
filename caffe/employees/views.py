@@ -22,11 +22,6 @@ def employees_logout_employee(request):
 
 class EmployeesCreateView(UpdateView):
 
-    new_emp_form = EmployeeForm(request.POST or None)
-
-    if new_emp_form.is_valid():
-        new_emp_form.save()
-        return redirect(reverse('employees_navigate'))
     model = User
 
     def employees_new_employee(request):

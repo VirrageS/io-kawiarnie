@@ -34,6 +34,12 @@
   {{ form.email.errors }}
 
   <div class="input-line">
+    {{ form.groups }}
+    {{ form.groups.label_tag }}
+  </div>
+  {{ form.groups.errors }}
+
+  <div class="input-line">
     {{ form.favorite_coffee }}
     {{ form.favorite_coffee.label_tag }}
   </div>

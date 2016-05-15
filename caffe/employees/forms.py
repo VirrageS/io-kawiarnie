@@ -15,9 +15,10 @@ class EmployeeForm(UserCreationForm):
     telephone_number = forms.CharField()
     email = forms.EmailField()
 
-    group = forms.ModelMultipleChoiceField(
+    groups = forms.ModelMultipleChoiceField(
         queryset=Group.objects.all(),
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple,
+        required=False
     )
 
     class Meta:
@@ -43,9 +44,9 @@ class EmployeeForm(UserCreationForm):
         self.fields['telephone_number'].label = 'Numer telefonu'
         self.fields['email'].label = 'Adres email'
         self.fields['favorite_coffee'].label = 'Twoja ulubiona kawa?'
-        self.fields['group'].label = 'Grupy uprawnień użytkownika'
+        self.fields['groups'].label = 'Grupy uprawnień użytkownika'
 
-        self.fields['group'].queryset |= Group.objects.all()
+        self.fields['groups'].queryset |= Group.objects.all()
 
         if self.instance:
             self.initial['username'] = self.instance.username
@@ -56,7 +57,7 @@ class EmployeeForm(UserCreationForm):
             self.initial['favorite_coffee'] = self.instance.favorite_coffee
             
             try: 
-                self.initial['group'] = self.instance.group.get()
+                self.initial['groups'] = self.instance.group.get()
             except:
                 # no groups
                 pass

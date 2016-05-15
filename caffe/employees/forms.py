@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-from django import forms            
+from django import forms
 from django.contrib.auth.models import \
     User, Group   # fill in custom user info then save it     
 from django.contrib.auth import get_user_model
@@ -60,3 +60,19 @@ class EmployeeForm(UserCreationForm):
             except:
                 # no groups
                 pass
+
+    def save(self, commit=True):
+        instance = super(EmployeeForm, self).save(commit=False)
+        
+        # clear groups of user
+        if instance.groups.all():
+            instance.groups.clear()
+
+        # add groups to user
+        for g in self.cleaned_data['groups']:
+            instance.groups.add(g)
+
+        if commit:
+            instance.save()
+
+        return instance

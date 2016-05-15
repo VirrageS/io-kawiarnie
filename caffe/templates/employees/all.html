@@ -8,9 +8,11 @@
 <section class="employees">
   {% for employee in employees %}
     <div class="employee">
-      <div class="employee-name">
-        {{ employee.first_name }} {{ employee.last_name}}
-      </div>
+      <ul class="employee-meta">
+        <li>{{ employee.first_name }} {{ employee.last_name }}</li>
+        <li>{{ employee.telephone_number }}</li>
+        <li>{{ employee.email }}</li>
+      </ul>
 
       <div class="employee-buttons">
         <a href="{% url 'edit_employee' employee.id %}" class="button button-rounded button-red button-with-icon">

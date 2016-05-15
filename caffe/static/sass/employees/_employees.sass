@@ -1,21 +1,36 @@
 .employees
   display: flex
   flex-direction: row
+  justify-content: space-around
 
   .employee
-    +border-radius(5px)
+    +border-radius(10px)
+    +box-shadow(0px, 5px, 10px, $grey-color-semilight)
     display: flex
     justify-content: space-between
     flex-direction: column
-    align-items: center
     padding: 10px
-    border: 2px solid #aaaaaa
-    text-align: center
+    border: 3px solid #795f83
+    text-align: left
     width: 300px
-    height: 150px
+    height: 190px
 
-    .employee-name
+    .employee-meta
       display: block
+      font-size: 1.1rem
+      font-weight: $light
+      list-style: none
+      margin-left: 20px
+
+      li
+        padding: 0
+        margin: 0
+
+        &:first-of-type
+          font-weight: $bold
+          font-size: 1.3em
+          margin-bottom: 10px
+
 
     .employee-buttons
       display: flex

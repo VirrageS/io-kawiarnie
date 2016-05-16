@@ -20,40 +20,33 @@ def employees_logout_employee(request):
     return render(request, 'employees/logout.html')
 
 
-class EmployeesCreateView(UpdateView):
+def employees_new_employee(request):
+    """Create a new employee."""
 
-    model = User
+    new_emp_form = EmployeeForm(request.POST or None)
 
-    def employees_new_employee(request):
-        """Create a new employee."""
+    if new_emp_form.is_valid():
+        new_emp_form.save()
+        return redirect(reverse('employees_navigate'))
 
-        new_emp_form = EmployeeForm(request.POST or None)
+    return render(request, 'employees/new.html', {
+        'form': new_emp_form
+    })
 
-        if new_emp_form.is_valid():
-            new_emp_form.save()
+def employees_edit_employee(request, employee_id):
+    """Edit an employee."""
 
-            return redirect(reverse('employees_navigate'))
+    employee = get_object_or_404(Employee, id=employee_id)
+    edit_emp_form = EmployeeForm(request.POST or None, instance=employee)
 
-        return render(request, 'employees/new.html', {
-            'form': new_emp_form
-        })
+    if edit_emp_form.is_valid():
+        edit_emp_form.save()
+        return redirect(reverse('employees_navigate'))
 
-
-    def employees_edit_employee(request, employee_id):
-        """Edit an employee."""
-
-        employee = get_object_or_404(Employee, id=employee_id)
-        edit_emp_form = EmployeeForm(request.POST or None, instance=employee)
-
-        if edit_emp_form.is_valid():
-            edit_emp_form.save()
-            return redirect(reverse('employees_navigate'))
-
-        return render(request, 'employees/edit.html', {
-            'form': edit_emp_form,
-            'employee': employee
-        })
-
+    return render(request, 'employees/edit.html', {
+        'form': edit_emp_form,
+        'employee': employee
+    })
 
 def employees_show_all_employees(request):
     """Show employees."""

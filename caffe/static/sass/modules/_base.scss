@@ -34,6 +34,7 @@ $yellow-color: #f2c53d;
 
 $grey-color:       #828282;
 $grey-color-light: lighten($grey-color, 40%);
+$grey-color-semilight: lighten($grey-color, 30%);
 $grey-color-semidark:  darken($grey-color, 10%);
 $grey-color-dark:  darken($grey-color, 25%);
 

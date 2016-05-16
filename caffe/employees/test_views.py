@@ -202,6 +202,20 @@ class EmployeeViewsTests(TestCase):
         logged_in = self.client.login(username='marta', password='pass')
         self.assertTrue(logged_in)
 
+        response = self.client.get(reverse('login_employee'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'employees/login.html')
+
+        response = self.client.post(
+            reverse('login_employee'),
+            {
+                'username': 'marta',
+                'password': 'pass'
+            }
+        )
+
+        self.assertRedirects(response, '/')
+
     def test_login_employee_fail(self):
         """Check if employee login can fail."""
 

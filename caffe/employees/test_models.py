@@ -52,24 +52,22 @@ class EmployeeModelTest(TestCase):
 
         self.assertEqual(1, Employee.objects.count())
 
-        self.assertRaises(
-            Exception,
-            Employee.objects.create,
-            username="u1",
-            first_name="l_u2",
-            last_name="l_u2",
-            telephone_number="31312",
-            email="he@he.he",
-            favorite_coffee="Rozpuszczalna"
-        )
+        with self.assertRaises(Exception):
+            Employee.objects.create(
+                username="u1",
+                first_name="l_u2",
+                last_name="l_u2",
+                telephone_number="31312",
+                email="he@he.he",
+                favorite_coffee="Rozpuszczalna"
+            )
 
-        self.assertRaises(
-            Exception,
-            Employee.objects.create,
-            username="",
-            first_name="l_u2",
-            last_name="l_u2",
-            telephone_number="31312",
-            email="he@he.he",
-            favorite_coffee="Rozpuszczalna"
-        )
+        with self.assertRaises(Exception):
+            Employee.objects.create(
+                username="",
+                first_name="l_u2",
+                last_name="l_u2",
+                telephone_number="31312",
+                email="he@he.he",
+                favorite_coffee="Rozpuszczalna"
+            )

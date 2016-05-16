@@ -56,27 +56,21 @@ class EmployeeForm(UserCreationForm):
             self.initial['email'] = self.instance.email
             self.initial['favorite_coffee'] = self.instance.favorite_coffee
 
-            try: 
+            try:
                 self.initial['groups'] = self.instance.group.get()
-            except:
-                # no groups
+            except AttributeError:
                 pass
 
     def save(self, commit=True):
         """Override of save method, to add users groups."""
-        instance = super(EmployeeForm, self).save(commit=True)
-        
-        # clear groups of user
+
         try:
-            instance.groups.clear()
-        except:
-            # user had no groups
+            self.groups.clear()
+        except AttributeError:
             pass
 
         # add groups to user
         for group in self.cleaned_data['groups']:
-            instance.groups.add(group)
+            self.groups.add(group)
 
-        instance.save()
-
-        return instance
+        super(EmployeeForm, self).save(commit=True)

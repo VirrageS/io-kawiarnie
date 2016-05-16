@@ -62,9 +62,9 @@ class EmployeeForm(UserCreationForm):
                 # no groups
                 pass
 
-    def save(self):
+    def save(self, commit=True):
         """Override of save method, to add users groups."""
-        instance = super(EmployeeForm, self).save()
+        instance = super(EmployeeForm, self).save(commit=True)
         
         # clear groups of user
         try:
@@ -72,7 +72,7 @@ class EmployeeForm(UserCreationForm):
         except:
             # user had no groups
             pass
-       
+
         # add groups to user
         for group in self.cleaned_data['groups']:
             instance.groups.add(group)

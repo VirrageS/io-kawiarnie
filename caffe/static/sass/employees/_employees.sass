@@ -1,7 +1,8 @@
 .employees
   display: flex
-  flex-direction: row
   justify-content: space-around
+  flex-direction: row
+  flex-flow: row wrap
 
   .employee
     +border-radius(10px)
@@ -9,6 +10,7 @@
     display: flex
     justify-content: space-between
     flex-direction: column
+    margin: 20px
     padding: 10px
     border: 3px solid #795f83
     text-align: left
@@ -19,16 +21,16 @@
       display: block
       font-size: 1.1rem
       font-weight: $light
-      list-style: none
       margin-left: 20px
+      list-style: none
 
       li
         padding: 0
         margin: 0
 
         &:first-of-type
-          font-weight: $bold
           font-size: 1.3em
+          font-weight: $bold
           margin-bottom: 10px
 
 

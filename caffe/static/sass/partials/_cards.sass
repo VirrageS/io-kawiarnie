@@ -17,6 +17,7 @@
   .card
     +border-radius(8px)
     +transition(all 0.4s)
+    +box-shadow(0px, 4px, 10px, $grey-color-light)
     font-size: 1.3rem
     padding: 20px 30px
     margin: 30px
@@ -30,7 +31,7 @@
     &:hover
       background-color: $yellow-color
       color: #ffffff
-      border-color: #ffffff
+      border-color: $yellow-color
 
     i
       display: block
@@ -42,18 +43,18 @@
       &:hover
         background-color: $yellow-color
         color: #ffffff
-        border-color: #ffffff
+        border-color: $yellow-color
 
   &.cards-green
     .card
       &:hover
         background-color: $green-color
         color: #ffffff
-        border-color: #ffffff
+        border-color: $green-color
 
   &.cards-red
     .card
       &:hover
         background-color: $red-color
         color: #ffffff
-        border-color: #ffffff
+        border-color: $red-color

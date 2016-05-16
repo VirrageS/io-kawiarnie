@@ -6,7 +6,7 @@ from django.test import TestCase
 from .forms import EmployeeForm
 from .models import Employee
 
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 
 
 class EmployeeFormTest(TestCase):
@@ -15,13 +15,13 @@ class EmployeeFormTest(TestCase):
     def setUp(self):
         """Set up data to tests."""
 
-        self.g1 = Group.objects.create(
+        self.group1 = Group.objects.create(
             name="grupa1")
 
-        self.g2 = Group.objects.create(
+        self.group2 = Group.objects.create(
             name="grupa2")
 
-        self.u1 = Employee.objects.create(
+        self.user1 = Employee.objects.create(
             username="u1",
             first_name="f_u1",
             last_name="l_u1",
@@ -30,8 +30,8 @@ class EmployeeFormTest(TestCase):
             favorite_coffee="Rozpuszczalna"
         )
 
-        self.u1.groups.add(self.g1)
-        self.u1.groups.add(self.g2)
+        self.user1.groups.add(self.group1)
+        self.user1.groups.add(self.group2)
 
     def test_validation(self):
         """Check validation of employee form."""
@@ -41,7 +41,7 @@ class EmployeeFormTest(TestCase):
             'first_name': 'fu1',
             'last_name': 'fu2',
             'telephone_number': '312313',
-            'groups': [self.g1.id,],
+            'groups': [self.group1.id, ],
             'email': 'he@he.he',
             'favorite_coffee': 'black',
             'password1': 'haslohaslo',
@@ -89,7 +89,6 @@ class EmployeeFormTest(TestCase):
 
         # username exists already
         self.assertFalse(not_valid.is_valid())
-
 
         not_valid = EmployeeForm({
             'username': 'u1',

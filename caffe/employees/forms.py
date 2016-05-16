@@ -2,8 +2,7 @@
 
 from django import forms
 from django.contrib.auth.models import \
-    User, Group   # fill in custom user info then save it     
-from django.contrib.auth import get_user_model
+    Group   # fill in custom user info then save it
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import Employee
@@ -34,6 +33,7 @@ class EmployeeForm(UserCreationForm):
         )
 
     def __init__(self, *args, **kwargs):
+        """Init form data."""
         kwargs.setdefault('label_suffix', '')  # removes ":" from labels
 
         super(EmployeeForm, self).__init__(*args, **kwargs)
@@ -55,7 +55,7 @@ class EmployeeForm(UserCreationForm):
             self.initial['telephone_number'] = self.instance.telephone_number
             self.initial['email'] = self.instance.email
             self.initial['favorite_coffee'] = self.instance.favorite_coffee
-            
+
             try: 
                 self.initial['groups'] = self.instance.group.get()
             except:
@@ -63,6 +63,7 @@ class EmployeeForm(UserCreationForm):
                 pass
 
     def save(self, commit=True):
+        """Override of save method, to add users groups."""
         instance = super(EmployeeForm, self).save(commit=False)
         
         # clear groups of user
@@ -70,8 +71,8 @@ class EmployeeForm(UserCreationForm):
             instance.groups.clear()
 
         # add groups to user
-        for g in self.cleaned_data['groups']:
-            instance.groups.add(g)
+        for group in self.cleaned_data['groups']:
+            instance.groups.add(group)
 
         if commit:
             instance.save()

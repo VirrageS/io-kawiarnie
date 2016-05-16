@@ -1,6 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 from django import forms
+from django.contrib.auth.models import \
+    Group   # fill in custom user info then save it
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import Employee
@@ -12,18 +14,26 @@ class EmployeeForm(UserCreationForm):
     telephone_number = forms.CharField()
     email = forms.EmailField()
 
+    groups = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+
     class Meta:
         model = Employee
         fields = (
             'username',
             'first_name',
             'last_name',
+            'groups',
             'telephone_number',
             'email',
             'favorite_coffee'
         )
 
     def __init__(self, *args, **kwargs):
+        """Init form data."""
         kwargs.setdefault('label_suffix', '')  # removes ":" from labels
 
         super(EmployeeForm, self).__init__(*args, **kwargs)
@@ -34,6 +44,9 @@ class EmployeeForm(UserCreationForm):
         self.fields['telephone_number'].label = 'Numer telefonu'
         self.fields['email'].label = 'Adres email'
         self.fields['favorite_coffee'].label = 'Twoja ulubiona kawa?'
+        self.fields['groups'].label = 'Grupy uprawnień użytkownika'
+
+        self.fields['groups'].queryset |= Group.objects.all()
 
         if self.instance:
             self.initial['username'] = self.instance.username
@@ -42,3 +55,28 @@ class EmployeeForm(UserCreationForm):
             self.initial['telephone_number'] = self.instance.telephone_number
             self.initial['email'] = self.instance.email
             self.initial['favorite_coffee'] = self.instance.favorite_coffee
+
+            try: 
+                self.initial['groups'] = self.instance.group.get()
+            except:
+                # no groups
+                pass
+
+    def save(self, commit=True):
+        """Override of save method, to add users groups."""
+        instance = super(EmployeeForm, self).save(commit=True)
+        
+        # clear groups of user
+        try:
+            instance.groups.clear()
+        except:
+            # user had no groups
+            pass
+
+        # add groups to user
+        for group in self.cleaned_data['groups']:
+            instance.groups.add(group)
+
+        instance.save()
+
+        return instance

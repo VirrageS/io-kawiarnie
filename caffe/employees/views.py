@@ -8,8 +8,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import EmployeeForm
 from .models import Employee
 
-from django.contrib.auth.models import User
-from django.views.generic import UpdateView
 
 @login_required
 def employees_logout_employee(request):
@@ -33,6 +31,7 @@ def employees_new_employee(request):
         'form': new_emp_form
     })
 
+
 def employees_edit_employee(request, employee_id):
     """Edit an employee."""
 
@@ -48,8 +47,9 @@ def employees_edit_employee(request, employee_id):
         'employee': employee
     })
 
+
 def employees_show_all_employees(request):
-    """Show employees."""
+    """Show all employees."""
 
     employees = Employee.objects.all()
 

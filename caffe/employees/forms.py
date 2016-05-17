@@ -63,14 +63,15 @@ class EmployeeForm(UserCreationForm):
 
     def save(self, commit=True):
         """Override of save method, to add users groups."""
+        employee = super(EmployeeForm, self).save(commit=True)
 
         try:
-            self.groups.clear()
+            employee.groups.clear()
         except AttributeError:
             pass
 
         # add groups to user
         for group in self.cleaned_data['groups']:
-            self.groups.add(group)
+            employee.groups.add(group)
 
-        super(EmployeeForm, self).save(commit=True)
+        return employee

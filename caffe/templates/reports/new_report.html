@@ -116,7 +116,7 @@ Nowy raport
       addProductToSelect(products[i]);
 
       if (products[i].selected) {
-        $('select').find('#' + p.id).parent().val(p.id).trigger('change');
+        $('select').find('#' + products[i].id).parent().val(products[i].id).trigger('change');
       }
     }
 

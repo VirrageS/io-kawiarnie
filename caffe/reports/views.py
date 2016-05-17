@@ -228,53 +228,49 @@ def reports_new_report(request):
             'errors': {}
         })
 
-    # if request.POST:
-    #     full_products = request.POST
-    #     forms = []
-    #     valid = True
-    #
-    #     # chcek validation and create form for each fullproduct
-    #     for full_product in full_products:
-    #         # csrf token ignore
-    #         if full_product == 'csrfmiddlewaretoken':
-    #             continue
-    #
-    #         fp_list = full_products.getlist(full_product)
-    #         form = FullProductForm({
-    #             # sets product id and amount for fullproduct
-    #             'product': fp_list[0],
-    #             'amount': fp_list[1]
-    #         })
-    #
-    #         if not form.is_valid():
-    #             valid = False
-    #             checked.append({
-    #                 'product': fp_list[0],
-    #                 'amount': '',
-    #                 'error': form.errors['amount']
-    #             })
-    #         else:
-    #             checked.append({
-    #                 'product': fp_list[0],
-    #                 'amount': fp_list[1],
-    #                 'error': ''
-    #             })
-    #
-    #         forms.append(form)
-    #
-    #     # check if some form exists
-    #     if len(forms) > 0 and valid:
-    #         report = Report.objects.create()
-    #
-    #         # for each form save it with its report
-    #         for form in forms:
-    #             full_product = form.save()
-    #             full_product.report = report
-    #             full_product.save()
-    #
-    #         report.save()
-    #
-    #         return redirect(reverse('stencils_show_all_stencils'))
+    if request.POST:
+        forms = []
+        valid = True
+
+        # chcek validation and create form for each fullproduct
+        for full_product in request.POST:
+            if full_product == 'csrfmiddlewaretoken':
+                continue
+
+            fp_list = request.POST.getlist(full_product)
+            form = FullProductForm({
+                # sets product id and amount for fullproduct
+                'product': fp_list[0],
+                'amount': fp_list[1]
+            })
+
+            current_valid = True
+            if not form.is_valid():
+                valid = False
+
+            for product in all_products:
+                if product['id'] != int(fp_list[0]):
+                    continue
+
+                product['selected'] = True
+                product['amount'] = (fp_list[1] if form.is_valid() else '')
+                product['errors'] = ('' if form.is_valid() else form.errors['amount'])
+                break
+
+            forms.append(form)
+
+        # check if some form exists
+        if len(forms) > 0 and valid:
+            report = Report.objects.create()
+
+            # for each form save it with its report
+            for form in forms:
+                full_product = form.save()
+                full_product.report = report
+                full_product.save()
+
+            report.save()
+            return redirect(reverse('reports_show_all_reports'))
 
     return render(request, 'reports/new_report.html', {
         'products': json.dumps(all_products)

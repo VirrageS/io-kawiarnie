@@ -6,12 +6,148 @@ Nowy raport
 {% endblock %}
 
 {% block content %}
-<script>
+<script type="text/javascript">
 (function ($) {
   "use strict"
 
+  var products;
+  var categories;
+
+  function getProduct(product) {
+    var product;
+
+    for (var i = 0; i < products.length; ++i) {
+      if (products[i].id == product) {
+        product = products[i];
+      }
+    }
+
+    return product;
+  }
+
+  function getCategoryOrCreate(category) {
+    var foundCategory;
+
+    for (var i = 0; i < categories.length; ++i) {
+      if (categories[i].id == category.id) {
+        foundCategory = categories[i];
+      }
+    }
+
+    if (!foundCategory) {
+      $('.categories').append('\
+        <div id="' + category.id + '" class="category">\
+          <div class="category-name">\
+            ' + category.name + '\
+          </div>\
+          <div class="products"></div>\
+        </div>\
+      ');
+
+      categories.push(category);
+      foundCategory = category;
+    }
+
+    return $('#' + foundCategory.id + '.category');
+  }
+
+  function addProductToSelect(product) {
+    $('select').append('\
+      <option id="' + product.id + '" value="' + product.id + '">' + product.name + '</option>\
+    ');
+  }
+
+
   $(document).ready(function() {
-    $('.modaal').modaal();
+    products = {{ products|safe }};
+    categories = [];
+
+    $('select').on('change', function(event, obj) {
+      var product = getProduct(this.value);
+      if (product) {
+        // remove product from selected
+        $(this).find(":selected").remove();
+
+
+        var errorClasses = '', amount = '', errors = '';
+        if (product.selected) {
+          amount = product.amount;
+
+          if (product.errors) {
+            // add error if error occured
+            errors = '<ul class="errorlist">';
+
+            for (var i = 0; i < product.errors.length; ++i) {
+              errors += '<li>' + product.errors[i] + '</li>';
+            }
+
+            errors += '</ul>';
+
+            // change input border color if error occured
+            errorClasses = 'error';
+          }
+
+          product.selected = false;
+        }
+
+        var categoryProducts = getCategoryOrCreate(product.category).find('.products');
+
+        categoryProducts.append('\
+          <div id="' + product.id + '" class="product">\
+            <input type="hidden" name="' + product.id + '" value="' + product.id + '"/>\
+            <div class="name">\
+              ' + product.name +'\
+            </div>\
+            <div class="amount">\
+              <input type="number" name="' + product.id + '" value="' + amount + '" class="' + errorClasses + '"/>\
+            </div>\
+            <div class="unit">\
+              ' + product.unit + '\
+            </div>\
+            <div class="trash">\
+              <i class="fa fa-trash-o" aria-hidden="true"></i>\
+            </div>\
+          </div>\
+        ');
+
+        categoryProducts.append(errors);
+      }
+    });
+
+    for (var i = 0; i < products.length; ++i) {
+      addProductToSelect(products[i]);
+
+      if (products[i].selected) {
+        $('select').find('#' + p.id).parent().val(p.id).trigger('change');
+      }
+    }
+
+    $(document).on('click', '.trash', function() {
+      var product = $(this).closest('.product');
+
+      var p = getProduct(product.attr('id'));
+      if (p) {
+        addProductToSelect(p);
+
+        var category = product.closest('.category');
+        var errors = $(product).next('ul');
+
+        if (errors) {
+          errors.remove(); // remove error
+        }
+        product.remove();
+
+        if (!$.trim(category.find('.products').html())) {
+          for (var i = 0; i < categories.length; ++i) {
+            if (categories[i].id == category.attr('id')) {
+              categories.splice(i, 1);
+            }
+          }
+
+          category.remove();
+        }
+      }
+    });
   });
 })(jQuery);
 </script>
@@ -19,60 +155,35 @@ Nowy raport
 <form method="POST" class="element-form">
   {% csrf_token %}
 
-  <div class="input-line">
-    {{ form.full_products }}
-    {{ form.full_products.label_tag }}
+  <div class="input-line select-wrapper">
+    <select>
+      <option name="product" id="-1" value="-1">-------------</option>
+    </select>
+    <label for="">Wybierz produkt</label>
   </div>
-  {{ form.full_products.errors }}
+
+  <div class="categories">
+    {% for category in categories %}
+      <div id="{{ category.id }}" class="category">
+        <div class="category-name">
+          {{ category.name }}
+        </div>
+          <div class="select-product input-line">
+            <!-- <div class="select-wrapper">
+              <select>
+                <option name="product" id="-1" value="-1">-------------</option>
+                {% for product in category.products %}
+                  <option name="product" id="{{ product.id }}" value="{{ product.id }}">{{ product.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <label for="">Wybierz produkt</label> -->
+          </div>
+        <div class="products"></div>
+      </div>
+    {% endfor %}
+  </div>
 
   <button type="submit" class="button button-rounded button-green">Dodaj</button>
 </form>
-
-<section class="subtitle">
-  Ostatnio utworzone
-</section>
-
-<section class="reports">
-  {% for report in reports %}
-    <div class="report">
-      <a href="#modaal{{ report.id }}" class="modaal meta">
-        {{ report.created_on }}
-      </a>
-
-      <a href="#modaal{{ report.id }}" class="modaal button button-rounded button-blue button-with-icon">
-        <i class="fa fa-search" aria-hidden="true"></i>
-        <span>
-          Podglądaj
-        </span>
-      </a>
-
-      <div id="modaal{{ report.id }}" class="hidden">
-        <div class="modal-report">
-          <section class="report-title">
-            {{ report.created_on }}
-          </section>
-
-          <section class="categories">
-            {% for category, products in report.categories.items %}
-              <div class="category">
-                <div class="category-name">
-                  {{ category }}
-                </div>
-                <div class="products">
-                  {% for product in products %}
-                    <div class="product">
-                      <div class="name">{{ product.name }}</div>
-                      <div class="amount">{{ product.amount }}</div>
-                      <div class="unit">{{ product.unit }}</div>
-                    </div>
-                  {% endfor %}
-                </div>
-              </div>
-            {% endfor %}
-          </section>
-        </div>
-      </div>
-    </div>
-  {% endfor %}
-</section>
 {% endblock %}

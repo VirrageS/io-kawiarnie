@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+import json
+
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -206,95 +208,76 @@ def reports_edit_product(request, product_id):
     })
 
 
-def reports_new_fullproduct(request):
-    """Show form to create new FullProduct and show existing FullProducts."""
-
-    elements = []
-    form = FullProductForm()
-
-    if request.POST:
-        form = FullProductForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('reports_navigate'))
-
-    full_products = FullProduct.objects.all()
-    for full_product in full_products:
-        elements.append({
-            'edit_href': reverse(
-                'reports_edit_fullproduct',
-                args=(full_product.id,)
-            ),
-            'id': full_product.id,
-            'desc': str(full_product)
-        })
-
-    products = Product.objects.all()
-    products = [
-        {'id': product.id, 'unit': product.unit.name} for product in products
-    ]
-
-    return render(request, 'reports/new_fullproduct.html', {
-        'form': form,
-        'context': {},
-        'elements': elements,
-        'products': products
-    })
-
-
-def reports_edit_fullproduct(request, fullproduct_id):
-    """Show form to edit FullProduct.
-
-    Args:
-        fullproduct_id (int): Id of FullProduct which is edited.
-    """
-
-    fullproduct = get_object_or_404(FullProduct, id=fullproduct_id)
-    form = FullProductForm(request.POST or None, instance=fullproduct)
-
-    if form.is_valid():
-        form.save()
-        return redirect(reverse('reports_navigate'))
-
-    products = Product.objects.all()
-    products = [
-        {'id': product.id, 'unit': product.unit.name} for product in products
-    ]
-
-    return render(request, 'reports/edit_fullproduct.html', {
-        'form': form,
-        'context': {
-            'cancel_href': reverse('reports_new_fullproduct')
-        },
-        'products': products
-    })
-
-
 def reports_new_report(request):
     """Show form to create new Report and show already existing Report."""
 
-    form = ReportForm()
+    all_products = []
 
-    if request.POST:
-        form = ReportForm(request.POST)
+    products = Product.objects.all()
+    for product in products:
+        all_products.append({
+            'id': product.id,
+            'name': product.name,
+            'unit': product.unit.name,
+            'category': {
+                'id': product.category.id,
+                'name': product.category.name
+            },
+            'selected': False,
+            'amount': '',
+            'errors': {}
+        })
 
-        if form.is_valid():
-            report = form.save()
-            for full_product in form.cleaned_data['full_products']:
-                full_product.report = report
-                full_product.save()
-
-            return redirect(reverse('reports_navigate'))
-
-    # get last five reports
-    latest_reports = Report.objects.order_by('-created_on')[:5]
-    for report in latest_reports:
-        report.categories = get_report_categories(report.id)
+    # if request.POST:
+    #     full_products = request.POST
+    #     forms = []
+    #     valid = True
+    #
+    #     # chcek validation and create form for each fullproduct
+    #     for full_product in full_products:
+    #         # csrf token ignore
+    #         if full_product == 'csrfmiddlewaretoken':
+    #             continue
+    #
+    #         fp_list = full_products.getlist(full_product)
+    #         form = FullProductForm({
+    #             # sets product id and amount for fullproduct
+    #             'product': fp_list[0],
+    #             'amount': fp_list[1]
+    #         })
+    #
+    #         if not form.is_valid():
+    #             valid = False
+    #             checked.append({
+    #                 'product': fp_list[0],
+    #                 'amount': '',
+    #                 'error': form.errors['amount']
+    #             })
+    #         else:
+    #             checked.append({
+    #                 'product': fp_list[0],
+    #                 'amount': fp_list[1],
+    #                 'error': ''
+    #             })
+    #
+    #         forms.append(form)
+    #
+    #     # check if some form exists
+    #     if len(forms) > 0 and valid:
+    #         report = Report.objects.create()
+    #
+    #         # for each form save it with its report
+    #         for form in forms:
+    #             full_product = form.save()
+    #             full_product.report = report
+    #             full_product.save()
+    #
+    #         report.save()
+    #
+    #         return redirect(reverse('stencils_show_all_stencils'))
 
     return render(request, 'reports/new_report.html', {
-        'form': form,
-        'reports': latest_reports
+        'products': json.dumps(all_products)
     })
 
 

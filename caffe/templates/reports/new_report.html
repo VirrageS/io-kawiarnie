@@ -68,19 +68,17 @@ Nowy raport
         // remove product from selected
         $(this).find(":selected").remove();
 
-
         var errorClasses = '', amount = '', errors = '';
+
         if (product.selected) {
           amount = product.amount;
 
           if (product.errors) {
             // add error if error occured
             errors = '<ul class="errorlist">';
-
             for (var i = 0; i < product.errors.length; ++i) {
               errors += '<li>' + product.errors[i] + '</li>';
             }
-
             errors += '</ul>';
 
             // change input border color if error occured
@@ -152,7 +150,7 @@ Nowy raport
 })(jQuery);
 </script>
 
-<form method="POST" class="element-form">
+<form method="POST" class="report-form">
   {% csrf_token %}
 
   <div class="input-line select-wrapper">
@@ -162,27 +160,7 @@ Nowy raport
     <label for="">Wybierz produkt</label>
   </div>
 
-  <div class="categories">
-    {% for category in categories %}
-      <div id="{{ category.id }}" class="category">
-        <div class="category-name">
-          {{ category.name }}
-        </div>
-          <div class="select-product input-line">
-            <!-- <div class="select-wrapper">
-              <select>
-                <option name="product" id="-1" value="-1">-------------</option>
-                {% for product in category.products %}
-                  <option name="product" id="{{ product.id }}" value="{{ product.id }}">{{ product.name }}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <label for="">Wybierz produkt</label> -->
-          </div>
-        <div class="products"></div>
-      </div>
-    {% endfor %}
-  </div>
+  <div class="categories"></div>
 
   <button type="submit" class="button button-rounded button-green">Dodaj</button>
 </form>

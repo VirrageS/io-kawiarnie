@@ -5,8 +5,7 @@ from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 from django.utils import timezone
 
-from .forms import (CategoryForm, FullProductForm, ProductForm, ReportForm,
-                    UnitForm)
+from .forms import CategoryForm, FullProductForm, ProductForm, UnitForm
 from .models import Category, FullProduct, Product, Report, Unit
 from .views import get_report_categories
 
@@ -563,82 +562,82 @@ class ReportViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/new_report.html')
 
-        # check context
-        self.assertIsInstance(response.context['form'], ReportForm)
-
-        reports = response.context['reports']
-        self.assertEqual(len(reports), 2)
-
-        for report in reports:
-            self.assertIsInstance(report, Report)
-            self.assertIsNotNone(report.categories)
-
-    def test_new_report_post_fail(self):
-        """Check if new report fails to create when form is not valid."""
-
-        response = self.client.post(
-            reverse('reports_new_report'),
-            {'full_products': u''},
-            follow=True
-        )
-
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(response.context['form'].is_valid())
-        self.assertEqual(
-            response.context['form'].errors, {
-                'full_products':
-                    ['"" nie jest poprawną wartością klucza głównego.']
-            }
-        )
-        self.assertTemplateUsed(response, 'reports/new_report.html')
-
-    def test_new_report_post_success(self):
-        """Check if new report successes to create."""
-
-        response = self.client.post(
-            reverse('reports_new_report'),
-            {
-                'full_products': [self.cake_full_second.id],
-            },
-            follow=True
-        )
-
-        # print(response.context['form'])
-        self.assertRedirects(response, reverse('reports_navigate'))
-
-        # check if new report is displayed
-        response = self.client.get(reverse('reports_new_report'))
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context['reports']), 3)
-
-        cake = FullProduct.objects.get(id=self.cake_full_second.id)
-        new_report = cake.report
-        self.assertIsNotNone(new_report)
-        self.assertIsInstance(new_report, Report)
-        self.assertTrue(new_report.created_on < timezone.now())
-
-    def test_edit_report_show(self):
-        """Check if edit report is displayed properly."""
-
-        response = self.client.get(
-            reverse('reports_edit_report', args=(self.major_report.id,))
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'reports/edit_element.html')
-
-        form = response.context['form']
-        self.assertIsInstance(form, ReportForm)
-        self.assertEqual(form.instance, self.major_report)
-
-        self.assertEqual(len(response.context['context']), 2)
-        self.assertEqual(
-            response.context['context']['title'],
-            u'Edytuj raport'
-        )
-        self.assertEqual(
-            response.context['context']['cancel_href'],
-            reverse('reports_show_report', args=(self.major_report.id,))
-        )
+    #     # check context
+    #     self.assertIsInstance(response.context['form'], ReportForm)
+    #
+    #     reports = response.context['reports']
+    #     self.assertEqual(len(reports), 2)
+    #
+    #     for report in reports:
+    #         self.assertIsInstance(report, Report)
+    #         self.assertIsNotNone(report.categories)
+    #
+    # def test_new_report_post_fail(self):
+    #     """Check if new report fails to create when form is not valid."""
+    #
+    #     response = self.client.post(
+    #         reverse('reports_new_report'),
+    #         {'full_products': u''},
+    #         follow=True
+    #     )
+    #
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertFalse(response.context['form'].is_valid())
+    #     self.assertEqual(
+    #         response.context['form'].errors, {
+    #             'full_products':
+    #                 ['"" nie jest poprawną wartością klucza głównego.']
+    #         }
+    #     )
+    #     self.assertTemplateUsed(response, 'reports/new_report.html')
+    #
+    # def test_new_report_post_success(self):
+    #     """Check if new report successes to create."""
+    #
+    #     response = self.client.post(
+    #         reverse('reports_new_report'),
+    #         {
+    #             'full_products': [self.cake_full_second.id],
+    #         },
+    #         follow=True
+    #     )
+    #
+    #     # print(response.context['form'])
+    #     self.assertRedirects(response, reverse('reports_navigate'))
+    #
+    #     # check if new report is displayed
+    #     response = self.client.get(reverse('reports_new_report'))
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertEqual(len(response.context['reports']), 3)
+    #
+    #     cake = FullProduct.objects.get(id=self.cake_full_second.id)
+    #     new_report = cake.report
+    #     self.assertIsNotNone(new_report)
+    #     self.assertIsInstance(new_report, Report)
+    #     self.assertTrue(new_report.created_on < timezone.now())
+    #
+    # def test_edit_report_show(self):
+    #     """Check if edit report is displayed properly."""
+    #
+    #     response = self.client.get(
+    #         reverse('reports_edit_report', args=(self.major_report.id,))
+    #     )
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'reports/edit_element.html')
+    #
+    #     form = response.context['form']
+    #     self.assertIsInstance(form, ReportForm)
+    #     self.assertEqual(form.instance, self.major_report)
+    #
+    #     self.assertEqual(len(response.context['context']), 2)
+    #     self.assertEqual(
+    #         response.context['context']['title'],
+    #         u'Edytuj raport'
+    #     )
+    #     self.assertEqual(
+    #         response.context['context']['cancel_href'],
+    #         reverse('reports_show_report', args=(self.major_report.id,))
+    #     )
 
     def test_edit_report_404(self):
         """Check if 404 is displayed when report does not exists."""
@@ -658,49 +657,49 @@ class ReportViewsTests(TestCase):
             with self.assertRaises(NoReverseMatch):
                 reverse('reports_edit_report', args=(_id,))
 
-    def test_edit_report_post_fail(self):
-        """Check if edit report fails to edit."""
+    # def test_edit_report_post_fail(self):
+    #     """Check if edit report fails to edit."""
+    #
+    #     response = self.client.post(
+    #         reverse('reports_edit_report', args=(self.major_report.id,)),
+    #         {'full_products': u''},
+    #         follow=True
+    #     )
+    #
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertFalse(response.context['form'].is_valid())
+    #     self.assertEqual(
+    #         response.context['form'].errors, {
+    #             'full_products':
+    #                 ['"" nie jest poprawną wartością klucza głównego.']
+    #         }
+    #     )
+    #     self.assertTemplateUsed(response, 'reports/edit_element.html')
+    #
+    # def test_edit_report_post_success(self):
+    #     """Check if edit report successes to edit."""
+    #
+    #     response = self.client.post(
+    #         reverse('reports_edit_report', args=(self.caffee_full_second.id,)),
+    #         {
+    #             'full_products': [self.cake_full_second.id],
+    #         },
+    #         follow=True
+    #     )
+    #
+    #     self.assertRedirects(response, reverse('reports_navigate'))
+    #
+    #     # check if report caffees has changed
+    #     report = FullProduct.objects.get(id=self.cake_full_second.id).report
+    #     self.assertIsNotNone(report)
+    #     self.assertIsInstance(report, Report)
+    #
+    #     # check if edited report is displayed
+    #     response = self.client.get(reverse('reports_new_report'))
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertEqual(len(response.context['reports']), 2)
 
-        response = self.client.post(
-            reverse('reports_edit_report', args=(self.major_report.id,)),
-            {'full_products': u''},
-            follow=True
-        )
-
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(response.context['form'].is_valid())
-        self.assertEqual(
-            response.context['form'].errors, {
-                'full_products':
-                    ['"" nie jest poprawną wartością klucza głównego.']
-            }
-        )
-        self.assertTemplateUsed(response, 'reports/edit_element.html')
-
-    def test_edit_report_post_success(self):
-        """Check if edit report successes to edit."""
-
-        response = self.client.post(
-            reverse('reports_edit_report', args=(self.caffee_full_second.id,)),
-            {
-                'full_products': [self.cake_full_second.id],
-            },
-            follow=True
-        )
-
-        self.assertRedirects(response, reverse('reports_navigate'))
-
-        # check if report caffees has changed
-        report = FullProduct.objects.get(id=self.cake_full_second.id).report
-        self.assertIsNotNone(report)
-        self.assertIsInstance(report, Report)
-
-        # check if edited report is displayed
-        response = self.client.get(reverse('reports_new_report'))
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context['reports']), 2)
-
-    def test_create_report(self):
+    def test_report_navigate(self):
         """Check if create report view is displayed properly."""
 
         response = self.client.get(reverse('reports_navigate'))

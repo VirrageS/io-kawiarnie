@@ -3,8 +3,7 @@
 
 from django.test import TestCase
 
-from .forms import (CategoryForm, FullProductForm, ProductForm, ReportForm,
-                    UnitForm)
+from .forms import CategoryForm, FullProductForm, ProductForm, UnitForm
 from .models import Category, FullProduct, Product, Unit
 
 
@@ -244,80 +243,3 @@ class ProductFormTest(TestCase):
         })
 
         self.assertFalse(form_incorrect.is_valid())
-
-
-class ReportFormTest(TestCase):
-    """ReportForm tests."""
-
-    def setUp(self):
-        """Categories, products, units, fullproducts init."""
-        first_cat = Category.objects.create(name="first")
-        second_cat = Category.objects.create(name="second")
-
-        gram = Unit.objects.create(name="gram")
-        liter = Unit.objects.create(name="liter")
-
-        product1 = Product.objects.create(
-            name="product1",
-            category=first_cat,
-            unit=gram
-        )
-        product2 = Product.objects.create(
-            name="product2",
-            category=first_cat,
-            unit=liter
-        )
-        product3 = Product.objects.create(
-            name="product3",
-            category=second_cat,
-            unit=gram
-        )
-        product4 = Product.objects.create(
-            name="product4",
-            category=second_cat,
-            unit=liter
-        )
-
-        FullProduct.objects.create(
-            product=product1,
-            amount=10
-        )
-
-        FullProduct.objects.create(
-            product=product2,
-            amount=100
-        )
-
-        FullProduct.objects.create(
-            product=product3,
-            amount=0
-        )
-
-        FullProduct.objects.create(
-            product=product4,
-            amount=1000
-        )
-
-    def test_report(self):
-        """Check validation."""
-        all_fp = [x.id for x in FullProduct.objects.all()]
-        form_correct = ReportForm({
-            'full_products': all_fp
-        })
-
-        self.assertTrue(form_correct.is_valid())
-
-        product1 = Product.objects.get(name="product1")
-        fp5 = FullProduct.objects.create(
-            product=product1,
-            amount=10
-        )
-
-        fp5.save()
-
-        all_fp = [x.id for x in FullProduct.objects.all()[:2]]
-        form_correct = ReportForm({
-            'full_products': all_fp
-        })
-
-        self.assertTrue(form_correct.is_valid())

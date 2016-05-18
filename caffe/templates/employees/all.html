@@ -12,7 +12,6 @@
       <th>Nazwisko</th>
       <th>Email</th>
       <th>Numer telefonu</th>
-      <th class="center">Zaloguj</th>
       <th class="center">Edytuj</th>
     </tr>
   </thead>
@@ -23,7 +22,6 @@
         <td>{{ employee.last_name }}</td>
         <td>{{ employee.email }}</td>
         <td>{{ employee.telephone_number }}</td>
-        <td class="center icon"><a href="{% url 'login_employee' %}"><i class="fa fa-sign-in"></i></a></td>
         <td class="center icon edit"><a href="{% url 'edit_employee' employee.id %}"><i class="fa fa-pencil"></i></a></td>
       </tr>
     {% endfor %}

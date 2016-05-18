@@ -9,6 +9,13 @@ from .models import Employee
 from django.contrib.auth.models import Group
 
 
+def user_in_group(self, user, group_id):
+    """Check if user is in given group."""
+    users_in_group = Group.objects.get(id=group_id).user_set.all()
+
+    return user in users_in_group
+
+
 class EmployeeFormTest(TestCase):
     """Test empoloyee form."""
 
@@ -33,12 +40,6 @@ class EmployeeFormTest(TestCase):
         self.user1.groups.add(self.group1)
         self.user1.groups.add(self.group2)
 
-    def userInGroup(self, user, group_id):
-        """Check if user is in given group."""
-        users_in_group = Group.objects.get(id=group_id).user_set.all()
-
-        return (user in users_in_group)
-
     def test_validation(self):
         """Check validation of employee form."""
 
@@ -60,7 +61,7 @@ class EmployeeFormTest(TestCase):
         self.assertEqual(employee.username, 'u2')
         self.assertEqual(employee.email, 'he@he.he')
         self.assertEqual(employee.telephone_number, '312313')
-        self.assertTrue(self.userInGroup(employee, self.group1.id))
+        self.assertTrue(user_in_group(employee, self.group1.id))
 
         employee.delete()
 
@@ -81,7 +82,7 @@ class EmployeeFormTest(TestCase):
         self.assertEqual(employee.username, 'u2')
         self.assertEqual(employee.email, 'he@he.he')
         self.assertEqual(employee.telephone_number, '312313')
-        self.assertFalse(self.userInGroup(employee, self.group1.id))
+        self.assertFalse(user_in_group(employee, self.group1.id))
 
         not_valid = EmployeeForm({
             'first_name': 'fu1',
@@ -181,6 +182,6 @@ class EmployeeFormTest(TestCase):
 
         # wrong groups
         self.assertFalse(not_valid.is_valid())
-        
+
         with self.assertRaises(Exception):
             not_valid.save()

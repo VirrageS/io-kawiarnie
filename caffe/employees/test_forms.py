@@ -9,6 +9,13 @@ from .models import Employee
 from django.contrib.auth.models import Group
 
 
+def user_in_group(user, group_id):
+    """Check if user is in given group."""
+    users_in_group = Group.objects.get(id=group_id).user_set.all()
+
+    return user in users_in_group
+
+
 class EmployeeFormTest(TestCase):
     """Test empoloyee form."""
 
@@ -49,6 +56,14 @@ class EmployeeFormTest(TestCase):
         })
 
         self.assertTrue(valid.is_valid())
+        employee = valid.save()
+
+        self.assertEqual(employee.username, 'u2')
+        self.assertEqual(employee.email, 'he@he.he')
+        self.assertEqual(employee.telephone_number, '312313')
+        self.assertTrue(user_in_group(employee, self.group1.id))
+
+        employee.delete()
 
         valid = EmployeeForm({
             'username': 'u2',
@@ -62,6 +77,12 @@ class EmployeeFormTest(TestCase):
         })
 
         self.assertTrue(valid.is_valid())
+        employee = valid.save()
+
+        self.assertEqual(employee.username, 'u2')
+        self.assertEqual(employee.email, 'he@he.he')
+        self.assertEqual(employee.telephone_number, '312313')
+        self.assertFalse(user_in_group(employee, self.group1.id))
 
         not_valid = EmployeeForm({
             'first_name': 'fu1',
@@ -75,6 +96,9 @@ class EmployeeFormTest(TestCase):
 
         # no username
         self.assertFalse(not_valid.is_valid())
+
+        with self.assertRaises(Exception):
+            not_valid.save()
 
         not_valid = EmployeeForm({
             'username': 'u1',
@@ -90,6 +114,9 @@ class EmployeeFormTest(TestCase):
         # username exists already
         self.assertFalse(not_valid.is_valid())
 
+        with self.assertRaises(Exception):
+            not_valid.save()
+
         not_valid = EmployeeForm({
             'username': 'u1',
             'first_name': 'fu1',
@@ -103,6 +130,9 @@ class EmployeeFormTest(TestCase):
 
         # wrong email adress
         self.assertFalse(not_valid.is_valid())
+
+        with self.assertRaises(Exception):
+            not_valid.save()
 
         not_valid = EmployeeForm({
             'username': 'u4',
@@ -118,6 +148,9 @@ class EmployeeFormTest(TestCase):
         # passwords differ
         self.assertFalse(not_valid.is_valid())
 
+        with self.assertRaises(Exception):
+            not_valid.save()
+
         not_valid = EmployeeForm({
             'username': '',
             'first_name': 'fu1',
@@ -131,6 +164,9 @@ class EmployeeFormTest(TestCase):
 
         # empty username
         self.assertFalse(not_valid.is_valid())
+
+        with self.assertRaises(Exception):
+            not_valid.save()
 
         not_valid = EmployeeForm({
             'username': 'useruser',
@@ -146,3 +182,6 @@ class EmployeeFormTest(TestCase):
 
         # wrong groups
         self.assertFalse(not_valid.is_valid())
+
+        with self.assertRaises(Exception):
+            not_valid.save()

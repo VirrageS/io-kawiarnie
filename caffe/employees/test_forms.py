@@ -9,7 +9,7 @@ from .models import Employee
 from django.contrib.auth.models import Group
 
 
-def user_in_group(self, user, group_id):
+def user_in_group(user, group_id):
     """Check if user is in given group."""
     users_in_group = Group.objects.get(id=group_id).user_set.all()
 

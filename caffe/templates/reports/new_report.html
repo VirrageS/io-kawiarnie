@@ -7,32 +7,22 @@ Nowy raport
 
 {% block content %}
 <script type="text/javascript">
-(function ($) {
+(function ($, _) {
   "use strict"
 
   var products;
   var categories;
 
-  function getProduct(product) {
-    var product;
-
-    for (var i = 0; i < products.length; ++i) {
-      if (products[i].id == product) {
-        product = products[i];
-      }
-    }
-
-    return product;
+  function getProduct(id) {
+    return _.find(products, function(product) {
+      return product.id == id;
+    });
   }
 
   function getCategoryOrCreate(category) {
-    var foundCategory;
-
-    for (var i = 0; i < categories.length; ++i) {
-      if (categories[i].id == category.id) {
-        foundCategory = categories[i];
-      }
-    }
+    var foundCategory = _.find(categories, function(c) {
+      return c.id == category.id;
+    })
 
     if (!foundCategory) {
       $('.categories').append('\
@@ -73,12 +63,12 @@ Nowy raport
         if (product.selected) {
           amount = product.amount;
 
-          if (product.errors) {
+          if (!_.isEmpty(product.errors)) {
             // add error if error occured
             errors = '<ul class="errorlist">';
-            for (var i = 0; i < product.errors.length; ++i) {
-              errors += '<li>' + product.errors[i] + '</li>';
-            }
+              _.each(product.errors, function(error) {
+                errors += '<li>' + error + '</li>';
+              });
             errors += '</ul>';
 
             // change input border color if error occured
@@ -112,13 +102,14 @@ Nowy raport
       }
     });
 
-    for (var i = 0; i < products.length; ++i) {
-      addProductToSelect(products[i]);
+    _.map(products, function(product) {
+      addProductToSelect(product);
 
-      if (products[i].selected) {
-        $('select').find('#' + products[i].id).parent().val(products[i].id).trigger('change');
+      if (product.selected) {
+        $('select').find('#' + product.id).parent().val(product.id).trigger('change');
       }
-    }
+    });
+
 
     $(document).on('click', '.trash', function() {
       var product = $(this).closest('.product');
@@ -136,18 +127,16 @@ Nowy raport
         product.remove();
 
         if (!$.trim(category.find('.products').html())) {
-          for (var i = 0; i < categories.length; ++i) {
-            if (categories[i].id == category.attr('id')) {
-              categories.splice(i, 1);
-            }
-          }
+          categories = _.reject(categories, function(c) {
+            return c.id == category.attr('id')
+          })
 
           category.remove();
         }
       }
     });
   });
-})(jQuery);
+})(jQuery, _);
 </script>
 
 <form method="POST" class="report-form">

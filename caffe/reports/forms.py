@@ -69,34 +69,3 @@ class FullProductForm(forms.ModelForm):
         self.fields['product'].label = 'Produkt'
         self.fields['amount'].label = u'Ilość'
         self.fields['product'].empty_label = None
-
-
-class ReportForm(forms.ModelForm):
-    """Responsible for setting up a Report."""
-
-    full_products = forms.ModelMultipleChoiceField(
-        queryset=None,
-        widget=forms.CheckboxSelectMultiple
-    )
-
-    def __init__(self, *args, **kwargs):
-        """Initialize all Report's fields."""
-
-        kwargs.setdefault('label_suffix', '')
-        super(ReportForm, self).__init__(*args, **kwargs)
-        self.fields['full_products'].label = u'Pełne produkty'
-        self.fields['full_products'].queryset = \
-            FullProduct.objects.filter(report__isnull=True)
-
-        # In case of editing, formerly picked FullProducts are added to
-        # available options.
-        if self.instance.id:
-            instance_fullproducts = \
-                FullProduct.objects.filter(report=self.instance.id)
-
-            self.fields['full_products'].queryset |= instance_fullproducts
-            self.initial['full_products'] = instance_fullproducts
-
-    class Meta:
-        model = Report
-        fields = '__all__'

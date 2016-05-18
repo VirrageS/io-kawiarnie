@@ -1,10 +1,9 @@
 from django.conf.urls import url
 from django.contrib import admin
 
-from .views import (reports_edit_category,
-                    reports_edit_product, reports_edit_report,
-                    reports_edit_unit, reports_navigate, reports_new_category,
-                    reports_new_product,
+from .views import (reports_edit_category, reports_edit_product,
+                    reports_edit_report, reports_edit_unit, reports_navigate,
+                    reports_new_category, reports_new_product,
                     reports_new_report, reports_new_unit,
                     reports_show_all_reports, reports_show_report)
 

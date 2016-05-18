@@ -1,0 +1,49 @@
+$border-color: #e7e0e0
+$cell-padding: 0px 30px
+
+table
+  +box-shadow(0px, 0px, 15px, $grey-color-dark)
+  font-weight: $light
+  border-spacing: 0
+  width: 100%
+  border-collapse: collapse
+
+  thead
+    font-size: 1.1rem
+    font-weight: $regular
+    background-color: $dark-purple-color
+    color: $white-color
+    line-height: normal
+    text-align: left
+
+    th
+      font-weight: inherit !important
+      padding: $cell-padding
+      height: 70px
+
+      &.center
+        text-align: center
+
+  tbody
+    tr
+      height: 50px
+      background-color: lighten($grey-color-light, 8%)
+      line-height: 3em
+
+      &:not(:last-of-type)
+        border-bottom: 1px solid $border-color
+
+      &:hover
+        background-color: $grey-color-light
+
+      td
+        padding: $cell-padding
+
+        &:not(:last-child)
+          border-right: 1px solid $border-color
+
+        &.center
+          text-align: center
+
+        &.icon
+          font-size: 1.3em

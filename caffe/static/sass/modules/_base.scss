@@ -32,6 +32,8 @@ $red-color: #e75f5f;
 $orange-color: #f27c36;
 $yellow-color: #f2c53d;
 
+$dark-purple-color: rgb(72, 59, 78);
+
 $grey-color:       #828282;
 $grey-color-light: lighten($grey-color, 40%);
 $grey-color-semilight: lighten($grey-color, 30%);
@@ -41,7 +43,7 @@ $grey-color-dark:  darken($grey-color, 25%);
 // Panes
 $left-pane-background-color: rgb(27, 23, 29);
 $left-pane-color-inactive: rgb(191, 164, 205);
-$left-pane-color-active-bg: rgb(72, 59, 78);
+$left-pane-color-active-bg: $dark-purple-color;
 $left-pane-color: #ffffff;
 
 $right-pane-background-color: #ffffff;

@@ -272,6 +272,7 @@ def reports_new_report(request):
             return redirect(reverse('reports_show_all_reports'))
 
     return render(request, 'reports/new_report.html', {
+        'title':  'Nowy raport',
         'products': json.dumps(all_products)
     })
 
@@ -306,9 +307,7 @@ def reports_edit_report(request, report_id):
             report=report.id, product=product.id
         ).first()
 
-        print(full_product)
-
-        if full_product:
+        if full_product and (not request.POST):
             parsed_product['selected'] = True
             parsed_product['amount'] = full_product.amount
 
@@ -361,6 +360,7 @@ def reports_edit_report(request, report_id):
             return redirect(reverse('reports_show_all_reports'))
 
     return render(request, 'reports/new_report.html', {
+        'title': 'Edytuj raport',
         'products': json.dumps(all_products)
     })
 

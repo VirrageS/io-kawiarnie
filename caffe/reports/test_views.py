@@ -612,6 +612,8 @@ class ReportViewsTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/new_report.html')
+        self.assertIn('"errors": ["', response.context['products'])
+        self.assertIn('To pole jest wymagane.', response.context['products'])
 
     def test_new_report_post_success(self):
         """Check if new report successes to create."""
@@ -635,7 +637,8 @@ class ReportViewsTests(TestCase):
 
         full_coke = FullProduct.objects.get(product=self.coke.id, amount=10)
         full_green_tea = FullProduct.objects.get(
-            product=self.green_tea.id, amount=20
+            product=self.green_tea.id,
+            amount=20
         )
         self.assertEqual(full_coke.report, full_green_tea.report)
 

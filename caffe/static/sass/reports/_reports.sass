@@ -77,3 +77,50 @@
 .elements-subtitle
   @extend %subtitle
   margin: 100px 0 50px 0
+
+
+
+.report-form
+  @extend .form
+  +box-shadow(0px, 0px, 0px, rgba(#ffffff, 0))
+  margin-bottom: 60px
+
+  .input-line
+    display: block
+    max-width: 600px
+    margin: 30px auto
+
+  .select-product
+    margin-top: -10px
+    margin-bottom: 40px
+
+  input[type=number]
+    font-size: 0.85em
+    padding: 5px 15px
+
+  .errorlist
+    margin-top: -25px
+
+  .button
+    display: table !important
+    margin: 50px auto 0px auto !important
+
+  .category
+    width: 480px !important
+
+  .product
+    .name
+      flex-grow: 2
+
+    .unit
+      text-align: center !important
+
+    .trash
+      flex-shrink: 2
+      font-size: 2em
+      color: $red-color
+      cursor: pointer
+      text-align: center
+
+      &:hover, &:active, &:focus
+        color: darken($red-color, 20%)

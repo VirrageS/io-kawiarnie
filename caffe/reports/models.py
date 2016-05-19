@@ -19,7 +19,8 @@ class Report(models.Model):
     Date of creation is set automatically.
     """
 
-    created_on = models.DateTimeField(auto_now=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return 'Report created: {:%Y-%m-%d %H:%M} '.format(self.created_on)

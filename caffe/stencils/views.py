@@ -39,6 +39,7 @@ def stencils_new_stencil(request):
 
 def stencils_edit_stencil(request, stencil_id):
     """Edit already existing stencil with stencil_id."""
+
     stencil = get_object_or_404(Stencil, id=stencil_id)
     form = StencilForm(request.POST or None, instance=stencil)
 
@@ -54,6 +55,7 @@ def stencils_edit_stencil(request, stencil_id):
 
 def stencils_show_stencil(request, stencil_id):
     """Show stencil with stencil_id."""
+
     stencil = get_object_or_404(Stencil, id=stencil_id)
     categories = stencil.categories.order_by('name')
 
@@ -65,15 +67,17 @@ def stencils_show_stencil(request, stencil_id):
 
 def stencils_show_all_stencils(request):
     """Show all existing stencils."""
+
     stencils = Stencil.objects.order_by('name')
     return render(request, 'stencils/all.html', {
         'stencils': stencils
     })
 
 def stencils_new_report(request, stencil_id):
-    """Create new report from given stencil
-    validation is correct if FullProduct validation is and
-    report is not empty.
+    """Create new report from given stencil.
+
+    Validate if report is correct by FullProduct validation. Check if report
+    is not empty.
     """
 
     checked = []
@@ -100,17 +104,15 @@ def stencils_new_report(request, stencil_id):
         })
 
     if request.POST:
-        full_products = request.POST
+        post = request.POST.copy()
         forms = []
         valid = True
 
-        # chcek validation and create form for each fullproduct
-        for full_product in full_products:
-            # csrf token ignore
-            if full_product == 'csrfmiddlewaretoken':
-                continue
+        post.pop('csrfmiddlewaretoken', None)
 
-            fp_list = full_products.getlist(full_product)
+        # chcek validation and create form for each fullproduct
+        for full_product in post:
+            fp_list = post.getlist(full_product)
             form = FullProductForm({
                 # sets product id and amount for fullproduct
                 'product': fp_list[0],
@@ -119,6 +121,7 @@ def stencils_new_report(request, stencil_id):
 
             if not form.is_valid():
                 valid = False
+
                 checked.append({
                     'product': fp_list[0],
                     'amount': '',
@@ -162,4 +165,5 @@ def stencils_new_report(request, stencil_id):
 
 def stencils_create(request):
     """Render create_stencil."""
+
     return render(request, 'stencils/create_stencil.html')

@@ -1,8 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from django import forms
-from django.contrib.auth.models import \
-    Group   # fill in custom user info then save it
+from django.contrib.auth.models import Group
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import Employee

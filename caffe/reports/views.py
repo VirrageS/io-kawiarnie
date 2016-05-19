@@ -247,6 +247,7 @@ def reports_new_report(request):
             if not form.is_valid():
                 valid = False
 
+            # update products values
             for product in all_products:
                 if product['id'] != int(fp_list[0]):
                     continue
@@ -269,7 +270,7 @@ def reports_new_report(request):
                 full_product.save()
 
             report.save()
-            return redirect(reverse('reports_show_all_reports'))
+            return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/new_report.html', {
         'title':  'Nowy raport',
@@ -357,7 +358,7 @@ def reports_edit_report(request, report_id):
                 full_product.save()
 
             report.save()
-            return redirect(reverse('reports_show_all_reports'))
+            return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/new_report.html', {
         'title': 'Edytuj raport',

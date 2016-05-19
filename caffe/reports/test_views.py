@@ -18,7 +18,7 @@ class CategoryViewsTests(TestCase):
 
         self.client = Client()
 
-        self.caffees = Category.objects.create(name='Kawy')
+        self.coffees = Category.objects.create(name='Kawy')
         self.cakes = Category.objects.create(name='Ciasta')
 
     def test_new_category_show(self):
@@ -43,14 +43,14 @@ class CategoryViewsTests(TestCase):
             self.assertEqual(len(element), 3)
             self.assertIn(
                 element['edit_href'], [
-                    reverse('reports_edit_category', args=(self.caffees.id,)),
+                    reverse('reports_edit_category', args=(self.coffees.id,)),
                     reverse('reports_edit_category', args=(self.cakes.id,))
                 ]
             )
-            self.assertIn(element['id'], [self.caffees.id, self.cakes.id])
+            self.assertIn(element['id'], [self.coffees.id, self.cakes.id])
             self.assertIn(
                 element['desc'],
-                [str(self.caffees), str(self.cakes)]
+                [str(self.coffees), str(self.cakes)]
             )
 
     def test_new_category_post_fail(self):
@@ -93,14 +93,14 @@ class CategoryViewsTests(TestCase):
         """Check if edit category view is displayed properly."""
 
         response = self.client.get(
-            reverse('reports_edit_category', args=(self.caffees.id,))
+            reverse('reports_edit_category', args=(self.coffees.id,))
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/edit_element.html')
 
         form = response.context['form']
         self.assertIsInstance(form, CategoryForm)
-        self.assertEqual(form.instance, self.caffees)
+        self.assertEqual(form.instance, self.coffees)
 
         self.assertEqual(len(response.context['context']), 2)
         self.assertEqual(
@@ -157,7 +157,7 @@ class CategoryViewsTests(TestCase):
 
         self.assertRedirects(response, reverse('reports_navigate'))
 
-        # check if category caffees has changed
+        # check if category coffees has changed
         category = Category.objects.get(id=self.cakes.id)
         self.assertEqual(category.name, u'Napoje')
 
@@ -311,7 +311,7 @@ class UnitViewsTests(TestCase):
 
         self.assertRedirects(response, reverse('reports_navigate'))
 
-        # check if unit caffees has changed
+        # check if unit coffees has changed
         unit = Unit.objects.get(id=self.grams.id)
         self.assertEqual(unit.name, u'sztuki')
 
@@ -332,12 +332,12 @@ class ProductViewsTests(TestCase):
         self.grams = Unit.objects.create(name=u'gramy')
         self.pieces = Unit.objects.create(name=u'sztuki')
 
-        self.caffees = Category.objects.create(name='Kawy')
+        self.coffees = Category.objects.create(name='Kawy')
         self.cakes = Category.objects.create(name='Ciasta')
 
         self.caffee = Product.objects.create(
             name='Kawa sypana',
-            category=self.caffees,
+            category=self.coffees,
             unit=self.grams
         )
         self.cake = Product.objects.create(
@@ -489,7 +489,7 @@ class ProductViewsTests(TestCase):
 
         self.assertRedirects(response, reverse('reports_navigate'))
 
-        # check if product caffees has changed
+        # check if product coffees has changed
         product = Product.objects.get(id=self.cake.id)
         self.assertEqual(product.name, u'Keks')
         self.assertEqual(product.category, self.cakes)
@@ -509,30 +509,49 @@ class ReportViewsTests(TestCase):
 
         self.client = Client()
 
-        self.grams = Unit.objects.create(name=u'gramy')
-        self.pieces = Unit.objects.create(name=u'sztuki')
-
-        self.caffees = Category.objects.create(name='Kawy')
+        self.coffees = Category.objects.create(name='Kawy')
         self.cakes = Category.objects.create(name='Ciasta')
+        self.tees = Category.objects.create(name='Herbaty')
+        self.juices = Category.objects.create(name='Soki')
+        self.liter = Unit.objects.create(name='litr')
+        self.pieces = Unit.objects.create(name='kawałki')
 
-        self.caffee = Product.objects.create(
-            name='Kawa sypana',
-            category=self.caffees,
-            unit=self.grams
+        self.coke = Product.objects.create(
+            name="Cola",
+            category=self.juices,
+            unit=self.liter
         )
 
         self.cake = Product.objects.create(
-            name='Szarlotka',
+            name="Tiramisu",
             category=self.cakes,
             unit=self.pieces
         )
 
-        self.caffee_full = FullProduct.objects.create(
-            product=self.caffee,
+        self.cake_second = Product.objects.create(
+            name="Szarlotka",
+            category=self.cakes,
+            unit=self.pieces
+        )
+
+        self.green_tea = Product.objects.create(
+            name="Zielona Herbata",
+            category=self.tees,
+            unit=self.liter
+        )
+
+        self.black_coffe = Product.objects.create(
+            name="Czarna kawa",
+            category=self.coffees,
+            unit=self.liter
+        )
+
+        self.coke_full = FullProduct.objects.create(
+            product=self.coke,
             amount=50
         )
-        self.caffee_full_second = FullProduct.objects.create(
-            product=self.caffee,
+        self.coffee_full = FullProduct.objects.create(
+            product=self.black_coffe,
             amount=40
         )
         self.cake_full = FullProduct.objects.create(
@@ -540,20 +559,21 @@ class ReportViewsTests(TestCase):
             amount=10
         )
         self.cake_full_second = FullProduct.objects.create(
-            product=self.cake,
+            product=self.cake_second,
             amount=50
         )
 
         self.minor_report = Report.objects.create()
         self.major_report = Report.objects.create()
 
-        self.caffee_full.report = self.minor_report
-        self.caffee_full.save()
+        self.coffee_full.report = self.minor_report
+        self.coffee_full.save()
 
-        self.caffee_full_second.report = self.major_report
+        self.cake_full_second.report = self.major_report
         self.cake_full.report = self.major_report
-        self.caffee_full_second.save()
+        self.cake_full_second.save()
         self.cake_full.save()
+
 
     def test_new_report_show(self):
         """Check if new report view is displayed properly."""
@@ -562,82 +582,78 @@ class ReportViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/new_report.html')
 
-    #     # check context
-    #     self.assertIsInstance(response.context['form'], ReportForm)
-    #
+        # check context
+        self.assertEqual(response.context['title'], 'Nowy raport')
+
+        # TODO: check products in context
+
     #     reports = response.context['reports']
     #     self.assertEqual(len(reports), 2)
     #
     #     for report in reports:
     #         self.assertIsInstance(report, Report)
     #         self.assertIsNotNone(report.categories)
-    #
-    # def test_new_report_post_fail(self):
-    #     """Check if new report fails to create when form is not valid."""
-    #
-    #     response = self.client.post(
-    #         reverse('reports_new_report'),
-    #         {'full_products': u''},
-    #         follow=True
-    #     )
-    #
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertFalse(response.context['form'].is_valid())
-    #     self.assertEqual(
-    #         response.context['form'].errors, {
-    #             'full_products':
-    #                 ['"" nie jest poprawną wartością klucza głównego.']
-    #         }
-    #     )
-    #     self.assertTemplateUsed(response, 'reports/new_report.html')
-    #
-    # def test_new_report_post_success(self):
-    #     """Check if new report successes to create."""
-    #
-    #     response = self.client.post(
-    #         reverse('reports_new_report'),
-    #         {
-    #             'full_products': [self.cake_full_second.id],
-    #         },
-    #         follow=True
-    #     )
-    #
-    #     # print(response.context['form'])
-    #     self.assertRedirects(response, reverse('reports_navigate'))
-    #
-    #     # check if new report is displayed
-    #     response = self.client.get(reverse('reports_new_report'))
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertEqual(len(response.context['reports']), 3)
-    #
-    #     cake = FullProduct.objects.get(id=self.cake_full_second.id)
-    #     new_report = cake.report
-    #     self.assertIsNotNone(new_report)
-    #     self.assertIsInstance(new_report, Report)
-    #     self.assertTrue(new_report.created_on < timezone.now())
-    #
-    # def test_edit_report_show(self):
-    #     """Check if edit report is displayed properly."""
-    #
-    #     response = self.client.get(
-    #         reverse('reports_edit_report', args=(self.major_report.id,))
-    #     )
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTemplateUsed(response, 'reports/edit_element.html')
-    #
-    #     form = response.context['form']
-    #     self.assertIsInstance(form, ReportForm)
-    #     self.assertEqual(form.instance, self.major_report)
-    #
-    #     self.assertEqual(len(response.context['context']), 2)
-    #     self.assertEqual(
-    #         response.context['context']['title'],
-    #         u'Edytuj raport'
-    #     )
-    #     self.assertEqual(
-    #         response.context['context']['cancel_href'],
-    #         reverse('reports_show_report', args=(self.major_report.id,))
-    #     )
+
+    def test_new_report_post_fail(self):
+        """Check if new report fails to create when form is not valid."""
+
+        post = {}
+        post[self.coke.id] = [self.coke.id, '']
+        post[self.green_tea.id] = [self.green_tea.id, 20]
+        post['csrfmiddlewaretoken'] = 'hasz hasz hasz ####'
+
+        response = self.client.post(
+            reverse('reports_new_report'),
+            post,
+            follow=True
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'reports/new_report.html')
+
+    def test_new_report_post_success(self):
+        """Check if new report successes to create."""
+
+        post = {}
+        post[self.coke.id] = [self.coke.id, 10]
+        post[self.green_tea.id] = [self.green_tea.id, 20]
+        post['csrfmiddlewaretoken'] = 'hasz hasz hasz ####'
+
+        response = self.client.post(
+            reverse('reports_new_report'),
+            post,
+            follow=True
+        )
+
+        self.assertRedirects(response, reverse('reports_navigate'))
+
+        # check if new report is displayed
+        response = self.client.get(reverse('reports_new_report'))
+        self.assertEqual(response.status_code, 200)
+        # self.assertEqual(len(response.context['reports']), 3)
+        #
+        # full_coke = FullProduct.objects.filter(product=self.coke.id, amount=10)
+        # full_green_tea = FullProduct.objects.filter(
+        #     product=self.green_tea.id, amount=20
+        # )
+        # self.assertEqual(full_coke.report, full_green_tea.report)
+        #
+        # new_report = full_coke.report
+        # self.assertIsNotNone(new_report)
+        # self.assertIsInstance(new_report, Report)
+        # self.assertTrue(new_report.created_on < timezone.now())
+
+    def test_edit_report_show(self):
+        """Check if edit report is displayed properly."""
+
+        response = self.client.get(
+            reverse('reports_edit_report', args=(self.major_report.id,))
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'reports/new_report.html')
+
+        self.assertEqual(response.context['title'], u'Edytuj raport')
+        # TODO: check products
 
     def test_edit_report_404(self):
         """Check if 404 is displayed when report does not exists."""
@@ -689,7 +705,7 @@ class ReportViewsTests(TestCase):
     #
     #     self.assertRedirects(response, reverse('reports_navigate'))
     #
-    #     # check if report caffees has changed
+    #     # check if report coffees has changed
     #     report = FullProduct.objects.get(id=self.cake_full_second.id).report
     #     self.assertIsNotNone(report)
     #     self.assertIsInstance(report, Report)
@@ -732,16 +748,13 @@ class ReportViewsTests(TestCase):
         self.assertEqual(response.context['report'], report)
 
         full_products = report.full_products.all()
-        self.assertListEqual(
-            [self.caffee_full_second, self.cake_full], list(full_products)
+        self.assertCountEqual(
+            [self.cake_full_second, self.cake_full], list(full_products)
         )
 
         categories = response.context['categories']
-        self.assertIn(self.caffees.name, categories)
         self.assertIn(self.cakes.name, categories)
-
-        self.assertEqual(len(categories[self.caffees.name]), 1)
-        self.assertEqual(len(categories[self.cakes.name]), 1)
+        self.assertEqual(len(categories[self.cakes.name]), 2)
 
     def test_show_report_404(self):
         """Check if 404 is displayed when report does not exists."""

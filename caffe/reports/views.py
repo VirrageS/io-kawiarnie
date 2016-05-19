@@ -273,8 +273,15 @@ def reports_new_report(request):
             report.save()
             return redirect(reverse('reports_navigate'))
 
+    # get last five reports
+    latest_reports = Report.objects.order_by('-created_on')[:5]
+    for report in latest_reports:
+        report.categories = get_report_categories(report.id)
+
     return render(request, 'reports/new_report.html', {
         'title':  'Nowy raport',
+        'button': 'Dodaj',
+        'reports': latest_reports,
         'products': json.dumps(all_products)
     })
 
@@ -365,6 +372,7 @@ def reports_edit_report(request, report_id):
 
     return render(request, 'reports/new_report.html', {
         'title': 'Edytuj raport',
+        'button': 'Uaktualnij',
         'products': json.dumps(all_products)
     })
 

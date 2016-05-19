@@ -5,24 +5,26 @@
 {% endblock %}
 
 {% block content %}
-<section class="employees">
-  {% for employee in employees %}
-    <div class="employee">
-      <ul class="employee-meta">
-        <li>{{ employee.first_name }} {{ employee.last_name }}</li>
-        <li>{{ employee.telephone_number }}</li>
-        <li>{{ employee.email }}</li>
-      </ul>
-
-      <div class="employee-buttons">
-        <a href="{% url 'edit_employee' employee.id %}" class="button button-rounded button-red button-with-icon">
-          <i class="fa fa-wpforms" aria-hidden="true"></i>
-          <span>
-            Edytuj
-          </span>
-        </a>
-      </div>
-    </div>
-  {% endfor %}
-</section>
+<table>
+  <thead>
+    <tr>
+      <th>Imię</th>
+      <th>Nazwisko</th>
+      <th>Email</th>
+      <th>Numer telefonu</th>
+      <th class="center">Edytuj</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for employee in employees %}
+      <tr>
+        <td>{{ employee.first_name }}</td>
+        <td>{{ employee.last_name }}</td>
+        <td>{{ employee.email }}</td>
+        <td>{{ employee.telephone_number }}</td>
+        <td class="center icon edit"><a href="{% url 'edit_employee' employee.id %}"><i class="fa fa-pencil"></i></a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

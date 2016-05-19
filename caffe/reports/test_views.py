@@ -39,6 +39,10 @@ class CategoryViewsTests(TestCase):
 
         elements = response.context['elements']
         self.assertEqual(len(elements), 2)
+        self.assertListEqual(
+            elements,
+            sorted(elements, key=lambda x: x['desc'], reverse=False)
+        )
 
         for element in elements:
             self.assertEqual(len(element), 3)
@@ -85,6 +89,14 @@ class CategoryViewsTests(TestCase):
         response = self.client.get(reverse('reports_new_category'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 3)
+        self.assertListEqual(
+            response.context['elements'],
+            sorted(
+                response.context['elements'],
+                key=lambda x: x['desc'],
+                reverse=False
+            )
+        )
 
         new_category = Category.objects.get(name='Napoje')
         self.assertIsNotNone(new_category)
@@ -196,6 +208,10 @@ class UnitViewsTests(TestCase):
 
         elements = response.context['elements']
         self.assertEqual(len(elements), 2)
+        self.assertListEqual(
+            elements,
+            sorted(elements, key=lambda x: x['desc'], reverse=False)
+        )
 
         for element in elements:
             self.assertEqual(len(element), 3)
@@ -239,6 +255,14 @@ class UnitViewsTests(TestCase):
         response = self.client.get(reverse('reports_new_unit'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 3)
+        self.assertListEqual(
+            response.context['elements'],
+            sorted(
+                response.context['elements'],
+                key=lambda x: x['desc'],
+                reverse=False
+            )
+        )
 
         new_unit = Unit.objects.get(name='sztuki')
         self.assertIsNotNone(new_unit)
@@ -362,6 +386,10 @@ class ProductViewsTests(TestCase):
 
         elements = response.context['elements']
         self.assertEqual(len(elements), 2)
+        self.assertListEqual(
+            elements,
+            sorted(elements, key=lambda x: x['desc'], reverse=False)
+        )
 
         for element in elements:
             self.assertEqual(len(element), 3)
@@ -410,6 +438,14 @@ class ProductViewsTests(TestCase):
         response = self.client.get(reverse('reports_new_product'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 3)
+        self.assertListEqual(
+            response.context['elements'],
+            sorted(
+                response.context['elements'],
+                key=lambda x: x['desc'],
+                reverse=False
+            )
+        )
 
         new_product = Product.objects.get(name=u'Sernik')
         self.assertIsNotNone(new_product)
@@ -778,8 +814,12 @@ class ReportViewsTests(TestCase):
         # check context
         self.assertIsInstance(response.context['form'], ReportForm)
 
-        reports = response.context['reports']
+        reports = list(response.context['reports'])
         self.assertEqual(len(reports), 2)
+        self.assertListEqual(
+            reports,
+            sorted(reports, key=lambda report: report.created_on, reverse=True)
+        )
 
         for report in reports:
             self.assertIsInstance(report, Report)
@@ -822,6 +862,14 @@ class ReportViewsTests(TestCase):
         response = self.client.get(reverse('reports_new_report'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['reports']), 3)
+        self.assertListEqual(
+            list(response.context['reports']),
+            sorted(
+                list(response.context['reports']),
+                key=lambda report: report.created_on,
+                reverse=True
+            )
+        )
 
         cake = FullProduct.objects.get(id=self.cake_full_second.id)
         new_report = cake.report
@@ -928,7 +976,7 @@ class ReportViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/all.html')
 
-        reports = Report.objects.all()
+        reports = Report.objects.order_by('-created_on')
         self.assertListEqual(list(response.context['reports']), list(reports))
 
     def test_show_report_show(self):

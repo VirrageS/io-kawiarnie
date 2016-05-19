@@ -230,7 +230,7 @@ def reports_new_fullproduct(request):
             'desc': str(full_product)
         })
 
-    products = Product.objects.all()
+    products = Product.objects.order_by('name')
     products = [
         {'id': product.id, 'unit': product.unit.name} for product in products
     ]
@@ -257,7 +257,7 @@ def reports_edit_fullproduct(request, fullproduct_id):
         form.save()
         return redirect(reverse('reports_navigate'))
 
-    products = Product.objects.all()
+    products = Product.objects.order_by('name')
     products = [
         {'id': product.id, 'unit': product.unit.name} for product in products
     ]

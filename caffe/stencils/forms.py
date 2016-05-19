@@ -11,7 +11,7 @@ class StencilForm(forms.ModelForm):
     """Responsible for proper saving Stencil model."""
 
     categories = forms.ModelMultipleChoiceField(
-        queryset=Category.objects.all(),
+        queryset=Category.objects.order_by('name'),
         widget=forms.CheckboxSelectMultiple
     )
 
@@ -30,6 +30,7 @@ class StencilForm(forms.ModelForm):
 
         if self.instance.id:
             # set initially selected categories
+            categories = self.instance.categories
             self.initial['categories'] = [
-                category.id for category in self.instance.categories.all()
+                category.id for category in categories.order_by('name')
             ]

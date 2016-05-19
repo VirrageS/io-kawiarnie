@@ -60,7 +60,7 @@ def reports_new_category(request):
             form.save()
             return redirect(reverse('reports_navigate'))
 
-    categories = Category.objects.all()
+    categories = Category.objects.order_by('name')
     for category in categories:
         elements.append({
             'edit_href': reverse('reports_edit_category', args=(category.id,)),
@@ -113,7 +113,7 @@ def reports_new_unit(request):
             form.save()
             return redirect(reverse('reports_navigate'))
 
-    units = Unit.objects.all()
+    units = Unit.objects.order_by('name')
     for unit in units:
         elements.append({
             'edit_href': reverse('reports_edit_unit', args=(unit.id,)),
@@ -166,7 +166,7 @@ def reports_new_product(request):
             form.save()
             return redirect(reverse('reports_navigate'))
 
-    products = Product.objects.all()
+    products = Product.objects.order_by('category', 'name')
     for product in products:
         elements.append({
             'edit_href': reverse('reports_edit_product', args=(product.id,)),
@@ -357,5 +357,5 @@ def reports_navigate(request):
 def reports_show_all_reports(request):
     """Show all existing Reports."""
 
-    reports = Report.objects.all()
+    reports = Report.objects.order_by('-created_on')
     return render(request, 'reports/all.html', {'reports': reports})

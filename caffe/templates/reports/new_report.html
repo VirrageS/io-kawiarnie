@@ -19,6 +19,12 @@
     });
   }
 
+  function getCategoryProducts(category_id) {
+    return _.filter(products, function(product) {
+      return (product.category.id == category_id) && !product.chosen;
+    })
+  }
+
   function getCategoryOrCreate(category) {
     var foundCategory = _.find(categories, function(c) {
       return c.id == category.id;
@@ -41,24 +47,69 @@
     return $('#' + foundCategory.id + '.category');
   }
 
-  function addProductToSelect(product) {
-    $('select').append('\
+  function addProductToSelect(product, checkCategory) {
+    if (checkCategory === undefined)
+        checkCategory = true;
+
+    var category = $('#select-category :selected').attr('id');
+    if ((product.category.id != category) && checkCategory)
+      return;
+
+    product.chosen = false;
+    $('#select-products').append('\
       <option id="' + product.id + '" value="' + product.id + '">' + product.name + '</option>\
     ');
   }
 
+  function removeProductFromSelect(product) {
+    var p = $('#select-products').children('#' + product.id);
+    product.chosen = true;
 
-  $(document).ready(function() {
-    products = {{ products|safe }};
-    categories = [];
+    if (p.length) {
+      p.remove();
+    }
+  }
 
-    $('.modaal').modaal();
+  function addCategoryToSelect(category) {
+    var c = $('#select-category').children('#' + category.id);
 
-    $('select').on('change', function(event, obj) {
+    if (!c.length) {
+      $('#select-category').append('\
+        <option id="' + category.id + '" value="' + category.id + '">' + category.name + '</option>\
+      ');
+    }
+  }
+
+  function emptyProductSelect() {
+    $('#select-products').empty();
+
+    $('#select-products').append('\
+      <option id="-1" value="-1">--------------------</option>\
+    ');
+  }
+
+
+  function events() {
+    /**
+      EVENTS
+      **/
+
+    $('#select-category').on('change', function(event, obj) {
+      var products = getCategoryProducts(this.value);
+      if (products) {
+        emptyProductSelect();
+
+        _.each(products, function(product) {
+          addProductToSelect(product);
+        });
+      }
+    });
+
+    $('#select-products').on('change', function(event, obj) {
       var product = getProduct(this.value);
       if (product) {
         // remove product from selected
-        $(this).find(":selected").remove();
+        removeProductFromSelect(product);
 
         var errorClasses = '', amount = '', errors = '';
 
@@ -104,14 +155,6 @@
       }
     });
 
-    _.map(products, function(product) {
-      addProductToSelect(product);
-
-      if (product.selected) {
-        $('select').find('#' + product.id).parent().val(product.id).trigger('change');
-      }
-    });
-
 
     $(document).on('click', '.trash', function() {
       var product = $(this).closest('.product');
@@ -128,6 +171,7 @@
         }
         product.remove();
 
+        // remove category if it is the last product
         if (!$.trim(category.find('.products').html())) {
           categories = _.reject(categories, function(c) {
             return c.id == category.attr('id')
@@ -135,6 +179,28 @@
 
           category.remove();
         }
+      }
+    });
+  }
+
+
+  $(document).ready(function() {
+    products = {{ products|safe }};
+    categories = [];
+
+    $('.modaal').modaal();
+
+    events();
+
+    // init
+    emptyProductSelect();
+
+    _.map(products, function(product) {
+      addCategoryToSelect(product.category);
+
+      if (product.selected) {
+        addProductToSelect(product, false);
+        $('#select-products').find('#' + product.id).parent().val(product.id).trigger('change');
       }
     });
   });
@@ -145,8 +211,14 @@
   {% csrf_token %}
 
   <div class="input-line select-wrapper">
-    <select>
-      <option name="product" id="-1" value="-1">-------------</option>
+    <select id="select-category">
+      <option name="category" id="-1" value="-1">---------------</option>
+    </select>
+    <label for="">Wybierz kategorię</label>
+  </div>
+
+  <div class="input-line select-wrapper">
+    <select id="select-products">
     </select>
     <label for="">Wybierz produkt</label>
   </div>

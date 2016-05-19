@@ -104,14 +104,15 @@ def stencils_new_report(request, stencil_id):
         })
 
     if request.POST:
+        post = request.POST.copy()
         forms = []
         valid = True
 
-        request.POST.pop('csrfmiddlewaretoken', None)
+        post.pop('csrfmiddlewaretoken', None)
 
         # chcek validation and create form for each fullproduct
-        for full_product in request.POST:
-            fp_list = request.POST.getlist(full_product)
+        for full_product in post:
+            fp_list = post.getlist(full_product)
             form = FullProductForm({
                 # sets product id and amount for fullproduct
                 'product': fp_list[0],

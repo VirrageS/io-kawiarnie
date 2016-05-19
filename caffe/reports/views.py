@@ -231,11 +231,10 @@ def reports_new_report(request):
         forms = []
         valid = True
 
+        request.POST.pop('csrfmiddlewaretoken', None)
+
         # chcek validation and create form for each fullproduct
         for full_product in request.POST:
-            if full_product == 'csrfmiddlewaretoken':
-                continue
-
             fp_list = request.POST.getlist(full_product)
             form = FullProductForm({
                 # sets product id and amount for fullproduct
@@ -243,21 +242,20 @@ def reports_new_report(request):
                 'amount': fp_list[1]
             })
 
-            current_valid = True
-            if not form.is_valid():
-                valid = False
+            valid = valid & form.is_valid()
 
             # update products values
-            for product in all_products:
-                if product['id'] != int(fp_list[0]):
-                    continue
+            product = next(
+                (p for p in all_products if p['id'] == int(fp_list[0])),
+                None
+            )
 
+            if product:
                 product['selected'] = True
                 product['amount'] = (fp_list[1] if form.is_valid() else '')
                 product['errors'] = (
                     '' if form.is_valid() else form.errors['amount']
                 )
-                break
 
             forms.append(form)
 
@@ -306,6 +304,7 @@ def reports_edit_report(request, report_id):
             'errors': {}
         }
 
+        # mark as selected products which are assigned to report
         full_product = FullProduct.objects.filter(
             report=report.id, product=product.id
         ).first()
@@ -320,11 +319,10 @@ def reports_edit_report(request, report_id):
         forms = []
         valid = True
 
+        request.POST.pop('csrfmiddlewaretoken', None)
+
         # chcek validation and create form for each fullproduct
         for full_product in request.POST:
-            if full_product == 'csrfmiddlewaretoken':
-                continue
-
             fp_list = request.POST.getlist(full_product)
             form = FullProductForm({
                 # sets product id and amount for fullproduct
@@ -332,20 +330,19 @@ def reports_edit_report(request, report_id):
                 'amount': fp_list[1]
             })
 
-            current_valid = True
-            if not form.is_valid():
-                valid = False
+            valid = valid & form.is_valid()
 
-            for product in all_products:
-                if product['id'] != int(fp_list[0]):
-                    continue
+            product = next(
+                (p for p in all_products if p['id'] == int(fp_list[0])),
+                None
+            )
 
+            if product:
                 product['selected'] = True
                 product['amount'] = (fp_list[1] if form.is_valid() else '')
                 product['errors'] = (
                     '' if form.is_valid() else form.errors['amount']
                 )
-                break
 
             forms.append(form)
 

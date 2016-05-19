@@ -254,7 +254,9 @@ def reports_new_report(request):
 
                 product['selected'] = True
                 product['amount'] = (fp_list[1] if form.is_valid() else '')
-                product['errors'] = ('' if form.is_valid() else form.errors['amount'])
+                product['errors'] = (
+                    '' if form.is_valid() else form.errors['amount']
+                )
                 break
 
             forms.append(form)
@@ -340,7 +342,9 @@ def reports_edit_report(request, report_id):
 
                 product['selected'] = True
                 product['amount'] = (fp_list[1] if form.is_valid() else '')
-                product['errors'] = ('' if form.is_valid() else form.errors['amount'])
+                product['errors'] = (
+                    '' if form.is_valid() else form.errors['amount']
+                )
                 break
 
             forms.append(form)

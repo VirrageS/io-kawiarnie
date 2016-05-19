@@ -163,7 +163,17 @@ class EmployeeViewsTests(TestCase):
         # check if new employee is displayed
         response = self.client.get(reverse('show_all_employees'))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context['employees']), 3)
+
+        employees = list(response.context['employees'])
+        self.assertEqual(len(employees), 3)
+        self.assertListEqual(
+            employees,
+            sorted(
+                employees,
+                key=lambda employee: employee.last_name,
+                reverse=False
+            )
+        )
 
         new_employee = Employee.objects.get(username='prac')
         self.assertIsNotNone(new_employee)

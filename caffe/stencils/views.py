@@ -22,7 +22,7 @@ def stencils_new_stencil(request):
             form.save()
             return redirect(reverse('stencils_create'))
 
-    stencils = Stencil.objects.all()
+    stencils = Stencil.objects.order_by('name')
     for stencil in stencils:
         final_stencils.append({
             'edit_href': reverse('stencils_edit_stencil', args=(stencil.id,)),
@@ -55,7 +55,7 @@ def stencils_edit_stencil(request, stencil_id):
 def stencils_show_stencil(request, stencil_id):
     """Show stencil with stencil_id."""
     stencil = get_object_or_404(Stencil, id=stencil_id)
-    categories = stencil.categories.all()
+    categories = stencil.categories.order_by('name')
 
     return render(request, 'stencils/show.html', {
         'stencil': stencil,
@@ -65,7 +65,7 @@ def stencils_show_stencil(request, stencil_id):
 
 def stencils_show_all_stencils(request):
     """Show all existing stencils."""
-    stencils = Stencil.objects.all()
+    stencils = Stencil.objects.order_by('name')
     return render(request, 'stencils/all.html', {
         'stencils': stencils
     })
@@ -80,7 +80,7 @@ def stencils_new_report(request, stencil_id):
     all_categories = []
 
     stencil = get_object_or_404(Stencil, id=stencil_id)
-    categories = stencil.categories.all()
+    categories = stencil.categories.order_by('name')
 
     for category in categories:
         products = Product.objects.filter(category=category).all()

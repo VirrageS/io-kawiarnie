@@ -26,13 +26,13 @@ class StencilFormTest(TestCase):
             'categories': [self.coffees.id]
         })
 
-        self.assertListEqual(
+        self.assertCountEqual(
             [cat for cat in form_correct.fields['categories'].choices],
             [(cat.id, cat.name) for cat in [self.coffees, self.cakes]]
         )
         self.assertTrue(form_correct.is_valid())
 
-        self.assertListEqual(
+        self.assertCountEqual(
             list(form_correct.cleaned_data['categories']),
             [self.coffees]
         )

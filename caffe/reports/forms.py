@@ -2,7 +2,7 @@
 
 from django import forms
 
-from .models import Category, FullProduct, Product, Report, Unit
+from .models import Category, FullProduct, Product, Unit
 
 
 class ProductForm(forms.ModelForm):

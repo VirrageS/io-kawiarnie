@@ -1,11 +1,12 @@
 # -*- encoding: utf-8 -*-
+# pylint: disable=C0103,R0902
 
 import collections
 
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 
-from reports.models import Category, FullProduct, Product, Report, Unit
+from reports.models import Category, Product, Report, Unit
 from stencils.forms import StencilForm
 from stencils.models import Stencil
 
@@ -13,18 +14,20 @@ from stencils.models import Stencil
 class StencilViewTests(TestCase):
     """Tests views for Stencil model."""
 
+    @classmethod
     def compare_stencils(self, stencil1, stencil2):
-        """
-        Comapre 2 stencils.
-            args: stencil1, stencil2
-            return: True if stencils are equal
-                    False if are not
+        """Comapre 2 stencils.
+
+        Args: stencil1, stencil2
+        Return: True if stencils are equal, False otherwise
         """
 
-        if (stencil1.name != stencil2.name
-                or stencil1.description != stencil2.description
-                or collections.Counter(stencil1.categories.all()) !=
-                    collections.Counter(stencil2.categories.all())):
+        cat1 = stencil1.categories.all()
+        cat2 = stencil2.categories.all()
+
+        if (stencil1.name != stencil2.name or
+            stencil1.description != stencil2.description or
+            collections.Counter(cat1) != collections.Counter(cat2)):
             return False
 
         return True

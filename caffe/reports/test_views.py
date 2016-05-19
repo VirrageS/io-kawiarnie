@@ -7,7 +7,7 @@ from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 from django.utils import timezone
 
-from .forms import CategoryForm, FullProductForm, ProductForm, UnitForm
+from .forms import CategoryForm, ProductForm, UnitForm
 from .models import Category, FullProduct, Product, Report, Unit
 from .views import get_report_categories
 
@@ -575,7 +575,6 @@ class ReportViewsTests(TestCase):
         self.cake_full.report = self.major_report
         self.cake_full_second.save()
         self.cake_full.save()
-
 
     def test_new_report_show(self):
         """Check if new report view is displayed properly."""

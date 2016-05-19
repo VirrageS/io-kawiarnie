@@ -4,7 +4,7 @@
 from django.test import TestCase
 
 from .forms import CategoryForm, FullProductForm, ProductForm, UnitForm
-from .models import Category, FullProduct, Product, Unit
+from .models import Category, Product, Unit
 
 
 class CategoryFormTest(TestCase):

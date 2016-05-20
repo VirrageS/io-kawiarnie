@@ -72,6 +72,7 @@
       weekdays.push(_.upperFirst(weekday));
     }
 
+    // add days from previous month to fill first weekday
     var tmpDate = month.clone();
     for (var i = 0; i < parseInt(month.format('e')); ++i) {
       tmpDate.subtract(1, 'day');
@@ -83,6 +84,7 @@
     }
     days = _.reverse(days);
 
+    // add days from current month
     tmpDate = month.clone();
     _.times(month.daysInMonth(), function() {
       days.push({
@@ -94,6 +96,7 @@
       tmpDate.add(1, 'day');
     });
 
+    // add days from next month to fill last weekday
     while (days.length % 7 != 0) {
       days.push({
         'day': tmpDate.format('D'),
@@ -120,14 +123,14 @@
 
     if (this.length > 1) {
       throw new Error(
-        "CLNDR does not support multiple elements yet. Make sure " +
+        "Calendar does not support multiple elements yet. Make sure " +
         "your clndr selector returns only one element."
       );
     }
 
     if (!this.length) {
       throw new Error(
-        "CLNDR cannot be instantiated on an empty selector."
+        "Calendar cannot be instantiated on an empty selector."
       );
     }
 

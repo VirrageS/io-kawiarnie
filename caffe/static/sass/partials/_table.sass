@@ -3,10 +3,10 @@ $cell-padding: 0px 30px
 
 table
   font-weight: $light
+  margin: 50px 0
   border-spacing: 0
   width: 100%
   border-collapse: collapse
-  margin: 50px 0
 
   thead
     font-size: 1.1rem
@@ -26,9 +26,9 @@ table
 
   tbody
     tr
-      height: 50px
       background-color: lighten($grey-color-light, 8%)
       line-height: 3em
+      height: 50px
 
       &:not(:last-of-type)
         border-bottom: 1px solid $border-color
@@ -39,7 +39,7 @@ table
         &:not(:last-child)
           border-right: 1px solid $border-color
 
-        &.center
+        &.table__cell--center
           text-align: center
 
         &.icon
@@ -50,6 +50,10 @@ table
 
         &.table__cell--highlight
           background-color: darken($grey-color-light, 5%)
+
+        // &.table__cell--link
+        //   a
+        //
 
   &.table--hover
     tbody

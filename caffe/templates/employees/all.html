@@ -22,7 +22,7 @@
         <td>{{ employee.last_name }}</td>
         <td>{{ employee.email }}</td>
         <td>{{ employee.telephone_number }}</td>
-        <td class="center icon edit"><a href="{% url 'edit_employee' employee.id %}"><i class="fa fa-pencil"></i></a></td>
+        <td class="table__cell--center icon edit"><a href="{% url 'edit_employee' employee.id %}"><i class="fa fa-pencil"></i></a></td>
       </tr>
     {% endfor %}
   </tbody>

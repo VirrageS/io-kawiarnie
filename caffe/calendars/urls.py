@@ -7,5 +7,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', calendar_navigate, name='calendar_navigate'),
 
-    url(r'^day/(?P<day_id>\d{0,17})/$', calendar_show_day, name='show_day'),
+    url(
+        r'^(?P<day>\d{2})-(?P<month>\d{2})-(?P<year>\d{4})/$',
+        calendar_show_day,
+        name='show_day'
+    ),
 ]

@@ -27,9 +27,9 @@
            "<tr>" +
            "<% for(var j = 0; j < 7; j++) { %>" +
            "<% var d = j + i * 7; %>" +
-               "<td class='center <%= days[d].class %>'>" +
-                  "<%= days[d].day %>" +
-               "</td>" +
+              "<td class='table__cell--center <%= days[d].class %>'>" +
+                "<a href='/calendar/<%= days[d].date %>'><%= days[d].day %></a>" +
+              "</td>" +
            "<% } %>" +
            "</tr>" +
           "<% } %>" +
@@ -77,6 +77,7 @@
       tmpDate.subtract(1, 'day');
       days.push({
         'day': tmpDate.format('D'),
+        'date': tmpDate.format('DD-MM-YYYY'),
         'class': 'table__cell--disabled'
       });
     }
@@ -86,6 +87,7 @@
     _.times(month.daysInMonth(), function() {
       days.push({
         'day': tmpDate.format('D'),
+        'date': tmpDate.format('DD-MM-YYYY'),
         'class': (tmpDate.diff(moment().startOf('day'), 'days') == 0 ? 'table__cell--highlight' : '')
       });
 
@@ -95,6 +97,7 @@
     while (days.length % 7 != 0) {
       days.push({
         'day': tmpDate.format('D'),
+        'date': tmpDate.format('DD-MM-YYYY'),
         'class': 'table__cell--disabled'
       });
 

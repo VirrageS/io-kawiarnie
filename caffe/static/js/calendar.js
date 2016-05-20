@@ -1,10 +1,7 @@
 (function (factory) {
   factory(jQuery, moment, _);
 }(function ($, moment, _) {
-  var pluginName = 'calendar';
   moment.locale('pl');
-
-
 
   function Calendar(element) {
     this.element = element;
@@ -35,8 +32,6 @@
           "<% } %>" +
         "</tbody>" +
       "</table>";
-
-    this._name = pluginName;
 
     this.date = moment().clone();
     this.compiledTempalte = _.template(this.template);

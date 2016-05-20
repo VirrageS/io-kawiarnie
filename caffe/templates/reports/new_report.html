@@ -61,11 +61,12 @@
     if (checkCategory === undefined)
         checkCategory = true;
 
+    product.chosen = false;
+
     var category = $('#select-category :selected').attr('id');
     if ((product.category.id != category) && checkCategory)
       return;
 
-    product.chosen = false;
     $('#select-products').append('\
       <option id="' + product.id + '" value="' + product.id + '">' + product.name + '</option>\
     ');

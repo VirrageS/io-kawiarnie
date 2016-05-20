@@ -21,5 +21,10 @@ def calendar_show_day(request, day, month, year):
     ).all()
 
     return render(request, 'calendar/day.html', {
-        'reports': reports
+        'reports': reports,
+        'date': {
+            'year': year,
+            'month': month,
+            'day': day
+        }
     })

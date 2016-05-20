@@ -22,6 +22,9 @@ class Report(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ('-created_on',)
+
     def __str__(self):
         return 'Report created: {:%Y-%m-%d %H:%M} '.format(self.created_on)
 
@@ -33,6 +36,9 @@ class Category(models.Model):
     """
 
     name = models.CharField(max_length=100, unique=True,)
+
+    class Meta:
+        ordering = ('name',)
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -49,6 +55,9 @@ class Product(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ('name',)
+
     def __str__(self):
         return '{}'.format(self.name)
 
@@ -60,6 +69,9 @@ class Unit(models.Model):
     """
 
     name = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        ordering = ('name',)
 
     def __str__(self):
         return '{}'.format(self.name)

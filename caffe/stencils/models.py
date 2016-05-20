@@ -20,6 +20,9 @@ class Stencil(models.Model):
     description = models.TextField(max_length=500, null=True, blank=True,)
     categories = models.ManyToManyField(Category)
 
+    class Meta:
+        ordering = ('name', 'description')
+
     def clean(self, *args, **kwargs):
         """Clean data and check validation."""
 

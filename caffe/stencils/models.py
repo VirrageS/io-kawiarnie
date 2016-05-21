@@ -22,6 +22,7 @@ class Stencil(models.Model):
 
     class Meta:
         ordering = ('name', 'description')
+        default_permissions = ('add', 'change', 'delete', 'view')
 
     def clean(self, *args, **kwargs):
         """Clean data and check validation."""

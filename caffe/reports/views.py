@@ -2,6 +2,7 @@
 
 import json
 
+from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -48,6 +49,7 @@ def get_report_categories(report_id):
     return all_categories
 
 
+@permission_required('reports.add_category')
 def reports_new_category(request):
     """Show form to create new Category and show existing Categories."""
 
@@ -78,6 +80,7 @@ def reports_new_category(request):
     })
 
 
+@permission_required('reports.change_category')
 def reports_edit_category(request, category_id):
     """Show form to edit Category.
 
@@ -101,6 +104,7 @@ def reports_edit_category(request, category_id):
     })
 
 
+@permission_required('reports.add_unit')
 def reports_new_unit(request):
     """Show form to create new Unit and show already existing Units."""
 
@@ -131,6 +135,7 @@ def reports_new_unit(request):
     })
 
 
+@permission_required('reports.change_unit')
 def reports_edit_unit(request, unit_id):
     """Show form to edit Unit.
 
@@ -154,6 +159,7 @@ def reports_edit_unit(request, unit_id):
     })
 
 
+@permission_required('reports.add_product')
 def reports_new_product(request):
     """Show form to create new Product and show already existing Products."""
 
@@ -184,6 +190,7 @@ def reports_new_product(request):
     })
 
 
+@permission_required('reports.change_product')
 def reports_edit_product(request, product_id):
     """Show form to edit Product.
 
@@ -207,6 +214,7 @@ def reports_edit_product(request, product_id):
     })
 
 
+@permission_required('reports.add_report')
 def reports_new_report(request):
     """Show form to create new Report and show already existing Report."""
 
@@ -262,7 +270,9 @@ def reports_new_report(request):
 
         # check if some form exists
         if len(forms) > 0 and valid:
-            report = Report.objects.create()
+            report = Report.objects.create(
+                creator=request.user
+            )
 
             # for each form save it with its report
             for form in forms:
@@ -286,6 +296,7 @@ def reports_new_report(request):
     })
 
 
+@permission_required('reports.change_report')
 def reports_edit_report(request, report_id):
     """Show form to edit Report.
 
@@ -377,6 +388,7 @@ def reports_edit_report(request, report_id):
     })
 
 
+@permission_required('reports.view_report')
 def reports_show_report(request, report_id):
     """Show Report with all Categories, Products, Units and FullProducts.
 
@@ -392,12 +404,14 @@ def reports_show_report(request, report_id):
     })
 
 
+@permission_required('reports.view_report')
 def reports_navigate(request):
     """Show navigation view for reports."""
 
     return render(request, 'home/reports.html')
 
 
+@permission_required('reports.view_report')
 def reports_show_all_reports(request):
     """Show all existing Reports."""
 

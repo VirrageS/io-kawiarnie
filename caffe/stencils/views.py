@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -9,6 +10,7 @@ from .forms import StencilForm
 from .models import Stencil
 
 
+@permission_required('stencils.add_stencil')
 def stencils_new_stencil(request):
     """Show form to create new stencil and show existing stencils."""
 
@@ -37,6 +39,7 @@ def stencils_new_stencil(request):
     })
 
 
+@permission_required('stencils.change_stencil')
 def stencils_edit_stencil(request, stencil_id):
     """Edit already existing stencil with stencil_id."""
 
@@ -53,6 +56,7 @@ def stencils_edit_stencil(request, stencil_id):
     })
 
 
+@permission_required('stencils.view_stencil')
 def stencils_show_stencil(request, stencil_id):
     """Show stencil with stencil_id."""
 
@@ -65,6 +69,7 @@ def stencils_show_stencil(request, stencil_id):
     })
 
 
+@permission_required('stencils.view_stencil')
 def stencils_show_all_stencils(request):
     """Show all existing stencils."""
 
@@ -73,6 +78,8 @@ def stencils_show_all_stencils(request):
         'stencils': stencils
     })
 
+
+@permission_required('reports.add_report')
 def stencils_new_report(request, stencil_id):
     """Create new report from given stencil.
 
@@ -163,6 +170,7 @@ def stencils_new_report(request, stencil_id):
     })
 
 
+@permission_required('stencils.view_stencil')
 def stencils_create(request):
     """Render create_stencil."""
 

@@ -17,16 +17,24 @@ class Report(models.Model):
     """Stores a single report created from selected FullProducts.
 
     Date of creation is set automatically.
+    Currently logged in user is assigned to report as creator.
     """
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+    creator = models.ForeignKey(
+        'employees.Employee', unique=False, null=True, blank=True, default=None
+    )
 
     class Meta:
         ordering = ('-created_on',)
+        default_permissions = ('add', 'change', 'delete', 'view')
 
     def __str__(self):
-        return 'Report created: {:%Y-%m-%d %H:%M} '.format(self.created_on)
+        return 'Report created: {:%Y-%m-%d %H:%M} {}'.format(
+            self.created_on,
+            self.creator
+        )
 
 
 class Category(models.Model):
@@ -39,6 +47,7 @@ class Category(models.Model):
 
     class Meta:
         ordering = ('name',)
+        default_permissions = ('add', 'change', 'delete', 'view')
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -57,6 +66,7 @@ class Product(models.Model):
 
     class Meta:
         ordering = ('name',)
+        default_permissions = ('add', 'change', 'delete', 'view')
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -72,6 +82,7 @@ class Unit(models.Model):
 
     class Meta:
         ordering = ('name',)
+        default_permissions = ('add', 'change', 'delete', 'view')
 
     def __str__(self):
         return '{}'.format(self.name)

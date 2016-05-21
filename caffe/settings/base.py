@@ -125,3 +125,4 @@ STATICFILES_DIRS = (
 
 AUTH_USER_MODEL = 'employees.Employee'
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/employees/login/'

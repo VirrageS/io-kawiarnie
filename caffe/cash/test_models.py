@@ -23,7 +23,7 @@ class CashReportModelTest(TestCase):
         )
 
         CashReport.objects.create(
-            author=Employee.objects.get(username='KateT'),
+            creator=Employee.objects.get(username='KateT'),
             cash_before_shift=2000,
             cash_after_shift=3000,
             card_payments=500,

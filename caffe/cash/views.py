@@ -1,8 +1,8 @@
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Company, Expense, CashReport
-from .forms import CompanyForm, ExpenseForm, CashReportForm
+from .forms import CashReportForm, CompanyForm, ExpenseForm
+from .models import CashReport, Company, Expense
 
 
 def cash_new_company(request):
@@ -114,8 +114,14 @@ def cash_edit_expense(request, expense_id):
 def cash_new_cash_report(request):
     """Show form to create new CashReport and show already existing CashReport."""
 
+    form = CashReportForm()
+
     if request.POST:
-        pass
+        form = CashReportForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('cash_navigate'))
 
     # get last five reports
     latest_reports = CashReport.objects.all()[:5]
@@ -123,6 +129,7 @@ def cash_new_cash_report(request):
     return render(request, 'cash/new_report.html', {
         'title':  'Nowy raport z kasy',
         'button': 'Dodaj',
+        'form': form,
         'reports': latest_reports,
     })
 
@@ -134,14 +141,17 @@ def cash_edit_cash_report(request, report_id):
         report_id (int): Id of CashReport which is edited.
     """
 
-    report = get_object_or_404(CashReport, id=report_id)
+    report = get_object_or_404(Expense, id=expense_id)
+    form = CashReportForm(request.POST or None, instance=report)
 
-    if request.POST:
-        pass
+    if form.is_valid():
+        form.save()
+        return redirect(reverse('cash_navigate'))
 
     return render(request, 'cash/new_report.html', {
         'title': 'Edytuj raport z kasy',
-        'button': 'Uaktualnij',
+        'button': 'Uaktulanij',
+        'form': form
     })
 
 

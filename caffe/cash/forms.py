@@ -2,7 +2,7 @@
 
 from django import forms
 
-from .models import Company, Expense, FullExpense
+from .models import Company, Expense, FullExpense, CashReport
 
 
 class CompanyForm(forms.ModelForm):
@@ -43,7 +43,7 @@ class FullExpenseForm(forms.ModelForm):
 
     class Meta:
         model = FullExpense
-        fields = ('destination', 'sum',)
+        fields = ('destination', 'amount',)
 
     def __init__(self, *args, **kwargs):
         """Initialize all FullExpense's fields."""
@@ -51,5 +51,28 @@ class FullExpenseForm(forms.ModelForm):
         kwargs.setdefault('label_suffix', '')
         super(FullExpenseForm, self).__init__(*args, **kwargs)
         self.fields['destination'].label = 'Przeznaczenie'
-        self.fields['sum'].label = 'Kwota'
+        self.fields['amount'].label = 'Kwota'
         self.fields['destination'].empty_label = None
+
+
+class CashReportForm(forms.ModelForm):
+    """Responsible for creating a cash report."""
+
+    class Meta:
+        model = CashReport
+        fields = [
+            'cash_before_shift',
+            'cash_after_shift',
+            'card_payments',
+            'amount_due'
+        ]
+
+    def __init__(self, *args, **kwargs):
+        """Initialize all CashReport's fields."""
+
+        kwargs.setdefault('label_suffix', '')
+        super(CashReportForm, self).__init__(*args, **kwargs)
+        self.fields['cash_before_shift'].label = 'Pieniądze na początku zmiany'
+        self.fields['cash_after_shift'].label = 'Pieniądze na końcu zmiany'
+        self.fields['card_payments'].label = 'Karty'
+        self.fields['amount_due'].label = 'Łączna należność'

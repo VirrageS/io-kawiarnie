@@ -2,12 +2,14 @@
 
 from django.test import TestCase
 
-from .forms import CompanyForm, ExpenseForm, FullExpenseForm
+from employees.models import Employee
+
+from .forms import CompanyForm, ExpenseForm, FullExpenseForm, CashReportForm
 from .models import Company, Expense
 
 
 class CompanyFormTest(TestCase):
-    """Test Company form."""
+    """Tests Company form."""
 
     def test_validation(self):
         """Check validation."""
@@ -34,7 +36,7 @@ class CompanyFormTest(TestCase):
 
 
 class ExpenseFormTest(TestCase):
-    """Test Expense form."""
+    """Tests Expense form."""
 
     def setUp(self):
         """Prepare objects for tests."""
@@ -79,7 +81,7 @@ class ExpenseFormTest(TestCase):
 
 
 class FullExpenseFormTest(TestCase):
-    """Test FullExpense form."""
+    """Tests FullExpense form."""
 
     def setUp(self):
         """Prepare objects for tests."""
@@ -95,21 +97,85 @@ class FullExpenseFormTest(TestCase):
 
         cakes_for_10 = FullExpenseForm({
             'destination': self.expense.pk,
-            'sum': 10
+            'amount': 10
         })
 
         self.assertTrue(cakes_for_10.is_valid())
 
         cakes_for_nothing = FullExpenseForm({
             'destination': self.expense.pk,
-            'sum': None
+            'amount': None
         })
 
         self.assertFalse(cakes_for_nothing.is_valid())
 
         money_for_nothing = FullExpenseForm({
             'destination': None,
-            'sum': 10
+            'amount': 10
         })
 
         self.assertFalse(money_for_nothing.is_valid())
+
+
+class CashReportFormTest(TestCase):
+    """Tests CashReport form."""
+
+    def setUp(self):
+        """Prepare objects for tests."""
+
+        Employee.objects.create(
+            username='KateT',
+            first_name='Kate',
+            last_name='Tempest',
+            telephone_number='12345678',
+            email='kate@tempest.com',
+            favorite_coffee='flat white'
+        )
+
+    def validationTest(self):
+        """Test validation of CashReport form."""
+
+        no_author_report = CashReportForm(
+            cash_before_shift=1000,
+            cash_after_shift=2000,
+            card_payments=500,
+            amount_due=1700
+        )
+
+        self.assertFalse(no_author_report.is_valid())
+
+        no_cash_report = CashReportForm(
+            author=Employee.objects.get(username='KateT'),
+            card_payments=500,
+            amount_due=1700
+        )
+
+        self.assertFalse(no_cash_report.is_valid())
+
+        no_cards_report = CashReportForm(
+            author=Employee.objects.get(username='KateT'),
+            cash_before_shift=1000,
+            cash_after_shift=2000,
+            amount_due=1700
+        )
+
+        self.assertFalse(no_cards_report.is_valid())
+
+        no_due_report = CashReportForm(
+            author=Employee.objects.get(username='KateT'),
+            card_payments=500,
+            cash_before_shift=1000,
+            cash_after_shift=2000,
+        )
+
+        self.assertFalse(no_due_report.is_valid())
+
+        perfectly_fine_report = CashReportForm(
+            author=Employee.objects.get(username='KateT'),
+            card_payments=500,
+            cash_before_shift=1000,
+            cash_after_shift=2000,
+            amount_due=1700
+        )
+
+        self.assertTrue(perfectly_fine_report.is_valid())

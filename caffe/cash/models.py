@@ -19,9 +19,9 @@ class CashReport(models.Model):
     amount_due = models.FloatField()
 
     def balance(self):
-        """Calculates balance within one report, indicates deficit/surplus."""
+        """Calculate balance within one report, indicate deficit/surplus."""
 
-        expenses = self.fullexpense_set.aggregate(Sum('sum'))['sum__sum']
+        expenses = self.fullexpense_set.aggregate(Sum('amount'))['amount__sum']
 
         return self.cash_after_shift + self.card_payments + expenses -\
             self.cash_before_shift - self.amount_due
@@ -64,8 +64,8 @@ class FullExpense(models.Model):
     """
 
     destination = models.ForeignKey(Expense)
-    sum = models.FloatField()
-    report = models.ForeignKey(CashReport)
+    amount = models.FloatField()
+    cash_report = models.ForeignKey(CashReport)
 
     def __str__(self):
-        return '{}: {}'.format(self.destination, self.sum)
+        return '{}: {}'.format(self.destination, self.amount)

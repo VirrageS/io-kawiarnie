@@ -13,7 +13,7 @@ class CashReportModelTest(TestCase):
     def setUp(self):
         """Prepare data for tests."""
 
-        self.Kate = Employee.objects.create(
+        Employee.objects.create(
             username='KateT',
             first_name='Kate',
             last_name='Tempest',
@@ -22,8 +22,8 @@ class CashReportModelTest(TestCase):
             favorite_coffee='flat white'
         )
 
-        self.report = CashReport.objects.create(
-            author=self.Kate,
+        CashReport.objects.create(
+            author=Employee.objects.get(username='KateT'),
             cash_before_shift=2000,
             cash_after_shift=3000,
             card_payments=500,
@@ -31,23 +31,32 @@ class CashReportModelTest(TestCase):
 
         )
 
-        self.GoodCake = Company.objects.create(name='GoodCake')
-        self.Tesco = Company.objects.create(name='Tesco')
+        Company.objects.create(name='GoodCake')
+        Company.objects.create(name='Tesco')
 
-        self.cakes = Expense.objects.create(name='Cakes', company=self.GoodCake)
-        self.supply = Expense.objects.create(name='Supply', company=self.Tesco)
-
-        self.cake_expense = FullExpense.objects.create(
-            destination=self.cakes,
-            sum=50,
-            report=self.report
+        Expense.objects.create(
+            name='Cakes',
+            company=Company.objects.get(name='GoodCake')
         )
 
-        self.supply_expense = FullExpense.objects.create(
-            destination=self.supply,
-            sum=500,
-            report=self.report
+        Expense.objects.create(
+            name='Supply',
+            company=Company.objects.get(name='Tesco')
+        )
+
+        FullExpense.objects.create(
+            destination=Expense.objects.get(name='Cakes'),
+            amount=50,
+            cash_report=CashReport.objects.first()
+        )
+
+        FullExpense.objects.create(
+            destination=Expense.objects.get(name='Supply'),
+            amount=500,
+            cash_report=CashReport.objects.first()
         )
 
     def test_balance(self):
-        self.assertEqual(self.report.balance(), 150)
+        """Check if balance function works properly."""
+
+        self.assertEqual(CashReport.objects.first().balance(), 150)

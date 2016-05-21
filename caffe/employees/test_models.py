@@ -1,11 +1,10 @@
 """Employees models tests module."""
 # -*- encoding: utf-8 -*-
 
+from django.contrib.auth.models import Group
 from django.test import TestCase
 
 from .models import Employee
-
-from django.contrib.auth.models import Group
 
 
 class EmployeeModelTest(TestCase):

@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'home',
     'stats',
     'calendars',
+    'cash',
 
     'django.contrib.admin',
     'django.contrib.auth',

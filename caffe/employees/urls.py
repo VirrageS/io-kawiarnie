@@ -2,8 +2,9 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
-from employees.views import (employees_edit_employee, employees_new_employee,
+from employees.views import (employees_edit_employee,
                              employees_logout_employee, employees_navigate,
+                             employees_new_employee,
                              employees_show_all_employees)
 
 urlpatterns = [

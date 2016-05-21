@@ -3,10 +3,12 @@
 
 import json
 
+from django.contrib.auth.models import Permission
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 from django.utils import timezone
 
+from employees.models import Employee
 from .forms import CategoryForm, ProductForm, UnitForm
 from .models import Category, FullProduct, Product, Report, Unit
 from .views import get_report_categories
@@ -22,6 +24,20 @@ class CategoryViewsTests(TestCase):
 
         self.coffees = Category.objects.create(name='Kawy')
         self.cakes = Category.objects.create(name='Ciasta')
+
+        # add user and permissions
+        self.user = Employee.objects.create_user(
+            username='admin',
+            password='admin'
+        )
+        self.user.save()
+        self.user.user_permissions.add(
+            Permission.objects.get(codename='add_category'),
+            Permission.objects.get(codename='change_category'),
+            Permission.objects.get(codename='view_report'),
+        )
+
+        self.client.login(username='admin', password='admin')
 
     def test_new_category_show(self):
         """Check if new category view is displayed properly."""
@@ -191,6 +207,20 @@ class UnitViewsTests(TestCase):
 
         self.money = Unit.objects.create(name=u'złotówki')
         self.grams = Unit.objects.create(name=u'gramy')
+
+        # add user and permissions
+        self.user = Employee.objects.create_user(
+            username='admin',
+            password='admin'
+        )
+        self.user.save()
+        self.user.user_permissions.add(
+            Permission.objects.get(codename='add_unit'),
+            Permission.objects.get(codename='change_unit'),
+            Permission.objects.get(codename='view_report'),
+        )
+
+        self.client.login(username='admin', password='admin')
 
     def test_new_unit_show(self):
         """Check if new unit view is displayed properly."""
@@ -371,6 +401,20 @@ class ProductViewsTests(TestCase):
             category=self.cakes,
             unit=self.pieces
         )
+
+        # add user and permissions
+        self.user = Employee.objects.create_user(
+            username='admin',
+            password='admin'
+        )
+        self.user.save()
+        self.user.user_permissions.add(
+            Permission.objects.get(codename='add_product'),
+            Permission.objects.get(codename='change_product'),
+            Permission.objects.get(codename='view_report'),
+        )
+
+        self.client.login(username='admin', password='admin')
 
     def test_new_product_show(self):
         """Check if new product view is displayed properly."""
@@ -611,6 +655,20 @@ class ReportViewsTests(TestCase):
         self.cake_full.report = self.major_report
         self.cake_full_second.save()
         self.cake_full.save()
+
+        # add user and permissions
+        self.user = Employee.objects.create_user(
+            username='admin',
+            password='admin'
+        )
+        self.user.save()
+        self.user.user_permissions.add(
+            Permission.objects.get(codename='add_report'),
+            Permission.objects.get(codename='change_report'),
+            Permission.objects.get(codename='view_report'),
+        )
+
+        self.client.login(username='admin', password='admin')
 
     def test_new_report_show(self):
         """Check if new report view is displayed properly."""

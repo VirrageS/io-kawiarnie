@@ -6,10 +6,14 @@
   function Calendar(element) {
     this.element = element;
     this.template =
-      "<div class='calendar__control'>" +
-        "<div class='calendar__previous__button'><i class='fa fa-chevron-left' aria-hidden='true'></i></div>" +
+    "<div class='calendar'>" +
+      "<div class='calendar__header'>" +
         "<div class='calendar__month'><%= month %> <%= year %></div>" +
-        "<div class='calendar__next__button'><i class='fa fa-chevron-right' aria-hidden='true'></i></div>" +
+        "<div class='calendar__controllers'>" +
+          "<div class='calendar__previous__button'><a href='javascript:void(0)'><i class='fa fa-chevron-left' aria-hidden='true'></i></a></div>" +
+          "<div class='calendar__today__button'><a href='javascript:void(0)'>Dzisiaj</a></div>" +
+          "<div class='calendar__next__button'><a href='javascript:void(0)'><i class='fa fa-chevron-right' aria-hidden='true'></i></a></div>" +
+        "</div>" +
       "</div>" +
       "<table class='table--red table--hover--cell' border='0' cellspacing='0' cellpadding='0'>" +
         "<thead>" +
@@ -31,11 +35,18 @@
            "</tr>" +
           "<% } %>" +
         "</tbody>" +
-      "</table>";
+      "</table>" +
+    "</div>";
 
-    this.date = moment().clone();
+    var cookieValue = Cookies.get('calendar');
+    if (cookieValue) {
+      this.date = moment(cookieValue, "YYYY MM DD").clone();
+    } else {
+      this.date = moment().clone();
+      Cookies.set('calendar', this.date.format("YYYY MM DD"), { expires: 1 });
+    }
+
     this.compiledTempalte = _.template(this.template);
-
     this.init();
   }
 
@@ -43,18 +54,9 @@
     this.element
       .on('click', '.calendar__previous__button', {context: this}, this.backAction)
       .on('click', '.calendar__next__button', {context: this}, this.forwardAction)
+      .on('click', '.calendar__today__button', {context: this}, this.todayAction)
 
     this.render();
-  }
-
-  Calendar.prototype.backAction = function(event) {
-    event.data.context.date = event.data.context.date.subtract(1, 'month');
-    event.data.context.render();
-  }
-
-  Calendar.prototype.forwardAction = function(event) {
-    event.data.context.date = event.data.context.date.add(1, 'month');
-    event.data.context.render();
   }
 
   Calendar.prototype.render = function() {
@@ -111,6 +113,24 @@
     }
 
     this.element.html(this.compiledTempalte(data));
+  }
+
+  Calendar.prototype.backAction = function(event) {
+    event.data.context.date = event.data.context.date.subtract(1, 'month');
+    Cookies.set('calendar', event.data.context.date.format("YYYY MM DD"), { expires: 1 });
+    event.data.context.render();
+  }
+
+  Calendar.prototype.forwardAction = function(event) {
+    event.data.context.date = event.data.context.date.add(1, 'month');
+    Cookies.set('calendar', event.data.context.date.format("YYYY MM DD"), { expires: 1 });
+    event.data.context.render();
+  }
+
+  Calendar.prototype.todayAction = function(event) {
+    event.data.context.date = moment().clone();
+    Cookies.set('calendar', event.data.context.date.format("YYYY MM DD"), { expires: 1 });
+    event.data.context.render();
   }
 
   $.fn.calendar = function() {

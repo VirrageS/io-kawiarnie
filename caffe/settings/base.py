@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'stencils',
     'home',
     'stats',
+    'cash',
 
     'django.contrib.admin',
     'django.contrib.auth',

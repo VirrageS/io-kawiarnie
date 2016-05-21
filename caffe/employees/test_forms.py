@@ -1,12 +1,11 @@
 """Reports forms tests module."""
 # -*- encoding: utf-8 -*-
 
+from django.contrib.auth.models import Group
 from django.test import TestCase
 
 from .forms import EmployeeForm
 from .models import Employee
-
-from django.contrib.auth.models import Group
 
 
 def user_in_group(user, group_id):

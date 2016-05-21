@@ -3,12 +3,14 @@
 
 import collections
 
+from django.contrib.auth.models import Permission
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 
+from employees.models import Employee
 from reports.models import Category, Product, Report, Unit
-from stencils.forms import StencilForm
-from stencils.models import Stencil
+from .forms import StencilForm
+from .models import Stencil
 
 
 class StencilViewTests(TestCase):
@@ -72,6 +74,21 @@ class StencilViewTests(TestCase):
             description='jedzenie'
         )
         self.to_eat.categories.add(self.cakes, self.caffees)
+
+        # add user and permissions
+        self.user = Employee.objects.create_user(
+            username='admin',
+            password='admin'
+        )
+        self.user.save()
+        self.user.user_permissions.add(
+            Permission.objects.get(codename='add_stencil'),
+            Permission.objects.get(codename='change_stencil'),
+            Permission.objects.get(codename='view_stencil'),
+            Permission.objects.get(codename='add_report'),
+        )
+
+        self.client.login(username='admin', password='admin')
 
     def test_stencil_show_all(self):
         """Check if all stencils view is displayed properly."""

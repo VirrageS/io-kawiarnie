@@ -1,6 +1,7 @@
 """Test module for views of the employee utility."""
 # -*- encoding: utf-8 -*-
 
+from django.contrib.auth.models import Permission
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 
@@ -33,6 +34,20 @@ class EmployeeViewsTests(TestCase):
         self.emp1.save()
         self.emp2.save()
 
+        # add user and permissions
+        self.user = Employee.objects.create_user(
+            username='admin',
+            password='admin'
+        )
+        self.user.save()
+        self.user.user_permissions.add(
+            Permission.objects.get(codename='add_employee'),
+            Permission.objects.get(codename='change_employee'),
+            Permission.objects.get(codename='view_employee'),
+        )
+
+        self.client.login(username='admin', password='admin')
+
     def test_show_all_employees(self):
         """Check if employees are all displayed properly."""
 
@@ -40,7 +55,7 @@ class EmployeeViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'employees/all.html')
 
-        self.assertEqual(len(response.context['employees']), 2)
+        self.assertEqual(len(response.context['employees']), 3)
         self.assertIn(self.emp1, response.context['employees'])
         self.assertIn(self.emp2, response.context['employees'])
 
@@ -87,7 +102,7 @@ class EmployeeViewsTests(TestCase):
         # check if edited employee is displayed
         response = self.client.get(reverse('show_all_employees'))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context['employees']), 2)
+        self.assertEqual(len(response.context['employees']), 3)
 
 
     def test_edit_employees_fail(self):
@@ -165,7 +180,7 @@ class EmployeeViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
         employees = list(response.context['employees'])
-        self.assertEqual(len(employees), 3)
+        self.assertEqual(len(employees), 4)
         self.assertListEqual(
             employees,
             sorted(
@@ -245,8 +260,12 @@ class EmployeeViewsTests(TestCase):
     def test_logout_employee_fail(self):
         """Check if employee logout can fail."""
 
+        # logout global user
+        self.client.get(reverse('logout_employee'), follow=True)
+
         logged_in = self.client.login(username='marta', password='passs')
         self.assertFalse(logged_in)
 
         response = self.client.get(reverse('logout_employee'), follow=True)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'employees/login.html')

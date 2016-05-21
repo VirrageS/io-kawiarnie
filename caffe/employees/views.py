@@ -1,7 +1,7 @@
 """Module with views for the employee feature."""
 
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -18,6 +18,7 @@ def employees_logout_employee(request):
     return render(request, 'employees/logout.html')
 
 
+@permission_required('employees.add_employee')
 def employees_new_employee(request):
     """Create a new employee."""
 
@@ -32,6 +33,7 @@ def employees_new_employee(request):
     })
 
 
+@permission_required('employees.change_employee')
 def employees_edit_employee(request, employee_id):
     """Edit an employee."""
 
@@ -48,6 +50,7 @@ def employees_edit_employee(request, employee_id):
     })
 
 
+@permission_required('employees.view_employee')
 def employees_show_all_employees(request):
     """Show all employees."""
 
@@ -58,6 +61,7 @@ def employees_show_all_employees(request):
     })
 
 
+@permission_required('employees.view_employee')
 def employees_navigate(request):
     """Show main employee page."""
 

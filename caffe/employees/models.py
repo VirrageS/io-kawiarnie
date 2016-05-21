@@ -12,3 +12,7 @@ class Employee(AbstractUser):
 
     telephone_number = models.CharField(max_length=20)
     favorite_coffee = models.CharField(max_length=50)
+
+    class Meta:
+        ordering = ('last_name', 'first_name',)
+        default_permissions = ('add', 'change', 'delete', 'view')

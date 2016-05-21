@@ -19,7 +19,7 @@ class CashReport(models.Model):
     amount_due = models.FloatField()
 
     def balance(self):
-        """Calculates balance within one report, indicates deficit/surplus."""
+        """Calculate balance within one report, indicates deficit/surplus."""
 
         expenses = self.fullexpense_set.aggregate(Sum('sum'))['sum__sum']
 

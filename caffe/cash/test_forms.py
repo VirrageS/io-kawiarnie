@@ -3,14 +3,14 @@
 from django.test import TestCase
 
 from .forms import CompanyForm, ExpenseForm, FullExpenseForm
-from .models import Company, Expense, FullExpense
+from .models import Company, Expense
 
 
 class CompanyFormTest(TestCase):
-    """Tests Company form."""
+    """Test Company form."""
 
     def test_validation(self):
-        """Checks validation."""
+        """Check validation."""
 
         bad_company = CompanyForm({
             'name': ''
@@ -34,10 +34,10 @@ class CompanyFormTest(TestCase):
 
 
 class ExpenseFormTest(TestCase):
-    """Tests Expense form."""
+    """Test Expense form."""
 
     def setUp(self):
-        """Prepares objects for tests."""
+        """Prepare objects for tests."""
         self.company = Company.objects.create(name='GoodCake')
 
     def test_validation(self):
@@ -79,10 +79,10 @@ class ExpenseFormTest(TestCase):
 
 
 class FullExpenseFormTest(TestCase):
-    """Tests FullExpense form."""
+    """Test FullExpense form."""
 
     def setUp(self):
-        """Prepares objects for tests."""
+        """Prepare objects for tests."""
 
         self.company = Company.objects.create(name='GoodCake')
         self.expense = Expense.objects.create(
@@ -91,7 +91,7 @@ class FullExpenseFormTest(TestCase):
         )
 
     def test_validation(self):
-        """Tests validation."""
+        """Test validation."""
 
         cakes_for_10 = FullExpenseForm({
             'destination': self.expense.pk,

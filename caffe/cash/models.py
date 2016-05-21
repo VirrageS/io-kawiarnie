@@ -64,8 +64,8 @@ class FullExpense(models.Model):
     """
 
     destination = models.ForeignKey(Expense)
-    sum = models.FloatField()
-    report = models.ForeignKey(CashReport)
+    amount = models.FloatField()
+    cash_report = models.ForeignKey(CashReport)
 
     def __str__(self):
-        return '{}: {}'.format(self.destination, self.sum)
+        return '{}: {}'.format(self.destination, self.amount)

@@ -46,14 +46,14 @@ class CashReportModelTest(TestCase):
 
         FullExpense.objects.create(
             destination=Expense.objects.get(name='Cakes'),
-            sum=50,
-            report=CashReport.objects.first()
+            amount=50,
+            cash_report=CashReport.objects.first()
         )
 
         FullExpense.objects.create(
             destination=Expense.objects.get(name='Supply'),
-            sum=500,
-            report=CashReport.objects.first()
+            amount=500,
+            cash_report=CashReport.objects.first()
         )
 
     def test_balance(self):

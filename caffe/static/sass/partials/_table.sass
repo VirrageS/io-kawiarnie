@@ -2,12 +2,11 @@ $border-color: #e7e0e0
 $cell-padding: 0px 30px
 
 table
-  +box-shadow(0px, 0px, 15px, $grey-color-dark)
   font-weight: $light
+  margin: 50px 0
   border-spacing: 0
   width: 100%
   border-collapse: collapse
-  margin: 50px 0
 
   thead
     font-size: 1.1rem
@@ -24,18 +23,16 @@ table
 
       &.center
         text-align: center
+        padding: 0 !important
 
   tbody
     tr
-      height: 50px
       background-color: lighten($grey-color-light, 8%)
       line-height: 3em
+      height: 50px
 
       &:not(:last-of-type)
         border-bottom: 1px solid $border-color
-
-      &:hover
-        background-color: $grey-color-light
 
       td
         padding: $cell-padding
@@ -43,8 +40,38 @@ table
         &:not(:last-child)
           border-right: 1px solid $border-color
 
-        &.center
+        &.table__cell--center
           text-align: center
+          padding: 0 !important
 
         &.icon
           font-size: 1.3em
+
+        &.table__cell--disabled
+          color: $grey-color-semilight
+
+        &.table__cell--highlight
+          background-color: darken($grey-color-light, 5%)
+
+        // &.table__cell--link
+        //   a
+        //
+
+  &.table--hover
+    tbody
+      tr
+        &:hover
+          background-color: $grey-color-light
+
+  &.table--hover--cell
+    tbody
+      td
+        &:hover
+          background-color: $grey-color-light
+
+  &.table--red
+    thead
+      background-color: $red-color
+
+  &.table--shadow
+    +box-shadow(0px, 0px, 15px, $grey-color-dark)

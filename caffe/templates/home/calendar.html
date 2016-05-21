@@ -1,0 +1,18 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Kalendarz
+{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+(function($) {
+  $(document).ready(function() {
+    $('#calendar').calendar();
+  });
+}(jQuery));
+</script>
+
+
+<section id="calendar"></section>
+{% endblock %}

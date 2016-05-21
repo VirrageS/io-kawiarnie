@@ -1,0 +1,13 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Dzień {{ date.day }}-{{ date.month }}-{{ date.year }}
+{% endblock %}
+
+{% block content %}
+<section class="day">
+{% for report in reports %}
+  {{ report.created_on }}
+{% endfor %}
+</section>
+{% endblock %}

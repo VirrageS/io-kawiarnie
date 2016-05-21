@@ -51,7 +51,7 @@ def employees_edit_employee(request, employee_id):
 def employees_show_all_employees(request):
     """Show all employees."""
 
-    employees = Employee.objects.all()
+    employees = Employee.objects.order_by('last_name', 'first_name')
 
     return render(request, 'employees/all.html', {
         'employees': employees

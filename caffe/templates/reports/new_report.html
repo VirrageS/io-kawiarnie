@@ -31,7 +31,7 @@
     })
 
     if (!foundCategory) {
-      $('.categories').append('\
+      $('form .categories').append('\
         <div id="' + category.id + '" class="category">\
           <div class="category-name">\
             ' + category.name + '\
@@ -41,7 +41,17 @@
       ');
 
       categories.push(category);
+
       foundCategory = category;
+
+      // sort categories
+      var items = $('form .categories').children('.category').sort(function(a, b) {
+          var vA = $('.category-name', a).text();
+          var vB = $('.category-name', b).text();
+          return (vA < vB) ? -1 : (vA > vB) ? 1 : 0;
+      });
+
+      $('form .categories').append(items);
     }
 
     return $('#' + foundCategory.id + '.category');
@@ -51,11 +61,12 @@
     if (checkCategory === undefined)
         checkCategory = true;
 
+    product.chosen = false;
+
     var category = $('#select-category :selected').attr('id');
     if ((product.category.id != category) && checkCategory)
       return;
 
-    product.chosen = false;
     $('#select-products').append('\
       <option id="' + product.id + '" value="' + product.id + '">' + product.name + '</option>\
     ');
@@ -77,6 +88,14 @@
       $('#select-category').append('\
         <option id="' + category.id + '" value="' + category.id + '">' + category.name + '</option>\
       ');
+
+      var items = $('#select-category').children('option').sort(function(a, b) {
+          var vA = $(a).text();
+          var vB = $(b).text();
+          return (vA < vB) ? -1 : (vA > vB) ? 1 : 0;
+      });
+
+      $('#select-category').append(items);
     }
   }
 
@@ -174,7 +193,7 @@
         // remove category if it is the last product
         if (!$.trim(category.find('.products').html())) {
           categories = _.reject(categories, function(c) {
-            return c.id == category.attr('id')
+            return c.id == category.attr('id');
           })
 
           category.remove();

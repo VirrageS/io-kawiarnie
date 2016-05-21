@@ -82,7 +82,12 @@ class StencilViewTests(TestCase):
 
         # check context
         self.assertEqual(len(response.context['stencils']), 2)
-        stencils = response.context['stencils']
+        stencils = list(response.context['stencils'])
+        self.assertListEqual(
+            stencils,
+            sorted(stencils, key=lambda stencil: stencil.name, reverse=False)
+        )
+
         for stencil in stencils:
             if stencil.name == 'Do picia':
                 self.assertTrue(self.compare_stencils(stencil, self.to_drink))

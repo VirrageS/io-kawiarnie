@@ -79,7 +79,11 @@ class StencilModelTest(TestCase):
         get_stencil = Stencil.objects.get(id=stencil.id)
         self.assertListEqual(
             list(get_stencil.categories.all()),
-            [self.coffees, self.cakes]
+            sorted(
+                [self.coffees, self.cakes],
+                key=lambda category: category.name,
+                reverse=False
+            )
         )
 
     def test_stencil_same_categories(self):

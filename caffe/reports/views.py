@@ -274,7 +274,7 @@ def reports_new_report(request):
             return redirect(reverse('reports_navigate'))
 
     # get last five reports
-    latest_reports = Report.objects.order_by('-created_on')[:5]
+    latest_reports = Report.objects.all()[:5]
     for report in latest_reports:
         report.categories = get_report_categories(report.id)
 

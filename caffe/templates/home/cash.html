@@ -1,13 +1,13 @@
 {% extends "home/base.html" %}
 
 {% block title %}
-Raporty z kasy
+Kasa
 {% endblock %}
 
 {% block content %}
 <section class="cards cards-primary">
   <a href="{% url 'new_cash_report' %}" class="card">
-    <i class="fa fa-wpforms" aria-hidden="true"></i>
+    <i class="fa fa-money" aria-hidden="true"></i>
     Nowy raport z kasy
   </a>
 </section>
@@ -18,11 +18,11 @@ Raporty z kasy
   </h2>
 
   <a href="{% url 'new_company' %}" class="card">
-    <i class="fa fa-percent" aria-hidden="true"></i>
+    <i class="fa fa-building-o" aria-hidden="true"></i>
     Firma
   </a>
   <a href="{% url 'new_expense' %}" class="card">
-    <i class="fa fa-columns" aria-hidden="true"></i>
+    <i class="fa fa-dollar" aria-hidden="true"></i>
     Wydatki
   </a>
 </section>
@@ -33,15 +33,15 @@ Raporty z kasy
   </h2>
 
   <a href="{% url 'show_all_cash_reports' %}" class="card">
-    <i class="fa fa-percent" aria-hidden="true"></i>
+    <i class="fa fa-money" aria-hidden="true"></i>
     Raporty z kasy
   </a>
   <a href="{% url 'new_company' %}" class="card">
-    <i class="fa fa-columns" aria-hidden="true"></i>
+    <i class="fa fa-building-o" aria-hidden="true"></i>
     Firmy
   </a>
   <a href="{% url 'new_expense' %}" class="card">
-    <i class="fa fa-tag" aria-hidden="true"></i>
+    <i class="fa fa-dollar" aria-hidden="true"></i>
     Wydatki
   </a>
 </section>

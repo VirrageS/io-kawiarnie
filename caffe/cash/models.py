@@ -11,12 +11,16 @@ class CashReport(models.Model):
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(Employee)
+    creator = models.ForeignKey(Employee)
 
     cash_before_shift = models.FloatField()
     cash_after_shift = models.FloatField()
     card_payments = models.FloatField()
     amount_due = models.FloatField()
+
+    class Meta:
+        ordering = ('-created_on', '-updated_on')
+        default_permissions = ('add', 'change', 'delete', 'view')
 
     def balance(self):
         """Calculate balance within one report, indicate deficit/surplus."""
@@ -29,7 +33,7 @@ class CashReport(models.Model):
     def __str__(self):
         return 'Report created: {:%Y-%m-%d %H:%M} by {}'.format(
             self.created_on,
-            self.author
+            self.creator
         )
 
 
@@ -37,6 +41,10 @@ class Company(models.Model):
     """Stores one company a cafe interacts with (e.g., GoodCake bakery)."""
 
     name = models.CharField(max_length=200, unique=True)
+
+    class Meta:
+        ordering = ('name',)
+        default_permissions = ('add', 'change', 'delete', 'view')
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -52,6 +60,10 @@ class Expense(models.Model):
 
     name = models.CharField(max_length=300)
     company = models.ForeignKey(Company, blank=True, null=True)
+
+    class Meta:
+        ordering = ('name', 'company')
+        default_permissions = ('add', 'change', 'delete', 'view')
 
     def __str__(self):
         return '{}, {}'.format(self.name, self.company)

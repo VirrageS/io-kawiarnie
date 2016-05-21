@@ -14,13 +14,13 @@ urlpatterns = [
     url(r'^show/(?P<report_id>\d{0,17})/$',
         cash_show_cash_report, name='show_cash_report'),
 
-    url(r'^new/company/$', cash_new_company, name='new_company'),
+    url(r'^new/company/$', cash_new_company, name='cash_new_company'),
     url(r'^edit/company/(?P<category_id>\d{0,17})/$',
         cash_edit_company, name='cash_edit_company'),
 
-    url(r'^new/expense/$', cash_new_expense, name='new_expense'),
+    url(r'^new/expense/$', cash_new_expense, name='cash_new_expense'),
     url(r'^edit/expense/(?P<expense_id>\d{0,17})/$',
-        cash_edit_expense, name='edit_expense'),
+        cash_edit_expense, name='cash_edit_expense'),
 
     url(r'^new/report/$', cash_new_cash_report, name='new_cash_report'),
     url(r'^edit/report/(?P<report_id>\d{0,17})/$',

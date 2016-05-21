@@ -1,0 +1,299 @@
+{% extends "home/base.html" %}
+{% load tags %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+(function ($, _) {
+  "use strict"
+
+  var products;
+  var categories;
+
+  function getProduct(id) {
+    return _.find(products, function(product) {
+      return product.id == id;
+    });
+  }
+
+  function getCategoryProducts(category_id) {
+    return _.filter(products, function(product) {
+      return (product.category.id == category_id) && !product.chosen;
+    })
+  }
+
+  function getCategoryOrCreate(category) {
+    var foundCategory = _.find(categories, function(c) {
+      return c.id == category.id;
+    })
+
+    if (!foundCategory) {
+      $('form .categories').append('\
+        <div id="' + category.id + '" class="category">\
+          <div class="category-name">\
+            ' + category.name + '\
+          </div>\
+          <div class="products"></div>\
+        </div>\
+      ');
+
+      categories.push(category);
+
+      foundCategory = category;
+
+      // sort categories
+      var items = $('form .categories').children('.category').sort(function(a, b) {
+          var vA = $('.category-name', a).text();
+          var vB = $('.category-name', b).text();
+          return (vA < vB) ? -1 : (vA > vB) ? 1 : 0;
+      });
+
+      $('form .categories').append(items);
+    }
+
+    return $('#' + foundCategory.id + '.category');
+  }
+
+  function addProductToSelect(product, checkCategory) {
+    if (checkCategory === undefined)
+        checkCategory = true;
+
+    product.chosen = false;
+
+    var category = $('#select-category :selected').attr('id');
+    if ((product.category.id != category) && checkCategory)
+      return;
+
+    $('#select-products').append('\
+      <option id="' + product.id + '" value="' + product.id + '">' + product.name + '</option>\
+    ');
+  }
+
+  function removeProductFromSelect(product) {
+    var p = $('#select-products').children('#' + product.id);
+    product.chosen = true;
+
+    if (p.length) {
+      p.remove();
+    }
+  }
+
+  function addCategoryToSelect(category) {
+    var c = $('#select-category').children('#' + category.id);
+
+    if (!c.length) {
+      $('#select-category').append('\
+        <option id="' + category.id + '" value="' + category.id + '">' + category.name + '</option>\
+      ');
+
+      var items = $('#select-category').children('option').sort(function(a, b) {
+          var vA = $(a).text();
+          var vB = $(b).text();
+          return (vA < vB) ? -1 : (vA > vB) ? 1 : 0;
+      });
+
+      $('#select-category').append(items);
+    }
+  }
+
+  function emptyProductSelect() {
+    $('#select-products').empty();
+
+    $('#select-products').append('\
+      <option id="-1" value="-1">--------------------</option>\
+    ');
+  }
+
+
+  function events() {
+    /**
+      EVENTS
+      **/
+
+    $('#select-category').on('change', function(event, obj) {
+      var products = getCategoryProducts(this.value);
+      if (products) {
+        emptyProductSelect();
+
+        _.each(products, function(product) {
+          addProductToSelect(product);
+        });
+      }
+    });
+
+    $('#select-products').on('change', function(event, obj) {
+      var product = getProduct(this.value);
+      if (product) {
+        // remove product from selected
+        removeProductFromSelect(product);
+
+        var errorClasses = '', amount = '', errors = '';
+
+        if (product.selected) {
+          amount = product.amount;
+
+          if (!_.isEmpty(product.errors)) {
+            // add error if error occured
+            errors = '<ul class="errorlist">';
+              _.each(product.errors, function(error) {
+                errors += '<li>' + error + '</li>';
+              });
+            errors += '</ul>';
+
+            // change input border color if error occured
+            errorClasses = 'error';
+          }
+
+          product.selected = false;
+        }
+
+        var categoryProducts = getCategoryOrCreate(product.category).find('.products');
+
+        categoryProducts.append('\
+          <div id="' + product.id + '" class="product">\
+            <input type="hidden" name="' + product.id + '" value="' + product.id + '"/>\
+            <div class="name">\
+              ' + product.name +'\
+            </div>\
+            <div class="amount">\
+              <input type="number" name="' + product.id + '" value="' + amount + '" class="' + errorClasses + '"/>\
+            </div>\
+            <div class="unit">\
+              ' + product.unit + '\
+            </div>\
+            <div class="trash">\
+              <i class="fa fa-trash-o" aria-hidden="true"></i>\
+            </div>\
+          </div>\
+        ');
+
+        categoryProducts.append(errors);
+      }
+    });
+
+
+    $(document).on('click', '.trash', function() {
+      var product = $(this).closest('.product');
+
+      var p = getProduct(product.attr('id'));
+      if (p) {
+        addProductToSelect(p);
+
+        var category = product.closest('.category');
+        var errors = $(product).next('ul');
+
+        if (errors) {
+          errors.remove(); // remove error
+        }
+        product.remove();
+
+        // remove category if it is the last product
+        if (!$.trim(category.find('.products').html())) {
+          categories = _.reject(categories, function(c) {
+            return c.id == category.attr('id');
+          })
+
+          category.remove();
+        }
+      }
+    });
+  }
+
+
+  $(document).ready(function() {
+    products = {{ products|safe }};
+    categories = [];
+
+    $('.modaal').modaal();
+
+    events();
+
+    // init
+    emptyProductSelect();
+
+    _.map(products, function(product) {
+      addCategoryToSelect(product.category);
+
+      if (product.selected) {
+        addProductToSelect(product, false);
+        $('#select-products').find('#' + product.id).parent().val(product.id).trigger('change');
+      }
+    });
+  });
+})(jQuery, _);
+</script>
+
+<form method="POST" class="report-form">
+  {% csrf_token %}
+
+  <div class="input-line select-wrapper">
+    <select id="select-category">
+      <option name="category" id="-1" value="-1">---------------</option>
+    </select>
+    <label for="">Wybierz kategorię</label>
+  </div>
+
+  <div class="input-line select-wrapper">
+    <select id="select-products">
+    </select>
+    <label for="">Wybierz produkt</label>
+  </div>
+
+  <div class="categories"></div>
+
+  <button type="submit" class="button button-rounded button-green">{{ button }}</button>
+</form>
+
+{% if reports %}
+<section class="subtitle">
+  Ostatnio utworzone
+</section>
+
+<section class="reports">
+  {% for report in reports %}
+    <div class="report">
+      <a href="#modaal{{ report.id }}" class="modaal meta">
+        {{ report.created_on }}
+      </a>
+
+      <a href="#modaal{{ report.id }}" class="modaal button button-rounded button-blue button-with-icon">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <span>
+          Podglądaj
+        </span>
+      </a>
+
+      <div id="modaal{{ report.id }}" class="hidden">
+        <div class="modal-report">
+          <section class="report-title">
+            {{ report.created_on }}
+          </section>
+
+          <section class="categories">
+            {% for category, products in report.categories.items %}
+              <div class="category">
+                <div class="category-name">
+                  {{ category }}
+                </div>
+                <div class="products">
+                  {% for product in products %}
+                    <div class="product">
+                      <div class="name">{{ product.name }}</div>
+                      <div class="amount">{{ product.amount }}</div>
+                      <div class="unit">{{ product.unit }}</div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </section>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</section>
+{% endif %}
+{% endblock %}

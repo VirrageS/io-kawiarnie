@@ -1,0 +1,36 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Raport
+{% endblock %}
+
+{% block content %}
+<section class="report-title">
+  {{ report.created_on }}
+</section>
+
+<section class="buttons">
+  <a href="{% url 'reports_edit_report' report.id %}" class="button button-rounded button-red">
+    Edytuj
+  </a>
+</section>
+
+<section class="categories">
+  {% for category, products in categories.items %}
+    <div class="category">
+      <div class="category-name">
+        {{ category }}
+      </div>
+      <div class="products">
+        {% for product in products %}
+          <div class="product">
+            <div class="name">{{ product.name }}</div>
+            <div class="amount">{{ product.amount }}</div>
+            <div class="unit">{{ product.unit }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</section>
+{% endblock %}

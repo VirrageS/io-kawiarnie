@@ -36,7 +36,7 @@ class CashReport(models.Model):
 class Company(models.Model):
     """Stores one company a cafe interacts with (e.g., GoodCake bakery)."""
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -47,11 +47,11 @@ class Expense(models.Model):
 
     One entry could look like this:
     (name: cakes, company: GoodCake) or
-    (name: newspapers, company: None).
+    (name: newspapers).
     """
 
     name = models.CharField(max_length=300)
-    company = models.ForeignKey(Company, blank=True)
+    company = models.ForeignKey(Company, blank=True, null=True)
 
     def __str__(self):
         return '{}, {}'.format(self.name, self.company)

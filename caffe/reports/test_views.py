@@ -670,6 +670,9 @@ class ReportViewsTests(TestCase):
 
         self.client.login(username='admin', password='admin')
 
+        self.major_report.creator = self.user
+        self.major_report.save()
+
     def test_new_report_show(self):
         """Check if new report view is displayed properly."""
 
@@ -756,6 +759,7 @@ class ReportViewsTests(TestCase):
         self.assertIsNotNone(new_report)
         self.assertIsInstance(new_report, Report)
         self.assertTrue(new_report.created_on < timezone.now())
+        self.assertEqual(new_report.creator, self.user)
 
     def test_edit_report_show(self):
         """Check if edit report is displayed properly."""
@@ -849,6 +853,7 @@ class ReportViewsTests(TestCase):
         report = Report.objects.get(id=self.major_report.id)
         self.assertIsNotNone(report)
         self.assertIsInstance(report, Report)
+        self.assertEqual(report.creator, self.user)
 
         full_products = FullProduct.objects.filter(report=self.major_report.id)
         self.assertEqual(len(full_products), 3)

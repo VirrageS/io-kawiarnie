@@ -184,6 +184,11 @@
     $(document).on('input', '.money input', function() {
       countBalance();
     });
+
+    $(document).on('click', '#toggle-denominations', function() {
+      $(this).html($(this).html() == '<i class="fa fa-caret-right"></i>' ? '<i class="fa fa-caret-left"></i>' : '<i class="fa fa-caret-right"></i>');
+      $(this).closest('.column').next().toggle();
+    });
   }
 
   $(document).ready(function() {
@@ -231,18 +236,32 @@
   </div>
 
   <div class="column">
-    <div class="denominations"></div>
-  </div>
-
-  <div class="column">
     <div class="money">
-      {% for field in form %}
-        <div class="input-line">
-          {{ field }}
-          {{ field.label_tag }}
-        </div>
-        {{ field.errors }}
-      {% endfor %}
+      <div class="input-line">
+        {{ form.cash_before_shift }}
+        {{ form.cash_before_shift.label_tag }}
+      </div>
+      {{ form.cash_before_shift.errors }}
+
+      <div class="input-line smaller">
+        {{ form.cash_after_shift }}
+        {{ form.cash_after_shift.label_tag }}
+
+        <div id="toggle-denominations" class="toggle"><i class="fa fa-caret-right"></i></div>
+      </div>
+      {{ form.cash_after_shift.errors }}
+
+      <div class="input-line">
+        {{ form.card_payments }}
+        {{ form.card_payments.label_tag }}
+      </div>
+      {{ form.card_payments.errors }}
+
+      <div class="input-line">
+        {{ form.amount_due }}
+        {{ form.amount_due.label_tag }}
+      </div>
+      {{ form.amount_due.errors }}
     </div>
 
     <ul class="summary">
@@ -263,6 +282,10 @@
         </div>
       </li>
     </ul>
+  </div>
+
+  <div class="column" style="display: none;">
+    <div class="denominations"></div>
   </div>
 
   <div class="column">

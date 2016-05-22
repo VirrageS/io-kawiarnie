@@ -1,7 +1,9 @@
+import json
+
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import CashReportForm, CompanyForm, ExpenseForm
+from .forms import CashReportForm, CompanyForm, ExpenseForm, FullExpenseForm
 from .models import CashReport, Company, Expense
 
 
@@ -114,13 +116,77 @@ def cash_edit_expense(request, expense_id):
 def cash_new_cash_report(request):
     """Show form to create new CashReport and show already existing CashReport."""
 
+    all_expenses = []
+    for expense in Expense.objects.all():
+        all_expenses.append({
+            'id': expense.id,
+            'name': expense.name,
+            'selected': False,
+            'amount': 0,
+            'errors': {}
+        })
+
+        if expense.company:
+            all_expenses[:-1]['company'] = {
+                'id': expense.company.id,
+                'name': expense.company.name,
+            }
+
+
     form = CashReportForm()
 
     if request.POST:
+        forms = []
+        valid = True
         form = CashReportForm(request.POST)
 
-        if form.is_valid():
-            form.save()
+        valid = valid & form.is_valid()
+
+        for full_expense in request.POST:
+            fe_list = []
+
+            try:
+                full_expense = int(full_expense)
+                fe_list = request.POST.getlist(str(full_expense))
+            except ValueError:
+                continue
+
+            if len(fe_list) != 2:
+                continue
+
+            expense_form = FullExpenseForm({
+                'expense': fe_list[0],
+                'amount': fe_list[1]
+            })
+
+            valid = valid & expense_form.is_valid()
+
+            expense = next(
+                (e for e in all_expenses if e['id'] == int(fe_list[0])),
+                None
+            )
+
+            if expense:
+                expense['selected'] = True
+                expense['amount'] = (
+                    fe_list[1] if expense_form.is_valid() else ''
+                )
+                expense['errors'] = (
+                    '' if expense_form.is_valid() else expense_form.errors['amount']
+                )
+
+            forms.append(expense_form)
+
+        if valid:
+            cash_report = form.save(commit=False)
+            cash_report = request.user
+
+            for form in forms:
+                full_expense = form.save()
+                full_expense.cash_report = cash_report
+                full_expense.save()
+
+            cash_report.save()
             return redirect(reverse('cash_navigate'))
 
     # get last five reports
@@ -130,6 +196,7 @@ def cash_new_cash_report(request):
         'title':  'Nowy raport z kasy',
         'button': 'Dodaj',
         'form': form,
+        'expenses': json.dumps(all_expenses),
         'reports': latest_reports,
     })
 

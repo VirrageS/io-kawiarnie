@@ -11,10 +11,9 @@
 (function ($, _) {
   "use strict"
 
+  var expenses = [];
+
   var denominations = [
-    {'value': 1, 'unit': 'gr', 'amount': 0.01},
-    {'value': 2, 'unit': 'gr', 'amount': 0.02},
-    {'value': 5, 'unit': 'gr', 'amount': 0.05},
     {'value': 10, 'unit': 'gr', 'amount': 0.1},
     {'value': 20, 'unit': 'gr', 'amount': 0.2},
     {'value': 50, 'unit': 'gr', 'amount': 0.5},
@@ -27,57 +26,247 @@
     {'value': 100, 'unit': 'zł', 'amount': 100},
   ];
 
-  $(document).ready(function() {
-    _.each(denominations, function(denomination, index) {
-      $('.denominations').append(
-        '<div class="input-line">' +
-          '<input id="' + index + '" type="number" class="denomination" value="0"/>' +
-          '<label>' +
-            denomination.value + ' ' + denomination.unit +
-          '</label>' +
-        '</div>'
-      );
+  function getExpense(id) {
+    return _.find(expenses, function(expense) {
+      return expense.id == id;
+    });
+  }
+
+  function addExpenseToSelect(expense) {
+    expense.chosen = false;
+
+    $('#select-expenses').append('\
+      <option id="' + expense.id + '" value="' + expense.id + '">' + expense.name + '</option>\
+    ');
+  }
+
+  function removeExpenseFromSelect(expense) {
+    var exp = $('#select-expenses').children('#' + expense.id);
+    expense.chosen = true;
+
+    if (exp.length) {
+      exp.remove();
+    }
+  }
+
+  function countBalance() {
+    var inputs = [{
+        'element': $('#id_cash_before_shift'),
+        'sign': -1,
+      }, {
+        'element': $('#id_cash_after_shift'),
+        'sign': 1,
+      }, {
+        'element': $('#id_card_payments'),
+        'sign': 1,
+      }, {
+        'element': $('#id_amount_due'),
+        'sign': -1,
+      }
+    ]
+
+    var sum = 0.0;
+    _.each(inputs, function(input) {
+      if (input.element.val()) {
+        sum += parseFloat(input.element.val()) * input.sign;
+      }
     });
 
-    $('.denomination').on('input', function() {
+    var expenses = parseFloat($('#expenses-sum').text());
+    if (expenses)
+      sum += expenses;
+
+    $('#balance').text(sum);
+
+    var parent = $('#balance').parent()
+      .removeClass('summary__value--red')
+      .removeClass('summary__value--green');
+
+    if (sum > 0.0) {
+      parent.addClass('summary__value--green');
+    } else if (sum < 0.0) {
+      parent.addClass('summary__value--red');
+    }
+  }
+
+  function events() {
+    $('#select-expenses').on('change', function(event, obj) {
+      var expense = getExpense(this.value);
+      if (expense) {
+        // remove expense from selected
+        removeExpenseFromSelect(expense);
+
+        var errorClasses = '', amount = '', errors = '';
+
+        if (expense.selected) {
+          amount = expense.amount;
+
+          if (!_.isEmpty(expense.errors)) {
+            // add error if error occured
+            errors = '<ul class="errorlist">';
+              _.each(expense.errors, function(error) {
+                errors += '<li>' + error + '</li>';
+              });
+            errors += '</ul>';
+
+            // change input border color if error occured
+            errorClasses = 'error';
+          }
+
+          expense.selected = false;
+        }
+
+        $('.expenses')
+          .append(
+            '<div id="' + expense.id + '" class="expense">' +
+              '<input type="hidden" name="' + expense.id + '" value="' + expense.id + '"/>\
+              <div class="name">\
+                ' + expense.name +'\
+              </div>\
+              <div class="amount">\
+                <input type="number" name="' + expense.id + '" value="' + amount + '" class="' + errorClasses + '"/>\
+              </div>\
+              <div class="unit">zł</div>\
+              <div class="trash">\
+                <i class="fa fa-trash-o" aria-hidden="true"></i>' +
+              '</div>' +
+            '</div>'
+          )
+          .append(errors);
+      }
+    });
+
+    $(document).on('click', '.trash', function() {
+      var expense = $(this).closest('.expense');
+
+      var exp = getExpense(expense.attr('id'));
+      if (exp) {
+        addExpenseToSelect(exp);
+
+        var errors = $(expense).next('ul');
+        if (errors)
+          errors.remove(); // remove error
+
+        expense.remove();
+      }
+
+      countBalance();
+    });
+
+    $(document).on('input', '.denomination', function() {
       var sum = 0.0;
       _.each(denominations, function(denomination, index) {
-        if ($('#' + index).val()) {
-          sum += parseInt($('#' + index).val()) * denomination.amount;
+        if ($('#denomination-' + index).val()) {
+          sum += parseInt($('#denomination-' + index).val()) * denomination.amount;
         }
       });
 
       $('#id_cash_after_shift').val(sum);
+      countBalance();
+    });
+
+    $(document).on('input', '.expenses input[type=number]', function() {
+      var inputs = $('.expenses input[type=number]');
+
+      var sum = 0.0;
+      $.each(inputs, function(_, input) {
+        input = $(input);
+
+        if (input.val()) {
+          sum += parseFloat(input.val());
+        }
+      });
+
+      $('#expenses-sum').text(sum);
+      countBalance();
+    });
+
+    $(document).on('input', '.money input', function() {
+      countBalance();
+    });
+  }
+
+  $(document).ready(function() {
+    expenses = {{ expenses|safe }};
+
+    events();
+
+    _.each(expenses, function(expense) {
+      addExpenseToSelect(expense);
+
+      if (expense.selected) {
+        $('#select-expenses').find('#' + expense.id).parent().val(expense.id).trigger(
+          'change'
+        );
+
+        removeExpenseFromSelect(expense);
+      }
+    });
+
+    _.each(denominations, function(denomination, index) {
+      $('.denominations').append(
+        '<div class="input-line">' +
+          '<span>' + denomination.value + ' ' + denomination.unit + ':</span> <input id="denomination-' + index + '" type="number" class="denomination" value="0"/>' +
+        '</div>'
+      );
     });
   });
 })(jQuery, _);
 </script>
 
-<form class="denominations element-form">
-
-</form>
-
 <form method="POST" class="cash-form">
   {% csrf_token %}
 
-  {% for field in form %}
+  <div class="column">
     <div class="input-line">
-      {% with field|field_type as field_name %}
-      {% if field_name == "Select" %}
-        <div class="select-wrapper">
-          {{ field }}
-        </div>
-      {% else %}
-        {{ field }}
-      {% endif %}
-      {% endwith %}
-
-      {{ field.label_tag }}
+      <div class="select-wrapper">
+        <select id="select-expenses">
+          <option name="expense" id="-1" value="-1">-------------</option>
+        </select>
+      </div>
+      <label for="">Wybierz wydatek</label>
     </div>
-    {{ field.errors }}
 
-  {% endfor %}
+    <div class="expenses"></div>
+  </div>
 
-  <button type="submit" class="button button-rounded button-green">{{ button }}</button>
+  <div class="column">
+    <div class="denominations"></div>
+  </div>
+
+  <div class="column">
+    <div class="money">
+      {% for field in form %}
+        <div class="input-line">
+          {{ field }}
+          {{ field.label_tag }}
+        </div>
+        {{ field.errors }}
+      {% endfor %}
+    </div>
+
+    <ul class="summary">
+      <li>
+        <div class="summary__description">
+          Suma wydatków:
+        </div>
+        <div class="summary__value">
+          <span id="expenses-sum">0</span> zł
+        </div>
+      </li>
+      <li>
+        <div class="summary__description">
+          Saldo:
+        </div>
+        <div class="summary__value">
+          <span id="balance">0</span> zł
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="column">
+    <button type="submit" class="button button-rounded button-green">{{ button }}</button>
+  </div>
 </form>
 {% endblock %}

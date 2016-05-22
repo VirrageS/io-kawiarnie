@@ -1,0 +1,100 @@
+.denominations
+  @extend .form
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  box-shadow: none
+  margin: 20px auto
+  max-width: 1000px
+
+  .input-line
+    display: block
+    padding: 0px
+    margin: 5px auto
+
+    span
+      display: inline-block
+      font-size: 1rem
+      margin-right: 5px
+      width: 70px
+
+    input
+      display: inline-block
+      padding: 5px 15px
+      margin: 4px 0
+      max-width: 150px
+
+.cash-form
+  @extend .form
+  display: flex
+  flex-flow: row wrap
+  box-shadow: none
+  margin: 0 auto
+
+  .column
+    flex: 1 0 25%
+    margin: 0 1%
+
+  .column:last-child
+    flex: 0 1 100%
+
+  .button
+    display: table !important
+    margin: 50px auto 0px auto !important
+
+
+  .summary
+    padding: 0
+    margin: 0
+    margin-top: 60px
+    list-style: none
+
+    li
+      font-size: 1.4rem
+      margin: 8px 0
+      text-align: right
+
+      .summary__description
+        display: inline-block
+        margin-right: 8px
+
+      .summary__value
+        display: inline-block
+        font-family: $fixed-font-family
+        font-weight: $fixed-font-weight
+        min-width: 100px
+
+        &.summary__value--green
+          color: $green-color !important
+
+        &.summary__value--red
+          color: $red-color !important
+
+  .expenses
+    display: block
+
+    .errorlist
+      margin-top: -25px
+
+    .expense
+      @extend %product
+
+      .name
+        flex: 3
+
+      .amount
+        flex: 2
+
+      .unit
+        flex: 1
+        text-align: center !important
+
+      .trash
+        flex-shrink: 3
+        font-size: 1.5em
+        color: $red-color
+        cursor: pointer
+        text-align: center
+
+        &:hover, &:active, &:focus
+          color: darken($red-color, 20%)

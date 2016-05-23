@@ -116,7 +116,9 @@ def cash_edit_expense(request, expense_id):
 def cash_new_cash_report(request):
     """Show form to create new CashReport and show already existing CashReport."""
 
+    form = CashReportForm(request.POST or None)
     all_expenses = []
+
     for expense in Expense.objects.all():
         all_expenses.append({
             'id': expense.id,
@@ -132,15 +134,9 @@ def cash_new_cash_report(request):
                 'name': expense.company.name,
             }
 
-
-    form = CashReportForm()
-
     if request.POST:
         forms = []
-        valid = True
-        form = CashReportForm(request.POST)
-
-        valid = valid & form.is_valid()
+        valid = form.is_valid()
 
         for full_expense in request.POST:
             fe_list = []
@@ -211,16 +207,87 @@ def cash_edit_cash_report(request, report_id):
     report = get_object_or_404(Expense, id=expense_id)
     form = CashReportForm(request.POST or None, instance=report)
 
-    if form.is_valid():
-        form.save()
-        return redirect(reverse('cash_navigate'))
+    all_expenses = []
+    for expense in Expense.objects.all():
+        all_expenses.append({
+            'id': expense.id,
+            'name': expense.name,
+            'selected': False,
+            'amount': 0,
+            'errors': {}
+        })
+
+        if expense.company:
+            all_expenses[:-1]['company'] = {
+                'id': expense.company.id,
+                'name': expense.company.name,
+            }
+
+        full_expense = FullExpense.objects.filter(
+            cash_report=report.id, expense=expense.id
+        ).first()
+
+        if full_expense and (not request.POST):
+            all_expenses[:-1]['selected'] = True
+            all_expenses[:-1]['amount'] = full_expense.amount
+
+    if request.POST:
+        forms = []
+        valid = form.is_valid()
+
+        for full_expense in request.POST:
+            fe_list = []
+
+            try:
+                full_expense = int(full_expense)
+                fe_list = request.POST.getlist(str(full_expense))
+            except ValueError:
+                continue
+
+            if len(fe_list) != 2:
+                continue
+
+            expense_form = FullExpenseForm({
+                'expense': fe_list[0],
+                'amount': fe_list[1]
+            })
+
+            valid = valid & expense_form.is_valid()
+
+            expense = next(
+                (e for e in all_expenses if e['id'] == int(fe_list[0])),
+                None
+            )
+
+            if expense:
+                expense['selected'] = True
+                expense['amount'] = (
+                    fe_list[1] if expense_form.is_valid() else ''
+                )
+                expense['errors'] = (
+                    '' if expense_form.is_valid() else expense_form.errors['amount']
+                )
+
+            forms.append(expense_form)
+
+        if valid:
+            cash_report = form.save(commit=False)
+            cash_report = request.user
+
+            for form in forms:
+                full_expense = form.save()
+                full_expense.cash_report = cash_report
+                full_expense.save()
+
+            cash_report.save()
+            return redirect(reverse('cash_navigate'))
 
     return render(request, 'cash/new_report.html', {
-        'title': 'Edytuj raport z kasy',
-        'button': 'Uaktulanij',
-        'form': form
+        'title':  'Edytuj raport z kasy',
+        'button': 'Uaktualnij',
+        'form': form,
+        'expenses': json.dumps(all_expenses),
     })
-
 
 def cash_show_cash_report(request, report_id):
     """Show CashReport with all Expenses.

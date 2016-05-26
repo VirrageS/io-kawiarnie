@@ -21,48 +21,43 @@ Raport z kasy
       Zestawienie
     </div>
 
-    <ul class="summary">
-      <li>
-        <div class="summary__description">
-          Pieniądze przed zmianą:
-        </div>
-        <div class="summary__value">
-          {{ report.cash_before_shift }} zł
-        </div>
-      </li>
-      <li>
-        <div class="summary__description">
-          Pieniądze po zmianie:
-        </div>
-        <div class="summary__value">
-          {{ report.cash_after_shift }} zł
-        </div>
-      </li>
-      <li>
-        <div class="summary__description">
-          Karty:
-        </div>
-        <div class="summary__value">
-          {{ report.card_payments }} zł
-        </div>
-      </li>
-      <li>
-        <div class="summary__description">
-          Łączna należność:
-        </div>
-        <div class="summary__value">
-          {{ report.amount_due }} zł
-        </div>
-      </li>
-      <li>
-        <div class="summary__description">
-          Saldo:
-        </div>
-        <div class="summary__value">
-          {{ report.balance }} zł
-        </div>
-      </li>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th width="65%">Nazwa</th>
+          <th>Ilość</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>Pieniądze przed zmianą</td>
+          <td class="table__cell--font-fixed">-{{ report.cash_before_shift }} zł</td>
+        </tr>
+        <tr>
+          <td>Pieniądze po zmianie</td>
+          <td class="table__cell--font-fixed">{{ report.cash_after_shift }} zł</td>
+        </tr>
+        <tr>
+          <td>Karty</td>
+          <td class="table__cell--font-fixed">{{ report.card_payments }} zł</td>
+        </tr>
+        <tr>
+          <td>Łączna należność</td>
+          <td class="table__cell--font-fixed">-{{ report.amount_due }} zł</td>
+        </tr>
+        <tr>
+          <td class="table__cell--highlight">Saldo</td>
+          {% if report.balance > 0 %}
+            <td class="table__cell--font-fixed table__cell--highlight table__cell--font-green">{{ report.balance }} zł</td>
+          {% elif report.balance < 0 %}
+            <td class="table__cell--font-fixed table__cell--highlight table__cell--font-red">{{ report.balance }} zł</td>
+          {% else %}
+            <td class="table__cell--font-fixed table__cell--highlight">{{ report.balance }} zł</td>
+          {% endif %}
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="column">
@@ -70,15 +65,23 @@ Raport z kasy
       Wydatki
     </div>
 
-    <div class="expenses">
-      {% for expense in expenses %}
-        <div class="expense">
-          <div class="name">{{ expense.name }}</div>
-          <div class="amount">{{ expense.amount }}</div>
-          <div class="unit">zł</div>
-        </div>
-      {% endfor %}
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th width="65%">Nazwa</th>
+          <th>Ilość</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for expense in expenses %}
+          <tr>
+            <td>{{ expense.name }}</td>
+            <td class="table__cell--font-fixed">{{ expense.amount }} zł</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </section>
 {% endblock %}

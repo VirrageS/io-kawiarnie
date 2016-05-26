@@ -50,6 +50,17 @@
   }
 
   function countBalance() {
+    var expenses_inputs = $('.expenses input[type=number]');
+
+    var expense_sum = 0.0;
+    $.each(expenses_inputs, function(_, input) {
+      if ($(input).val()) {
+        expense_sum += parseFloat($(input).val());
+      }
+    });
+
+    $('#expenses-sum').text(expense_sum);
+
     var inputs = [{
         'element': $('#id_cash_before_shift'),
         'sign': -1,
@@ -166,18 +177,6 @@
     });
 
     $(document).on('input', '.expenses input[type=number]', function() {
-      var inputs = $('.expenses input[type=number]');
-
-      var sum = 0.0;
-      $.each(inputs, function(_, input) {
-        input = $(input);
-
-        if (input.val()) {
-          sum += parseFloat(input.val());
-        }
-      });
-
-      $('#expenses-sum').text(sum);
       countBalance();
     });
 
@@ -215,6 +214,8 @@
         '</div>'
       );
     });
+
+    countBalance();
   });
 })(jQuery, _);
 </script>

@@ -207,7 +207,7 @@ def cash_edit_cash_report(request, report_id):
         report_id (int): Id of CashReport which is edited.
     """
 
-    report = get_object_or_404(Expense, id=expense_id)
+    report = get_object_or_404(CashReport, id=report_id)
     form = CashReportForm(request.POST or None, instance=report)
 
     all_expenses = []
@@ -221,7 +221,7 @@ def cash_edit_cash_report(request, report_id):
         })
 
         if expense.company:
-            all_expenses[:-1]['company'] = {
+            all_expenses[-1]['company'] = {
                 'id': expense.company.id,
                 'name': expense.company.name,
             }
@@ -231,8 +231,8 @@ def cash_edit_cash_report(request, report_id):
         ).first()
 
         if full_expense and (not request.POST):
-            all_expenses[:-1]['selected'] = True
-            all_expenses[:-1]['amount'] = full_expense.amount
+            all_expenses[-1]['selected'] = True
+            all_expenses[-1]['amount'] = full_expense.amount
 
     if request.POST:
         forms = []

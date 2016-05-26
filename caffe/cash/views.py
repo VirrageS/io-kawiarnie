@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CashReportForm, CompanyForm, ExpenseForm, FullExpenseForm
-from .models import CashReport, Company, Expense
+from .models import CashReport, Company, Expense, FullExpense
 
 
 def cash_new_company(request):
@@ -162,20 +162,23 @@ def cash_new_cash_report(request):
                 None
             )
 
+            print(expense_form.errors)
+
             if expense:
                 expense['selected'] = True
                 expense['amount'] = (
                     fe_list[1] if expense_form.is_valid() else ''
                 )
                 expense['errors'] = (
-                    '' if expense_form.is_valid() else expense_form.errors['amount']
+                    '' if expense_form.is_valid() else expense_form.errors.get('amount')
                 )
 
             forms.append(expense_form)
 
         if valid:
             cash_report = form.save(commit=False)
-            cash_report = request.user
+            cash_report.creator = request.user
+            cash_report.save()
 
             for form in forms:
                 full_expense = form.save()
@@ -265,7 +268,7 @@ def cash_edit_cash_report(request, report_id):
                     fe_list[1] if expense_form.is_valid() else ''
                 )
                 expense['errors'] = (
-                    '' if expense_form.is_valid() else expense_form.errors['amount']
+                    '' if expense_form.is_valid() else expense_form.errors.get('amount')
                 )
 
             forms.append(expense_form)
@@ -283,7 +286,7 @@ def cash_edit_cash_report(request, report_id):
             return redirect(reverse('cash_navigate'))
 
     return render(request, 'cash/new_report.html', {
-        'title':  'Edytuj raport z kasy',
+        'title':  'Nowy raport z kasy',
         'button': 'Uaktualnij',
         'form': form,
         'expenses': json.dumps(all_expenses),
@@ -297,9 +300,23 @@ def cash_show_cash_report(request, report_id):
     """
 
     report = get_object_or_404(CashReport, id=report_id)
+    report.balance = report.balance()
+
+    full_expenses = FullExpense.objects.filter(
+        cash_report=report.id
+    )
+
+    all_expenses = []
+    for full_expense in full_expenses:
+        all_expenses.append({
+            'id': full_expense.id,
+            'name': full_expense.expense.name,
+            'amount': full_expense.amount
+        })
 
     return render(request, 'cash/show.html', {
         'report': report,
+        'expenses': all_expenses
     })
 
 

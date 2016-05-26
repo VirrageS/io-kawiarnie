@@ -1,36 +1,84 @@
 {% extends "home/base.html" %}
 
 {% block title %}
-Raport
+Raport z kasy
 {% endblock %}
 
 {% block content %}
-<section class="report-title">
+<section class="cash-report__title">
   {{ report.created_on }}
 </section>
 
 <section class="buttons">
-  <a href="{% url 'reports_edit_report' report.id %}" class="button button-rounded button-red">
+  <a href="{% url 'edit_cash_report' report.id %}" class="button button-rounded button-red">
     Edytuj
   </a>
 </section>
 
-<section class="categories">
-  {% for category, products in categories.items %}
-    <div class="category">
-      <div class="category-name">
-        {{ category }}
-      </div>
-      <div class="products">
-        {% for product in products %}
-          <div class="product">
-            <div class="name">{{ product.name }}</div>
-            <div class="amount">{{ product.amount }}</div>
-            <div class="unit">{{ product.unit }}</div>
-          </div>
-        {% endfor %}
-      </div>
+<section class="row">
+  <div class="column">
+    <div class="subtitle">
+      Zestawienie
     </div>
-  {% endfor %}
+
+    <ul class="summary">
+      <li>
+        <div class="summary__description">
+          Pieniądze przed zmianą:
+        </div>
+        <div class="summary__value">
+          {{ report.cash_before_shift }} zł
+        </div>
+      </li>
+      <li>
+        <div class="summary__description">
+          Pieniądze po zmianie:
+        </div>
+        <div class="summary__value">
+          {{ report.cash_after_shift }} zł
+        </div>
+      </li>
+      <li>
+        <div class="summary__description">
+          Karty:
+        </div>
+        <div class="summary__value">
+          {{ report.card_payments }} zł
+        </div>
+      </li>
+      <li>
+        <div class="summary__description">
+          Łączna należność:
+        </div>
+        <div class="summary__value">
+          {{ report.amount_due }} zł
+        </div>
+      </li>
+      <li>
+        <div class="summary__description">
+          Saldo:
+        </div>
+        <div class="summary__value">
+          {{ report.balance }} zł
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="column">
+    <div class="subtitle">
+      Wydatki
+    </div>
+
+    <div class="expenses">
+      {% for expense in expenses %}
+        <div class="expense">
+          <div class="name">{{ expense.name }}</div>
+          <div class="amount">{{ expense.amount }}</div>
+          <div class="unit">zł</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 </section>
 {% endblock %}

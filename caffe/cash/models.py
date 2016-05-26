@@ -25,7 +25,7 @@ class CashReport(models.Model):
     def balance(self):
         """Calculate balance within one report, indicate deficit/surplus."""
 
-        expenses = self.fullexpense_set.aggregate(Sum('amount'))['amount__sum']
+        expenses = self.full_expense.aggregate(Sum('amount'))['amount__sum']
 
         return self.cash_after_shift + self.card_payments + expenses -\
             self.cash_before_shift - self.amount_due
@@ -75,9 +75,14 @@ class FullExpense(models.Model):
     Is assigned to one report and can't be reused.
     """
 
-    destination = models.ForeignKey(Expense)
+    expense = models.ForeignKey(Expense)
     amount = models.FloatField()
-    cash_report = models.ForeignKey(CashReport)
+    cash_report = models.ForeignKey(
+        CashReport,
+        on_delete=models.CASCADE,
+        blank=True, null=True,
+        related_name='full_expense'
+    )
 
     def __str__(self):
-        return '{}: {}'.format(self.destination, self.amount)
+        return '{}: {}'.format(self.expense, self.amount)

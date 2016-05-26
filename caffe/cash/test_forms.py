@@ -96,21 +96,21 @@ class FullExpenseFormTest(TestCase):
         """Test validation."""
 
         cakes_for_10 = FullExpenseForm({
-            'destination': self.expense.pk,
+            'expense': self.expense.pk,
             'amount': 10
         })
 
         self.assertTrue(cakes_for_10.is_valid())
 
         cakes_for_nothing = FullExpenseForm({
-            'destination': self.expense.pk,
+            'expense': self.expense.pk,
             'amount': None
         })
 
         self.assertFalse(cakes_for_nothing.is_valid())
 
         money_for_nothing = FullExpenseForm({
-            'destination': None,
+            'expense': None,
             'amount': 10
         })
 

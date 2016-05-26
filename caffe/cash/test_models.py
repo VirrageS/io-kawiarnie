@@ -45,13 +45,13 @@ class CashReportModelTest(TestCase):
         )
 
         FullExpense.objects.create(
-            destination=Expense.objects.get(name='Cakes'),
+            expense=Expense.objects.get(name='Cakes'),
             amount=50,
             cash_report=CashReport.objects.first()
         )
 
         FullExpense.objects.create(
-            destination=Expense.objects.get(name='Supply'),
+            expense=Expense.objects.get(name='Supply'),
             amount=500,
             cash_report=CashReport.objects.first()
         )

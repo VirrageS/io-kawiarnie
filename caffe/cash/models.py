@@ -70,7 +70,7 @@ class Expense(models.Model):
 
 
 class FullExpense(models.Model):
-    """Stores one specific expense - destination and sum.
+    """Stores one specific expense - expense and amount.
 
     Is assigned to one report and can't be reused.
     """

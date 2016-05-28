@@ -4,6 +4,8 @@ from .models import WorkedHours
 
 class WorkedHoursForm(forms.ModelForm):
     """Responsible for setting up WorkedHours model."""
+    start_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
+    end_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
 
     class Meta:
         model = WorkedHours

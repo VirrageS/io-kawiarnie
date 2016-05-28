@@ -25,7 +25,7 @@
 .products
   display: block
 
-.product
+%product
   display: flex
   align-items: center
   font-size: 1.1rem
@@ -55,3 +55,6 @@
     font-family: $fixed-font-family
     font-weight: $fixed-font-weight
     text-align: right
+
+.product
+  @extend %product

@@ -39,20 +39,20 @@ class ExpenseForm(forms.ModelForm):
 
 
 class FullExpenseForm(forms.ModelForm):
-    """Responsible for creating a full expense - destination and sum."""
+    """Responsible for creating a full expense - expense and sum."""
 
     class Meta:
         model = FullExpense
-        fields = ('destination', 'amount',)
+        fields = ('expense', 'amount',)
 
     def __init__(self, *args, **kwargs):
         """Initialize all FullExpense's fields."""
 
         kwargs.setdefault('label_suffix', '')
         super(FullExpenseForm, self).__init__(*args, **kwargs)
-        self.fields['destination'].label = 'Przeznaczenie'
+        self.fields['expense'].label = 'Przeznaczenie'
         self.fields['amount'].label = 'Kwota'
-        self.fields['destination'].empty_label = None
+        self.fields['expense'].empty_label = None
 
 
 class CashReportForm(forms.ModelForm):

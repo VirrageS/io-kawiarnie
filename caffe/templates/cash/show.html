@@ -1,0 +1,87 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Raport z kasy
+{% endblock %}
+
+{% block content %}
+<section class="cash-report__title">
+  {{ report.created_on }}
+</section>
+
+<section class="buttons">
+  <a href="{% url 'edit_cash_report' report.id %}" class="button button-rounded button-red">
+    Edytuj
+  </a>
+</section>
+
+<section class="row">
+  <div class="column">
+    <div class="subtitle">
+      Zestawienie
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th width="65%">Nazwa</th>
+          <th>Ilość</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>Pieniądze przed zmianą</td>
+          <td class="table__cell--font-fixed">-{{ report.cash_before_shift }} zł</td>
+        </tr>
+        <tr>
+          <td>Pieniądze po zmianie</td>
+          <td class="table__cell--font-fixed">{{ report.cash_after_shift }} zł</td>
+        </tr>
+        <tr>
+          <td>Karty</td>
+          <td class="table__cell--font-fixed">{{ report.card_payments }} zł</td>
+        </tr>
+        <tr>
+          <td>Łączna należność</td>
+          <td class="table__cell--font-fixed">-{{ report.amount_due }} zł</td>
+        </tr>
+        <tr>
+          <td class="table__cell--highlight">Saldo</td>
+          {% if report.balance > 0 %}
+            <td class="table__cell--font-fixed table__cell--highlight table__cell--font-green">{{ report.balance }} zł</td>
+          {% elif report.balance < 0 %}
+            <td class="table__cell--font-fixed table__cell--highlight table__cell--font-red">{{ report.balance }} zł</td>
+          {% else %}
+            <td class="table__cell--font-fixed table__cell--highlight">{{ report.balance }} zł</td>
+          {% endif %}
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="column">
+    <div class="subtitle">
+      Wydatki
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th width="65%">Nazwa</th>
+          <th>Ilość</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for expense in expenses %}
+          <tr>
+            <td>{{ expense.name }}</td>
+            <td class="table__cell--font-fixed">{{ expense.amount }} zł</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

@@ -23,7 +23,7 @@ class CashReportModelTest(TestCase):
         )
 
         CashReport.objects.create(
-            author=Employee.objects.get(username='KateT'),
+            creator=Employee.objects.get(username='KateT'),
             cash_before_shift=2000,
             cash_after_shift=3000,
             card_payments=500,
@@ -45,13 +45,13 @@ class CashReportModelTest(TestCase):
         )
 
         FullExpense.objects.create(
-            destination=Expense.objects.get(name='Cakes'),
+            expense=Expense.objects.get(name='Cakes'),
             amount=50,
             cash_report=CashReport.objects.first()
         )
 
         FullExpense.objects.create(
-            destination=Expense.objects.get(name='Supply'),
+            expense=Expense.objects.get(name='Supply'),
             amount=500,
             cash_report=CashReport.objects.first()
         )

@@ -96,21 +96,21 @@ class FullExpenseFormTest(TestCase):
         """Test validation."""
 
         cakes_for_10 = FullExpenseForm({
-            'destination': self.expense.pk,
+            'expense': self.expense.pk,
             'amount': 10
         })
 
         self.assertTrue(cakes_for_10.is_valid())
 
         cakes_for_nothing = FullExpenseForm({
-            'destination': self.expense.pk,
+            'expense': self.expense.pk,
             'amount': None
         })
 
         self.assertFalse(cakes_for_nothing.is_valid())
 
         money_for_nothing = FullExpenseForm({
-            'destination': None,
+            'expense': None,
             'amount': 10
         })
 
@@ -135,17 +135,17 @@ class CashReportFormTest(TestCase):
     def validationTest(self):
         """Test validation of CashReport form."""
 
-        no_author_report = CashReportForm(
+        no_creator_report = CashReportForm(
             cash_before_shift=1000,
             cash_after_shift=2000,
             card_payments=500,
             amount_due=1700
         )
 
-        self.assertFalse(no_author_report.is_valid())
+        self.assertFalse(no_creator_report.is_valid())
 
         no_cash_report = CashReportForm(
-            author=Employee.objects.get(username='KateT'),
+            creator=Employee.objects.get(username='KateT'),
             card_payments=500,
             amount_due=1700
         )
@@ -153,7 +153,7 @@ class CashReportFormTest(TestCase):
         self.assertFalse(no_cash_report.is_valid())
 
         no_cards_report = CashReportForm(
-            author=Employee.objects.get(username='KateT'),
+            creator=Employee.objects.get(username='KateT'),
             cash_before_shift=1000,
             cash_after_shift=2000,
             amount_due=1700
@@ -162,7 +162,7 @@ class CashReportFormTest(TestCase):
         self.assertFalse(no_cards_report.is_valid())
 
         no_due_report = CashReportForm(
-            author=Employee.objects.get(username='KateT'),
+            creator=Employee.objects.get(username='KateT'),
             card_payments=500,
             cash_before_shift=1000,
             cash_after_shift=2000,
@@ -171,7 +171,7 @@ class CashReportFormTest(TestCase):
         self.assertFalse(no_due_report.is_valid())
 
         perfectly_fine_report = CashReportForm(
-            author=Employee.objects.get(username='KateT'),
+            creator=Employee.objects.get(username='KateT'),
             card_payments=500,
             cash_before_shift=1000,
             cash_after_shift=2000,

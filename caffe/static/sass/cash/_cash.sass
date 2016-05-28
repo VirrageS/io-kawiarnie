@@ -1,0 +1,156 @@
+.denominations
+  @extend .form
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  box-shadow: none
+  margin: 20px auto
+  max-width: 1000px
+
+  .input-line
+    display: block
+    padding: 0px
+    margin: 5px auto
+
+    span
+      display: inline-block
+      font-size: 1rem
+      margin-right: 5px
+      width: 70px
+
+    input
+      display: inline-block
+      padding: 5px 15px
+      margin: 4px 0
+      max-width: 150px
+
+.cash-form
+  @extend .form
+  display: flex
+  flex-flow: row wrap
+  box-shadow: none
+  margin: 0 auto
+
+  .column
+    flex: 1 0 25%
+    margin: 0 3%
+
+  .column:last-child
+    flex: 0 1 100%
+
+  .button
+    display: table !important
+    margin: 50px auto 0px auto !important
+
+  .input-line
+    &.smaller
+      padding-right: 50px
+
+    .toggle
+      position: absolute
+      right: 15px
+      top: 33px
+      font-size: 1.6rem
+
+
+.expenses
+  display: block
+
+  .errorlist
+    margin-top: -25px
+
+  .expense
+    @extend %product
+
+    .name
+      flex: 3
+
+    .amount
+      flex: 2
+
+    .unit
+      flex: 1
+      text-align: center !important
+
+    .trash
+      flex-shrink: 3
+      font-size: 1.5em
+      color: $red-color
+      cursor: pointer
+      text-align: center
+
+      &:hover, &:active, &:focus
+        color: darken($red-color, 20%)
+
+
+
+.summary
+  padding: 0
+  margin: 0
+  margin-top: 60px
+  list-style: none
+  font-size: 1.3rem
+
+  &.summary--right
+    text-align: right !important
+
+  li
+    margin: 8px 0
+
+    .summary__description
+      display: inline-block
+      margin-right: 10px
+
+    .summary__value
+      display: inline-block
+      font-family: $fixed-font-family
+      font-weight: $fixed-font-weight
+      min-width: 90px
+
+      &.summary__value--green
+        color: $green-color !important
+
+      &.summary__value--red
+        color: $red-color !important
+
+
+.cash-reports
+  display: flex
+  justify-content: space-around
+  flex-direction: row
+  flex-flow: row wrap
+  font-size: 1.2rem
+  line-height: 1.5em
+  text-align: center
+
+  .cash-report
+    +border-radius(5px)
+    display: flex
+    justify-content: center
+    flex-direction: column
+    padding: 20px
+    margin: 20px
+    border: 2px solid #dedede
+    width: 300px
+    height: 120px
+
+    .cash-report__meta
+      font-family: "Open Sans", "Source Sans Pro", sans-serif
+      text-align: center
+
+
+
+.cash-report__title
+  @extend %title
+
+
+.row
+  display: flex
+
+  .column
+    flex: 1
+    margin: 20px 20px
+
+    .subtitle
+      margin-top: 0
+      margin-bottom: 50px

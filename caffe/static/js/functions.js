@@ -52,7 +52,7 @@
 
   function init() {
     $("#control-menu").on('click', changeMenuState);
-    $("#control-menu").followFrom(750, 30);
+    $("#control-menu").followFrom(800, 30);
     checkMenuCookie();
 
     $('button[type=cancel]').click(function() {

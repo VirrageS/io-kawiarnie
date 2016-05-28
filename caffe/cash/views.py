@@ -129,7 +129,7 @@ def cash_new_cash_report(request):
         })
 
         if expense.company:
-            all_expenses[:-1]['company'] = {
+            all_expenses[-1]['company'] = {
                 'id': expense.company.id,
                 'name': expense.company.name,
             }
@@ -161,8 +161,6 @@ def cash_new_cash_report(request):
                 (e for e in all_expenses if e['id'] == int(fe_list[0])),
                 None
             )
-
-            print(expense_form.errors)
 
             if expense:
                 expense['selected'] = True
@@ -207,8 +205,8 @@ def cash_edit_cash_report(request, report_id):
         report_id (int): Id of CashReport which is edited.
     """
 
-    report = get_object_or_404(CashReport, id=report_id)
-    form = CashReportForm(request.POST or None, instance=report)
+    cash_report = get_object_or_404(CashReport, id=report_id)
+    form = CashReportForm(request.POST or None, instance=cash_report)
 
     all_expenses = []
     for expense in Expense.objects.all():
@@ -227,7 +225,7 @@ def cash_edit_cash_report(request, report_id):
             }
 
         full_expense = FullExpense.objects.filter(
-            cash_report=report.id, expense=expense.id
+            cash_report=cash_report.id, expense=expense.id
         ).first()
 
         if full_expense and (not request.POST):
@@ -274,8 +272,12 @@ def cash_edit_cash_report(request, report_id):
             forms.append(expense_form)
 
         if valid:
-            cash_report = form.save(commit=False)
-            cash_report = request.user
+            full_expenses = FullExpense.objects.filter(
+                cash_report=cash_report.id
+            ).all()
+
+            for full_expense in full_expenses:
+                full_expense.delete()
 
             for form in forms:
                 full_expense = form.save()
@@ -309,7 +311,6 @@ def cash_show_cash_report(request, report_id):
     all_expenses = []
     for full_expense in full_expenses:
         all_expenses.append({
-            'id': full_expense.id,
             'name': full_expense.expense.name,
             'amount': full_expense.amount
         })

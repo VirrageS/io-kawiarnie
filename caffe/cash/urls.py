@@ -15,7 +15,7 @@ urlpatterns = [
         cash_show_cash_report, name='show_cash_report'),
 
     url(r'^new/company/$', cash_new_company, name='cash_new_company'),
-    url(r'^edit/company/(?P<category_id>\d{0,17})/$',
+    url(r'^edit/company/(?P<company_id>\d{0,17})/$',
         cash_edit_company, name='cash_edit_company'),
 
     url(r'^new/expense/$', cash_new_expense, name='cash_new_expense'),

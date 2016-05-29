@@ -9,8 +9,8 @@ class WorkedHoursForm(forms.ModelForm):
 
     class Meta:
         model = WorkedHours
+        exclude = ['employee']
         fields = (
-            'employee',
             'start_time',
             'end_time',
             'date'
@@ -18,11 +18,17 @@ class WorkedHoursForm(forms.ModelForm):
 
 
     def __init__(self, *args, **kwargs):
-        """Initialize all Product's fields."""
+        """Initialize all Worked Hours's fields."""
 
         kwargs.setdefault('label_suffix', '')
+
         super(WorkedHoursForm, self).__init__(*args, **kwargs)
-        self.fields['employee'].label = 'Pracownik'
+
         self.fields['start_time'].label = 'Godzina rozpoczęcia'
         self.fields['end_time'].label = 'Godzina zakończenia'
         self.fields['date'].label = 'Dzień'
+
+        if self.instance:
+            self.initial['start_time'] = self.instance.start_time
+            self.initial['end_time'] = self.instance.end_time
+            self.initial['date'] = self.instance.date

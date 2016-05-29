@@ -18,11 +18,8 @@ class WorkedHours(models.Model):
         default=None
     )
 
-
     start_time = models.TimeField(auto_now=False)
-
     end_time = models.TimeField(auto_now=False)
-
     date =  models.DateField(auto_now=False)
 
 
@@ -46,25 +43,7 @@ class WorkedHours(models.Model):
                 employee=self.employee,
                 date=self.date,
                 start_time__lte=self.end_time,
-                end_time__gte=self.end_time
-            ) | \
-            WorkedHours.objects.filter(
-                employee=self.employee,
-                date=self.date,
-                start_time__lte=self.start_time,
-                end_time__gte=self.start_time,
-            ) | \
-            WorkedHours.objects.filter(
-                employee=self.employee,
-                date=self.date,
-                start_time__lte=self.start_time,
-                end_time__gte=self.end_time,
-            ) | \
-            WorkedHours.objects.filter(
-                employee=self.employee,
-                date=self.date,
-                start_time__gte=self.start_time,
-                end_time__lte=self.end_time,
+                end_time__gte=self.start_time
             )
 
         if intersect.count() > 0:

@@ -2,6 +2,8 @@ from django import forms
 
 from .models import WorkedHours
 
+from datetime import date
+
 class WorkedHoursForm(forms.ModelForm):
     """Responsible for setting up WorkedHours model."""
     start_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
@@ -32,3 +34,5 @@ class WorkedHoursForm(forms.ModelForm):
             self.initial['start_time'] = self.instance.start_time
             self.initial['end_time'] = self.instance.end_time
             self.initial['date'] = self.instance.date
+        else:
+            self.initial['date'] = date.today()

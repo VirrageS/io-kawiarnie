@@ -25,7 +25,6 @@ class WorkedHours(models.Model):
 
     class Meta:
         ordering = ('-date', '-end_time')
-        default_permissions = ('add', 'change', 'delete', 'view')
 
     def __str__(self):
         return 'Worked hours: {} {} {} {}'.format(
@@ -37,6 +36,7 @@ class WorkedHours(models.Model):
 
     def clean(self, *args, **kwargs):
         """Clean data and check validation."""
+
         intersect = []
         intersect = \
             WorkedHours.objects.filter(
@@ -50,3 +50,8 @@ class WorkedHours(models.Model):
             raise ValidationError(
                 'Such working hours already exist for this employee'
             )
+
+        if self.start_time > self.end_time:
+            raise ValidationError(
+                'Start time must be after end time'
+            ) 

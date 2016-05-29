@@ -24,7 +24,7 @@ class WorkedHours(models.Model):
 
 
     class Meta:
-        ordering = ('-date', 'end_time')
+        ordering = ('-date', '-end_time')
         default_permissions = ('add', 'change', 'delete', 'view')
 
     def __str__(self):

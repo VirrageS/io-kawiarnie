@@ -1,0 +1,39 @@
+{% extends "home/base.html" %}
+{% load tags %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+<form method="POST" class="element-form">
+  {% csrf_token %}
+
+  <div class="input-line">
+    {{ form.name }}
+    {{ form.name.label_tag }}
+  </div>
+  {{ form.name.errors }}
+
+  <button type="submit" class="button button-rounded button-green">{{ button }}</button>
+</form>
+
+{% if positions %}
+  <h2 class="elements-subtitle">
+    Już istniejące
+  </h2>
+
+  <ul class="elements">
+    {% for position in positions %}
+      <li class="element">
+        <span class="desc">
+          {{ position.desc }}
+        </span>
+        <a href="{{ position.edit_url }}" class="button button-rounded button-small button-red">
+          Edytuj
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}

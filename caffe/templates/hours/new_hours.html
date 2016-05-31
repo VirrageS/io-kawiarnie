@@ -9,8 +9,6 @@
 <form method="POST" class="element-form">
   {% csrf_token %}
 
-  {{ form.employee.as_hidden }}
-
   <div class="input-line">
     {{ form.start_time }}
     {{ form.start_time.label_tag }}
@@ -29,20 +27,15 @@
   </div>
   {{ form.date.errors }}
 
-  <!-- <div class="input-line">
-    {{ form.start_time }}
-    {{ form.start_time.label_tag }}
+  <div class="input-line">
+    <div class="select-wrapper">
+      {{ form.position }}
+    </div>
+
+    {{ form.position.label_tag }}
   </div>
-  {{ form.start_time.errors }} -->
+  {{ form.position.errors }}
 
   <button type="submit" class="button button-rounded button-green">{{ button }}</button>
 </form>
-
-<script type="text/javascript">
-  $(function () {
-    $('#start_time_picker').datetimepicker();
-    $('#end_time_picker').datetimepicker();
-    $('#day_picker').datetimepicker();
-  });
-</script>
 {% endblock %}

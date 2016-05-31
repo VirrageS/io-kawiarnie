@@ -3,13 +3,31 @@ from django.db import models
 from employees.models import Employee
 
 
+class Position(models.Model):
+    """Stores the Position on which Employee has been working."""
+
+    name = models.CharField(max_length=100, unique=True,)
+
+    class Meta:
+        ordering = ('-name',)
+        default_permissions = ('add', 'change', 'delete', 'view')
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
+
 class WorkedHours(models.Model):
     """Stores one period of worked hours by one employee."""
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    employee = models.ForeignKey(Employee)
+    employee = models.ForeignKey(
+        Employee, null=True, blank=False, default=None
+    )
+    position = models.ForeignKey(
+        'Position', null=True, blank=False, default=None
+    )
 
     start_time = models.TimeField(auto_now=False)
     end_time = models.TimeField(auto_now=False)

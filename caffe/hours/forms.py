@@ -1,8 +1,25 @@
 from datetime import date
 
 from django import forms
-from .models import WorkedHours
+from .models import WorkedHours, Position
 
+class PositionForm(forms.ModelForm):
+    """Responsible for checking Position model."""
+
+    class Meta:
+        model = Position
+        fields = ('name',)
+
+    def __init__(self, *args, **kwargs):
+        """Initialize all Position's fields."""
+
+        kwargs.setdefault('label_suffix', '')
+
+        super(PositionForm, self).__init__(*args, **kwargs)
+        self.fields['name'].label = 'Nazwa'
+
+        if self.instance.id:
+            self.initial['name'] = self.instance.name
 
 class WorkedHoursForm(forms.ModelForm):
     """Responsible for setting up WorkedHours model."""
@@ -30,7 +47,7 @@ class WorkedHoursForm(forms.ModelForm):
 
     class Meta:
         model = WorkedHours
-        fields = ('start_time', 'end_time', 'date')
+        fields = ('start_time', 'end_time', 'date', 'position')
 
     def __init__(self, *args, **kwargs):
         """Initialize all Worked Hours's fields."""
@@ -39,6 +56,7 @@ class WorkedHoursForm(forms.ModelForm):
         self.employee = kwargs.pop('employee', None)
 
         super(WorkedHoursForm, self).__init__(*args, **kwargs)
+        self.fields['position'].label = 'Stanowisko'
 
         if self.instance.id:
             self.initial['start_time'] = self.instance.start_time

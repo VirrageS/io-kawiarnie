@@ -1,11 +1,45 @@
+from datetime import date
+
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
+
+from cash.models import CashReport
+from hours.models import WorkedHours
+from reports.models import Report
 
 
 def caffe_navigate(request):
     """Show main page."""
 
-    return render(request, 'home/caffe.html')
+    year = date.today().year
+    month = date.today().month
+    day = date.today().day
+
+    reports = Report.objects.filter(
+        created_on__year=year,
+        created_on__month=month,
+        created_on__day=day
+    ).all()
+
+    # cash_reports = CashReport.objects.filter(
+    #     created_on__year=year,
+    #     created_on__month=month,
+    #     created_on__day=day
+    # ).all()
+
+    worked_hours = WorkedHours.objects.filter(
+        date__year=year,
+        date__month=month,
+        date__day=day
+    ).all()
+
+    return render(request, 'home/caffe.html', {
+        'hours_add_url': reverse('new_worked_hours'),
+        'reports': reports,
+        # 'cash_reports': cash_reports,
+        'worked_hours': worked_hours
+    })
 
 
 def handler404(request):

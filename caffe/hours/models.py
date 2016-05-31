@@ -1,14 +1,14 @@
+from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
+from django.core.validators import MinValueValidator
 from django.db import models
 
-import datetime
-
-from django.core.exceptions import ValidationError
-from django.core.validators import MinValueValidator
-
-# Create your models here.
 
 class WorkedHours(models.Model):
     """Stores one period of worked hours by one employee."""
+
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     employee = models.ForeignKey(
         'employees.Employee',
@@ -20,31 +20,45 @@ class WorkedHours(models.Model):
 
     start_time = models.TimeField(auto_now=False)
     end_time = models.TimeField(auto_now=False)
-    date =  models.DateField(auto_now=False)
-
+    date = models.DateField(auto_now=False)
 
     class Meta:
         ordering = ('-date', '-end_time')
+        default_permissions = ('add', 'change', 'delete', 'view')
 
-    def __str__(self):
-        return 'Worked hours: {} {} {} {}'.format(
-            self.employee,
-            self.start_time,
-            self.end_time,
-            self.date
-        )
+    def serialize(self):
+        """Serialize model to dictionary.
+
+        Returns:
+            Dictionary with all neccessary informations about model.
+        """
+
+        employee = {}
+        if self.employee:
+            employee = {
+                'id': self.employee.id,
+                'first_name': self.employee.first_name
+            }
+
+        return {
+            'id': self.id,
+            'employee': employee,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
+            'date': self.date,
+            'url': reverse('get_worked_hours', args=(self.id,)),
+            'edit_url': reverse('edit_worked_hours', args=(self.id,)),
+        }
 
     def clean(self, *args, **kwargs):
         """Clean data and check validation."""
 
-        intersect = []
-        intersect = \
-            WorkedHours.objects.filter(
-                employee=self.employee,
-                date=self.date,
-                start_time__lte=self.end_time,
-                end_time__gte=self.start_time
-            )
+        intersect = WorkedHours.objects.filter(
+            employee=self.employee,
+            date=self.date,
+            start_time__lte=self.end_time,
+            end_time__gte=self.start_time
+        )
 
         if intersect.count() > 0:
             raise ValidationError(
@@ -54,4 +68,12 @@ class WorkedHours(models.Model):
         if self.start_time > self.end_time:
             raise ValidationError(
                 'Start time must be after end time'
-            ) 
+            )
+
+    def __str__(self):
+        return 'Worked hours: {} {} {} {}'.format(
+            self.employee,
+            self.start_time,
+            self.end_time,
+            self.date
+        )

@@ -34,6 +34,8 @@ def caffe_navigate(request):
         date__day=day
     ).all()
 
+    worked_hours = [hours.serialize() for hours in worked_hours]
+
     return render(request, 'home/caffe.html', {
         'hours_add_url': reverse('new_worked_hours'),
         'reports': reports,

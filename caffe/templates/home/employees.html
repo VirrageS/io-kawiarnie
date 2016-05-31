@@ -11,6 +11,11 @@ Pracownicy
     Nowy pracownik
   </a>
 
+  <a href="{% url 'new_employee' %}" class="card">
+    <i class="fa fa-user-plus" aria-hidden="true"></i>
+    Stanowisko
+  </a>
+
   <a href="{% url 'login_employee' %}" class="card">
     <i class="fa fa-sign-in" aria-hidden="true"></i>
     Zaloguj
@@ -25,6 +30,11 @@ Pracownicy
   <a href="{% url 'show_all_employees' %}" class="card">
     <i class="fa fa-users" aria-hidden="true"></i>
     Pracownicy
+  </a>
+
+  <a href="{% url 'show_all_employees' %}" class="card">
+    <i class="fa fa-users" aria-hidden="true"></i>
+    Stanowiska
   </a>
 </section>
 {% endblock %}

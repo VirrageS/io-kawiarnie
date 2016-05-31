@@ -5,6 +5,26 @@ Kawiarnia
 {% endblock %}
 
 {% block content %}
+
+<section class="cards cards-green">
+  <h2 class="card-subtitle">
+    Stwórz
+  </h2>
+
+  <a href="{% url 'reports_new_report' %}" class="card">
+    <i class="fa fa-percent" aria-hidden="true"></i>
+    Raport
+  </a>
+  <a href="" class="card">
+    <i class="fa fa-columns" aria-hidden="true"></i>
+      Raporty z kasy
+  </a>
+  <a href="{% url 'new_worked_hours' %}" class="modaal card">
+    <i class="fa fa-edit" aria-hidden="true"></i>
+    Przepracowane godziny
+  </a>
+</section>
+
 <div class="subtitle">
   Raporty
 </div>
@@ -49,7 +69,7 @@ Kawiarnia
 <div class="subtitle">
   Przepracowane godziny
 </div>
-<section>
+<section id="worked-hours">
   <table>
     <thead>
       <tr>
@@ -57,9 +77,19 @@ Kawiarnia
         <th>Od której</th>
         <th>Do której</th>
         <th>Stanowisko</th>
+        <th>Edytuj</th>
       </tr>
     </thead>
     <tbody>
+      {% for hour in worked_hours %}
+        <tr>
+          <td>{{ hour.employee.name }}</td>
+          <td>{{ hour.start_time }}</td>
+          <td>{{ hour.end_time }}</td>
+          <td></td>
+          <td class="table__cell--center icon edit"><a href="{% url 'edit_worked_hours' hour.id %}"><i class="fa fa-pencil"></i></a></td>
+        </tr>
+      {% endfor %}
     </tbody>
   </table>
 </section>

@@ -1,4 +1,3 @@
-from django.core.urlresolvers import reverse
 from django.db import models
 
 from employees.models import Employee

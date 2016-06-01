@@ -85,7 +85,7 @@ def hours_edit_worked_hours(request, hours_pk):
 
     worked_hours = get_object_or_404(WorkedHours, pk=hours_pk)
     if ((worked_hours.employee != request.user) and
-        (not request.user.has_perm('hours.change_all_workedhours'))):
+            (not request.user.has_perm('hours.change_all_workedhours'))):
         raise Http404(u'Nie możesz edytować tych godzin.')
 
     form = WorkedHoursForm(

@@ -7,7 +7,7 @@ from django.test import TestCase
 from employees.models import Employee
 
 from .forms import WorkedHoursForm
-from .models import Position, WorkedHours
+from .models import Position
 
 
 class WorkedHoursFormTest(TestCase):

@@ -67,21 +67,21 @@ class WorkedHoursForm(forms.ModelForm):
         else:
             self.initial['date'] = date.today()
 
-    def clean(self, *args, **kwargs):
+    def clean(self):
         """Clean data and check validation."""
 
         cleaned_data = super(WorkedHoursForm, self).clean()
 
-        start_time = cleaned_data.get("start_time")
-        end_time = cleaned_data.get("end_time")
-        date = cleaned_data.get("date")
+        cleaned_start_time = cleaned_data.get("start_time")
+        cleaned_end_time = cleaned_data.get("end_time")
+        cleaned_date = cleaned_data.get("date")
 
-        if start_time and end_time and date:
+        if cleaned_start_time and cleaned_end_time and cleaned_date:
             intersect = WorkedHours.objects.filter(
                 employee=self.employee,
-                date=date,
-                start_time__lte=end_time,
-                end_time__gte=start_time
+                date=cleaned_date,
+                start_time__lte=cleaned_end_time,
+                end_time__gte=cleaned_start_time
             )
 
             if self.instance.id:
@@ -93,7 +93,7 @@ class WorkedHoursForm(forms.ModelForm):
                     u'Godziny w danym dniu się nakładają.'
                 )
 
-            if start_time > end_time:
+            if cleaned_start_time > cleaned_end_time:
                 self.add_error(
                     'start_time',
                     u'Czas rozpoczęcia jest później niż czas zakończenia.'

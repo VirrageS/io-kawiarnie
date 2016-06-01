@@ -1,8 +1,8 @@
 from django.conf.urls import url
 from django.contrib import admin
 
-from .views import (hours_edit_worked_hours,
-                    hours_new_worked_hours, hours_edit_position, hours_new_position)
+from .views import (hours_edit_position, hours_edit_worked_hours,
+                    hours_new_position, hours_new_worked_hours)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

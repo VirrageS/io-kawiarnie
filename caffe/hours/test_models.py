@@ -1,12 +1,10 @@
-"""WorkedHurs models tests module."""
+from datetime import date
 
-from django.contrib.auth.models import Group
 from django.test import TestCase
 
-from .models import WorkedHours
 from employees.models import Employee
 
-from datetime import date
+from .models import WorkedHours
 
 
 class WorkedHoursModelTest(TestCase):
@@ -51,21 +49,21 @@ class WorkedHoursModelTest(TestCase):
             employee=self.user1
         )
 
-        worked_hours3 = WorkedHours.objects.create(
+        WorkedHours.objects.create(
             start_time="20:00",
             end_time="21:00",
             date=date.today(),
             employee=self.user1
         )
 
-        self.assertEqual(3, WorkedHours.objects.count())
+        self.assertEqual(WorkedHours.objects.count(), 3)
 
         worked_hours1.delete()
         worked_hours2.delete()
 
-        self.assertEqual(1, WorkedHours.objects.count())
+        self.assertEqual(WorkedHours.objects.count(), 1)
 
-        worked_hours4 = WorkedHours.objects.create(
+        WorkedHours.objects.create(
             start_time="20:30",
             end_time="21:30",
             date=date.today(),

@@ -23,8 +23,8 @@ def hours_edit_position(request, position_pk):
 
     return render(request, 'hours/new_position.html', {
         'form': form,
-        'title': 'Dodaj stanowisko',
-        'button': 'Dodaj'
+        'title': 'Edytuj stanowisko',
+        'button': 'Uaktualnij'
     })
 
 
@@ -41,6 +41,7 @@ def hours_new_position(request):
     all_positions = []
     for position in positions:
         all_positions.append({
+            'id': position.id,
             'desc': position.name,
             'edit_url': reverse('edit_position', args=(position.pk,))
         })
@@ -48,7 +49,7 @@ def hours_new_position(request):
     return render(request, 'hours/new_position.html', {
         'form': form,
         'positions': all_positions,
-        'title': 'Dodaj stanowisko',
+        'title': 'Nowe stanowisko',
         'button': 'Dodaj'
     })
 
@@ -67,17 +68,17 @@ def hours_new_worked_hours(request):
 
     return render(request, 'hours/new_hours.html', {
         'form': form,
-        'title': 'Dodaj przepracowane godziny',
+        'title': 'Nowe przepracowane godziny',
         'button': 'Dodaj'
     })
 
 
-@permission_required('hours.edit_workedhours')
+@permission_required('hours.change_workedhours')
 def hours_edit_worked_hours(request, hours_pk):
-    """Edit WorkedHours with id.
+    """Edit WorkedHours with pk.
 
     Args:
-        hours_id: Id of WorkedHours which we want to get.
+        hours_pk: Pk of WorkedHours which we want to get.
     """
 
     worked_hours = get_object_or_404(WorkedHours, pk=hours_pk)
@@ -93,5 +94,5 @@ def hours_edit_worked_hours(request, hours_pk):
     return render(request, 'hours/new_hours.html', {
         'form': form,
         'title': 'Edytuj przepracowane godziny',
-        'button': 'Uaktulanij'
+        'button': 'Uaktualnij'
     })

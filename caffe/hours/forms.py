@@ -74,24 +74,25 @@ class WorkedHoursForm(forms.ModelForm):
         end_time = cleaned_data.get("end_time")
         date = cleaned_data.get("date")
 
-        intersect = WorkedHours.objects.filter(
-            employee=self.employee,
-            date=date,
-            start_time__lte=end_time,
-            end_time__gte=start_time
-        )
-
-        if self.instance.id:
-            intersect = intersect.exclude(pk=self.instance.pk)
-
-        if intersect.exists() > 0:
-            self.add_error(
-                'date',
-                'Godziny w danym dniu się nakładają.'
+        if start_time and end_time and date:
+            intersect = WorkedHours.objects.filter(
+                employee=self.employee,
+                date=date,
+                start_time__lte=end_time,
+                end_time__gte=start_time
             )
 
-        if start_time > end_time:
-            self.add_error(
-                'start_time',
-                'Czas rozpoczęcia jest później niż czas zakończenia.'
-            )
+            if self.instance.id:
+                intersect = intersect.exclude(pk=self.instance.pk)
+
+            if intersect.exists() > 0:
+                self.add_error(
+                    'date',
+                    'Godziny w danym dniu się nakładają.'
+                )
+
+            if start_time > end_time:
+                self.add_error(
+                    'start_time',
+                    'Czas rozpoczęcia jest później niż czas zakończenia.'
+                )

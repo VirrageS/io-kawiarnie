@@ -9,7 +9,7 @@ class Position(models.Model):
     name = models.CharField(max_length=100, unique=True,)
 
     class Meta:
-        ordering = ('-name',)
+        ordering = ('name',)
         default_permissions = ('add', 'change', 'delete', 'view')
 
     def __str__(self):

@@ -1,5 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.db import models
+
 from employees.models import Employee
 
 
@@ -35,7 +36,7 @@ class WorkedHours(models.Model):
 
     class Meta:
         ordering = ('-date', '-end_time')
-        default_permissions = ('add', 'change', 'delete', 'view')
+        default_permissions = ('add', 'change', 'delete', 'view', 'change_all')
 
     def serialize(self):
         """Serialize model to dictionary.

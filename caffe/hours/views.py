@@ -2,7 +2,7 @@
 
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
-from django.http import JsonResponse
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import WorkedHoursForm, PositionForm
@@ -84,13 +84,18 @@ def hours_edit_worked_hours(request, hours_pk):
     """
 
     worked_hours = get_object_or_404(WorkedHours, pk=hours_pk)
-    form = WorkedHoursForm(request.POST or None, employee=request.user, instance=worked_hours)
+    if ((worked_hours.employee != request.user) and
+        (not request.user.has_perm('hours.change_all_workedhours'))):
+        raise Http404(u'Nie możesz edytować tych godzin.')
+
+    form = WorkedHoursForm(
+        request.POST or None,
+        employee=worked_hours.employee,
+        instance=worked_hours
+    )
 
     if form.is_valid():
-        hours = form.save(commit=False)
-        hours.employee = request.user
-        hours.save()
-
+        form.save()
         return redirect(reverse('caffe_navigate'))
 
     return render(request, 'hours/new_hours.html', {

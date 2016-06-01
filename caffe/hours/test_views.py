@@ -211,6 +211,29 @@ class WorkedHoursViewsTests(TestCase):
             Permission.objects.get(codename='view_workedhours'),
         )
 
+        self.user_second = Employee.objects.create_user(
+            username='admin1',
+            password='admin1'
+        )
+        self.user_second.save()
+        self.user_second.user_permissions.add(
+            Permission.objects.get(codename='add_workedhours'),
+            Permission.objects.get(codename='change_workedhours'),
+            Permission.objects.get(codename='view_workedhours'),
+        )
+
+        self.admin = Employee.objects.create_user(
+            username='sadmin',
+            password='sadmin'
+        )
+        self.admin.save()
+        self.admin.user_permissions.add(
+            Permission.objects.get(codename='add_workedhours'),
+            Permission.objects.get(codename='change_workedhours'),
+            Permission.objects.get(codename='view_workedhours'),
+            Permission.objects.get(codename='change_all_workedhours'),
+        )
+
         self.client.login(username='admin', password='admin')
 
         self.worked_hours_main.employee = self.user
@@ -272,6 +295,7 @@ class WorkedHoursViewsTests(TestCase):
         new_worked_hours = WorkedHours.objects.get(start_time='21:00')
         self.assertIsNotNone(new_worked_hours)
         self.assertIsInstance(new_worked_hours, WorkedHours)
+        self.assertEqual(new_worked_hours.employee, self.user)
 
     def test_edit_workedhours_show(self):
         """Check if edit WorkedHours view is displayed properly."""
@@ -332,6 +356,50 @@ class WorkedHoursViewsTests(TestCase):
         })
         self.assertTemplateUsed(response, 'hours/new_hours.html')
 
+    def test_edit_workedhours_denied_access(self):
+        """Check if edit WorkedHours fails if someone else try to modify."""
+
+        self.client.login(username='admin1', password='admin1')
+
+        response = self.client.post(
+            reverse('edit_worked_hours', args=(self.worked_hours_main.pk,)),
+            {
+                'start_time': '21:00',
+                'end_time': '22:00',
+                'date': '31.05.2016',
+                'position': self.barista.id
+            },
+            follow=True
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_edit_workedhours_admin_access(self):
+        """Check if edit WorkedHours successes if admin try to modify."""
+
+        self.client.login(username='sadmin', password='sadmin')
+
+        response = self.client.post(
+            reverse('edit_worked_hours', args=(self.worked_hours_main.pk,)),
+            {
+                'start_time': '21:00',
+                'end_time': '22:00',
+                'date': '31.05.2016',
+                'position': self.barista.id
+            },
+            follow=True
+        )
+
+        self.assertRedirects(response, reverse('caffe_navigate'))
+
+        # check if WorkedHours has changed
+        worked_hours = WorkedHours.objects.get(pk=self.worked_hours_main.pk)
+        self.assertEqual(worked_hours.start_time, time(21, 0))
+        self.assertEqual(worked_hours.end_time, time(22, 0))
+        self.assertEqual(worked_hours.date, date(2016, 5, 31))
+        self.assertEqual(worked_hours.position, self.barista)
+        self.assertEqual(worked_hours.employee, self.user)
+
     def test_edit_workedhours_post_success(self):
         """Check if edit WorkedHours successes to edit when form is valid."""
 
@@ -354,3 +422,4 @@ class WorkedHoursViewsTests(TestCase):
         self.assertEqual(worked_hours.end_time, time(22, 0))
         self.assertEqual(worked_hours.date, date(2016, 5, 31))
         self.assertEqual(worked_hours.position, self.barista)
+        self.assertEqual(worked_hours.employee, self.user)

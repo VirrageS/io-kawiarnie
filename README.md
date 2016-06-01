@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/VirrageS/io-kawiarnie.svg?branch=master)](https://travis-ci.org/VirrageS/io-kawiarnie)
 [![Code Health](https://landscape.io/github/VirrageS/io-kawiarnie/master/landscape.svg?style=flat)](https://landscape.io/github/VirrageS/io-kawiarnie/master)
 [![Coverage Status](https://coveralls.io/repos/github/VirrageS/io-kawiarnie/badge.svg?branch=master)](https://coveralls.io/github/VirrageS/io-kawiarnie?branch=master)
+[![Code Issues](https://www.quantifiedcode.com/api/v1/project/b312147765aa43fba60a38df7c012019/badge.svg)](https://www.quantifiedcode.com/app/project/b312147765aa43fba60a38df7c012019)
 
 ## Workflow
 

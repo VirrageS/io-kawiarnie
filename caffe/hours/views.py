@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse
@@ -23,8 +25,8 @@ def hours_edit_position(request, position_pk):
 
     return render(request, 'hours/new_position.html', {
         'form': form,
-        'title': 'Edytuj stanowisko',
-        'button': 'Uaktualnij'
+        'title': u'Edytuj stanowisko',
+        'button': u'Uaktualnij'
     })
 
 
@@ -49,8 +51,8 @@ def hours_new_position(request):
     return render(request, 'hours/new_position.html', {
         'form': form,
         'positions': all_positions,
-        'title': 'Nowe stanowisko',
-        'button': 'Dodaj'
+        'title': u'Nowe stanowisko',
+        'button': u'Dodaj'
     })
 
 
@@ -68,8 +70,8 @@ def hours_new_worked_hours(request):
 
     return render(request, 'hours/new_hours.html', {
         'form': form,
-        'title': 'Nowe przepracowane godziny',
-        'button': 'Dodaj'
+        'title': u'Nowe przepracowane godziny',
+        'button': u'Dodaj'
     })
 
 
@@ -93,6 +95,6 @@ def hours_edit_worked_hours(request, hours_pk):
 
     return render(request, 'hours/new_hours.html', {
         'form': form,
-        'title': 'Edytuj przepracowane godziny',
-        'button': 'Uaktualnij'
+        'title': u'Edytuj przepracowane godziny',
+        'button': u'Uaktualnij'
     })

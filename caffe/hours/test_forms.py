@@ -1,14 +1,13 @@
-"""Reports forms tests module."""
 # -*- encoding: utf-8 -*-
+
+from datetime import date, timedelta
 
 from django.test import TestCase
 
-from .forms import WorkedHoursForm
-from .models import WorkedHours
-
 from employees.models import Employee
 
-from datetime import date, timedelta
+from .forms import WorkedHoursForm
+from .models import Position, WorkedHours
 
 
 class WorkedHoursFormTest(TestCase):
@@ -35,22 +34,62 @@ class WorkedHoursFormTest(TestCase):
             favorite_coffee="Rozpuszczalna"
         )
 
+        self.barista = Position.objects.create(name='Barista')
+        self.cleaning = Position.objects.create(name='Sprzątanie')
+
     def test_workedhours(self):
         """Check validation - should pass."""
-        form_correct = WorkedHoursForm({
-            'start_time': "15:00",
-            'end_time': "16:00",
-            'date': date.today()
-        })
+
+        form_correct = WorkedHoursForm(
+            {
+                'start_time': "15:00",
+                'end_time': "16:00",
+                'date': date.today(),
+                'position': self.barista.id
+            },
+            employee=self.user1
+        )
 
         self.assertTrue(form_correct.is_valid())
         form_correct.save()
 
-        form_correct = WorkedHoursForm({
-            'start_time': "15:30",
-            'end_time': "16:50",
-            'date': date.today() - timedelta(1)
-        })
+        form_correct = WorkedHoursForm(
+            {
+                'start_time': "15:30",
+                'end_time': "16:50",
+                'date': date.today() - timedelta(1),
+                'position': self.barista.id
+            },
+            employee=self.user1
+        )
+
+        self.assertTrue(form_correct.is_valid())
+        form_correct.save()
+
+    def test_workedhours_two_employees(self):
+        """Test WorkedHours forms for two employees."""
+        form_correct = WorkedHoursForm(
+            {
+                'start_time': "15:00",
+                'end_time': "16:00",
+                'date': date.today(),
+                'position': self.barista.id
+            },
+            employee=self.user1
+        )
+
+        self.assertTrue(form_correct.is_valid())
+        form_correct.save()
+
+        form_correct = WorkedHoursForm(
+            {
+                'start_time': "15:30",
+                'end_time': "16:50",
+                'date': date.today(),
+                'position': self.barista.id
+            },
+            employee=self.user2
+        )
 
         self.assertTrue(form_correct.is_valid())
         form_correct.save()
@@ -61,17 +100,18 @@ class WorkedHoursFormTest(TestCase):
         form_correct = WorkedHoursForm({
             'start_time': "15:00",
             'end_time': "16:00",
-            'date': date.today()
+            'date': date.today(),
+            'position': self.barista.id
         })
 
         self.assertTrue(form_correct.is_valid())
         form_correct.save()
 
-
         form_incorrect = WorkedHoursForm({
             'start_time': "14:50",
             'end_time': "14:30",
-            'date': date.today()
+            'date': date.today(),
+            'position': self.barista.id
         })
 
         self.assertFalse(form_incorrect.is_valid())
@@ -82,19 +122,20 @@ class WorkedHoursFormTest(TestCase):
         form_incorrect = WorkedHoursForm({
             'start_time': "15:30",
             'end_time': "16:30",
-            'date': date.today()
+            'date': date.today(),
+            'position': self.barista.id
         })
 
         self.assertFalse(form_incorrect.is_valid())
 
         with self.assertRaises(Exception):
             form_incorrect.save()
-
 
         form_incorrect = WorkedHoursForm({
             'start_time': "14:30",
             'end_time': "17:30",
-            'date': date.today()
+            'date': date.today(),
+            'position': self.barista.id
         })
 
         self.assertFalse(form_incorrect.is_valid())
@@ -102,11 +143,23 @@ class WorkedHoursFormTest(TestCase):
         with self.assertRaises(Exception):
             form_incorrect.save()
 
-
         form_incorrect = WorkedHoursForm({
             'start_time': "15:30",
             'end_time': "15:40",
-            'date': date.today()
+            'date': date.today(),
+            'position': self.barista.id
+        })
+
+        self.assertFalse(form_incorrect.is_valid())
+
+        with self.assertRaises(Exception):
+            form_incorrect.save()
+
+        form_incorrect = WorkedHoursForm({
+            'start_time': "20:30",
+            'end_time': "21:40",
+            'date': date.today(),
+            'position': ''
         })
 
         self.assertFalse(form_incorrect.is_valid())

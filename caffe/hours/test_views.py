@@ -191,8 +191,6 @@ class WorkedHoursViewsTests(TestCase):
 
         self.barista = Position.objects.create(name='Barista')
         self.cleaning = Position.objects.create(name='Sprzątanie')
-        self.barista.save()
-        self.cleaning.save()
 
         self.worked_hours_main = WorkedHours(
             start_time='12:30',

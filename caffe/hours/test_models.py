@@ -4,7 +4,59 @@ from django.test import TestCase
 
 from employees.models import Employee
 
-from .models import WorkedHours
+from .models import WorkedHours, Position
+
+class PositionModelTest(TestCase):
+    """Position model tests."""
+
+    def test_create(self):
+        """Test if Position create succeded."""
+
+        position1 = Position.objects.create(
+            name="Zmywak"
+        )
+
+        position2 = Position.objects.create(
+            name="Kasa"
+        )
+
+        position3 = Position.objects.create(
+            name="Kelner"
+        )
+
+        self.assertEqual(Position.objects.count(), 3)
+
+        position3.delete()
+
+        self.assertEqual(Position.objects.count(), 2)
+
+        position3 = Position.objects.create(
+            name="Kelner"
+        )
+
+        self.assertEqual(Position.objects.count(), 3)
+
+    def test_create_fail(self):
+        """Test if Position create failed."""
+
+        position1 = Position.objects.create(
+            name="Zmywak"
+        )
+
+        with self.assertRaises(Exception):
+            position2 = Position.objects.create(
+                name="Zmywak"
+            )
+
+        with self.assertRaises(Exception):
+            position2 = Position.objects.create(
+                name=""
+            )
+
+        with self.assertRaises(Exception):
+            position2 = Position.objects.create(
+                name=31321
+            )
 
 
 class WorkedHoursModelTest(TestCase):

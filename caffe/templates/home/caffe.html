@@ -5,4 +5,92 @@ Kawiarnia
 {% endblock %}
 
 {% block content %}
+
+<section class="cards cards-green">
+  <h2 class="card-subtitle">
+    Stwórz
+  </h2>
+
+  <a href="{% url 'reports_new_report' %}" class="card">
+    <i class="fa fa-percent" aria-hidden="true"></i>
+    Raport
+  </a>
+  <a href="" class="card">
+    <i class="fa fa-columns" aria-hidden="true"></i>
+      Raporty z kasy
+  </a>
+  <a href="{% url 'new_worked_hours' %}" class="modaal card">
+    <i class="fa fa-edit" aria-hidden="true"></i>
+    Przepracowane godziny
+  </a>
+</section>
+
+<div class="subtitle">
+  Raporty
+</div>
+<section class="reports">
+  {% for report in reports %}
+    <div class="report">
+      <a href="{% url 'reports_show_report' report.id %}" class="meta">
+        {{ report.created_on }}
+      </a>
+
+      <a href="{% url 'reports_show_report' report.id %}" class="button button-rounded button-blue button-with-icon">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <span>
+          Pokaż raport
+        </span>
+      </a>
+    </div>
+  {% endfor %}
+</section>
+
+<div class="subtitle">
+  Raporty z kasy
+</div>
+<section class="cash-reports">
+  {% for report in cash_reports %}
+    <div class="cash-report">
+      <a href="{% url 'show_cash_report' report.id %}" class="cash-report__smeta">
+        {{ report.created_on }}
+      </a>
+
+      <a href="{% url 'show_cash_report' report.id %}" class="button button-rounded button-blue button-with-icon">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <span>
+          Pokaż raport z kasy
+        </span>
+      </a>
+    </div>
+  {% endfor %}
+</section>
+
+
+<div class="subtitle">
+  Przepracowane godziny
+</div>
+<section id="worked-hours">
+  <table>
+    <thead>
+      <tr>
+        <th>Kto</th>
+        <th>Od której</th>
+        <th>Do której</th>
+        <th>Stanowisko</th>
+        <th>Edytuj</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for hour in worked_hours %}
+        <tr>
+          <td>{{ hour.employee.name }}</td>
+          <td>{{ hour.start_time }}</td>
+          <td>{{ hour.end_time }}</td>
+          <td></td>
+          <td class="table__cell--center icon edit"><a href="{% url 'edit_worked_hours' hour.id %}"><i class="fa fa-pencil"></i></a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
 {% endblock %}

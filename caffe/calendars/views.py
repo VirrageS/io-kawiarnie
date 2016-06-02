@@ -3,6 +3,7 @@ import datetime
 from django.shortcuts import render
 
 from reports.models import Report
+from hours.models import WorkedHours
 
 
 def calendar_navigate(request):
@@ -20,8 +21,15 @@ def calendar_show_day(request, day, month, year):
         created_on__day=day
     ).all()
 
+    worked_hours = WorkedHours.objects.filter(
+        date__year=year,
+        date__month=month,
+        date__day=day
+    ).all()
+
     return render(request, 'calendar/day.html', {
         'reports': reports,
+        'worked_hours': worked_hours,
         'date': {
             'year': year,
             'month': month,

@@ -31,6 +31,10 @@ class PositionViewsTests(TestCase):
             Permission.objects.get(codename='add_position'),
             Permission.objects.get(codename='change_position'),
             Permission.objects.get(codename='view_position'),
+
+            Permission.objects.get(codename='view_report'),
+            Permission.objects.get(codename='view_cashreport'),
+            Permission.objects.get(codename='view_workedhours'),
         )
 
         self.client.login(username='admin', password='admin')

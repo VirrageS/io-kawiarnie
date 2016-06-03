@@ -12,9 +12,10 @@ from reports.models import Report
 
 
 class CalendarViewsTests(TestCase):
+    """Test all Calendar views."""
 
     def setUp(self):
-        """Initialize all Company needed in tests."""
+        """Initialize all models needed in tests."""
 
         self.client = Client()
 

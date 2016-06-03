@@ -1,14 +1,14 @@
-from datetime import datetime, date
-from django.utils import timezone
+from datetime import date, datetime
 
-from django.test import Client, TestCase
-
-from cash.models import CashReport
-from hours.models import WorkedHours, Position
-from reports.models import Report
-from employees.models import Employee
 from django.contrib.auth.models import Permission
 from django.core.urlresolvers import reverse
+from django.test import Client, TestCase
+from django.utils import timezone
+
+from cash.models import CashReport
+from employees.models import Employee
+from hours.models import Position, WorkedHours
+from reports.models import Report
 
 
 class CalendarViewsTests(TestCase):

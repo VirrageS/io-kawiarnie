@@ -52,7 +52,9 @@ Dokument specyfikacji wymagań.
 
 ### Iteracja 2
 
-**Zakres**: Możliwość tworzenia i edytowania szablonów raportów. Możliwość tworzenia raportu z wcześniej stworzonego szablonu (np. szablonu "porannego", "wieczornego" czy "w ciągu dnia").
+**Zakres**: Możliwość tworzenia i edytowania szablonów raportów.
+Możliwość tworzenia raportu z wcześniej stworzonego szablonu
+(np. szablonu "porannego", "wieczornego" czy "w ciągu dnia").
 
 **Deadline**: 03/05
 
@@ -65,9 +67,9 @@ Architektura (widok logiki, widok fizyczny wdrażania).
 
 ### Iteracja 4
 
-**Zakres**: Dostęp do wszystkich raportów przez admina; Możliwość dostępu
-do informacji o każdym pracowniku: godziny przepracowane, historia raportów,
-różnice z kasy.
+**Zakres**: Dostęp do wszystkich raportów przez admina. Kalendarz - możliwość
+dostępu do informacji w każdym dniu: godziny przepracowane, raporty,
+raporty z kasy.
 
 **Deadline**: 03/06
 

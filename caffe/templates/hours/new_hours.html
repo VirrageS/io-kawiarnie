@@ -1,0 +1,41 @@
+{% extends "home/base.html" %}
+{% load tags %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+<form method="POST" class="element-form">
+  {% csrf_token %}
+
+  <div class="input-line">
+    {{ form.start_time }}
+    {{ form.start_time.label_tag }}
+  </div>
+  {{ form.start_time.errors }}
+
+  <div class="input-line">
+    {{ form.end_time }}
+    {{ form.end_time.label_tag }}
+  </div>
+  {{ form.end_time.errors }}
+
+  <div class="input-line">
+    {{ form.date }}
+    {{ form.date.label_tag }}
+  </div>
+  {{ form.date.errors }}
+
+  <div class="input-line">
+    <div class="select-wrapper">
+      {{ form.position }}
+    </div>
+
+    {{ form.position.label_tag }}
+  </div>
+  {{ form.position.errors }}
+
+  <button type="submit" class="button button-rounded button-green">{{ button }}</button>
+</form>
+{% endblock %}

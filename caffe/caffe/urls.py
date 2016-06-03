@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'employees/', include('employees.urls')),
     url(r'statistics/', include('stats.urls')),
     url(r'calendar/', include('calendars.urls')),
-    url(r'cash/', include('cash.urls')),
+    url(r'hours/', include('hours.urls')),
 ]

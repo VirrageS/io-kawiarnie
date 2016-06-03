@@ -16,9 +16,13 @@ class PositionModelTest(TestCase):
             name="Zmywak"
         )
 
+        position1.save()
+
         position2 = Position.objects.create(
             name="Kasa"
         )
+
+        position2.save()
 
         position3 = Position.objects.create(
             name="Kelner"
@@ -43,18 +47,20 @@ class PositionModelTest(TestCase):
             name="Zmywak"
         )
 
+        position1.save()
+
         with self.assertRaises(Exception):
-            position2 = Position.objects.create(
+            Position.objects.create(
                 name="Zmywak"
             )
 
         with self.assertRaises(Exception):
-            position2 = Position.objects.create(
+            Position.objects.create(
                 name=""
             )
 
         with self.assertRaises(Exception):
-            position2 = Position.objects.create(
+            Position.objects.create(
                 name=31321
             )
 

@@ -1,20 +1,21 @@
-from datetime import datetime, date
-from django.utils import timezone
+from datetime import date, datetime
 
-from django.test import Client, TestCase
-
-from cash.models import CashReport
-from hours.models import WorkedHours, Position
-from reports.models import Report
-from employees.models import Employee
 from django.contrib.auth.models import Permission
 from django.core.urlresolvers import reverse
+from django.test import Client, TestCase
+from django.utils import timezone
+
+from cash.models import CashReport
+from employees.models import Employee
+from hours.models import Position, WorkedHours
+from reports.models import Report
 
 
 class CaffeViewsTests(TestCase):
+    """Test all views of the caffe."""
 
     def setUp(self):
-        """Initialize all Company needed in tests."""
+        """Initialize all Caffe needed in tests."""
 
         self.client = Client()
 
@@ -80,9 +81,8 @@ class CaffeViewsTests(TestCase):
         self.worked_hours_minor.save()
 
     def test_caffe_navigate(self):
-        """Check if calendar show day view is displayed properly."""
+        """Check if caffe view (today view) is displayed properly."""
 
-        today = date.today()
         response = self.client.get(reverse('caffe_navigate'))
 
         self.assertEqual(response.status_code, 200)

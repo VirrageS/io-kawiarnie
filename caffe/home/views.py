@@ -1,7 +1,6 @@
 from datetime import date
 
 from django.contrib.auth.decorators import permission_required
-from django.core.urlresolvers import reverse
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 

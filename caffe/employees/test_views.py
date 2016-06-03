@@ -23,6 +23,12 @@ class EmployeeViewsTests(TestCase):
             telephone_number=324092342,
             favorite_coffee='kawa'
         )
+        self.emp1.user_permissions.add(
+            Permission.objects.get(codename='view_report'),
+            Permission.objects.get(codename='view_cashreport'),
+            Permission.objects.get(codename='view_workedhours'),
+        )
+
         self.emp2 = Employee.objects.create_user(
             username='szkarta',
             password='pass',
@@ -44,6 +50,10 @@ class EmployeeViewsTests(TestCase):
             Permission.objects.get(codename='add_employee'),
             Permission.objects.get(codename='change_employee'),
             Permission.objects.get(codename='view_employee'),
+
+            Permission.objects.get(codename='view_report'),
+            Permission.objects.get(codename='view_cashreport'),
+            Permission.objects.get(codename='view_workedhours'),
         )
 
         self.client.login(username='admin', password='admin')

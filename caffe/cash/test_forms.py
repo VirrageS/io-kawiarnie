@@ -2,9 +2,7 @@
 
 from django.test import TestCase
 
-from employees.models import Employee
-
-from .forms import CompanyForm, ExpenseForm, FullExpenseForm, CashReportForm
+from .forms import CashReportForm, CompanyForm, ExpenseForm, FullExpenseForm
 from .models import Company, Expense
 
 

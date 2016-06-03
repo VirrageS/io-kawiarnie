@@ -2,7 +2,7 @@
 
 from django import forms
 
-from .models import Company, Expense, FullExpense, CashReport
+from .models import CashReport, Company, Expense, FullExpense
 
 
 class CompanyForm(forms.ModelForm):

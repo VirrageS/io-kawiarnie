@@ -4,7 +4,8 @@ from django.test import TestCase
 
 from employees.models import Employee
 
-from .models import WorkedHours, Position
+from .models import Position, WorkedHours
+
 
 class PositionModelTest(TestCase):
     """Position model tests."""

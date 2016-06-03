@@ -5,8 +5,8 @@ from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import WorkedHoursForm, PositionForm
-from .models import WorkedHours, Position
+from .forms import PositionForm, WorkedHoursForm
+from .models import Position, WorkedHours
 
 
 def hours_edit_position(request, position_pk):

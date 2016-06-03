@@ -9,6 +9,7 @@ from django.test import Client, TestCase
 
 from employees.models import Employee
 from reports.models import Category, Product, Report, Unit
+
 from .forms import StencilForm
 from .models import Stencil
 

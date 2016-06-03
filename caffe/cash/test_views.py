@@ -1,15 +1,17 @@
+"""Testing module for Cash views."""
 # -*- encoding: utf-8 -*-
 # pylint: disable=C0103,R0902
 
-import collections
 
 from django.contrib.auth.models import Permission
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 
 from employees.models import Employee
+
 from .forms import CashReportForm, CompanyForm, ExpenseForm
 from .models import CashReport, Company, Expense, FullExpense
+
 
 class CompanyViewsTests(TestCase):
     """Test all views of the Company model."""
@@ -415,7 +417,6 @@ class CashReportViewTests(TestCase):
             expense=self.cakes,
             amount=200
         )
-
 
         self.full_cakes_second = FullExpense.objects.create(
             expense=self.cakes,

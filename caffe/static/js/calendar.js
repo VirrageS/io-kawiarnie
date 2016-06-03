@@ -75,7 +75,7 @@
       tmpDate.subtract(1, 'day');
       days.push({
         'day': tmpDate.format('D'),
-        'date': tmpDate.format('DD-MM-YYYY'),
+        'date': tmpDate.format('YYYY/MM/DD'),
         'class': 'table__cell--disabled'
       });
     }
@@ -86,7 +86,7 @@
     _.times(month.daysInMonth(), function() {
       days.push({
         'day': tmpDate.format('D'),
-        'date': tmpDate.format('DD-MM-YYYY'),
+        'date': tmpDate.format('YYYY/MM/DD'),
         'class': (tmpDate.diff(moment().startOf('day'), 'days') == 0 ? 'table__cell--highlight' : '')
       });
 
@@ -97,7 +97,7 @@
     while (days.length % 7 != 0) {
       days.push({
         'day': tmpDate.format('D'),
-        'date': tmpDate.format('DD-MM-YYYY'),
+        'date': tmpDate.format('YYYY/MM/DD'),
         'class': 'table__cell--disabled'
       });
 

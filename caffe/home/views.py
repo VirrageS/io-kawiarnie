@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
@@ -9,6 +10,8 @@ from hours.models import WorkedHours
 from reports.models import Report
 
 
+@permission_required('hours.view_workedhours', 'reports.view_report',
+                     'cash.view_cashreport')
 def caffe_navigate(request):
     """Show main page."""
 
@@ -22,11 +25,11 @@ def caffe_navigate(request):
         created_on__day=day
     ).all()
 
-    # cash_reports = CashReport.objects.filter(
-    #     created_on__year=year,
-    #     created_on__month=month,
-    #     created_on__day=day
-    # ).all()
+    cash_reports = CashReport.objects.filter(
+        created_on__year=year,
+        created_on__month=month,
+        created_on__day=day
+    ).all()
 
     worked_hours = WorkedHours.objects.filter(
         date__year=year,
@@ -34,12 +37,9 @@ def caffe_navigate(request):
         date__day=day
     ).all()
 
-    worked_hours = [hours.serialize() for hours in worked_hours]
-
     return render(request, 'home/caffe.html', {
-        'hours_add_url': reverse('new_worked_hours'),
         'reports': reports,
-        # 'cash_reports': cash_reports,
+        'cash_reports': cash_reports,
         'worked_hours': worked_hours
     })
 

@@ -1,0 +1,48 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Kasa
+{% endblock %}
+
+{% block content %}
+<section class="cards cards-primary">
+  <a href="{% url 'new_cash_report' %}" class="card">
+    <i class="fa fa-money" aria-hidden="true"></i>
+    Nowy raport z kasy
+  </a>
+</section>
+
+<section class="cards cards-green">
+  <h2 class="card-subtitle">
+    Tworzenie elementów raportu z kasy
+  </h2>
+
+  <a href="{% url 'cash_new_company' %}" class="card">
+    <i class="fa fa-building-o" aria-hidden="true"></i>
+    Firma
+  </a>
+  <a href="{% url 'cash_new_expense' %}" class="card">
+    <i class="fa fa-dollar" aria-hidden="true"></i>
+    Wydatki
+  </a>
+</section>
+
+<section class="cards cards-red">
+  <h2 class="card-subtitle">
+    Podgląd i edycja
+  </h2>
+
+  <a href="{% url 'show_all_cash_reports' %}" class="card">
+    <i class="fa fa-money" aria-hidden="true"></i>
+    Raporty z kasy
+  </a>
+  <a href="{% url 'cash_new_company' %}" class="card">
+    <i class="fa fa-building-o" aria-hidden="true"></i>
+    Firmy
+  </a>
+  <a href="{% url 'cash_new_expense' %}" class="card">
+    <i class="fa fa-dollar" aria-hidden="true"></i>
+    Wydatki
+  </a>
+</section>
+{% endblock %}

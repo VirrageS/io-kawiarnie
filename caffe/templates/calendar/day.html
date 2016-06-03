@@ -5,9 +5,63 @@ Dzień {{ date.day }}-{{ date.month }}-{{ date.year }}
 {% endblock %}
 
 {% block content %}
-<section class="day">
-{% for report in reports %}
-  {{ report.created_on }}
-{% endfor %}
+<div class="subtitle">
+  Raporty
+</div>
+<section class="reports">
+  {% for report in reports %}
+    <div class="report">
+      <a href="{% url 'reports_show_report' report.id %}" class="meta">
+        {{ report.created_on }}
+      </a>
+
+      <a href="{% url 'reports_show_report' report.id %}" class="button button-rounded button-blue button-with-icon">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <span>
+          Pokaż raport
+        </span>
+      </a>
+    </div>
+  {% endfor %}
+</section>
+
+<div class="subtitle">
+  Raporty z kasy
+</div>
+<section class="cash-reports">
+  {% for report in cash_reports %}
+    <div class="cash-report">
+      <a href="{% url 'show_cash_report' report.id %}" class="cash-report__smeta">
+        {{ report.created_on }}
+      </a>
+
+      <a href="{% url 'show_cash_report' report.id %}" class="button button-rounded button-blue button-with-icon">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <span>
+          Pokaż raport z kasy
+        </span>
+      </a>
+    </div>
+  {% endfor %}
+</section>
+
+
+<div class="subtitle">
+  Przepracowane godziny
+</div>
+<section>
+  <table>
+    <thead>
+      <tr>
+        <th>Kto</th>
+        <th>Od której</th>
+        <th>Do której</th>
+        <th>Stanowisko</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
 </section>
 {% endblock %}

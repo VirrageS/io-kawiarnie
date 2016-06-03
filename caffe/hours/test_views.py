@@ -1,12 +1,14 @@
-from datetime import time, date
+from datetime import date, time
 
 from django.contrib.auth.models import Permission
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 
 from employees.models import Employee
+
 from .forms import PositionForm, WorkedHoursForm
 from .models import Position, WorkedHours
+
 
 class PositionViewsTests(TestCase):
     """Test all views of the Position model."""

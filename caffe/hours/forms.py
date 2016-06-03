@@ -3,7 +3,9 @@
 from datetime import date
 
 from django import forms
-from .models import WorkedHours, Position
+
+from .models import Position, WorkedHours
+
 
 class PositionForm(forms.ModelForm):
     """Responsible for checking Position model."""

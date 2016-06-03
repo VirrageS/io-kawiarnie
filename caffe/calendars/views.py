@@ -2,8 +2,8 @@ import datetime
 
 from django.shortcuts import render
 
-from reports.models import Report
 from hours.models import WorkedHours
+from reports.models import Report
 
 
 def calendar_navigate(request):

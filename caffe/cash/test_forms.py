@@ -41,7 +41,7 @@ class ExpenseFormTest(TestCase):
         self.company = Company.objects.create(name='GoodCake')
 
     def test_validation(self):
-        """Checks validation."""
+        """Check validation."""
 
         empty_name_expense = ExpenseForm({
             'name': '',

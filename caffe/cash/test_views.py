@@ -437,7 +437,6 @@ class CashReportViewTests(TestCase):
 
         self.client.login(username='admin', password='admin')
 
-
         self.cash_report_main = CashReport(
             cash_before_shift=1000,
             cash_after_shift=1200,

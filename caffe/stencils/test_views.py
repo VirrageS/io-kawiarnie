@@ -18,7 +18,7 @@ class StencilViewTests(TestCase):
     """Tests views for Stencil model."""
 
     @classmethod
-    def compare_stencils(self, stencil1, stencil2):
+    def compare_stencils(cls, stencil1, stencil2):
         """Comapre 2 stencils.
 
         Args: stencil1, stencil2
@@ -29,8 +29,8 @@ class StencilViewTests(TestCase):
         cat2 = stencil2.categories.all()
 
         if (stencil1.name != stencil2.name or
-            stencil1.description != stencil2.description or
-            collections.Counter(cat1) != collections.Counter(cat2)):
+                stencil1.description != stencil2.description or
+                collections.Counter(cat1) != collections.Counter(cat2)):
             return False
 
         return True

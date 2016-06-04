@@ -1,3 +1,7 @@
+.alerts
+  display: block
+  margin: 30px auto
+
 @mixin alert-base
   +transition(all 0.3s)
   box-sizing: border-box
@@ -6,7 +10,7 @@
   font-size: 0.95rem
   background-color: $white-color
   padding: 0em 1.5em
-  margin: 0 auto
+  margin: 5px auto
   border-width: 2px
   border-style: solid
   line-height: 36px
@@ -78,7 +82,7 @@
   &.alert-blue
     +alert-color($white-color, $blue-color)
 
-  &.alert-red
+  &.alert-red, &.error
     +alert-color($white-color, $red-color)
 
   &.alert-orange

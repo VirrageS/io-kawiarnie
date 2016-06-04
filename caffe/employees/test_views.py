@@ -115,7 +115,7 @@ class EmployeeViewsTests(TestCase):
         self.assertEqual(len(response.context['employees']), 3)
 
     def test_edit_employees_fail(self):
-        """Checks if editing fails on wrong data."""
+        """Check if editing fails on wrong data."""
 
         response = self.client.post(
             reverse('edit_employee', args=(self.emp1.id,)),

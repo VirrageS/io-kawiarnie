@@ -28,6 +28,7 @@ class PositionForm(forms.ModelForm):
 
 class WorkedHoursForm(forms.ModelForm):
     """Responsible for setting up WorkedHours model."""
+
     start_time = forms.TimeField(
         label=u'Godzina rozpoczęcia',
         widget=forms.TimeInput(

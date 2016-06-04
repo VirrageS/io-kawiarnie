@@ -105,6 +105,11 @@ class EmployeeViewsTests(TestCase):
 
         self.assertRedirects(response, reverse('employees_navigate'))
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         # check if employee has changed
         employee = Employee.objects.get(id=self.emp1.id)
         self.assertEqual(employee.username, u'kolega')
@@ -129,6 +134,11 @@ class EmployeeViewsTests(TestCase):
             },
             follow=True
         )
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+        self.assertTrue("niepoprawnie" in messages[0].message)
 
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())
@@ -184,6 +194,11 @@ class EmployeeViewsTests(TestCase):
 
         self.assertRedirects(response, reverse('employees_navigate'))
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         # check if new employee is displayed
         response = self.client.get(reverse('show_all_employees'))
         self.assertEqual(response.status_code, 200)
@@ -221,6 +236,11 @@ class EmployeeViewsTests(TestCase):
             },
             follow=True
         )
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+        self.assertTrue("niepoprawnie" in messages[0].message)
 
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())

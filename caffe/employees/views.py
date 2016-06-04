@@ -56,9 +56,13 @@ def employees_delete_employee(request, employee_id):
     """Delete an employee."""
 
     employee = get_object_or_404(Employee, id=employee_id)
-    employee.delete()
 
-    messages.success(request, 'Pracownik został poprawnie usunięty.')
+    if employee == request.user:
+        messages.error(request, u'Nie możesz usunąć siebie.')
+        return redirect(reverse('employees_navigate'))
+
+    employee.delete()
+    messages.success(request, u'Pracownik został poprawnie usunięty.')
     return redirect(reverse('employees_navigate'))
 
 

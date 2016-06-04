@@ -270,6 +270,24 @@ class EmployeeViewsTests(TestCase):
         with self.assertRaises(Employee.DoesNotExist):
             Employee.objects.get(id=self.emp1.id)
 
+    def test_delete_employee_fail(self):
+        """Check if deleting employees works as intended."""
+
+        response = self.client.post(
+            reverse('delete_employee', args=(self.user.id,)),
+            follow=True
+        )
+
+        self.assertRedirects(response, reverse('employees_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+
+        # try to get deleted employee
+        employee = Employee.objects.get(id=self.user.id)
+        self.assertIsNotNone(employee)
+
     def test_delete_employee_404(self):
         """Check if 404 is displayed when employee does not exists."""
 

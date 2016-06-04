@@ -128,3 +128,5 @@ STATICFILES_DIRS = (
 AUTH_USER_MODEL = 'employees.Employee'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/employees/login/'
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'

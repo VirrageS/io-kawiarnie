@@ -2,7 +2,8 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
-from employees.views import (employees_edit_employee,
+from employees.views import (employees_delete_employee,
+                             employees_edit_employee,
                              employees_logout_employee, employees_navigate,
                              employees_new_employee,
                              employees_show_all_employees)
@@ -20,5 +21,7 @@ urlpatterns = [
     url(r'^new/$', employees_new_employee, name='new_employee'),
     url(r'^edit/(?P<employee_id>\d{0,17})/$',
         employees_edit_employee, name='edit_employee'),
+    url(r'^delete/(?P<employee_id>\d{0,17})/$',
+        employees_delete_employee, name='delete_employee'),
     url(r'^all/$', employees_show_all_employees, name='show_all_employees'),
 ]

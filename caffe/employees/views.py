@@ -4,6 +4,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
 
 from .forms import EmployeeForm
 from .models import Employee
@@ -49,6 +50,16 @@ def employees_edit_employee(request, employee_id):
         'employee': employee
     })
 
+
+@permission_required('employees.delete_employee')
+def employees_delete_employee(request, employee_id):
+    """Delete an employee."""
+
+    employee = get_object_or_404(Employee, id=employee_id)
+    employee.delete()
+
+    messages.success(request, 'Pracownik został poprawnie usunięty.')
+    return redirect(reverse('employees_navigate'))
 
 @permission_required('employees.view_employee')
 def employees_show_all_employees(request):

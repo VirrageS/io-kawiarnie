@@ -1,5 +1,5 @@
 $border-color: #e7e0e0
-$cell-padding: 0px 30px
+$cell-padding: 0px 25px
 
 table
   font-weight: $light
@@ -50,6 +50,14 @@ table
 
         &.icon
           font-size: 1.3em
+
+          a
+            &:hover, &:active, &:focus
+              color: inherit
+
+          &.icon__edit, &.icon__delete
+            &:hover, &:active, &:focus
+              color: $red-color !important
 
         &.table__cell--disabled
           color: $grey-color-semilight

@@ -88,6 +88,12 @@
             {% endblock %}
           </h1>
 
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-rounded {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+
           {% block content %}
           {% endblock %}
         </div>

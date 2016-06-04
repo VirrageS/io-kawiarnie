@@ -1,5 +1,6 @@
 """Module with views for the employee feature."""
 
+from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import reverse
@@ -26,7 +27,10 @@ def employees_new_employee(request):
 
     if new_emp_form.is_valid():
         new_emp_form.save()
+        messages.success(request, 'Pracownik został poprawnie stworzony.')
         return redirect(reverse('employees_navigate'))
+    elif request.POST:
+        messages.error(request, u'Formularz został niepoprawnie wypełniony.')
 
     return render(request, 'employees/new.html', {
         'form': new_emp_form
@@ -42,7 +46,10 @@ def employees_edit_employee(request, employee_id):
 
     if edit_emp_form.is_valid():
         edit_emp_form.save()
+        messages.success(request, 'Pracownik został poprawnie zmieniony.')
         return redirect(reverse('employees_navigate'))
+    elif request.POST:
+        messages.error(request, u'Formularz został niepoprawnie wypełniony.')
 
     return render(request, 'employees/edit.html', {
         'form': edit_emp_form,

@@ -114,7 +114,7 @@ def cash_edit_expense(request, expense_id):
 
 
 def cash_new_cash_report(request):
-    """Show form to create new CashReport and show already existing CashReport."""
+    """Show form to create CashReport and show already existing CashReport."""
 
     form = CashReportForm(request.POST or None)
     all_expenses = []
@@ -164,12 +164,13 @@ def cash_new_cash_report(request):
 
             if expense:
                 expense['selected'] = True
-                expense['amount'] = (
-                    fe_list[1] if expense_form.is_valid() else ''
-                )
-                expense['errors'] = (
-                    '' if expense_form.is_valid() else expense_form.errors.get('amount')
-                )
+
+                if expense_form.is_valid():
+                    expense['amount'] = fe_list[1]
+                    expense['errors'] = ''
+                else:
+                    expense['amount'] = ''
+                    expense['errors'] = expense_form.errors.get('amount')
 
             forms.append(expense_form)
 
@@ -262,12 +263,12 @@ def cash_edit_cash_report(request, report_id):
 
             if expense:
                 expense['selected'] = True
-                expense['amount'] = (
-                    fe_list[1] if expense_form.is_valid() else ''
-                )
-                expense['errors'] = (
-                    '' if expense_form.is_valid() else expense_form.errors.get('amount')
-                )
+                if expense_form.is_valid():
+                    expense['amount'] = fe_list[1]
+                    expense['errors'] = ''
+                else:
+                    expense['amount'] = ''
+                    expense['errors'] = expense_form.errors.get('amount')
 
             forms.append(expense_form)
 
@@ -293,6 +294,7 @@ def cash_edit_cash_report(request, report_id):
         'form': form,
         'expenses': json.dumps(all_expenses),
     })
+
 
 def cash_show_cash_report(request, report_id):
     """Show CashReport with all Expenses.

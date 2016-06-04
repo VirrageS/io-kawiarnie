@@ -1,8 +1,7 @@
 from datetime import date
 
 from django.contrib.auth.decorators import permission_required
-from django.shortcuts import render, render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 
 from cash.models import CashReport
 from hours.models import WorkedHours

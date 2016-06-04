@@ -12,6 +12,7 @@ def calendar_navigate(request):
 
     return render(request, 'home/calendar.html')
 
+
 @permission_required('hours.view_workedhours', 'reports.view_report',
                      'cash.view_cashreport')
 def calendar_show_day(request, year, month, day):

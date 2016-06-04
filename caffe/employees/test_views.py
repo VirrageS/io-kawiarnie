@@ -114,7 +114,6 @@ class EmployeeViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['employees']), 3)
 
-
     def test_edit_employees_fail(self):
         """Checks if editing fails on wrong data."""
 
@@ -203,7 +202,6 @@ class EmployeeViewsTests(TestCase):
         new_employee = Employee.objects.get(username='prac')
         self.assertIsNotNone(new_employee)
         self.assertIsInstance(new_employee, Employee)
-
 
     def test_new_employees_fail(self):
         """Check if creating employees fails correctly."""

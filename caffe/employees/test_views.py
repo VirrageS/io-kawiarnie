@@ -289,7 +289,7 @@ class EmployeeViewsTests(TestCase):
             Employee.objects.get(id=self.emp1.id)
 
     def test_delete_employee_fail(self):
-        """Check if deleting employees works as intended."""
+        """Check if deleting employees fails when trying to delete themself."""
 
         response = self.client.post(
             reverse('delete_employee', args=(self.user.id,)),

@@ -1,4 +1,3 @@
-"""Test module for views of the employee utility."""
 # -*- encoding: utf-8 -*-
 
 from django.contrib.auth.models import Permission
@@ -49,6 +48,7 @@ class EmployeeViewsTests(TestCase):
         self.user.user_permissions.add(
             Permission.objects.get(codename='add_employee'),
             Permission.objects.get(codename='change_employee'),
+            Permission.objects.get(codename='delete_employee'),
             Permission.objects.get(codename='view_employee'),
 
             Permission.objects.get(codename='view_report'),
@@ -268,6 +268,61 @@ class EmployeeViewsTests(TestCase):
         )
 
         self.assertRedirects(response, '/')
+
+    def test_delete_employee_success(self):
+        """Check if deleting employees works as intended."""
+
+        response = self.client.post(
+            reverse('delete_employee', args=(self.emp1.id,)),
+            follow=True
+        )
+
+        self.assertRedirects(response, reverse('employees_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
+        # try to get deleted employee
+        with self.assertRaises(Employee.DoesNotExist):
+            Employee.objects.get(id=self.emp1.id)
+
+    def test_delete_employee_fail(self):
+        """Check if deleting employees fails when trying to delete themself."""
+
+        response = self.client.post(
+            reverse('delete_employee', args=(self.user.id,)),
+            follow=True
+        )
+
+        self.assertRedirects(response, reverse('employees_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+
+        # try to get deleted employee
+        employee = Employee.objects.get(id=self.user.id)
+        self.assertIsNotNone(employee)
+
+    def test_delete_employee_404(self):
+        """Check if 404 is displayed when employee does not exists."""
+
+        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_could_not_resolve = [
+            -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
+        ]
+
+        for _id in ids_for_404:
+            response = self.client.get(
+                reverse('delete_employee', args=(_id,))
+            )
+            self.assertEqual(response.status_code, 404)
+
+        for _id in ids_could_not_resolve:
+            with self.assertRaises(NoReverseMatch):
+                reverse('delete_employee', args=(_id,))
 
     def test_login_employee_fail(self):
         """Check if employee login can fail."""

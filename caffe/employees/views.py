@@ -57,6 +57,21 @@ def employees_edit_employee(request, employee_id):
     })
 
 
+@permission_required('employees.delete_employee')
+def employees_delete_employee(request, employee_id):
+    """Delete an employee."""
+
+    employee = get_object_or_404(Employee, id=employee_id)
+
+    if employee == request.user:
+        messages.error(request, u'Nie możesz usunąć siebie.')
+        return redirect(reverse('employees_navigate'))
+
+    employee.delete()
+    messages.success(request, u'Pracownik został poprawnie usunięty.')
+    return redirect(reverse('employees_navigate'))
+
+
 @permission_required('employees.view_employee')
 def employees_show_all_employees(request):
     """Show all employees."""

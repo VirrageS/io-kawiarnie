@@ -8,8 +8,8 @@ from hours.models import WorkedHours
 from reports.models import Report
 
 
-@permission_required('hours.view_workedhours', 'reports.view_report',
-                     'cash.view_cashreport')
+@permission_required(['hours.view_workedhours', 'reports.view_report',
+                      'cash.view_cashreport'])
 def caffe_navigate(request):
     """Show main page."""
 

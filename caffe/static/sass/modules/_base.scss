@@ -34,11 +34,17 @@ $yellow-color: #f2c53d;
 
 $dark-purple-color: rgb(72, 59, 78);
 
-$grey-color:       #828282;
+$grey-color:       #838383;
 $grey-color-light: lighten($grey-color, 40%);
 $grey-color-semilight: lighten($grey-color, 30%);
 $grey-color-semidark:  darken($grey-color, 10%);
 $grey-color-dark:  darken($grey-color, 25%);
+
+// Text colors
+$text-primary-color: rgba(0, 0, 0, 0.87);
+$text-secondary-color: rgba(0, 0, 0, 0.54);
+$text-hint-color: rgba(0, 0, 0, 0.38);
+$text-divider-color: rgba(0, 0, 0, 0.12);
 
 // Panes
 $left-pane-background-color: rgb(27, 23, 29);
@@ -51,6 +57,8 @@ $right-pane-color: #000000;
 
 $navigation-bar-background-color: #ffffff;
 $navigation-bar-color: #000000;
+
+$navigation-bar-height: 70px;
 
 // Width of the content area
 $on-phone:         480px;

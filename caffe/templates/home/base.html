@@ -1,11 +1,14 @@
 {% extends "home/head.html" %}
 
+{% load staticfiles %}
+{% load tags %}
+
 {% block page %}
   <div class="container">
     <div class="left-pane open">
       <ul class="navigation">
         <li>
-          <a href="{% url 'caffe_navigate' %}" class="{% active '^\/$' %}">
+          <a href="{% url 'caffe_navigate' %}" class="{% active 'cafe' %}">
             <i class="fa fa-coffee"></i>
             <div class="description">Kawiarnia</div>
           </a>

@@ -264,10 +264,11 @@ class EmployeeViewsTests(TestCase):
             {
                 'username': 'marta',
                 'password': 'pass'
-            }
+            },
+            follow=True
         )
 
-        self.assertRedirects(response, '/')
+        self.assertRedirects(response, reverse('caffe_navigate'))
 
     def test_delete_employee_success(self):
         """Check if deleting employees works as intended."""

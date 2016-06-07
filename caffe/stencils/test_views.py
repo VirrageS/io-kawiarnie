@@ -146,8 +146,6 @@ class StencilViewTests(TestCase):
         self.assertIsInstance(form, StencilForm)
         self.assertEqual(form.instance, self.to_drink)
 
-        self.assertEqual(len(response.context), 2)
-
     def test_edit_stencil_post_success(self):
         """Check success of edit stencil post request."""
 

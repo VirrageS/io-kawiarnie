@@ -86,7 +86,7 @@ Kawiarnia
           <td>{{ hour.employee.first_name }}</td>
           <td>{{ hour.start_time }}</td>
           <td>{{ hour.end_time }}</td>
-          <td>{{ hour.position }}</td>
+          <td>{{ hour.position.name }}</td>
           <td class="table__cell--center icon edit"><a href="{% url 'edit_worked_hours' hour.id %}"><i class="fa fa-pencil"></i></a></td>
         </tr>
       {% endfor %}

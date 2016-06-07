@@ -1,0 +1,166 @@
+.nav
+  +box-shadow(5px, 0, 10px, $grey-color-light)
+  display: flex
+  align-items: center
+  position: fixed
+  top: 0
+  left: 0
+  background-color: rgba($white-color, 0.98)
+  width: 100%
+  height: 65px
+
+  &__logo
+    font-size: 1.5rem
+    font-weight: $bold
+    margin-left: 100px
+
+    a
+      color: inherit
+      text-decoration: none
+
+  &__buttons
+    margin-left: auto
+    margin-right: 50px
+
+    .button
+      margin: 0 10px
+
+
+.intro
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-direction: column
+  background: url("../images/caffe.jpg") no-repeat center
+  background-size: cover
+  color: $white-color
+  text-align: center
+  height: 700px
+
+  &__title
+    font-size: 5rem
+
+  &__subtitle
+    font-size: 1.5rem
+
+
+
+.features
+  display: flex
+  flex-direction: column
+  font-weight: $light
+
+  .feature
+    display: flex
+    align-items: center
+    justify-content: space-around
+    flex-direction: row
+    padding: 100px 50px
+    border-bottom: 1px solid $black-color
+    text-align: center
+
+    &__info
+      font-weight: $regular
+
+      &__icon
+        font-size: 2.8rem
+
+      &__title
+        font-size: 1.6rem
+
+
+    &__description
+      font-size: 1rem
+      color: $text-secondary-color
+      max-width: 500px
+      line-height: 1.5em
+
+
+
+.pricings
+  display: flex
+  justify-content: center
+  flex-direction: row
+  margin: 150px 0
+  flex-wrap: wrap
+
+  &__title
+    font-size: 3.5rem
+    text-align: center
+    text-transform: uppercase
+    font-weight: $light
+    width: 100%
+    margin-top: -50px
+    margin-bottom: 100px
+
+  .pricing
+    +transition(0.5s all)
+    display: flex
+    flex-direction: column
+    padding: 20px 10px
+    margin: 0 30px
+    border: 6px solid $black-color
+    text-align: center
+    width: 320px
+
+    &.pricing--bronze
+      color: #bf8d58
+      border-color: #bf8d58
+
+    &.pricing--silver
+      color: #9E9E9E
+      border-color: #9E9E9E
+
+    &.pricing--golden
+      color: #fdd835
+      border-color: #fdd835
+
+    &__name
+      font-size: 1.2rem
+      text-transform: uppercase
+
+      &::after
+        content: ''
+        display: block
+        background-color: $black-color
+        margin: 2px auto
+        width: 60px
+        height: 2px
+
+    &__cost
+      color: $text-primary-color
+      margin: 30px 0
+
+      &__money
+        display: inline-block
+        font-family: $fixed-font-family
+        font-size: 2.2rem
+        font-weight: $bold
+
+      &__desc
+        display: inline-block
+        font-size: 1rem
+
+
+    &__description
+      color: $text-secondary-color
+      margin-bottom: 40px
+      list-style: none
+      font-weight: $light
+
+      strong
+        font-size: 1.1em
+        color: $text-primary-color
+
+      li
+        padding: 5px 0
+
+    &__button
+      margin: 0 auto
+      margin-top: auto
+      width: 100px
+
+.footer
+  display: block
+  background-color: $dark-purple-color
+  height: 300px

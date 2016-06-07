@@ -215,6 +215,9 @@ class WorkedHoursViewsTests(TestCase):
             Permission.objects.get(codename='add_workedhours'),
             Permission.objects.get(codename='change_workedhours'),
             Permission.objects.get(codename='view_workedhours'),
+
+            Permission.objects.get(codename='view_report'),
+            Permission.objects.get(codename='view_cashreport'),
         )
 
         self.user_second = Employee.objects.create_user(
@@ -238,6 +241,9 @@ class WorkedHoursViewsTests(TestCase):
             Permission.objects.get(codename='change_workedhours'),
             Permission.objects.get(codename='view_workedhours'),
             Permission.objects.get(codename='change_all_workedhours'),
+
+            Permission.objects.get(codename='view_report'),
+            Permission.objects.get(codename='view_cashreport'),
         )
 
         self.client.login(username='admin', password='admin')

@@ -66,16 +66,18 @@
       </div>
       <div class="right-pane">
         <div class="navigation">
-          {% if not user.is_authenticated %}
-            <a href="{% url 'login_employee' %}" class="button button-orange">
-              Zaloguj
-            </a>
-          {% else %}
-            Witaj {{ user.username }}
-            <a href="{% url 'logout_employee' %}" class="button button-light-blue">
-              Wyloguj
-            </a>
-          {% endif %}
+          <div class="navigation__settings">
+            {% if not user.is_authenticated %}
+              <a href="{% url 'login_employee' %}" class="button button-orange">
+                Zaloguj
+              </a>
+            {% else %}
+              <span class="navigation__settings__welcome">Witaj, {{ user.first_name }} {{ user.last_name }}</span>
+              <a href="{% url 'logout_employee' %}" class="button button-light-blue">
+                Wyloguj
+              </a>
+            {% endif %}
+          </div>
         </div>
 
         <div class="right-pane-container">

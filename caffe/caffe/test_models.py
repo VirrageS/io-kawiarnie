@@ -33,8 +33,6 @@ class CaffeModelTest(TestCase):
     def test_validation(self):
         """Validation tests for the Caffe model."""
 
-        kafo = Caffe.objects.get(name='kafo')
-
         with self.assertRaises(Exception):
             Caffe.objects.create(
                 name='kafo',

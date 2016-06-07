@@ -1,114 +1,86 @@
-{% load staticfiles %}
-{% load tags %}
+{% extends "home/head.html" %}
 
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE|default:"en" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
-  <head>
-  {% block head %}
-    <title>Caffe</title>
+{% block page %}
+  <div class="container">
+    <div class="left-pane open">
+      <ul class="navigation">
+        <li>
+          <a href="{% url 'caffe_navigate' %}" class="{% active '^\/$' %}">
+            <i class="fa fa-coffee"></i>
+            <div class="description">Kawiarnia</div>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'reports_navigate' %}" class="{% active 'reports' %} {% active 'stencils' %}">
+            <i class="fa fa-files-o"></i>
+            <div class="description">Raporty</div>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'cash_navigate' %}" class="{% active 'cash' %}">
+            <i class="fa fa-money"></i>
+            <div class="description">Kasa</div>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'employees_navigate' %}" class="{% active 'employees' %}">
+            <i class="fa fa-user"></i>
+            <div class="description">Konta</div>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'calendar_navigate' %}" class="{% active 'calendar' %}">
+            <i class="fa fa-calendar-o"></i>
+            <div class="description">Kaledarz</div>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'statistics_navigate' %}" class="{% active 'statistics' %}">
+            <i class="fa fa-line-chart"></i>
+            <div class="description">Statystki</div>
+          </a>
+        </li>
+      </ul>
 
-    <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
-    <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-    <script type="text/javascript" src="{% static 'js/jquery.2.2.1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
-
-    <script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/lodash.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
-  {% endblock %}
-  </head>
-  <body>
-    {% if not user.is_authenticated %}
-      {% include "home/landing_page.html" %}
-    {% else %}
-      <div class="container">
-        <div class="left-pane open">
-          <ul class="navigation">
-            <li>
-              <a href="{% url 'caffe_navigate' %}" class="{% active '^\/$' %}">
-                <i class="fa fa-coffee"></i>
-                <div class="description">Kawiarnia</div>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'reports_navigate' %}" class="{% active 'reports' %} {% active 'stencils' %}">
-                <i class="fa fa-files-o"></i>
-                <div class="description">Raporty</div>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'cash_navigate' %}" class="{% active 'cash' %}">
-                <i class="fa fa-money"></i>
-                <div class="description">Kasa</div>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'employees_navigate' %}" class="{% active 'employees' %}">
-                <i class="fa fa-user"></i>
-                <div class="description">Konta</div>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'calendar_navigate' %}" class="{% active 'calendar' %}">
-                <i class="fa fa-calendar-o"></i>
-                <div class="description">Kaledarz</div>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'statistics_navigate' %}" class="{% active 'statistics' %}">
-                <i class="fa fa-line-chart"></i>
-                <div class="description">Statystki</div>
-              </a>
-            </li>
-          </ul>
-
-          <div id="control-menu" class="expand"></div>
-        </div>
-        <div class="right-pane">
-          <div class="navigation">
-            <div class="navigation__settings">
-              {% if not user.is_authenticated %}
-                <a href="{% url 'login_employee' %}" class="button button-orange">
-                  Zaloguj
-                </a>
-              {% else %}
-                <span class="navigation__settings__welcome">Witaj, {{ user.first_name }} {{ user.last_name }}</span>
-                <a href="{% url 'logout_employee' %}" class="button button-light-blue">
-                  Wyloguj
-                </a>
-              {% endif %}
-            </div>
-          </div>
-
-          <div class="right-pane-container">
-            <button class="button button-light-blue back-button">
-              <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
-            </button>
-
-            <h1 class="header">
-              {% block title %}
-              {% endblock %}
-            </h1>
-
-            {% if messages %}
-              <div class="alerts">
-                {% for message in messages %}
-                  <div class="alert alert-rounded {{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-              </div>
-            {% endif %}
-
-            {% block content %}
-            {% endblock %}
-          </div>
+      <div id="control-menu" class="expand"></div>
+    </div>
+    <div class="right-pane">
+      <div class="navigation">
+        <div class="navigation__settings">
+          {% if not user.is_authenticated %}
+            <a href="{% url 'login_employee' %}" class="button button-orange">
+              Zaloguj
+            </a>
+          {% else %}
+            <span class="navigation__settings__welcome">Witaj, {{ user.first_name }} {{ user.last_name }}</span>
+            <a href="{% url 'logout_employee' %}" class="button button-light-blue">
+              Wyloguj
+            </a>
+          {% endif %}
         </div>
       </div>
-    {% endif %}
 
-    <script type="text/javascript" src="{% static 'js/functions.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/modaal.js' %}"></script>
-  </body>
-</html>
+      <div class="right-pane-container">
+        <button class="button button-light-blue back-button">
+          <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+        </button>
+
+        <h1 class="header">
+          {% block title %}
+          {% endblock %}
+        </h1>
+
+        {% if messages %}
+          <div class="alerts">
+            {% for message in messages %}
+              <div class="alert alert-rounded {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

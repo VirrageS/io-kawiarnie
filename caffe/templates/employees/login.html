@@ -1,11 +1,11 @@
-{% extends "home/base.html" %}
-
-{% block title %}
-Logowanie
-{% endblock %}
+{% extends "home/landing_page.html" %}
 
 {% block content %}
-<form method="POST" class="element-form">
+<div class="title">
+  Logowanie
+</div>
+
+<form method="post" class="element-form">
   <input type="hidden" name="next" value="{% url 'caffe_navigate' %}" />
   {% csrf_token %}
 

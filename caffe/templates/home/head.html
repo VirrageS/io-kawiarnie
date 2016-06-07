@@ -1,0 +1,30 @@
+{% load staticfiles %}
+{% load tags %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+  <head>
+  {% block head %}
+    <title>Caffe</title>
+
+    <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+    <link charset="utf-8" rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <script type="text/javascript" src="{% static 'js/jquery.2.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/lodash.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
+  {% endblock %}
+  </head>
+  <body>
+    {% block page %}
+
+    {% endblock %}
+    <script type="text/javascript" src="{% static 'js/functions.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/modaal.js' %}"></script>
+  </body>
+</html>

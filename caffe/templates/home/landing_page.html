@@ -1,0 +1,116 @@
+{% extends "home/head.html" %}
+
+{% block page %}
+<div class="nav">
+  <div class="nav__logo">
+    <a href="/">kawiarnie</a>
+  </div>
+  <div class="nav__buttons">
+    <div class="button button-small button-rounded button-red">Zarejestruj</div>
+    <a href="{% url 'login_employee' %}" class="button button-small button-rounded button-orange">Zaloguj</a>
+  </div>
+</div>
+
+  {% block content %}
+  <header class="intro">
+    <div class="intro__title">
+      kawiarnie
+    </div>
+
+    <div class="intro__subtitle">
+      Najlepszy system do tworzenia i zarządzania raportami z kawiarni.
+    </div>
+  </header>
+
+  <section class="features">
+    <div class="feature">
+      <div class="feature__info">
+        <div class="feature__info__icon"><i class="fa fa-files-o"></i></div>
+        <div class="feature__info__title">Raporty</div>
+      </div>
+      <div class="feature__description">Tworzenie raportów i raportów z kasy teraz jest super. Nie wierzysz? Sprawdź sam.</div>
+    </div>
+    <div class="feature">
+      <div class="feature__description">Kalendarz pozwala na jeszcze szybszą i wygodniejszą formę przeglądania raportów, raportów z kasy i przepracowanych godzin z ostatnich dni. Dzięki niemu Twoja praca stanie się przyjemniejsza.</div>
+      <div class="feature__info">
+        <div class="feature__info__icon"><i class="fa fa-calendar-o"></i></div>
+        <div class="feature__info__title">Kalendarz</div>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature__info">
+        <div class="feature__info__icon"><i class="fa fa-clock-o"></i></div>
+        <div class="feature__info__title">Przepracowane godziny</div>
+      </div>
+      <div class="feature__description">
+          Śledź pracę w Twojej kawiarni poprzez system przepracowanych godzin.
+          Dzięki niemu wiesz kiedy i na jakim stanowisku pracowali poszczególni
+          pracownicy.
+      </div>
+    </div>
+  </section>
+
+  <section class="pricings">
+    <div class="pricings__title">Cennik</div>
+
+    <div class="pricing pricing--bronze">
+      <div class="pricing__name">
+        Brąz
+      </div>
+
+      <div class="pricing__cost">
+        <div class="pricing__cost__money">DARMOWE</div>
+      </div>
+
+      <ul class="pricing__description">
+        <li>Do <strong>5</strong> pracowników</li>
+        <li>Ogólnie spoko</li>
+      </ul>
+
+      <div class="button button-rounded button-green pricing__button">Wybierz</div>
+    </div>
+
+    <div class="pricing pricing--silver">
+      <div class="pricing__name">
+        Srebro
+      </div>
+
+      <div class="pricing__cost">
+        <div class="pricing__cost__money">20 zł</div>
+        <div class="pricing__cost__desc">/mies.</div>
+      </div>
+
+      <ul class="pricing__description">
+        <li>Do <strong>15</strong> pracowników</li>
+        <li>Wspaniały kontakt</li>
+        <li>Szacun na dzielni</li>
+      </ul>
+
+      <div class="button button-rounded button-green pricing__button">Wybierz</div>
+    </div>
+
+    <div class="pricing pricing--golden">
+      <div class="pricing__name">
+        Złoto
+      </div>
+
+      <div class="pricing__cost">
+        <div class="pricing__cost__money">35 zł</div>
+        <div class="pricing__cost__desc">/mies.</div>
+      </div>
+
+      <ul class="pricing__description">
+        <li>Do <strong>50</strong> pracowników</li>
+        <li>Jeszcze wspanialszy kontakt</li>
+        <li>Szacun <strong>na wszystkich</strong> dzielniach</li>
+      </ul>
+
+      <div class="button button-rounded button-green pricing__button">Wybierz</div>
+    </div>
+  </section>
+
+  <footer class="footer">
+
+  </footer>
+  {% endblock %}
+{% endblock %}

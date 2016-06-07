@@ -34,7 +34,6 @@ class ExpenseForm(forms.ModelForm):
         super(ExpenseForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = 'Nazwa'
         self.fields['company'].label = 'Firma'
-        self.fields['company'].empty_label = None
         self.fields['company'].required = False
 
 

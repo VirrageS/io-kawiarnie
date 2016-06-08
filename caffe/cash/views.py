@@ -191,7 +191,6 @@ def cash_new_cash_report(request):
                 request, u'Formularz został niepoprawnie wypełniony.'
             )
 
-
     # get last five reports
     latest_reports = CashReport.objects.all()[:5]
 

@@ -1,0 +1,17 @@
+{% extends "home/landing_page.html" %}
+
+{% block content %}
+<div class="title">
+  Stwórz kawiarnie
+</div>
+
+<form method="post" class="element-form">
+  {% csrf_token %}
+
+  {{ caffe_form }}
+
+  {{ admin_form }}
+
+  <button type="submit" class="button button-rounded button-green">Stwórz</button>
+</form>
+{% endblock %}

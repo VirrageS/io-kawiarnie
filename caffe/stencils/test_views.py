@@ -300,6 +300,11 @@ class StencilViewTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+        self.assertTrue("niepoprawnie" in messages[0].message)
+
         # report should not pass with no products
         post = {}
 

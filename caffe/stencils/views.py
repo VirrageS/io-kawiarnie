@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -156,6 +157,11 @@ def stencils_new_report(request, stencil_id):
             report.save()
 
             return redirect(reverse('stencils_show_all_stencils'))
+        else:
+            messages.error(
+                request,
+                u'Formularz został niepoprawnie wypełniony.'
+            )
 
     # get last five reports
     latest_reports = Report.objects.all()[:5]

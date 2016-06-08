@@ -2,6 +2,7 @@
 
 import json
 
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -282,6 +283,11 @@ def reports_new_report(request):
 
             report.save()
             return redirect(reverse('reports_navigate'))
+        else:
+            messages.error(
+                request,
+                u'Formularz został niepoprawnie wypełniony.'
+            )
 
     # get last five reports
     latest_reports = Report.objects.all()[:5]
@@ -380,6 +386,11 @@ def reports_edit_report(request, report_id):
 
             report.save()
             return redirect(reverse('reports_navigate'))
+        else:
+            messages.error(
+                request,
+                u'Formularz został niepoprawnie wypełniony.'
+            )
 
     return render(request, 'reports/new_report.html', {
         'title': 'Edytuj raport',

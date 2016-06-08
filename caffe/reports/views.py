@@ -54,14 +54,12 @@ def reports_new_category(request):
     """Show form to create new Category and show existing Categories."""
 
     elements = []
-    form = CategoryForm()
+    form = CategoryForm(request.POST or None)
 
-    if request.POST:
-        form = CategoryForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('reports_navigate'))
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Kategoria został poprawnie dodana.')
+        return redirect(reverse('reports_navigate'))
 
     categories = Category.objects.all()
     for category in categories:
@@ -93,6 +91,7 @@ def reports_edit_category(request, category_id):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Kategoria został poprawnie zmieniona.')
         return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {
@@ -109,14 +108,12 @@ def reports_new_unit(request):
     """Show form to create new Unit and show already existing Units."""
 
     elements = []
-    form = UnitForm()
+    form = UnitForm(request.POST or None)
 
-    if request.POST:
-        form = UnitForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('reports_navigate'))
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Jednostka została poprawnie dodana.')
+        return redirect(reverse('reports_navigate'))
 
     units = Unit.objects.all()
     for unit in units:
@@ -148,6 +145,7 @@ def reports_edit_unit(request, unit_id):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Jednostka została poprawnie zmieniona.')
         return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {
@@ -164,14 +162,12 @@ def reports_new_product(request):
     """Show form to create new Product and show already existing Products."""
 
     elements = []
-    form = ProductForm()
+    form = ProductForm(request.POST or None)
 
-    if request.POST:
-        form = ProductForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('reports_navigate'))
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Produkt został poprawnie dodany.')
+        return redirect(reverse('reports_navigate'))
 
     products = Product.objects.all()
     for product in products:
@@ -203,6 +199,7 @@ def reports_edit_product(request, product_id):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Produkt został poprawnie zmieniony.')
         return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {

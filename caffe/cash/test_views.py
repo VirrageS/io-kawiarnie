@@ -101,6 +101,11 @@ class CompanyViewsTests(TestCase):
 
         self.assertRedirects(response, reverse('cash_navigate'))
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         # check if new company is displayed
         response = self.client.get(reverse('cash_new_company'))
         self.assertEqual(response.status_code, 200)
@@ -173,6 +178,12 @@ class CompanyViewsTests(TestCase):
         self.assertEqual(response.context['form'].errors, {
             'name': ['To pole jest wymagane.'],
         })
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         self.assertTemplateUsed(response, 'cash/edit_element.html')
 
     def test_edit_company_post_success(self):
@@ -280,6 +291,12 @@ class ExpenseViewsTests(TestCase):
         self.assertEqual(response.context['form'].errors, {
             'name': ['To pole jest wymagane.'],
         })
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         self.assertTemplateUsed(response, 'cash/new_element.html')
 
     def test_new_expense_post_success(self):
@@ -365,6 +382,12 @@ class ExpenseViewsTests(TestCase):
         self.assertEqual(response.context['form'].errors, {
             'name': ['To pole jest wymagane.'],
         })
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         self.assertTemplateUsed(response, 'cash/edit_element.html')
 
     def test_edit_expense_post_success(self):
@@ -533,6 +556,11 @@ class CashReportViewTests(TestCase):
         self.assertRedirects(response, reverse('cash_navigate'))
         self.assertEqual(CashReport.objects.count(), 2)
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         report = CashReport.objects.get(id=self.cash_report_main.id)
         self.assertEqual(report.cash_before_shift, 1)
         self.assertEqual(report.cash_after_shift, 1)
@@ -558,6 +586,11 @@ class CashReportViewTests(TestCase):
             follow=True
         )
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+        self.assertTrue("niepoprawnie" in messages[0].message)
+
         post = {}
         post['cash_before_shift'] = 1
         post['cash_after_shift'] = 1
@@ -570,6 +603,11 @@ class CashReportViewTests(TestCase):
             post,
             follow=True
         )
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+        self.assertTrue("niepoprawnie" in messages[0].message)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'cash/new_report.html')
@@ -599,6 +637,11 @@ class CashReportViewTests(TestCase):
 
         self.assertRedirects(response, reverse('cash_navigate'))
         self.assertEqual(CashReport.objects.count(), 3)
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         report = CashReport.objects.latest('created_on')
 
@@ -630,6 +673,11 @@ class CashReportViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'cash/new_report.html')
         self.assertEqual(CashReport.objects.count(), 2)
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+        self.assertTrue("niepoprawnie" in messages[0].message)
 
         post = {}
         post['cash_before_shift'] = 1

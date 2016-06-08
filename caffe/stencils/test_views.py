@@ -162,6 +162,11 @@ class StencilViewTests(TestCase):
             form
         )
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         self.assertEqual(Stencil.objects.count(), 2)
         self.assertEqual(response.status_code, 302)
 
@@ -222,6 +227,11 @@ class StencilViewTests(TestCase):
             reverse('stencils_new_stencil'),
             form
         )
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         self.assertEqual(Stencil.objects.count(), 3)
         self.assertEqual(response.status_code, 302)
@@ -289,6 +299,11 @@ class StencilViewTests(TestCase):
             reverse('stencils_new_report', args=(self.to_drink.id,)),
             post
         )
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Report.objects.count(), 1)

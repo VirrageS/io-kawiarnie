@@ -714,6 +714,11 @@ class ReportViewsTests(TestCase):
             follow=True
         )
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+        self.assertTrue("niepoprawnie" in messages[0].message)
+
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/new_report.html')
         self.assertIn('"errors": ["', response.context['products'])
@@ -827,6 +832,11 @@ class ReportViewsTests(TestCase):
             post,
             follow=True
         )
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+        self.assertTrue("niepoprawnie" in messages[0].message)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/new_report.html')

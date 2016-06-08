@@ -199,14 +199,6 @@ class StencilViewTests(TestCase):
         self.assertEqual(Stencil.objects.count(), 2)
         self.assertEqual(response.status_code, 200)
 
-    def test_new_stencil(self):
-        """Check form to create new stencil."""
-
-        response = self.client.get(reverse('stencils_create'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'stencils/create_stencil.html')
-        self.assertEqual(Stencil.objects.count(), 2)
-
     def test_new_stencil_post_success(self):
         """Check success of new stencil post request."""
 
@@ -253,7 +245,7 @@ class StencilViewTests(TestCase):
         self.assertFalse(st_form.is_valid())
 
         response = self.client.post(
-            reverse('stencils_create'),
+            reverse('stencils_show_all_stencils'),
             form
         )
 

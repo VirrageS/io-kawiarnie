@@ -9,11 +9,13 @@ Raport z kasy
   {{ report.created_on }}
 </section>
 
-<section class="buttons">
-  <a href="{% url 'edit_cash_report' report.id %}" class="button button-rounded button-red">
-    Edytuj
-  </a>
-</section>
+{% if perms.cash.edit_cashreport %}
+  <section class="buttons">
+    <a href="{% url 'edit_cash_report' report.id %}" class="button button-rounded button-red">
+      Edytuj
+    </a>
+  </section>
+{% endif %}
 
 <section class="row">
   <div class="column">

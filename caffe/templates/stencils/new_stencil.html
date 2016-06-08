@@ -44,9 +44,11 @@
         Pokaż
       </a>
 
-      <a href="{{ stencil.edit_href }}" class="button button-rounded button-small button-red">
-        Edytuj
-      </a>
+      {% if perms.stencils.change_stencil %}
+        <a href="{{ stencil.edit_href }}" class="button button-rounded button-small button-red">
+          Edytuj
+        </a>
+      {% endif %}
     </li>
   {% endfor %}
 </ul>

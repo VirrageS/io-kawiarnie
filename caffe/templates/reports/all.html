@@ -8,16 +8,18 @@ Raporty
   <section class="reports">
     {% for report in reports %}
       <div class="report">
-        <a href="{% url 'reports_show_report' report.id %}" class="meta">
+        <div class="meta">
           {{ report.created_on }}
-        </a>
+        </div>
 
-        <a href="{% url 'reports_show_report' report.id %}" class="button button-rounded button-blue button-with-icon">
-          <i class="fa fa-search" aria-hidden="true"></i>
-          <span>
-            Pokaż raport
-          </span>
-        </a>
+        {% if perms.reports.show_report %}
+          <a href="{% url 'reports_show_report' report.id %}" class="button button-rounded button-blue button-with-icon">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <span>
+              Pokaż raport
+            </span>
+          </a>
+        {% endif %}
       </div>
     {% endfor %}
   </section>

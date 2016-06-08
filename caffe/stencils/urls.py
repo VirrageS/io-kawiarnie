@@ -1,14 +1,13 @@
 from django.conf.urls import url
 from django.contrib import admin
 
-from .views import (stencils_create, stencils_edit_stencil,
-                    stencils_new_report, stencils_new_stencil,
-                    stencils_show_all_stencils, stencils_show_stencil)
+from .views import (stencils_edit_stencil, stencils_new_report,
+                    stencils_new_stencil, stencils_show_all_stencils,
+                    stencils_show_stencil)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^create/$', stencils_create, name='stencils_create'),
     url(r'^all/$',
         stencils_show_all_stencils, name='stencils_show_all_stencils'),
     url(r'^show/(?P<stencil_id>\d{0,17})/$',

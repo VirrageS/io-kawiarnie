@@ -29,9 +29,12 @@
         <span class="desc">
           {{ position.desc }}
         </span>
-        <a href="{{ position.edit_url }}" class="button button-rounded button-small button-red">
-          Edytuj
-        </a>
+
+        {% if perms.hours.edit_position %}
+          <a href="{{ position.edit_url }}" class="button button-rounded button-small button-red">
+            Edytuj
+          </a>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>

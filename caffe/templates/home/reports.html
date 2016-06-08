@@ -6,10 +6,12 @@ Raporty i szablony
 
 {% block content %}
 <section class="cards cards-primary">
-  <a href="{% url 'reports_new_report' %}" class="card">
-    <i class="fa fa-wpforms" aria-hidden="true"></i>
-    Nowy raport
-  </a>
+  {% if perms.reports.add_report %}
+    <a href="{% url 'reports_new_report' %}" class="card">
+      <i class="fa fa-wpforms" aria-hidden="true"></i>
+      Nowy raport
+    </a>
+  {% endif %}
 
   <a href="{% url 'stencils_show_all_stencils' %}" class="card">
     <i class="fa fa-copy" aria-hidden="true"></i>
@@ -34,10 +36,13 @@ Raporty i szablony
     <i class="fa fa-tag" aria-hidden="true"></i>
     Produkty
   </a>
-  <a href="{% url 'stencils_new_stencil' %}" class="card">
-    <i class="fa fa-edit" aria-hidden="true"></i>
-    Szablony
-  </a>
+
+  {% if perms.stencils.add_stencil %}
+    <a href="{% url 'stencils_new_stencil' %}" class="card">
+      <i class="fa fa-edit" aria-hidden="true"></i>
+      Szablony
+    </a>
+  {% endif %}
 </section>
 
 <section class="cards cards-red">

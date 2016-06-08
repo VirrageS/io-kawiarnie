@@ -21,7 +21,7 @@ def stencils_new_stencil(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Szablon został poprawnie dodany.')
-        return redirect(reverse('stencils_create'))
+        return redirect(reverse('reports_navigate'))
 
     stencils = Stencil.objects.all()
     for stencil in stencils:
@@ -48,7 +48,7 @@ def stencils_edit_stencil(request, stencil_id):
     if form.is_valid():
         form.save()
         messages.success(request, 'Szablon został poprawnie zmieniony.')
-        return redirect(reverse('stencils_create'))
+        return redirect(reverse('reports_navigate'))
 
     return render(request, 'stencils/edit_stencil.html', {
         'form': form,
@@ -154,7 +154,13 @@ def stencils_new_report(request, stencil_id):
                 full_product.save()
 
             report.save()
+            messages.success(request, 'Raport został poprawnie dodany.')
             return redirect(reverse('stencils_show_all_stencils'))
+        else:
+            messages.error(
+                request,
+                u'Formularz został niepoprawnie wypełniony.'
+            )
 
     # get last five reports
     latest_reports = Report.objects.all()[:5]
@@ -167,10 +173,3 @@ def stencils_new_report(request, stencil_id):
         'checked': checked,
         'reports': latest_reports
     })
-
-
-@permission_required('stencils.view_stencil')
-def stencils_create(request):
-    """Render create_stencil."""
-
-    return render(request, 'stencils/create_stencil.html')

@@ -8,9 +8,9 @@ Raporty
 <section class="cash-reports">
   {% for report in reports %}
     <div class="cash-report">
-      <a href="{% url 'show_cash_report' report.id %}" class="cash-report__meta">
+      <div class="cash-report__meta">
         {{ report.created_on }}
-      </a>
+      </div>
 
       <a href="{% url 'show_cash_report' report.id %}" class="button button-rounded button-blue button-with-icon">
         <i class="fa fa-search" aria-hidden="true"></i>

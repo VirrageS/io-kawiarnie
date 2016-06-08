@@ -179,11 +179,6 @@ class CompanyViewsTests(TestCase):
             'name': ['To pole jest wymagane.'],
         })
 
-        messages = list(response.context['messages'])
-        self.assertEqual(len(messages), 1)
-        self.assertEqual(messages[0].tags, "success")
-        self.assertTrue("poprawnie" in messages[0].message)
-
         self.assertTemplateUsed(response, 'cash/edit_element.html')
 
     def test_edit_company_post_success(self):
@@ -196,6 +191,11 @@ class CompanyViewsTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('cash_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         # check if company name has changed
         company = Company.objects.get(id=self.putka.id)
@@ -292,11 +292,6 @@ class ExpenseViewsTests(TestCase):
             'name': ['To pole jest wymagane.'],
         })
 
-        messages = list(response.context['messages'])
-        self.assertEqual(len(messages), 1)
-        self.assertEqual(messages[0].tags, "success")
-        self.assertTrue("poprawnie" in messages[0].message)
-
         self.assertTemplateUsed(response, 'cash/new_element.html')
 
     def test_new_expense_post_success(self):
@@ -309,6 +304,11 @@ class ExpenseViewsTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('cash_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         # check if new expense is displayed
         response = self.client.get(reverse('cash_new_expense'))
@@ -383,11 +383,6 @@ class ExpenseViewsTests(TestCase):
             'name': ['To pole jest wymagane.'],
         })
 
-        messages = list(response.context['messages'])
-        self.assertEqual(len(messages), 1)
-        self.assertEqual(messages[0].tags, "success")
-        self.assertTrue("poprawnie" in messages[0].message)
-
         self.assertTemplateUsed(response, 'cash/edit_element.html')
 
     def test_edit_expense_post_success(self):
@@ -400,6 +395,11 @@ class ExpenseViewsTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('cash_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         # check if expense name has changed
         expense = Expense.objects.get(id=self.newspapers.id)

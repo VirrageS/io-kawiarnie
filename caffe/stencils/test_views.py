@@ -159,7 +159,8 @@ class StencilViewTests(TestCase):
 
         response = self.client.post(
             reverse('stencils_edit_stencil', args=(self.to_drink.id,)),
-            form
+            form,
+            follow=True
         )
 
         messages = list(response.context['messages'])
@@ -168,7 +169,7 @@ class StencilViewTests(TestCase):
         self.assertTrue("poprawnie" in messages[0].message)
 
         self.assertEqual(Stencil.objects.count(), 2)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_edit_stencil_post_failure(self):
         """Check failure of edit stencil post request."""
@@ -204,14 +205,6 @@ class StencilViewTests(TestCase):
         self.assertEqual(Stencil.objects.count(), 2)
         self.assertEqual(response.status_code, 200)
 
-    def test_new_stencil(self):
-        """Check form to create new stencil."""
-
-        response = self.client.get(reverse('stencils_create'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'stencils/create_stencil.html')
-        self.assertEqual(Stencil.objects.count(), 2)
-
     def test_new_stencil_post_success(self):
         """Check success of new stencil post request."""
 
@@ -225,7 +218,8 @@ class StencilViewTests(TestCase):
 
         response = self.client.post(
             reverse('stencils_new_stencil'),
-            form
+            form,
+            follow=True
         )
 
         messages = list(response.context['messages'])
@@ -234,7 +228,7 @@ class StencilViewTests(TestCase):
         self.assertTrue("poprawnie" in messages[0].message)
 
         self.assertEqual(Stencil.objects.count(), 3)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_new_stencil_post_failure(self):
         """Check failure of new stencil post request."""
@@ -263,7 +257,7 @@ class StencilViewTests(TestCase):
         self.assertFalse(st_form.is_valid())
 
         response = self.client.post(
-            reverse('stencils_create'),
+            reverse('stencils_show_all_stencils'),
             form
         )
 
@@ -274,7 +268,8 @@ class StencilViewTests(TestCase):
         """Check rendering new stencil report page."""
 
         response = self.client.get(
-            reverse('stencils_new_report', args=(self.to_drink.id,))
+            reverse('stencils_new_report', args=(self.to_drink.id,)),
+            follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'stencils/new_report.html')
@@ -297,7 +292,8 @@ class StencilViewTests(TestCase):
 
         response = self.client.post(
             reverse('stencils_new_report', args=(self.to_drink.id,)),
-            post
+            post,
+            follow=True
         )
 
         messages = list(response.context['messages'])
@@ -305,7 +301,7 @@ class StencilViewTests(TestCase):
         self.assertEqual(messages[0].tags, "success")
         self.assertTrue("poprawnie" in messages[0].message)
 
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(Report.objects.count(), 1)
 
     def test_stencil_report_post_fail(self):
@@ -318,10 +314,16 @@ class StencilViewTests(TestCase):
 
         response = self.client.post(
             reverse('stencils_new_report', args=(self.to_drink.id,)),
-            post
+            post,
+            follow=True
         )
 
         self.assertEqual(response.status_code, 200)
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+        self.assertTrue("niepoprawnie" in messages[0].message)
 
         # report should not pass with no products
         post = {}

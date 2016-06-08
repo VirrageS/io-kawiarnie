@@ -13,11 +13,13 @@ Szablon
   {% endif %}
 </section>
 
-<section class="buttons">
-  <a href="{% url 'stencils_edit_stencil' stencil.id %}" class="button button-rounded button-red">
-    Edytuj
-  </a>
-</section>
+{% if perms.stencils.change_stencil %}
+  <section class="buttons">
+    <a href="{% url 'stencils_edit_stencil' stencil.id %}" class="button button-rounded button-red">
+      Edytuj
+    </a>
+  </section>
+{% endif %}
 
 <section class="categories">
   {% for category in categories %}

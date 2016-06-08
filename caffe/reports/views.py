@@ -279,7 +279,13 @@ def reports_new_report(request):
                 full_product.save()
 
             report.save()
+            messages.success(request, u'Raport został poprawnie stworzony.')
             return redirect(reverse('reports_navigate'))
+        else:
+            messages.error(
+                request,
+                u'Formularz został niepoprawnie wypełniony.'
+            )
 
     # get last five reports
     latest_reports = Report.objects.all()[:5]
@@ -377,7 +383,13 @@ def reports_edit_report(request, report_id):
                 full_product.save()
 
             report.save()
+            messages.success(request, u'Raport został poprawnie zmieniony.')
             return redirect(reverse('reports_navigate'))
+        else:
+            messages.error(
+                request,
+                u'Formularz został niepoprawnie wypełniony.'
+            )
 
     return render(request, 'reports/new_report.html', {
         'title': 'Edytuj raport',

@@ -12,8 +12,12 @@
       <th>Nazwisko</th>
       <th>Email</th>
       <th>Numer telefonu</th>
-      <th class="center">Edytuj</th>
-      <th class="center">Usuń</th>
+      {% if perms.employees.change_employee %}
+        <th class="center">Edytuj</th>
+      {% endif %}
+      {% if perms.employees.delete_employee %}
+        <th class="center">Usuń</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -23,8 +27,12 @@
         <td>{{ employee.last_name }}</td>
         <td>{{ employee.email }}</td>
         <td>{{ employee.telephone_number }}</td>
-        <td class="table__cell--center icon icon__edit"><a href="{% url 'edit_employee' employee.id %}"><i class="fa fa-pencil"></i></a></td>
-        <td class="table__cell--center icon icon__delete"><a href="{% url 'delete_employee' employee.id %}" onclick="return confirm('Czy na pewno chcesz usunąć tego pracownika?');"><i class="fa fa-trash"></i></a></td>
+        {% if perms.employees.change_employee %}
+          <td class="table__cell--center icon icon__edit"><a href="{% url 'edit_employee' employee.id %}"><i class="fa fa-pencil"></i></a></td>
+        {% endif %}
+        {% if perms.employees.delete_employee %}
+          <td class="table__cell--center icon icon__delete"><a href="{% url 'delete_employee' employee.id %}" onclick="return confirm('Czy na pewno chcesz usunąć tego pracownika?');"><i class="fa fa-trash"></i></a></td>
+        {% endif %}
       </tr>
     {% endfor %}
   </tbody>

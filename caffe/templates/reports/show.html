@@ -9,11 +9,13 @@ Raport
   {{ report.created_on }}
 </section>
 
-<section class="buttons">
-  <a href="{% url 'reports_edit_report' report.id %}" class="button button-rounded button-red">
-    Edytuj
-  </a>
-</section>
+{% if perms.reports.edit_report %}
+  <section class="buttons">
+    <a href="{% url 'reports_edit_report' report.id %}" class="button button-rounded button-red">
+      Edytuj
+    </a>
+  </section>
+{% endif %}
 
 <section class="categories">
   {% for category, products in categories.items %}

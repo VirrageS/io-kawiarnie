@@ -44,8 +44,7 @@ def hours_new_position(request):
     for position in positions:
         all_positions.append({
             'id': position.id,
-            'desc': position.name,
-            'edit_url': reverse('edit_position', args=(position.pk,))
+            'desc': position.name
         })
 
     return render(request, 'hours/new_position.html', {

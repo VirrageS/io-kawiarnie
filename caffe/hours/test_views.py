@@ -59,13 +59,7 @@ class PositionViewsTests(TestCase):
         )
 
         for position in positions:
-            self.assertEqual(len(position), 3)
-            self.assertIn(
-                position['edit_url'], [
-                    reverse('edit_position', args=(self.barista.id,)),
-                    reverse('edit_position', args=(self.cleaning.id,))
-                ]
-            )
+            self.assertEqual(len(position), 2)
             self.assertIn(position['id'], [self.barista.id, self.cleaning.id])
             self.assertIn(
                 position['desc'],

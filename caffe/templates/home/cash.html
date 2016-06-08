@@ -6,10 +6,12 @@ Kasa
 
 {% block content %}
 <section class="cards cards-primary">
-  <a href="{% url 'new_cash_report' %}" class="card">
-    <i class="fa fa-money" aria-hidden="true"></i>
-    Nowy raport z kasy
-  </a>
+  {% if perms.cash.add_cashreport %}
+    <a href="{% url 'new_cash_report' %}" class="card">
+      <i class="fa fa-money" aria-hidden="true"></i>
+      Nowy raport z kasy
+    </a>
+  {% endif %}
 </section>
 
 <section class="cards cards-green">
@@ -17,14 +19,19 @@ Kasa
     Tworzenie elementów raportu z kasy
   </h2>
 
-  <a href="{% url 'cash_new_company' %}" class="card">
-    <i class="fa fa-building-o" aria-hidden="true"></i>
-    Firma
-  </a>
-  <a href="{% url 'cash_new_expense' %}" class="card">
-    <i class="fa fa-dollar" aria-hidden="true"></i>
-    Wydatki
-  </a>
+  {% if perms.cash.add_company %}
+    <a href="{% url 'cash_new_company' %}" class="card">
+      <i class="fa fa-building-o" aria-hidden="true"></i>
+      Firma
+    </a>
+  {% endif %}
+
+  {% if perms.cash.add_expense %}
+    <a href="{% url 'cash_new_expense' %}" class="card">
+      <i class="fa fa-dollar" aria-hidden="true"></i>
+      Wydatki
+    </a>
+  {% endif %}
 </section>
 
 <section class="cards cards-red">
@@ -32,17 +39,25 @@ Kasa
     Podgląd i edycja
   </h2>
 
-  <a href="{% url 'show_all_cash_reports' %}" class="card">
-    <i class="fa fa-money" aria-hidden="true"></i>
-    Raporty z kasy
-  </a>
-  <a href="{% url 'cash_new_company' %}" class="card">
-    <i class="fa fa-building-o" aria-hidden="true"></i>
-    Firmy
-  </a>
-  <a href="{% url 'cash_new_expense' %}" class="card">
-    <i class="fa fa-dollar" aria-hidden="true"></i>
-    Wydatki
-  </a>
+  {% if perms.cash.view_cashreport %}
+    <a href="{% url 'show_all_cash_reports' %}" class="card">
+      <i class="fa fa-money" aria-hidden="true"></i>
+      Raporty z kasy
+    </a>
+  {% endif %}
+
+  {% if perms.cash.view_company %}
+    <a href="{% url 'cash_new_company' %}" class="card">
+      <i class="fa fa-building-o" aria-hidden="true"></i>
+      Firmy
+    </a>
+  {% endif %}
+
+  {% if perms.cash.view_expense %}
+    <a href="{% url 'cash_new_expense' %}" class="card">
+      <i class="fa fa-dollar" aria-hidden="true"></i>
+      Wydatki
+    </a>
+  {% endif %}
 </section>
 {% endblock %}

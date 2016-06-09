@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import CashReport, Company, Expense
+
+admin.site.register(CashReport)
+admin.site.register(Company)
+admin.site.register(Expense)

@@ -1,0 +1,5 @@
+coverage:
+  ignore:
+    - .*/apps.py
+    - .*/wsgi.py
+    - .*/settings/.*

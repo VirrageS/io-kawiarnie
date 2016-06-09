@@ -9,5 +9,6 @@ script:
   - coverage run --source="caffe" --omit="*migrations*" caffe/manage.py test caffe
 after_success:
   - coveralls
+  - bash <(curl -s https://codecov.io/bash)
 notifications:
   slack: io-kawiarnie:9weIop9A462y5IzoQEBI90Ps

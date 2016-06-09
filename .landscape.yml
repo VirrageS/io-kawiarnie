@@ -21,5 +21,6 @@ requirements:
 ignore-patterns:
   - (^|/)migrations(/|$)
   - (^|/)settings(/|$)
+  - (^|/)apps.py
 strictness: veryhigh
 test-warnings: yes

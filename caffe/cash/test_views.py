@@ -470,21 +470,6 @@ class CashReportViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home/cash.html')
 
-    def test_cashreport_show_all(self):
-        """Check if all CashReport view is displayed properly."""
-
-        response = self.client.get(reverse('show_all_cash_reports'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'cash/all.html')
-
-        # check context
-        self.assertEqual(len(response.context['reports']), 2)
-        reports = list(response.context['reports'])
-        self.assertListEqual(
-            reports,
-            sorted(reports, key=lambda cash: cash.created_on, reverse=True)
-        )
-
     def test_cashreport_show(self):
         """Check if CashReport view is displated properly."""
         response = self.client.get(reverse(

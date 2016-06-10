@@ -102,3 +102,13 @@ class WorkedHoursForm(forms.ModelForm):
                     'start_time',
                     u'Czas rozpoczęcia jest później niż czas zakończenia.'
                 )
+
+    def save(self, commit=True):
+        """Save WorkedHoursForm data to model."""
+
+        hours = super(WorkedHoursForm, self).save(commit=False)
+        hours.employee = self.employee
+        if commit:
+            hours.save()
+
+        return hours

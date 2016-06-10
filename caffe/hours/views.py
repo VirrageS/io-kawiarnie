@@ -62,9 +62,7 @@ def hours_new_worked_hours(request):
     form = WorkedHoursForm(request.POST or None, employee=request.user)
 
     if form.is_valid():
-        hours = form.save(commit=False)
-        hours.employee = request.user
-        hours.save()
+        form.save()
         return redirect(reverse('caffe_navigate'))
 
     return render(request, 'hours/new_hours.html', {

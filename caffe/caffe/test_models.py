@@ -2,7 +2,6 @@
 
 from django.test import TestCase
 
-from employees.models import Employee
 from .models import Caffe
 
 
@@ -12,22 +11,12 @@ class CaffeModelTest(TestCase):
     def setUp(self):
         """Prepare database for tests."""
 
-        Employee.objects.create(
-            username='theboss',
-            first_name='bossy',
-            last_name='boss',
-            telephone_number='12345678',
-            email='boss@bosses.com',
-            favorite_coffee='black'
-        )
-
         Caffe.objects.create(
             name='kafo',
             city='Gliwice',
             street='Wieczorka',
             house_number='14',
-            postal_code='44-100',
-            creator=Employee.objects.get(username='theboss')
+            postal_code='44-100'
         )
 
     def test_validation(self):
@@ -39,8 +28,7 @@ class CaffeModelTest(TestCase):
                 city='Gliwice',
                 street='Wieczorka',
                 house_number='14',
-                postal_code='44-100',
-                creator=Employee.objects.get(username='theboss')
+                postal_code='44-100'
             )
 
     def test_str(self):

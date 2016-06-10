@@ -4,6 +4,8 @@ from django.contrib.auth.models import Permission
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 
+from caffe.models import Caffe
+
 from .forms import EmployeeForm
 from .models import Employee
 
@@ -15,12 +17,22 @@ class EmployeeViewsTests(TestCase):
         """Initiate everything needed in tests."""
 
         self.client = Client()
+
+        self.caffe = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
         self.emp1 = Employee.objects.create_user(
             username='marta',
             password='pass',
             email='marta@marta.pl',
             telephone_number=324092342,
-            favorite_coffee='kawa'
+            favorite_coffee='kawa',
+            caffe=self.caffe
         )
         self.emp1.user_permissions.add(
             Permission.objects.get(codename='view_report'),
@@ -33,7 +45,8 @@ class EmployeeViewsTests(TestCase):
             password='pass',
             email='szkarta@szkarta.pl',
             telephone_number=324092342,
-            favorite_coffee='kawa'
+            favorite_coffee='kawa',
+            caffe=self.caffe
         )
 
         self.emp1.save()
@@ -42,7 +55,8 @@ class EmployeeViewsTests(TestCase):
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.caffe
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -113,6 +127,7 @@ class EmployeeViewsTests(TestCase):
         # check if employee has changed
         employee = Employee.objects.get(id=self.emp1.id)
         self.assertEqual(employee.username, u'kolega')
+        self.assertEqual(employee.caffe, self.caffe)
 
         # check if edited employee is displayed
         response = self.client.get(reverse('show_all_employees'))
@@ -217,6 +232,8 @@ class EmployeeViewsTests(TestCase):
         new_employee = Employee.objects.get(username='prac')
         self.assertIsNotNone(new_employee)
         self.assertIsInstance(new_employee, Employee)
+        self.assertEqual(new_employee.caffe, self.user.caffe)
+        self.assertEqual(new_employee.caffe, self.caffe)
 
     def test_new_employees_fail(self):
         """Check if creating employees fails correctly."""

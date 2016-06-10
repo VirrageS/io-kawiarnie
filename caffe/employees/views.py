@@ -23,17 +23,17 @@ def employees_logout_employee(request):
 def employees_new_employee(request):
     """Create a new employee."""
 
-    new_emp_form = EmployeeForm(request.POST or None)
+    form = EmployeeForm(request.POST or None, caffe=request.user.caffe)
 
-    if new_emp_form.is_valid():
-        new_emp_form.save()
+    if form.is_valid():
+        form.save()
         messages.success(request, 'Pracownik został poprawnie stworzony.')
         return redirect(reverse('employees_navigate'))
     elif request.POST:
         messages.error(request, u'Formularz został niepoprawnie wypełniony.')
 
     return render(request, 'employees/new.html', {
-        'form': new_emp_form
+        'form': form
     })
 
 
@@ -42,17 +42,21 @@ def employees_edit_employee(request, employee_id):
     """Edit an employee."""
 
     employee = get_object_or_404(Employee, id=employee_id)
-    edit_emp_form = EmployeeForm(request.POST or None, instance=employee)
+    form = EmployeeForm(
+        request.POST or None,
+        instance=employee,
+        caffe=request.user.caffe
+    )
 
-    if edit_emp_form.is_valid():
-        edit_emp_form.save()
+    if form.is_valid():
+        form.save()
         messages.success(request, 'Pracownik został poprawnie zmieniony.')
         return redirect(reverse('employees_navigate'))
     elif request.POST:
         messages.error(request, u'Formularz został niepoprawnie wypełniony.')
 
     return render(request, 'employees/edit.html', {
-        'form': edit_emp_form,
+        'form': form,
         'employee': employee
     })
 

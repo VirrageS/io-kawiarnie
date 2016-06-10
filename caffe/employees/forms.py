@@ -33,7 +33,10 @@ class EmployeeForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         """Init form data."""
+
         kwargs.setdefault('label_suffix', '')  # removes ":" from labels
+
+        self.caffe = kwargs.pop('caffe')
 
         super(EmployeeForm, self).__init__(*args, **kwargs)
 
@@ -62,7 +65,11 @@ class EmployeeForm(UserCreationForm):
 
     def save(self, commit=True):
         """Override of save method, to add users groups."""
-        employee = super(EmployeeForm, self).save(commit=True)
+
+        employee = super(EmployeeForm, self).save(commit=False)
+        employee.caffe = self.caffe
+        if commit:
+            employee.save()
 
         try:
             employee.groups.clear()

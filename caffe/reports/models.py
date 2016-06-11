@@ -12,6 +12,9 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from caffe.models import Caffe
+from employees.models import Employee
+
 
 class Report(models.Model):
     """Stores a single report created from selected FullProducts.
@@ -23,8 +26,9 @@ class Report(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     creator = models.ForeignKey(
-        'employees.Employee', unique=False, null=True, blank=True, default=None
+        Employee, unique=False, null=True, blank=True, default=None
     )
+    caffe = models.ForeignKey(Caffe, null=True, blank=False, default=None)
 
     class Meta:
         ordering = ('-created_on',)
@@ -44,6 +48,7 @@ class Category(models.Model):
     """
 
     name = models.CharField(max_length=100, unique=True,)
+    caffe = models.ForeignKey(Caffe, null=True, blank=False, default=None)
 
     class Meta:
         ordering = ('name',)
@@ -63,6 +68,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100, unique=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE)
+    caffe = models.ForeignKey(Caffe, null=True, blank=False, default=None)
 
     class Meta:
         ordering = ('name',)
@@ -79,6 +85,7 @@ class Unit(models.Model):
     """
 
     name = models.CharField(max_length=100, unique=True)
+    caffe = models.ForeignKey(Caffe, null=True, blank=False, default=None)
 
     class Meta:
         ordering = ('name',)
@@ -102,6 +109,7 @@ class FullProduct(models.Model):
         blank=True, null=True,
         related_name='full_products'
     )
+    caffe = models.ForeignKey(Caffe, null=True, blank=False, default=None)
 
     def clean(self, *args, **kwargs):
         """Clean data and check validation."""

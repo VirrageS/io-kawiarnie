@@ -41,7 +41,12 @@ def employees_new_employee(request):
 def employees_edit_employee(request, employee_id):
     """Edit an employee."""
 
-    employee = get_object_or_404(Employee, id=employee_id)
+    employee = get_object_or_404(
+        Employee,
+        id=employee_id,
+        caffe=request.user.caffe
+    )
+
     form = EmployeeForm(
         request.POST or None,
         instance=employee,
@@ -65,7 +70,11 @@ def employees_edit_employee(request, employee_id):
 def employees_delete_employee(request, employee_id):
     """Delete an employee."""
 
-    employee = get_object_or_404(Employee, id=employee_id)
+    employee = get_object_or_404(
+        Employee,
+        id=employee_id,
+        caffe=request.user.caffe
+    )
 
     if employee == request.user:
         messages.error(request, u'Nie możesz usunąć siebie.')
@@ -80,7 +89,12 @@ def employees_delete_employee(request, employee_id):
 def employees_show_all_employees(request):
     """Show all employees."""
 
-    employees = Employee.objects.order_by('last_name', 'first_name')
+    employees = (Employee
+        .objects
+        .order_by('last_name', 'first_name')
+        .filter(caffe=request.user.caffe)
+        .all()
+    )
 
     return render(request, 'employees/all.html', {
         'employees': employees

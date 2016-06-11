@@ -5,14 +5,25 @@ from django.test import TestCase
 
 from .models import Category, FullProduct, Product, Report, Unit
 
+from caffe.models import Caffe
+
 
 class CategoryModelTest(TestCase):
     """Category tests."""
 
     def setUp(self):
         """Test data setup."""
-        Category.objects.create(name="first")
-        Category.objects.create(name="second")
+
+        self.caffe = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.first = Category.objects.create(name="first", caffe=self.caffe)
+        Category.objects.create(name="second", caffe=self.caffe)
 
     def test_category_name(self):
         """Chcek correctness of setting names."""
@@ -25,22 +36,34 @@ class CategoryModelTest(TestCase):
         self.assertRaises(Exception, Category.objects.create, name="first")
         self.assertRaises(Exception, Category.objects.create, name="second")
 
+    def test_category_caffe(self):
+        """Check if caffe is being set properly."""
+
+        self.assertEqual(self.first.caffe, self.caffe)
+
 
 class UnitModelTest(TestCase):
     """Unit tests."""
 
     def setUp(self):
         """Test data setup."""
-        Unit.objects.create(name="gram")
-        Unit.objects.create(name="liter")
+
+        self.caffe = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.gram = Unit.objects.create(name="gram", caffe=self.caffe)
+        Unit.objects.create(name="liter", caffe=self.caffe)
 
     def test_unit(self):
         """Chcek creating units."""
-        u_gram = Unit.objects.get(name="gram")
-        u_gram2 = Unit.objects.get(name="gram")
-        Unit.objects.get(name="liter")
 
-        self.assertEqual(u_gram.id, u_gram2.id)
+        self.assertEqual(self.gram.name, "gram")
+        self.assertEqual(self.first.caffe, self.caffe)
         self.assertRaises(Exception, Unit.objects.create, name="liter")
 
 
@@ -49,61 +72,75 @@ class ProductModelTest(TestCase):
 
     def setUp(self):
         """Test data setup."""
-        Category.objects.create(name="first")
-        Category.objects.create(name="second")
 
-        Unit.objects.create(name="gram")
-        Unit.objects.create(name="liter")
+        self.caffe = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.cakes = Category.objects.create(name="cakes", caffe=self.caffe)
+        self.second = Category.objects.create(name="second", caffe=self.caffe)
+
+        self.gram = Unit.objects.create(name="gram", caffe=self.caffe)
+        self.liter = Unit.objects.create(name="liter", caffe=self.cafe)
 
     def test_product(self):
         """Check correctness of creating products and validation."""
-        first_cat = Category.objects.get(name="first")
-        second_cat = Category.objects.get(name="second")
-
-        gram = Unit.objects.get(name="gram")
-        liter = Unit.objects.get(name="liter")
 
         Product.objects.create(
             name="product1",
-            category=first_cat,
-            unit=gram
+            category=self.cakes,
+            unit=self.gram,
+            caffe=self.caffe
         )
         Product.objects.create(
             name="product4",
-            category=second_cat,
-            unit=liter
+            category=self.second,
+            unit=self.liter,
+            caffe=self.caffe
         )
         product1 = Product.objects.create(
             name="product2",
-            category=first_cat,
-            unit=liter
+            category=self.cakes,
+            unit=self.liter,
+            caffe=self.caffe
         )
         product2 = Product.objects.create(
             name="product3",
-            category=second_cat,
-            unit=gram
+            category=self.second,
+            unit=self.gram,
+            caffe=self.caffe
         )
-        self.assertEqual(first_cat.product_set.count(), 2)
+
+        self.assertEqual(product1.name, "product2")
+        self.assertEqual(product1.caffe, self.caffe)
+
+        self.assertEqual(self.cakes.product_set.count(), 2)
         product1.delete()
-        self.assertEqual(first_cat.product_set.count(), 1)
-        product2.category = first_cat
+        self.assertEqual(self.cakes.product_set.count(), 1)
+
+        product2.category = self.cakes
         product2.save()
-        self.assertEqual(first_cat.product_set.count(), 2)
-        self.assertEqual(second_cat.product_set.count(), 1)
-        product2.category = second_cat
+        self.assertEqual(self.cakes.product_set.count(), 2)
+        self.assertEqual(self.second.product_set.count(), 1)
+        product2.category = self.second
         product2.save()
 
-        self.assertEqual(gram.product_set.count(), 2)
+        self.assertEqual(self.gram.product_set.count(), 2)
         product2.delete()
-        self.assertEqual(gram.product_set.count(), 1)
+        self.assertEqual(self.gram.product_set.count(), 1)
 
         # already exists product with name = "product1"
         self.assertRaises(
             Exception,
             Product.objects.create,
             name="product1",
-            category=first_cat,
-            unit=gram
+            category=self.cake,
+            unit=self.gram,
+            caffe=self.caffe
         )
 
 

@@ -12,11 +12,9 @@ class EmployeeModelTest(TestCase):
 
     def setUp(self):
         """Set up data to tests."""
-        self.group1 = Group.objects.create(
-            name="grupa1")
 
-        self.group2 = Group.objects.create(
-            name="grupa2")
+        self.group1 = Group.objects.create(name="grupa1")
+        self.group2 = Group.objects.create(name="grupa2")
 
         self.user1 = Employee.objects.create(
             username="u1",

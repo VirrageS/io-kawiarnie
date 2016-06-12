@@ -64,11 +64,7 @@ class WorkedHoursForm(forms.ModelForm):
         super(WorkedHoursForm, self).__init__(*args, **kwargs)
         self.fields['position'].label = u'Stanowisko'
 
-        if self.instance.id:
-            self.initial['start_time'] = self.instance.start_time
-            self.initial['end_time'] = self.instance.end_time
-            self.initial['date'] = self.instance.date
-        else:
+        if self.instance.id is None:
             self.initial['date'] = date.today()
 
     def clean(self):

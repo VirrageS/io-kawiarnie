@@ -8,6 +8,7 @@ from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 from django.utils import timezone
 
+from caffe.models import Caffe
 from employees.models import Employee
 
 from .forms import CategoryForm, ProductForm, UnitForm
@@ -23,13 +24,32 @@ class CategoryViewsTests(TestCase):
 
         self.client = Client()
 
-        self.coffees = Category.objects.create(name='Kawy')
-        self.cakes = Category.objects.create(name='Ciasta')
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.coffees = Category.objects.create(name='Kawy', caffe=self.kafo)
+        self.cakes = Category.objects.create(name='Ciasta', caffe=self.kafo)
+
+        self.cakes2 = Category.objects.create(name='Ciasta', caffe=self.filtry)
 
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.kafo
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -206,13 +226,31 @@ class UnitViewsTests(TestCase):
 
         self.client = Client()
 
-        self.money = Unit.objects.create(name=u'złotówki')
-        self.grams = Unit.objects.create(name=u'gramy')
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.money = Unit.objects.create(name=u'złotówki', caffe=self.kafo)
+        self.grams = Unit.objects.create(name=u'gramy', caffe=self.kafo)
+
+        Unit.objects.create(name='gramy', caffe=self.filtry)
 
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.kafo
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -386,27 +424,53 @@ class ProductViewsTests(TestCase):
 
         self.client = Client()
 
-        self.grams = Unit.objects.create(name=u'gramy')
-        self.pieces = Unit.objects.create(name=u'sztuki')
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
 
-        self.coffees = Category.objects.create(name='Kawy')
-        self.cakes = Category.objects.create(name='Ciasta')
+        self.grams = Unit.objects.create(name=u'gramy', caffe=self.kafo)
+        self.pieces = Unit.objects.create(name=u'sztuki', caffe=self.kafo)
+        self.pieces1 = Unit.objects.create(name='sztuki', caffe=self.filtry)
+
+        self.coffees = Category.objects.create(name='Kawy', caffe=self.kafo)
+        self.cakes = Category.objects.create(name='Ciasta', caffe=self.kafo)
+        self.cakes1 = Category.objects.create(name='Ciasta', caffe=self.filtry)
 
         self.caffee = Product.objects.create(
             name='Kawa sypana',
             category=self.coffees,
-            unit=self.grams
+            unit=self.grams,
+            caffe=self.kafo
         )
         self.cake = Product.objects.create(
             name='Szarlotka',
             category=self.cakes,
-            unit=self.pieces
+            unit=self.pieces,
+            caffe=self.kafo
+        )
+        Product.objects.create(
+            name='Szarlotka',
+            category=self.cakes1,
+            unit=self.pieces1,
+            caffe=self.filtry
         )
 
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.kafo
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -592,62 +656,111 @@ class ReportViewsTests(TestCase):
 
         self.client = Client()
 
-        self.coffees = Category.objects.create(name='Kawy')
-        self.cakes = Category.objects.create(name='Ciasta')
-        self.tees = Category.objects.create(name='Herbaty')
-        self.juices = Category.objects.create(name='Soki')
-        self.liter = Unit.objects.create(name='litr')
-        self.pieces = Unit.objects.create(name='kawałki')
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.coffees = Category.objects.create(name='Kawy', caffe=self.kafo)
+        self.cakes = Category.objects.create(name='Ciasta', caffe=self.kafo)
+        self.tees = Category.objects.create(name='Herbaty', caffe=self.kafo)
+        self.juices = Category.objects.create(name='Soki', caffe=self.kafo)
+        self.cakes1 = Category.objects.create(name='Ciasta', caffe=self.filtry)
+        self.coffees1 = Category.objects.create(name='Kawy', caffe=self.filtry)
+
+        self.liter = Unit.objects.create(name='litr', caffe=self.kafo)
+        self.pieces = Unit.objects.create(name='kawałki', caffe=self.kafo)
+        self.liter1 = Unit.objects.create(name='litr', caffe=self.filtry)
+        self.pieces1 = Unit.objects.create(name='kawałki', caffe=self.filtry)
+
 
         self.coke = Product.objects.create(
             name="Cola",
             category=self.juices,
-            unit=self.liter
+            unit=self.liter,
+            caffe=self.kafo
         )
-
         self.cake = Product.objects.create(
             name="Tiramisu",
             category=self.cakes,
-            unit=self.pieces
+            unit=self.pieces,
+            caffe=self.kafo
         )
-
         self.cake_second = Product.objects.create(
             name="Szarlotka",
             category=self.cakes,
-            unit=self.pieces
+            unit=self.pieces,
+            caffe=self.kafo
         )
-
         self.green_tea = Product.objects.create(
             name="Zielona Herbata",
             category=self.tees,
-            unit=self.liter
+            unit=self.liter,
+            caffe=self.kafo
         )
-
         self.black_coffe = Product.objects.create(
             name="Czarna kawa",
             category=self.coffees,
-            unit=self.liter
+            unit=self.liter,
+            caffe=self.kafo
+        )
+        self.cake1 = Product.objects.create(
+            name="Tiramisu",
+            category=self.cakes1,
+            unit=self.pieces1,
+            caffe=self.filtry
+        )
+        self.black_coffe1 = Product.objects.create(
+            name="Czarna kawa",
+            category=self.coffees1,
+            unit=self.liter1,
+            caffe=self.filtry
         )
 
         self.coke_full = FullProduct.objects.create(
             product=self.coke,
-            amount=50
+            amount=50,
+            caffe=self.kafo
         )
         self.coffee_full = FullProduct.objects.create(
             product=self.black_coffe,
-            amount=40
+            amount=40,
+            caffe=self.kafo
         )
         self.cake_full = FullProduct.objects.create(
             product=self.cake,
-            amount=10
+            amount=10,
+            caffe=self.kafo
         )
         self.cake_full_second = FullProduct.objects.create(
             product=self.cake_second,
-            amount=50
+            amount=50,
+            caffe=self.kafo
+        )
+        self.cake_full1 = FullProduct.objects.create(
+            product=self.cake1,
+            amount=10,
+            caffe=self.filtry
+        )
+        self.coffee_full1 = FullProduct.objects.create(
+            product=self.black_coffe1,
+            amount=40,
+            caffe=self.filtry
         )
 
-        self.minor_report = Report.objects.create()
-        self.major_report = Report.objects.create()
+        self.minor_report = Report.objects.create(caffe=self.kafo)
+        self.major_report = Report.objects.create(caffe=self.kafo)
+        self.filtry_report = Report.objects.create(caffe=self.filtry)
 
         self.coffee_full.report = self.minor_report
         self.coffee_full.save()
@@ -657,10 +770,16 @@ class ReportViewsTests(TestCase):
         self.cake_full_second.save()
         self.cake_full.save()
 
+        self.cake_full1.report = self.filtry_report
+        self.coffee_full1.report = self.filtry_report
+        self.cake_full1.save()
+        self.coffee_full1.save()
+
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.kafo
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -692,7 +811,7 @@ class ReportViewsTests(TestCase):
         self.assertEqual(response.context['title'], 'Nowy raport')
 
         products = response.context['products']
-        all_products = Product.objects.all()
+        all_products = Product.objects.filter(caffe=self.kafo).all()
         for product in all_products:
             self.assertIn(str(product.id), products)
             self.assertIn(json.dumps(product.name), products)
@@ -898,7 +1017,12 @@ class ReportViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/all.html')
 
-        reports = Report.objects.order_by('-created_on')
+        reports = (Report
+            .objects
+            .filter(caffe=self.kafo)
+            .order_by('-created_on')
+        )
+
         self.assertListEqual(list(response.context['reports']), list(reports))
 
     def test_show_report_show(self):

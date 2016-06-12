@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import CategoryForm, FullProductForm, ProductForm, UnitForm
+from .forms import (CategoryForm, FullProductForm, ProductForm, ReportForm,
+                    UnitForm)
 from .models import Category, FullProduct, Product, Report, Unit
 
 
@@ -296,7 +297,7 @@ def reports_new_report(request):
                 caffe=request.user.caffe,
                 employee=request.user
             )
-            report = form.save(commit=False)
+            report = form.save()
 
             # for each form save it with its report
             for form in forms:
@@ -304,7 +305,6 @@ def reports_new_report(request):
                 full_product.report = report
                 full_product.save()
 
-            report.save()
             return redirect(reverse('reports_navigate'))
         else:
             messages.error(
@@ -417,7 +417,6 @@ def reports_edit_report(request, report_id):
                 full_product.report = report
                 full_product.save()
 
-            report.save()
             return redirect(reverse('reports_navigate'))
         else:
             messages.error(

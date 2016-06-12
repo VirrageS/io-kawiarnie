@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
 
 from django import forms
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
-from .models import Category, FullProduct, Product, Unit, Report
+from .models import Category, FullProduct, Product, Report, Unit
 
 
 class ProductForm(forms.ModelForm):
@@ -24,6 +26,17 @@ class ProductForm(forms.ModelForm):
         self.fields['unit'].label = 'Jednostka'
         self.fields['category'].empty_label = None
         self.fields['unit'].empty_label = None
+
+    def clean_name(self):
+        """Check name field."""
+
+        name = self.cleaned_data['name']
+
+        query = Product.objects.filter(name=name, caffe=self.caffe)
+        if query.exists():
+            raise ValidationError(_('Nazwa nie jest unikalna.'))
+
+        return name
 
     def save(self, commit=True):
         """Override of save method, to add Caffe relation."""
@@ -52,6 +65,17 @@ class CategoryForm(forms.ModelForm):
         super(CategoryForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = 'Nazwa'
 
+    def clean_name(self):
+        """Check name field."""
+
+        name = self.cleaned_data['name']
+
+        query = Category.objects.filter(name=name, caffe=self.caffe)
+        if query.exists():
+            raise ValidationError(_('Nazwa nie jest unikalna.'))
+
+        return name
+
     def save(self, commit=True):
         """Override of save method, to add Caffe relation."""
 
@@ -77,6 +101,17 @@ class UnitForm(forms.ModelForm):
         kwargs.setdefault('label_suffix', '')
         super(UnitForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = 'Nazwa'
+
+    def clean_name(self):
+        """Check name field."""
+
+        name = self.cleaned_data['name']
+
+        query = Unit.objects.filter(name=name, caffe=self.caffe)
+        if query.exists():
+            raise ValidationError(_('Nazwa nie jest unikalna.'))
+
+        return name
 
     def save(self, commit=True):
         """Override of save method, to add Caffe relation."""
@@ -110,7 +145,7 @@ class FullProductForm(forms.ModelForm):
     def save(self, commit=True):
         """Override of save method, to add Caffe relation."""
 
-        full_product = super(CategoryForm, self).save(commit=False)
+        full_product = super(FullProductForm, self).save(commit=False)
         full_product.caffe = self.caffe
         if commit:
             full_product.save()

@@ -48,7 +48,6 @@ class Report(models.Model):
                     _('Kawiarnia i kawiarnia tworzącego powinna się zgadzać')
                 )
 
-        self.full_clean()
         super(Report, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -235,22 +234,21 @@ class FullProduct(models.Model):
                     _('Report should not contain two same products.')
                 )
 
-        if self.report is not None:
-            if self.caffe != self.report.caffe:
-                raise ValidationError(
-                    _('Kawiarnia i kawiarnia raportu nie zgadza się.')
-                )
-
         super(FullProduct, self).clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         """Save model into the database."""
 
+        if self.report:
+            if self.caffe != self.report.caffe:
+                raise ValidationError(
+                    _('Kawiarnia i kawiarnia raportu nie zgadza się.')
+                )
+
         if self.caffe != self.product.caffe:
             raise ValidationError(
                 _('Kawiarnia i kawiarnia produktu nie zgadza się.')
             )
-
 
         self.full_clean()
         super(FullProduct, self).save(*args, **kwargs)

@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 from django.utils import timezone
 
+from caffe.models import Caffe
 from cash.models import CashReport
 from employees.models import Employee
 from hours.models import Position, WorkedHours
@@ -19,10 +20,19 @@ class CalendarViewsTests(TestCase):
 
         self.client = Client()
 
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.kafo
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -34,8 +44,8 @@ class CalendarViewsTests(TestCase):
         self.client.login(username='admin', password='admin')
 
         # objects
-        self.main_report = Report.objects.create()
-        self.minor_report = Report.objects.create()
+        self.main_report = Report.objects.create(caffe=self.kafo)
+        self.minor_report = Report.objects.create(caffe=self.kafo)
 
         self.cash_report_main = CashReport(
             cash_before_shift=1000,

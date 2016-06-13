@@ -292,12 +292,10 @@ def reports_new_report(request):
 
         # check if some form exists
         if len(forms) > 0 and valid:
-            form = ReportForm(
-                {},
+            report = Report.objects.create(
                 caffe=request.user.caffe,
-                employee=request.user
+                creator=request.user
             )
-            report = form.save()
 
             # for each form save it with its report
             for form in forms:

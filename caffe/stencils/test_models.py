@@ -3,6 +3,7 @@
 
 from django.test import TestCase
 
+from caffe.models import Caffe
 from reports.models import Category
 
 from .models import Stencil
@@ -14,8 +15,16 @@ class StencilModelTest(TestCase):
     def setUp(self):
         """Initialize all categories needed in tests."""
 
-        self.coffees = Category.objects.create(name='Kawy')
-        self.cakes = Category.objects.create(name='Ciasta')
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.coffees = Category.objects.create(name='Kawy', caffe=self.kafo)
+        self.cakes = Category.objects.create(name='Ciasta', caffe=self.kafo)
 
     def test_stencil_name(self):
         """Check if name for Stencil is saved properly."""

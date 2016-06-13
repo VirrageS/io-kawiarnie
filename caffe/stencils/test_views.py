@@ -7,6 +7,7 @@ from django.contrib.auth.models import Permission
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 
+from caffe.models import Caffe
 from employees.models import Employee
 from reports.models import Category, Product, Report, Unit
 
@@ -39,28 +40,39 @@ class StencilViewTests(TestCase):
         """test data setup."""
         self.client = Client()
 
-        self.caffees = Category.objects.create(name='Kawy')
-        self.cakes = Category.objects.create(name='Ciasta')
-        self.tees = Category.objects.create(name='Herbaty')
-        self.juices = Category.objects.create(name='Soki')
-        self.liter = Unit.objects.create(name='litr')
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.caffees = Category.objects.create(name='Kawy', caffe=self.kafo)
+        self.cakes = Category.objects.create(name='Ciasta', caffe=self.kafo)
+        self.tees = Category.objects.create(name='Herbaty', caffe=self.kafo)
+        self.juices = Category.objects.create(name='Soki', caffe=self.kafo)
+        self.liter = Unit.objects.create(name='litr', caffe=self.kafo)
 
         self.coke = Product.objects.create(
             name="Cola",
             category=self.juices,
-            unit=self.liter
+            unit=self.liter,
+            caffe=self.kafo
         )
 
         self.green_tea = Product.objects.create(
             name="Zielona Herbata",
             category=self.tees,
-            unit=self.liter
+            unit=self.liter,
+            caffe=self.kafo
         )
 
         self.black_coffe = Product.objects.create(
             name="Czarna kawa",
             category=self.caffees,
-            unit=self.liter
+            unit=self.liter,
+            caffe=self.kafo
         )
 
         self.to_drink = Stencil.objects.create(
@@ -79,7 +91,8 @@ class StencilViewTests(TestCase):
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.kafo
         )
         self.user.save()
         self.user.user_permissions.add(

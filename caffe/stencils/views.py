@@ -121,11 +121,13 @@ def stencils_new_report(request, stencil_id):
         # chcek validation and create form for each fullproduct
         for full_product in post:
             fp_list = post.getlist(full_product)
-            form = FullProductForm({
-                # sets product id and amount for fullproduct
-                'product': fp_list[0],
-                'amount': fp_list[1]
-            })
+            form = FullProductForm(
+                {
+                    'product': fp_list[0],
+                    'amount': fp_list[1]
+                },
+                caffe=request.user.caffe
+            )
 
             if not form.is_valid():
                 valid = False
@@ -146,15 +148,16 @@ def stencils_new_report(request, stencil_id):
 
         # check if some form exists
         if len(forms) > 0 and valid:
-            report = Report.objects.create()
+            report = Report.objects.create(
+                creator=request.user,
+                caffe=request.user.caffe,
+            )
 
             # for each form save it with its report
             for form in forms:
                 full_product = form.save()
                 full_product.report = report
                 full_product.save()
-
-            report.save()
 
             return redirect(reverse('stencils_show_all_stencils'))
         else:

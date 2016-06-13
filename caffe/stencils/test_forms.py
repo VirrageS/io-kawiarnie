@@ -2,6 +2,7 @@
 
 from django.test import TestCase
 
+from caffe.models import Caffe
 from reports.models import Category
 
 from .forms import StencilForm
@@ -14,8 +15,16 @@ class StencilFormTest(TestCase):
     def setUp(self):
         """Initialize all Categories needed for further tests."""
 
-        self.coffees = Category.objects.create(name='Kawy')
-        self.cakes = Category.objects.create(name='Ciasta')
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.coffees = Category.objects.create(name='Kawy', caffe=self.kafo)
+        self.cakes = Category.objects.create(name='Ciasta', caffe=self.kafo)
 
     def test_stencil_form_correct(self):
         """Check possible cases when StencilForm is correct."""

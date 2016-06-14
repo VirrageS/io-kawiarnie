@@ -53,6 +53,5 @@ class CaffeForm(forms.ModelForm):
         if not postal_pattern.match(cleaned_postal_code):
             self.add_error(
                 'postal_code',
-                u'Kod pocztowy musi być w formacie XX-XXX.'
+                u'Kod pocztowy musi być w formacie liczbowym XX-XXX.'
             )
-

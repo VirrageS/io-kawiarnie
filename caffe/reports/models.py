@@ -48,6 +48,7 @@ class Report(models.Model):
                     _('Kawiarnia i kawiarnia tworzącego powinna się zgadzać')
                 )
 
+        self.full_clean()
         super(Report, self).save(*args, **kwargs)
 
     def __str__(self):

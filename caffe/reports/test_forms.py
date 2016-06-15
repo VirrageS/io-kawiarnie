@@ -459,12 +459,12 @@ class ReportFormTest(TestCase):
 
         # check no caffe
         with self.assertRaises(Exception):
-            ReportForm({}, employee=self.user)
+            ReportForm({}, creator=self.user)
 
         # check no employee
         with self.assertRaises(Exception):
             ReportForm({}, caffe=self.caffe)
 
         # validate okay
-        form = ReportForm({}, caffe=self.caffe, employee=self.user)
+        form = ReportForm({}, caffe=self.caffe, creator=self.user)
         self.assertTrue(form.is_valid())

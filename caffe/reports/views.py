@@ -400,7 +400,7 @@ def reports_edit_report(request, report_id):
             form = ReportForm(
                 {},
                 caffe=request.user.caffe,
-                employee=request.user,
+                creator=request.user,
                 instance=report
             )
             report = form.save()

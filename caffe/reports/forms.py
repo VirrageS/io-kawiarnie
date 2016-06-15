@@ -17,7 +17,7 @@ class ProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Initialize all Product's fields."""
 
-        self.caffe = kwargs.pop('caffe')
+        self._caffe = kwargs.pop('caffe')
 
         kwargs.setdefault('label_suffix', '')
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -31,8 +31,7 @@ class ProductForm(forms.ModelForm):
         """Check name field."""
 
         name = self.cleaned_data['name']
-
-        query = Product.objects.filter(name=name, caffe=self.caffe)
+        query = Product.objects.filter(name=name, caffe=self._caffe)
         if query.exists():
             raise ValidationError(_('Nazwa nie jest unikalna.'))
 
@@ -42,7 +41,7 @@ class ProductForm(forms.ModelForm):
         """Override of save method, to add Caffe relation."""
 
         product = super(ProductForm, self).save(commit=False)
-        product.caffe = self.caffe
+        product.caffe = self._caffe
         if commit:
             product.save()
 
@@ -59,7 +58,7 @@ class CategoryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Initialize all Category's fields."""
 
-        self.caffe = kwargs.pop('caffe')
+        self._caffe = kwargs.pop('caffe')
 
         kwargs.setdefault('label_suffix', '')
         super(CategoryForm, self).__init__(*args, **kwargs)
@@ -70,7 +69,7 @@ class CategoryForm(forms.ModelForm):
 
         name = self.cleaned_data['name']
 
-        query = Category.objects.filter(name=name, caffe=self.caffe)
+        query = Category.objects.filter(name=name, caffe=self._caffe)
         if query.exists():
             raise ValidationError(_('Nazwa nie jest unikalna.'))
 
@@ -80,7 +79,7 @@ class CategoryForm(forms.ModelForm):
         """Override of save method, to add Caffe relation."""
 
         category = super(CategoryForm, self).save(commit=False)
-        category.caffe = self.caffe
+        category.caffe = self._caffe
         if commit:
             category.save()
 
@@ -96,7 +95,7 @@ class UnitForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Initialize all Unit's fields."""
 
-        self.caffe = kwargs.pop('caffe')
+        self._caffe = kwargs.pop('caffe')
 
         kwargs.setdefault('label_suffix', '')
         super(UnitForm, self).__init__(*args, **kwargs)
@@ -106,8 +105,7 @@ class UnitForm(forms.ModelForm):
         """Check name field."""
 
         name = self.cleaned_data['name']
-
-        query = Unit.objects.filter(name=name, caffe=self.caffe)
+        query = Unit.objects.filter(name=name, caffe=self._caffe)
         if query.exists():
             raise ValidationError(_('Nazwa nie jest unikalna.'))
 
@@ -117,7 +115,7 @@ class UnitForm(forms.ModelForm):
         """Override of save method, to add Caffe relation."""
 
         unit = super(UnitForm, self).save(commit=False)
-        unit.caffe = self.caffe
+        unit.caffe = self._caffe
         if commit:
             unit.save()
 
@@ -134,7 +132,7 @@ class FullProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Initialize all FullProduct's fields."""
 
-        self.caffe = kwargs.pop('caffe')
+        self._caffe = kwargs.pop('caffe')
 
         kwargs.setdefault('label_suffix', '')
         super(FullProductForm, self).__init__(*args, **kwargs)
@@ -146,7 +144,7 @@ class FullProductForm(forms.ModelForm):
         """Override of save method, to add Caffe relation."""
 
         full_product = super(FullProductForm, self).save(commit=False)
-        full_product.caffe = self.caffe
+        full_product.caffe = self._caffe
         if commit:
             full_product.save()
 
@@ -163,8 +161,8 @@ class ReportForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Initialize all ReportForm's fields."""
 
-        self.caffe = kwargs.pop('caffe')
-        self.employee = kwargs.pop('employee')
+        self._caffe = kwargs.pop('caffe')
+        self._creator = kwargs.pop('creator')
 
         kwargs.setdefault('label_suffix', '')
         super(ReportForm, self).__init__(*args, **kwargs)
@@ -173,8 +171,8 @@ class ReportForm(forms.ModelForm):
         """Override of save method, to add Caffe relation."""
 
         report = super(ReportForm, self).save(commit=False)
-        report.caffe = self.caffe
-        report.creator = self.employee
+        report.caffe = self._caffe
+        report.creator = self._creator
         if commit:
             report.save()
 

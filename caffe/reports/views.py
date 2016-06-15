@@ -405,8 +405,7 @@ def reports_edit_report(request, report_id):
             )
             report = form.save()
 
-            full_products = FullProduct.objects.filter(report=report.id).all()
-            for full_product in full_products:
+            for full_product in report.full_products:
                 full_product.delete()
 
             # for each form save it with its report

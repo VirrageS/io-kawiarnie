@@ -11,16 +11,13 @@ def cash_new_company(request):
     """Show form to create new Company and show existing Companies."""
 
     elements = []
-    form = CompanyForm()
+    form = CompanyForm(request.POST or None, caffe=request.user.caffe)
 
-    if request.POST:
-        form = CompanyForm(request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect(reverse('cash_navigate'))
 
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('cash_navigate'))
-
-    companies = Company.objects.all()
+    companies = Company.objects.filter(caffe=request.user.caffe).all()
     for company in companies:
         elements.append({
             'edit_href': reverse('cash_edit_company', args=(company.id,)),
@@ -44,8 +41,17 @@ def cash_edit_company(request, company_id):
         company_id (int): Id of Company which is edited.
     """
 
-    company = get_object_or_404(Company, id=company_id)
-    form = CompanyForm(request.POST or None, instance=company)
+    company = get_object_or_404(
+        Company,
+        id=company_id,
+        caffe=request.user.caffe
+    )
+
+    form = CompanyForm(
+        request.POST or None,
+        caffe=request.user.caffe,
+        instance=company
+    )
 
     if form.is_valid():
         form.save()
@@ -64,16 +70,13 @@ def cash_new_expense(request):
     """Show form to create new Expense and show already existing Expenses."""
 
     elements = []
-    form = ExpenseForm()
+    form = ExpenseForm(request.POST or None, caffe=request.user.caffe)
 
-    if request.POST:
-        form = ExpenseForm(request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect(reverse('cash_navigate'))
 
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('cash_navigate'))
-
-    expenses = Expense.objects.all()
+    expenses = Expense.objects.filter(caffe=request.user.caffe).all()
     for expense in expenses:
         elements.append({
             'edit_href': reverse('cash_edit_expense', args=(expense.id,)),
@@ -97,8 +100,17 @@ def cash_edit_expense(request, expense_id):
         expense_id (int): Id of Expense which is edited.
     """
 
-    expense = get_object_or_404(Expense, id=expense_id)
-    form = ExpenseForm(request.POST or None, instance=expense)
+    expense = get_object_or_404(
+        Expense,
+        id=expense_id,
+        caffe=request.user.caffe
+    )
+
+    form = ExpenseForm(
+        request.POST or None,
+        caffe=request.user.caffe,
+        instance=expense
+    )
 
     if form.is_valid():
         form.save()
@@ -116,10 +128,14 @@ def cash_edit_expense(request, expense_id):
 def cash_new_cash_report(request):
     """Show form to create CashReport and show already existing CashReport."""
 
-    form = CashReportForm(request.POST or None)
     all_expenses = []
+    form = CashReportForm(
+        request.POST or None,
+        caffe=request.user.caffe,
+        creator=request.user
+    )
 
-    for expense in Expense.objects.all():
+    for expense in Expense.objects.filter(caffe=request.user.caffe).all():
         all_expenses.append({
             'id': expense.id,
             'name': expense.name,
@@ -175,27 +191,20 @@ def cash_new_cash_report(request):
             forms.append(expense_form)
 
         if valid:
-            cash_report = form.save(commit=False)
-            cash_report.creator = request.user
-            cash_report.save()
+            cash_report = form.save()
 
             for form in forms:
                 full_expense = form.save()
                 full_expense.cash_report = cash_report
                 full_expense.save()
 
-            cash_report.save()
             return redirect(reverse('cash_navigate'))
-
-    # get last five reports
-    latest_reports = CashReport.objects.all()[:5]
 
     return render(request, 'cash/new_report.html', {
         'title':  'Nowy raport z kasy',
         'button': 'Dodaj',
         'form': form,
         'expenses': json.dumps(all_expenses),
-        'reports': latest_reports,
     })
 
 
@@ -206,11 +215,21 @@ def cash_edit_cash_report(request, report_id):
         report_id (int): Id of CashReport which is edited.
     """
 
-    cash_report = get_object_or_404(CashReport, id=report_id)
-    form = CashReportForm(request.POST or None, instance=cash_report)
+    cash_report = get_object_or_404(
+        CashReport,
+        id=report_id,
+        caffe=request.user.caffe
+    )
+
+    form = CashReportForm(
+        request.POST or None,
+        caffe=request.user.caffe,
+        creator=request.user,
+        instance=cash_report
+    )
 
     all_expenses = []
-    for expense in Expense.objects.all():
+    for expense in Expense.objects.filter(caffe=request.user.caffe).all():
         all_expenses.append({
             'id': expense.id,
             'name': expense.name,
@@ -273,11 +292,7 @@ def cash_edit_cash_report(request, report_id):
             forms.append(expense_form)
 
         if valid:
-            full_expenses = FullExpense.objects.filter(
-                cash_report=cash_report.id
-            ).all()
-
-            for full_expense in full_expenses:
+            for full_expense in cash_report.full_expenses:
                 full_expense.delete()
 
             for form in forms:
@@ -285,7 +300,6 @@ def cash_edit_cash_report(request, report_id):
                 full_expense.cash_report = cash_report
                 full_expense.save()
 
-            cash_report.save()
             return redirect(reverse('cash_navigate'))
 
     return render(request, 'cash/new_report.html', {
@@ -303,22 +317,22 @@ def cash_show_cash_report(request, report_id):
         report_id (int): Id of CashReport which have to be shown.
     """
 
-    report = get_object_or_404(CashReport, id=report_id)
-    report.balance = report.balance()
-
-    full_expenses = FullExpense.objects.filter(
-        cash_report=report.id
+    cash_report = get_object_or_404(
+        CashReport,
+        id=report_id,
+        caffe=request.user.caffe
     )
+    cash_report.balance = cash_report.balance()
 
     all_expenses = []
-    for full_expense in full_expenses:
+    for full_expense in cash_report.full_expenses:
         all_expenses.append({
             'name': full_expense.expense.name,
             'amount': full_expense.amount
         })
 
     return render(request, 'cash/show.html', {
-        'report': report,
+        'report': cash_report,
         'expenses': all_expenses
     })
 
@@ -326,8 +340,8 @@ def cash_show_cash_report(request, report_id):
 def cash_show_all_cash_reports(request):
     """Show all existing CashReport."""
 
-    reports = CashReport.objects.all()
-    return render(request, 'cash/all.html', {'reports': reports})
+    cash_reports = CashReport.objects.filter(caffe=request.user.caffe).all()
+    return render(request, 'cash/all.html', {'reports': cash_reports})
 
 
 def cash_navigate(request):

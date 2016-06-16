@@ -80,7 +80,7 @@ class UnitModelTest(TestCase):
         Unit.objects.create(name="liter", caffe=self.caffe)
 
     def test_unit(self):
-        """Chcek creating units."""
+        """Check creating units."""
 
         self.assertEqual(self.gram.name, "gram")
         self.assertEqual(self.gram.caffe, self.caffe)

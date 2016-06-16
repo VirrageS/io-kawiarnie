@@ -166,10 +166,10 @@ def cash_new_cash_report(request):
             if len(fe_list) != 2:
                 continue
 
-            expense_form = FullExpenseForm({
-                'expense': fe_list[0],
-                'amount': fe_list[1]
-            })
+            expense_form = FullExpenseForm(
+                {'expense': fe_list[0], 'amount': fe_list[1]},
+                caffe=request.user.caffe
+            )
 
             valid = valid & expense_form.is_valid()
 
@@ -268,10 +268,10 @@ def cash_edit_cash_report(request, report_id):
             if len(fe_list) != 2:
                 continue
 
-            expense_form = FullExpenseForm({
-                'expense': fe_list[0],
-                'amount': fe_list[1]
-            })
+            expense_form = FullExpenseForm(
+                {'expense': fe_list[0], 'amount': fe_list[1]},
+                caffe=request.user.caffe
+            )
 
             valid = valid & expense_form.is_valid()
 
@@ -292,7 +292,9 @@ def cash_edit_cash_report(request, report_id):
             forms.append(expense_form)
 
         if valid:
-            for full_expense in cash_report.full_expenses:
+            cash_report = form.save()
+
+            for full_expense in cash_report.full_expenses.all():
                 full_expense.delete()
 
             for form in forms:
@@ -325,7 +327,7 @@ def cash_show_cash_report(request, report_id):
     cash_report.balance = cash_report.balance()
 
     all_expenses = []
-    for full_expense in cash_report.full_expenses:
+    for full_expense in cash_report.full_expenses.all():
         all_expenses.append({
             'name': full_expense.expense.name,
             'amount': full_expense.amount

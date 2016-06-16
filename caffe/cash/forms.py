@@ -1,6 +1,7 @@
 """Module responsible for collecting cash reports data from users."""
 
 from django import forms
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from .models import CashReport, Company, Expense, FullExpense
@@ -104,7 +105,7 @@ class FullExpenseForm(forms.ModelForm):
         """Override of save method, to add Caffe relation."""
 
         full_expense = super(FullExpenseForm, self).save(commit=False)
-        full_expense._caffe = self._caffe
+        full_expense.caffe = self._caffe
         if commit:
             full_expense.save()
 

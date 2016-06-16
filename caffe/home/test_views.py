@@ -52,7 +52,8 @@ class CaffeViewsTests(TestCase):
             cash_after_shift=1200,
             card_payments=123,
             amount_due=100,
-            creator=self.user
+            creator=self.user,
+            caffe=self.kafo
         )
         self.cash_report_main.save()
 
@@ -61,7 +62,8 @@ class CaffeViewsTests(TestCase):
             cash_after_shift=1201,
             card_payments=124,
             amount_due=50,
-            creator=self.user
+            creator=self.user,
+            caffe=self.kafo
         )
         self.cash_report_minor.save()
         self.cash_report_minor.created_on = timezone.make_aware(

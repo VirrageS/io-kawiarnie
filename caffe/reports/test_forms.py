@@ -66,7 +66,9 @@ class CategoryFormTest(TestCase):
         with self.assertRaises(Exception):
             CategoryForm({'name': "category"})
 
-    def test_category_same_name(self):
+    def test_name_validation(self):
+        """Check name validation."""
+
         Category.objects.create(name='Correct', caffe=self.filtry)
 
         form_correct = CategoryForm(
@@ -108,6 +110,7 @@ class UnitFormTest(TestCase):
 
     def test_unit_form(self):
         """Validation tests."""
+
         form_correct = UnitForm(
             {"name": "correct"},
             caffe=self.caffe

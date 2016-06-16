@@ -1,56 +1,9 @@
 """Module with all models related to cash reports."""
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Sum
-
-
-class CashReport(models.Model):
-    """Stores a single report representing money flow during one shift."""
-
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
-    creator = models.ForeignKey('employees.Employee')
-    caffe = models.ForeignKey(
-        'caffe.Caffe',
-        null=True,
-        blank=False,
-        default=None
-    )
-
-    cash_before_shift = models.FloatField()
-    cash_after_shift = models.FloatField()
-    card_payments = models.FloatField()
-    amount_due = models.FloatField()
-
-    class Meta:
-        ordering = ('-created_on', '-updated_on')
-        default_permissions = ('add', 'change', 'delete', 'view')
-
-    def balance(self):
-        """Calculate balance within one report, indicate deficit/surplus."""
-
-        expenses = self.full_expense.aggregate(Sum('amount'))['amount__sum']
-
-        return self.cash_after_shift + self.card_payments + expenses -\
-            self.cash_before_shift - self.amount_due
-
-    def save(self, *args, **kwargs):
-        """Save model into the database."""
-
-        if self.creator is not None:
-            if self.caffe != self.creator.caffe:
-                raise ValidationError(
-                    _('Kawiarnia i kawiarnia tworzącego powinna się zgadzać')
-                )
-
-        self.full_clean()
-        super(CashReport, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return 'Report created: {:%Y-%m-%d %H:%M} by {}'.format(
-            self.created_on,
-            self.creator
-        )
+from django.utils.translation import ugettext_lazy as _
 
 
 class Company(models.Model):
@@ -132,10 +85,11 @@ class Expense(models.Model):
     def save(self, *args, **kwargs):
         """Save model into the database."""
 
-        if self.caffe != self.company.caffe:
-            raise ValidationError(
-                _('Kawiarnia i kawiarnia firmy nie zgadza się.')
-            )
+        if self.company:
+            if self.caffe != self.company.caffe:
+                raise ValidationError(
+                    _('Kawiarnia i kawiarnia firmy nie zgadza się.')
+                )
 
         self.full_clean()
         super(Expense, self).save(*args, **kwargs)
@@ -183,7 +137,7 @@ class FullExpense(models.Model):
                     _('Cash Report should not contain two same expenses.')
                 )
 
-        super(FullProduct, self).clean(*args, **kwargs)
+        super(FullExpense, self).clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         """Save model into the database."""
@@ -204,3 +158,57 @@ class FullExpense(models.Model):
 
     def __str__(self):
         return '{}: {}'.format(self.expense, self.amount)
+
+
+class CashReport(models.Model):
+    """Stores a single report representing money flow during one shift."""
+
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    creator = models.ForeignKey('employees.Employee')
+    caffe = models.ForeignKey(
+        'caffe.Caffe',
+        null=True,
+        blank=False,
+        default=None
+    )
+
+    cash_before_shift = models.FloatField()
+    cash_after_shift = models.FloatField()
+    card_payments = models.FloatField()
+    amount_due = models.FloatField()
+
+    class Meta:
+        ordering = ('-created_on', '-updated_on')
+        default_permissions = ('add', 'change', 'delete', 'view')
+
+    def balance(self):
+        """Calculate balance within one report, indicate deficit/surplus."""
+
+        expesnes = 0
+        if self.full_expenses.count() > 0:
+            expenses = (
+                self.full_expenses
+                    .aggregate(Sum('amount'))['amount__sum']
+            )
+
+        return self.cash_after_shift + self.card_payments + expenses - \
+               self.cash_before_shift - self.amount_due
+
+    def save(self, *args, **kwargs):
+        """Save model into the database."""
+
+        if self.creator is not None:
+            if self.caffe != self.creator.caffe:
+                raise ValidationError(
+                    _('Kawiarnia i kawiarnia tworzącego powinna się zgadzać')
+                )
+
+        self.full_clean()
+        super(CashReport, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return 'Report created: {:%Y-%m-%d %H:%M} by {}'.format(
+            self.created_on,
+            self.creator
+        )

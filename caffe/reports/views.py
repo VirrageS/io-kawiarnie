@@ -416,14 +416,6 @@ def reports_show_report(request, report_id):
 
 
 @permission_required('reports.view_report')
-def reports_show_all_reports(request):
-    """Show all existing Reports."""
-
-    reports = Report.objects.all()
-    return render(request, 'reports/all.html', {'reports': reports})
-
-
-@permission_required('reports.view_report')
 def reports_navigate(request):
     """Show navigation view for reports."""
 

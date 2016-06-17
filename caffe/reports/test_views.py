@@ -877,10 +877,8 @@ class ReportViewsTests(TestCase):
             [10, 20, 40]
         )
 
-        # check if edited report is displayed
-        response = self.client.get(reverse('reports_show_all_reports'))
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context['reports']), 2)
+        # check if edited report does not created new instance
+        self.assertEqual(Report.objects.count(), 2)
 
     def test_report_navigate(self):
         """Check if create report view is displayed properly."""
@@ -889,17 +887,6 @@ class ReportViewsTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home/reports.html')
-
-    def test_show_all_reports_show(self):
-        """Check if show all reports view actually shows all reports."""
-
-        response = self.client.get(reverse('reports_show_all_reports'))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'reports/all.html')
-
-        reports = Report.objects.order_by('-created_on')
-        self.assertListEqual(list(response.context['reports']), list(reports))
 
     def test_show_report_show(self):
         """Check if show report view actually shows report."""

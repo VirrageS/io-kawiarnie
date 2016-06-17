@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.http import Http404
@@ -21,6 +22,7 @@ def hours_edit_position(request, position_pk):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Stanowisko zostało poprawnie zmienione.')
         return redirect(reverse('caffe_navigate'))
 
     return render(request, 'hours/new_position.html', {
@@ -37,6 +39,7 @@ def hours_new_position(request):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Stanowisko zostało poprawnie utworzone.')
         return redirect(reverse('caffe_navigate'))
 
     positions = Position.objects.all()
@@ -65,6 +68,11 @@ def hours_new_worked_hours(request):
         hours = form.save(commit=False)
         hours.employee = request.user
         hours.save()
+        messages.success(
+            request,
+            'Przepracowane godziny zostały poprawnie dodane.'
+        )
+
         return redirect(reverse('caffe_navigate'))
 
     return render(request, 'hours/new_hours.html', {
@@ -95,6 +103,11 @@ def hours_edit_worked_hours(request, hours_pk):
 
     if form.is_valid():
         form.save()
+        messages.success(
+            request,
+            'Przepracowane godziny zostały poprawnie zmienione.'
+        )
+
         return redirect(reverse('caffe_navigate'))
 
     return render(request, 'hours/new_hours.html', {

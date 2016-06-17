@@ -93,6 +93,11 @@ class PositionViewsTests(TestCase):
 
         self.assertRedirects(response, reverse('caffe_navigate'))
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         # check if new category is displayed
         response = self.client.get(reverse('new_position'))
         self.assertEqual(response.status_code, 200)
@@ -170,6 +175,11 @@ class PositionViewsTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('caffe_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         # check if position has changed
         position = Position.objects.get(id=self.barista.id)
@@ -297,6 +307,11 @@ class WorkedHoursViewsTests(TestCase):
 
         self.assertRedirects(response, reverse('caffe_navigate'))
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         # check if new worked_hours is displayed
         new_worked_hours = WorkedHours.objects.get(start_time='21:00')
         self.assertIsNotNone(new_worked_hours)
@@ -421,6 +436,11 @@ class WorkedHoursViewsTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('caffe_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         # check if WorkedHours has changed
         worked_hours = WorkedHours.objects.get(pk=self.worked_hours_main.pk)

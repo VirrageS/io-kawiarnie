@@ -103,6 +103,11 @@ class CategoryViewsTests(TestCase):
 
         self.assertRedirects(response, reverse('reports_navigate'))
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         # check if new category is displayed
         response = self.client.get(reverse('reports_new_category'))
         self.assertEqual(response.status_code, 200)
@@ -187,6 +192,11 @@ class CategoryViewsTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('reports_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         # check if category coffees has changed
         category = Category.objects.get(id=self.cakes.id)
@@ -283,6 +293,11 @@ class UnitViewsTests(TestCase):
 
         self.assertRedirects(response, reverse('reports_navigate'))
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         # check if new unit is displayed
         response = self.client.get(reverse('reports_new_unit'))
         self.assertEqual(response.status_code, 200)
@@ -367,6 +382,11 @@ class UnitViewsTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('reports_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         # check if unit coffees has changed
         unit = Unit.objects.get(id=self.grams.id)
@@ -480,6 +500,11 @@ class ProductViewsTests(TestCase):
 
         self.assertRedirects(response, reverse('reports_navigate'))
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         # check if new product is displayed
         response = self.client.get(reverse('reports_new_product'))
         self.assertEqual(response.status_code, 200)
@@ -571,6 +596,11 @@ class ProductViewsTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('reports_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         # check if product coffees has changed
         product = Product.objects.get(id=self.cake.id)
@@ -740,6 +770,11 @@ class ReportViewsTests(TestCase):
 
         self.assertRedirects(response, reverse('reports_navigate'))
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         # check if new report is displayed
         response = self.client.get(reverse('reports_new_report'))
         self.assertEqual(response.status_code, 200)
@@ -859,6 +894,11 @@ class ReportViewsTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('reports_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         # check if report coffees has changed
         report = Report.objects.get(id=self.major_report.id)

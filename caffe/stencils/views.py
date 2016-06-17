@@ -16,14 +16,12 @@ def stencils_new_stencil(request):
     """Show form to create new stencil and show existing stencils."""
 
     final_stencils = []
-    form = StencilForm()
+    form = StencilForm(request.POST or None)
 
-    if request.POST:
-        form = StencilForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('reports_navigate'))
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Szablon został poprawnie dodany.')
+        return redirect(reverse('reports_navigate'))
 
     stencils = Stencil.objects.all()
     for stencil in stencils:
@@ -49,6 +47,7 @@ def stencils_edit_stencil(request, stencil_id):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Szablon został poprawnie zmieniony.')
         return redirect(reverse('reports_navigate'))
 
     return render(request, 'stencils/edit_stencil.html', {
@@ -155,7 +154,7 @@ def stencils_new_report(request, stencil_id):
                 full_product.save()
 
             report.save()
-
+            messages.success(request, 'Raport został poprawnie dodany.')
             return redirect(reverse('stencils_show_all_stencils'))
         else:
             messages.error(

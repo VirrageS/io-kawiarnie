@@ -45,7 +45,10 @@ class CompanyViewsTests(TestCase):
             name='Kolporter',
             caffe=self.caffe
         )
-        Company.objects.create(name='kolporter', caffe=self.filtry)
+        self.kolporter_f = Company.objects.create(
+            name='kolporter',
+            caffe=self.filtry
+        )
 
         # add user and permissions
         self.user = Employee.objects.create_user(
@@ -169,7 +172,7 @@ class CompanyViewsTests(TestCase):
     def test_edit_company_404(self):
         """Check if 404 is displayed when company does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.kolporter_f.pk, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -265,7 +268,7 @@ class ExpenseViewsTests(TestCase):
             company=self.putka,
             caffe=self.caffe
         )
-        Expense.objects.create(
+        self.cakes_f = Expense.objects.create(
             name='Ciasta',
             company=self.putka_f,
             caffe=self.filtry
@@ -393,7 +396,7 @@ class ExpenseViewsTests(TestCase):
     def test_edit_expense_404(self):
         """Check if 404 is displayed when expense does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.cakes_f.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -687,6 +690,24 @@ class CashReportViewTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'cash/new_report.html')
+
+    def test_edit_cashreport_404(self):
+        """Check if 404 is displayed when CashReport does not exists."""
+
+        ids_for_404 = [self.cash_report_f.id, 13, 23423, 2424242424224]
+        ids_could_not_resolve = [
+            -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
+        ]
+
+        for _id in ids_for_404:
+            response = self.client.get(
+                reverse('edit_cash_report', args=(_id,))
+            )
+            self.assertEqual(response.status_code, 404)
+
+        for _id in ids_could_not_resolve:
+            with self.assertRaises(NoReverseMatch):
+                reverse('edit_cash_report', args=(_id,))
 
     def test_new_cashreport(self):
         """Check form to create new CashReport."""

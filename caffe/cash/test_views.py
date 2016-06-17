@@ -156,13 +156,13 @@ class CompanyViewsTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('cash_edit_expense', args=(_id,))
+                reverse('cash_edit_company', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('cash_edit_expense', args=(_id,))
+                reverse('cash_edit_company', args=(_id,))
 
     def test_edit_company_post_fail(self):
         """Check if edit company fails to edit when form is not valid."""

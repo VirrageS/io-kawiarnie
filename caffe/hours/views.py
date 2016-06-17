@@ -10,6 +10,7 @@ from .forms import PositionForm, WorkedHoursForm
 from .models import Position, WorkedHours
 
 
+@permission_required('hours.change_position')
 def hours_edit_position(request, position_pk):
     """Edit Position with id.
 
@@ -32,6 +33,7 @@ def hours_edit_position(request, position_pk):
     })
 
 
+@permission_required('hours.add_position')
 def hours_new_position(request):
     """Create new Position."""
 

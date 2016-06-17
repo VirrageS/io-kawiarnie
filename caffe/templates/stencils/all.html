@@ -8,21 +8,19 @@ Szablony
 <section class="stencils">
   {% for stencil in stencils %}
     <div class="stencil">
-      <div class="stencil-meta">
-        <a href="{% url 'stencils_show_stencil' stencil.id %}" class="name">
-          {{ stencil.name }}
-        </a>
+      <div class="stencil__name">
+        {{ stencil.name }}
+      </div>
 
+      <div class="stencil__description">
         {% if stencil.description %}
-          <a href="{% url 'stencils_show_stencil' stencil.id %}" class="description">
-              {{ stencil.description }}
-          </a>
+          {{ stencil.description }}
         {% endif %}
       </div>
 
-      <div class="stencil-buttons">
+      <div class="stencil__buttons">
         {% if perms.reports.add_report %}
-          <a href="{% url 'stencils_new_report' stencil.id %}" class="button button-rounded button-green button-with-icon">
+          <a href="{% url 'stencils:new_report' stencil.id %}" class="button button-rounded button-green button-with-icon">
             <i class="fa fa-wpforms" aria-hidden="true"></i>
             <span>
               Nowy raport
@@ -30,7 +28,7 @@ Szablony
           </a>
         {% endif %}
 
-        <a href="{% url 'stencils_show_stencil' stencil.id %}" class="button button-rounded button-blue button-with-icon">
+        <a href="{% url 'stencils:show' stencil.id %}" class="button button-rounded button-blue button-with-icon">
           <i class="fa fa-search" aria-hidden="true"></i>
           <span>
             Pokaż szablon

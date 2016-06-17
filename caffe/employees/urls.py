@@ -10,18 +10,25 @@ from employees.views import (employees_delete_employee,
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', employees_navigate, name='employees_navigate'),
+    url(r'^$', employees_navigate, name='navigate'),
+
+    url(r'^all/$', employees_show_all_employees, name='all'),
+    url(r'^new/$', employees_new_employee, name='new'),
+    url(
+        r'^edit/(?P<employee_id>\d{0,17})/$',
+        employees_edit_employee,
+        name='edit'
+    ),
+    url(
+        r'^delete/(?P<employee_id>\d{0,17})/$',
+        employees_delete_employee,
+        name='delete'
+    ),
 
     url(
         r'^login/$', auth_views.login,
         {'template_name': 'employees/login.html'},
-        name='login_employee'
+        name='login'
     ),
-    url(r'^logout/$', employees_logout_employee, name='logout_employee'),
-    url(r'^new/$', employees_new_employee, name='new_employee'),
-    url(r'^edit/(?P<employee_id>\d{0,17})/$',
-        employees_edit_employee, name='edit_employee'),
-    url(r'^delete/(?P<employee_id>\d{0,17})/$',
-        employees_delete_employee, name='delete_employee'),
-    url(r'^all/$', employees_show_all_employees, name='show_all_employees'),
+    url(r'^logout/$', employees_logout_employee, name='logout'),
 ]

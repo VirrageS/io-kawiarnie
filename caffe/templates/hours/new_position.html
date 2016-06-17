@@ -31,7 +31,7 @@
         </span>
 
         {% if perms.hours.edit_position %}
-          <a href="{% url 'edit_position' position.id %}" class="button button-rounded button-small button-red">
+          <a href="{% url 'hours:edit_position' position.id %}" class="button button-rounded button-small button-red">
             Edytuj
           </a>
         {% endif %}

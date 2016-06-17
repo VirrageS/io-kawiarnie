@@ -5,17 +5,17 @@ Szablon
 {% endblock %}
 
 {% block content %}
-<section class="stencil-title">
-  <div class="name">{{ stencil.name }}</div>
+<section>
+  <div class="stencil__name">{{ stencil.name }}</div>
 
   {% if stencil.description %}
-    <div class="description">{{ stencil.description }}</div>
+    <div class="stencil__description">{{ stencil.description }}</div>
   {% endif %}
 </section>
 
 {% if perms.stencils.change_stencil %}
   <section class="buttons">
-    <a href="{% url 'stencils_edit_stencil' stencil.id %}" class="button button-rounded button-red">
+    <a href="{% url 'stencils:edit' stencil.id %}" class="button button-rounded button-red">
       Edytuj
     </a>
   </section>

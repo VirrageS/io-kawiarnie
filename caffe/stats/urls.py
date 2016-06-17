@@ -5,5 +5,5 @@ from .views import statistics_navigate
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', statistics_navigate, name='statistics_navigate'),
+    url(r'^$', statistics_navigate, name='navigate'),
 ]

@@ -42,7 +42,7 @@ class PositionViewsTests(TestCase):
     def test_new_position_show(self):
         """Check if new Position view is displayed properly."""
 
-        response = self.client.get(reverse('new_position'))
+        response = self.client.get(reverse('hours:new_position'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'hours/new_position.html')
 
@@ -70,7 +70,7 @@ class PositionViewsTests(TestCase):
         """Check if new Position fails to create when form is not valid."""
 
         response = self.client.post(
-            reverse('new_position'),
+            reverse('hours:new_position'),
             {u'name': u''},
             follow=True
         )
@@ -86,12 +86,12 @@ class PositionViewsTests(TestCase):
         """Check if new Position successes to create when form is valid."""
 
         response = self.client.post(
-            reverse('new_position'),
+            reverse('hours:new_position'),
             {u'name': u'Kasa'},
             follow=True
         )
 
-        self.assertRedirects(response, reverse('caffe_navigate'))
+        self.assertRedirects(response, reverse('home:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -99,7 +99,7 @@ class PositionViewsTests(TestCase):
         self.assertTrue("poprawnie" in messages[0].message)
 
         # check if new category is displayed
-        response = self.client.get(reverse('new_position'))
+        response = self.client.get(reverse('hours:new_position'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['positions']), 3)
         self.assertListEqual(
@@ -119,7 +119,7 @@ class PositionViewsTests(TestCase):
         """Check if edit Position view is displayed properly."""
 
         response = self.client.get(
-            reverse('edit_position', args=(self.barista.id,))
+            reverse('hours:edit_position', args=(self.barista.id,))
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'hours/new_position.html')
@@ -141,19 +141,19 @@ class PositionViewsTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('edit_position', args=(_id,))
+                reverse('hours:edit_position', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('edit_position', args=(_id,))
+                reverse('hours:edit_position', args=(_id,))
 
     def test_edit_position_post_fail(self):
         """Check if edit Position fails to edit when form is not valid."""
 
         response = self.client.post(
-            reverse('edit_position', args=(self.barista.id,)),
+            reverse('hours:edit_position', args=(self.barista.id,)),
             {u'name': u''},
             follow=True
         )
@@ -169,12 +169,12 @@ class PositionViewsTests(TestCase):
         """Check if edit position successes to edit when form is valid."""
 
         response = self.client.post(
-            reverse('edit_position', args=(self.barista.id,)),
+            reverse('hours:edit_position', args=(self.barista.id,)),
             {u'name': u'Bar'},
             follow=True
         )
 
-        self.assertRedirects(response, reverse('caffe_navigate'))
+        self.assertRedirects(response, reverse('home:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -186,7 +186,7 @@ class PositionViewsTests(TestCase):
         self.assertEqual(position.name, u'Bar')
 
         # check if edited position is displayed
-        response = self.client.get(reverse('new_position'))
+        response = self.client.get(reverse('hours:new_position'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['positions']), 2)
 
@@ -258,9 +258,9 @@ class WorkedHoursViewsTests(TestCase):
     def test_new_workedhours_show(self):
         """Check if new WorkedHours view is displayed properly."""
 
-        response = self.client.get(reverse('new_worked_hours'))
+        response = self.client.get(reverse('hours:new'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'hours/new_hours.html')
+        self.assertTemplateUsed(response, 'hours/new.html')
 
         # check context
         self.assertIsInstance(response.context['form'], WorkedHoursForm)
@@ -274,7 +274,7 @@ class WorkedHoursViewsTests(TestCase):
         """Check if new WorkedHours fails to create when form is not valid."""
 
         response = self.client.post(
-            reverse('new_worked_hours'),
+            reverse('hours:new'),
             {
                 'start_time': '12:00',
                 'end_time': '',
@@ -289,13 +289,13 @@ class WorkedHoursViewsTests(TestCase):
         self.assertEqual(response.context['form'].errors, {
             'end_time': ['To pole jest wymagane.'],
         })
-        self.assertTemplateUsed(response, 'hours/new_hours.html')
+        self.assertTemplateUsed(response, 'hours/new.html')
 
     def test_new_workedhours_post_success(self):
         """Check if new WorkedHours successes to create when form is valid."""
 
         response = self.client.post(
-            reverse('new_worked_hours'),
+            reverse('hours:new'),
             {
                 'start_time': '21:00',
                 'end_time': '22:00',
@@ -305,7 +305,7 @@ class WorkedHoursViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('caffe_navigate'))
+        self.assertRedirects(response, reverse('home:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -322,10 +322,10 @@ class WorkedHoursViewsTests(TestCase):
         """Check if edit WorkedHours view is displayed properly."""
 
         response = self.client.get(
-            reverse('edit_worked_hours', args=(self.worked_hours_main.pk,))
+            reverse('hours:edit', args=(self.worked_hours_main.pk,))
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'hours/new_hours.html')
+        self.assertTemplateUsed(response, 'hours/new.html')
 
         form = response.context['form']
         self.assertIsInstance(form, WorkedHoursForm)
@@ -347,19 +347,19 @@ class WorkedHoursViewsTests(TestCase):
 
         for _pk in pks_for_404:
             response = self.client.get(
-                reverse('edit_worked_hours', args=(_pk,))
+                reverse('hours:edit', args=(_pk,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _pk in pks_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('edit_worked_hours', args=(_pk,))
+                reverse('hours:edit', args=(_pk,))
 
     def test_edit_workedhours_post_fail(self):
         """Check if edit WorkedHours fails to edit when form is not valid."""
 
         response = self.client.post(
-            reverse('edit_worked_hours', args=(self.worked_hours_main.pk,)),
+            reverse('hours:edit', args=(self.worked_hours_main.pk,)),
             {
                 'start_time': '21:00',
                 'end_time': '',
@@ -375,7 +375,7 @@ class WorkedHoursViewsTests(TestCase):
             'end_time': ['To pole jest wymagane.'],
             'date': ['Wpisz poprawną datę.'],
         })
-        self.assertTemplateUsed(response, 'hours/new_hours.html')
+        self.assertTemplateUsed(response, 'hours/new.html')
 
     def test_edit_workedhours_denied_access(self):
         """Check if edit WorkedHours fails if someone else try to modify."""
@@ -383,7 +383,7 @@ class WorkedHoursViewsTests(TestCase):
         self.client.login(username='admin1', password='admin1')
 
         response = self.client.post(
-            reverse('edit_worked_hours', args=(self.worked_hours_main.pk,)),
+            reverse('hours:edit', args=(self.worked_hours_main.pk,)),
             {
                 'start_time': '21:00',
                 'end_time': '22:00',
@@ -401,7 +401,7 @@ class WorkedHoursViewsTests(TestCase):
         self.client.login(username='sadmin', password='sadmin')
 
         response = self.client.post(
-            reverse('edit_worked_hours', args=(self.worked_hours_main.pk,)),
+            reverse('hours:edit', args=(self.worked_hours_main.pk,)),
             {
                 'start_time': '21:00',
                 'end_time': '22:00',
@@ -411,7 +411,7 @@ class WorkedHoursViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('caffe_navigate'))
+        self.assertRedirects(response, reverse('home:navigate'))
 
         # check if WorkedHours has changed
         worked_hours = WorkedHours.objects.get(pk=self.worked_hours_main.pk)
@@ -425,7 +425,7 @@ class WorkedHoursViewsTests(TestCase):
         """Check if edit WorkedHours successes to edit when form is valid."""
 
         response = self.client.post(
-            reverse('edit_worked_hours', args=(self.worked_hours_main.pk,)),
+            reverse('hours:edit', args=(self.worked_hours_main.pk,)),
             {
                 'start_time': '21:00',
                 'end_time': '22:00',
@@ -435,7 +435,7 @@ class WorkedHoursViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('caffe_navigate'))
+        self.assertRedirects(response, reverse('home:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)

@@ -41,7 +41,7 @@ class CompanyViewsTests(TestCase):
     def test_new_company_show(self):
         """Check if new company view is displayed properly."""
 
-        response = self.client.get(reverse('cash_new_company'))
+        response = self.client.get(reverse('cash:new_company'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'cash/new_element.html')
 
@@ -64,8 +64,8 @@ class CompanyViewsTests(TestCase):
             self.assertEqual(len(element), 3)
             self.assertIn(
                 element['edit_href'], [
-                    reverse('cash_edit_company', args=(self.putka.id,)),
-                    reverse('cash_edit_company', args=(self.kolporter.id,))
+                    reverse('cash:edit_company', args=(self.putka.id,)),
+                    reverse('cash:edit_company', args=(self.kolporter.id,))
                 ]
             )
             self.assertIn(element['id'], [self.putka.id, self.kolporter.id])
@@ -78,7 +78,7 @@ class CompanyViewsTests(TestCase):
         """Check if new company fails to create when form is not valid."""
 
         response = self.client.post(
-            reverse('cash_new_company'),
+            reverse('cash:new_company'),
             {u'name': u''},
             follow=True
         )
@@ -94,12 +94,12 @@ class CompanyViewsTests(TestCase):
         """Check if new company successes to create when form is valid."""
 
         response = self.client.post(
-            reverse('cash_new_company'),
+            reverse('cash:new_company'),
             {u'name': u'Bambino'},
             follow=True
         )
 
-        self.assertRedirects(response, reverse('cash_navigate'))
+        self.assertRedirects(response, reverse('cash:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -107,7 +107,7 @@ class CompanyViewsTests(TestCase):
         self.assertTrue("poprawnie" in messages[0].message)
 
         # check if new company is displayed
-        response = self.client.get(reverse('cash_new_company'))
+        response = self.client.get(reverse('cash:new_company'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 3)
         self.assertListEqual(
@@ -127,7 +127,7 @@ class CompanyViewsTests(TestCase):
         """Check if edit company view is displayed properly."""
 
         response = self.client.get(
-            reverse('cash_edit_company', args=(self.putka.id,))
+            reverse('cash:edit_company', args=(self.putka.id,))
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'cash/edit_element.html')
@@ -143,7 +143,7 @@ class CompanyViewsTests(TestCase):
         )
         self.assertEqual(
             response.context['context']['cancel_href'],
-            reverse('cash_new_company')
+            reverse('cash:new_company')
         )
 
     def test_edit_company_404(self):
@@ -156,19 +156,19 @@ class CompanyViewsTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('cash_edit_company', args=(_id,))
+                reverse('cash:edit_company', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('cash_edit_company', args=(_id,))
+                reverse('cash:edit_company', args=(_id,))
 
     def test_edit_company_post_fail(self):
         """Check if edit company fails to edit when form is not valid."""
 
         response = self.client.post(
-            reverse('cash_edit_company', args=(self.putka.id,)),
+            reverse('cash:edit_company', args=(self.putka.id,)),
             {u'name': u''},
             follow=True
         )
@@ -185,12 +185,12 @@ class CompanyViewsTests(TestCase):
         """Check if edit company successes to edit when form is valid."""
 
         response = self.client.post(
-            reverse('cash_edit_company', args=(self.putka.id,)),
+            reverse('cash:edit_company', args=(self.putka.id,)),
             {u'name': u'Bambino'},
             follow=True
         )
 
-        self.assertRedirects(response, reverse('cash_navigate'))
+        self.assertRedirects(response, reverse('cash:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -202,7 +202,7 @@ class CompanyViewsTests(TestCase):
         self.assertEqual(company.name, u'Bambino')
 
         # check if edited company is displayed
-        response = self.client.get(reverse('cash_new_company'))
+        response = self.client.get(reverse('cash:new_company'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 2)
 
@@ -244,7 +244,7 @@ class ExpenseViewsTests(TestCase):
     def test_new_expense_show(self):
         """Check if new expense view is displayed properly."""
 
-        response = self.client.get(reverse('cash_new_expense'))
+        response = self.client.get(reverse('cash:new_expense'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'cash/new_element.html')
 
@@ -267,8 +267,8 @@ class ExpenseViewsTests(TestCase):
             self.assertEqual(len(element), 3)
             self.assertIn(
                 element['edit_href'], [
-                    reverse('cash_edit_expense', args=(self.newspapers.id,)),
-                    reverse('cash_edit_expense', args=(self.cakes.id,))
+                    reverse('cash:edit_expense', args=(self.newspapers.id,)),
+                    reverse('cash:edit_expense', args=(self.cakes.id,))
                 ]
             )
             self.assertIn(element['id'], [self.newspapers.id, self.cakes.id])
@@ -281,7 +281,7 @@ class ExpenseViewsTests(TestCase):
         """Check if new expense fails to create when form is not valid."""
 
         response = self.client.post(
-            reverse('cash_new_expense'),
+            reverse('cash:new_expense'),
             {u'name': u''},
             follow=True
         )
@@ -298,12 +298,12 @@ class ExpenseViewsTests(TestCase):
         """Check if new expense successes to create when form is valid."""
 
         response = self.client.post(
-            reverse('cash_new_expense'),
+            reverse('cash:new_expense'),
             {'name': u'Magazyny', 'company': self.kolporter.id},
             follow=True
         )
 
-        self.assertRedirects(response, reverse('cash_navigate'))
+        self.assertRedirects(response, reverse('cash:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -311,7 +311,7 @@ class ExpenseViewsTests(TestCase):
         self.assertTrue("poprawnie" in messages[0].message)
 
         # check if new expense is displayed
-        response = self.client.get(reverse('cash_new_expense'))
+        response = self.client.get(reverse('cash:new_expense'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 3)
         self.assertListEqual(
@@ -331,7 +331,7 @@ class ExpenseViewsTests(TestCase):
         """Check if edit expense view is displayed properly."""
 
         response = self.client.get(
-            reverse('cash_edit_expense', args=(self.newspapers.id,))
+            reverse('cash:edit_expense', args=(self.newspapers.id,))
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'cash/edit_element.html')
@@ -347,7 +347,7 @@ class ExpenseViewsTests(TestCase):
         )
         self.assertEqual(
             response.context['context']['cancel_href'],
-            reverse('cash_new_expense')
+            reverse('cash:new_expense')
         )
 
     def test_edit_expense_404(self):
@@ -360,19 +360,19 @@ class ExpenseViewsTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('cash_edit_expense', args=(_id,))
+                reverse('cash:edit_expense', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('cash_edit_expense', args=(_id,))
+                reverse('cash:edit_expense', args=(_id,))
 
     def test_edit_expense_post_fail(self):
         """Check if edit expense fails to edit when form is not valid."""
 
         response = self.client.post(
-            reverse('cash_edit_expense', args=(self.newspapers.id,)),
+            reverse('cash:edit_expense', args=(self.newspapers.id,)),
             {u'name': u''},
             follow=True
         )
@@ -389,12 +389,12 @@ class ExpenseViewsTests(TestCase):
         """Check if edit expense successes to edit when form is valid."""
 
         response = self.client.post(
-            reverse('cash_edit_expense', args=(self.newspapers.id,)),
+            reverse('cash:edit_expense', args=(self.newspapers.id,)),
             {u'name': u'Magazines'},
             follow=True
         )
 
-        self.assertRedirects(response, reverse('cash_navigate'))
+        self.assertRedirects(response, reverse('cash:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -406,7 +406,7 @@ class ExpenseViewsTests(TestCase):
         self.assertEqual(expense.name, u'Magazines')
 
         # check if edited expense is displayed
-        response = self.client.get(reverse('cash_new_expense'))
+        response = self.client.get(reverse('cash:new_expense'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 2)
 
@@ -489,14 +489,14 @@ class CashReportViewTests(TestCase):
     def test_cash_navigate(self):
         """Check if navigate view for CashReport is displayed properly."""
 
-        response = self.client.get(reverse('cash_navigate'))
+        response = self.client.get(reverse('cash:navigate'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home/cash.html')
 
     def test_cashreport_show(self):
         """Check if CashReport view is displated properly."""
         response = self.client.get(reverse(
-            'show_cash_report',
+            'cash:show',
             args=(self.cash_report_main.id,)
         ))
 
@@ -513,10 +513,10 @@ class CashReportViewTests(TestCase):
         """Check if edit CashReport view is displayed properly."""
 
         response = self.client.get(
-            reverse('edit_cash_report', args=(self.cash_report_main.id,))
+            reverse('cash:edit', args=(self.cash_report_main.id,))
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'cash/new_report.html')
+        self.assertTemplateUsed(response, 'cash/new.html')
 
         form = response.context['form']
         self.assertIsInstance(form, CashReportForm)
@@ -533,12 +533,12 @@ class CashReportViewTests(TestCase):
         post[self.newspapers.id] = [self.newspapers.id, 10000]
 
         response = self.client.post(
-            reverse('edit_cash_report', args=(self.cash_report_main.id,)),
+            reverse('cash:edit', args=(self.cash_report_main.id,)),
             post,
             follow=True
         )
 
-        self.assertRedirects(response, reverse('cash_navigate'))
+        self.assertRedirects(response, reverse('cash:navigate'))
         self.assertEqual(CashReport.objects.count(), 2)
 
         messages = list(response.context['messages'])
@@ -566,7 +566,7 @@ class CashReportViewTests(TestCase):
         post[self.newspapers.id] = [self.newspapers.id, 10000]
 
         response = self.client.post(
-            reverse('edit_cash_report', args=(self.cash_report_main.id,)),
+            reverse('cash:edit', args=(self.cash_report_main.id,)),
             post,
             follow=True
         )
@@ -584,7 +584,7 @@ class CashReportViewTests(TestCase):
         post[-self.newspapers.id] = [-self.newspapers.id, -10000]
 
         response = self.client.post(
-            reverse('edit_cash_report', args=(self.cash_report_main.id,)),
+            reverse('cash:edit', args=(self.cash_report_main.id,)),
             post,
             follow=True
         )
@@ -595,14 +595,14 @@ class CashReportViewTests(TestCase):
         self.assertTrue("niepoprawnie" in messages[0].message)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'cash/new_report.html')
+        self.assertTemplateUsed(response, 'cash/new.html')
 
     def test_new_cashreport(self):
         """Check form to create new CashReport."""
 
-        response = self.client.get(reverse('new_cash_report'))
+        response = self.client.get(reverse('cash:new'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'cash/new_report.html')
+        self.assertTemplateUsed(response, 'cash/new.html')
 
     def test_new_cashreport_post_success(self):
         """Check success of new CashReport post request."""
@@ -615,12 +615,12 @@ class CashReportViewTests(TestCase):
         post[self.newspapers.id] = [self.newspapers.id, 10000]
 
         response = self.client.post(
-            reverse('new_cash_report'),
+            reverse('cash:new'),
             post,
             follow=True
         )
 
-        self.assertRedirects(response, reverse('cash_navigate'))
+        self.assertRedirects(response, reverse('cash:navigate'))
         self.assertEqual(CashReport.objects.count(), 3)
 
         messages = list(response.context['messages'])
@@ -650,13 +650,13 @@ class CashReportViewTests(TestCase):
         post[self.newspapers.id] = [self.newspapers.id, 10000]
 
         response = self.client.post(
-            reverse('new_cash_report'),
+            reverse('cash:new'),
             post,
             follow=True
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'cash/new_report.html')
+        self.assertTemplateUsed(response, 'cash/new.html')
         self.assertEqual(CashReport.objects.count(), 2)
 
         messages = list(response.context['messages'])
@@ -672,11 +672,11 @@ class CashReportViewTests(TestCase):
         post[-self.newspapers.id] = [-self.newspapers.id, 10000]
 
         response = self.client.post(
-            reverse('new_cash_report'),
+            reverse('cash:new'),
             post,
             follow=True
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'cash/new_report.html')
+        self.assertTemplateUsed(response, 'cash/new.html')
         self.assertEqual(CashReport.objects.count(), 2)

@@ -39,4 +39,4 @@ class CaffeViewsTests(TestCase):
         self.client.login(username='admin', password='admin')
 
         response = self.client.get(reverse('index_navigate'), follow=True)
-        self.assertRedirects(response, reverse('caffe_navigate'))
+        self.assertRedirects(response, reverse('home:navigate'))

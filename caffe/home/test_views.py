@@ -83,7 +83,7 @@ class CaffeViewsTests(TestCase):
     def test_caffe_navigate(self):
         """Check if caffe view (today view) is displayed properly."""
 
-        response = self.client.get(reverse('caffe_navigate'))
+        response = self.client.get(reverse('home:navigate'))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home/caffe.html')

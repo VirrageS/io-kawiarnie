@@ -9,7 +9,7 @@ def index_navigate(request):
     """Show main page."""
 
     if request.user.is_authenticated():
-        return redirect(reverse('caffe_navigate'))
+        return redirect(reverse('home:navigate'))
 
     return render(request, 'home/landing_page.html')
 
@@ -26,9 +26,9 @@ def caffe_create(request):
     #     admin.caffe_id = caffe.id
     #     admin.save()
     #
-    #     return render(reverse('login_employee'))
+    #     return render(reverse('employees:login'))
 
-    return render(request, 'caffe/add_caffe.html', {
+    return render(request, 'caffe/new.html', {
         # 'caffe_form': caffe_form,
         # 'admin_form': admin_form,
     })

@@ -15,7 +15,6 @@ from .models import Stencil
 def stencils_new_stencil(request):
     """Show form to create new stencil and show existing stencils."""
 
-    final_stencils = []
     form = StencilForm(request.POST or None)
 
     if form.is_valid():
@@ -24,7 +23,6 @@ def stencils_new_stencil(request):
         return redirect(reverse('reports:navigate'))
 
     stencils = Stencil.objects.all()
-
     return render(request, 'stencils/new.html', {
         'form': form,
         'stencils': stencils

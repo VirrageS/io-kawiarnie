@@ -59,6 +59,7 @@ class CaffeModelTest(TestCase):
 
     def test_str(self):
         """Test conversion to string."""
+        
         Caffe.objects.create(
             name='kafo',
             city='Gliwice',

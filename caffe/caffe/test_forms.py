@@ -13,6 +13,8 @@ class CaffeFormTest(TestCase):
     """Test caffe form."""
 
     def setUp(self):
+        """Set data for tests."""
+        
         employee_form = EmployeeForm({
             'username': 'u2',
             'first_name': 'fu1',
@@ -28,6 +30,7 @@ class CaffeFormTest(TestCase):
 
     def test_create(self):
         """Check creation of valid caffe."""
+
         valid = CaffeForm({
             'name':'Caffe1',
             'city':'SanCaffe1',
@@ -107,6 +110,7 @@ class CaffeFormTest(TestCase):
 
     def test_required_fields(self):
         """Test required fields."""
+
         not_valid = CaffeForm({
             'city':'SanCaffe2',
             'street':'CaffeStreet2',

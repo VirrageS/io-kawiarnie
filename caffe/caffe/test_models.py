@@ -33,8 +33,6 @@ class CaffeModelTest(TestCase):
             creator=Employee.objects.get(username='theboss')
         )
 
-        kafo.save()
-
         with self.assertRaises(Exception):
             Caffe.objects.create(
                 name='kafo',

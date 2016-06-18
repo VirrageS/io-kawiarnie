@@ -105,8 +105,7 @@ class CaffeFormTest(TestCase):
 
         with self.assertRaises(Exception):
             caffe = not_valid.save(commit=False)
-            caffe.creator = self.employee
-            caffe.save()
+
 
     def test_required_fields(self):
         """Test required fields."""

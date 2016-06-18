@@ -37,7 +37,8 @@ class Stencil(models.Model):
         if self.name == '':
             raise ValidationError(_('Stencil name is not valid.'))
 
-        same_stencil = Stencil.objects.filter(name__iexact=self.name).all()
+        same_stencil = Stencil.objects.filter(name__iexact=self.name,
+                                              caffe=self.caffe).all()
         if same_stencil:
             raise ValidationError(_('Stencil with same name already exists.'))
 

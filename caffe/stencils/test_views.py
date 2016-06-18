@@ -6,6 +6,7 @@ import collections
 from django.contrib.auth.models import Permission
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase, RequestFactory
+from unittest.mock import patch, MagicMock
 
 from caffe.models import Caffe
 from employees.models import Employee
@@ -164,6 +165,7 @@ class StencilViewTests(TestCase):
         self.assertIsInstance(form, StencilForm)
         self.assertEqual(form.instance, self.to_drink)
 
+    @patch('stencils.models.Stencil.save', MagicMock(name="save"))
     def test_edit_stencil_post_success(self):
         """Check success of edit stencil post request."""
 
@@ -175,14 +177,17 @@ class StencilViewTests(TestCase):
         st_form = StencilForm(form, caffe=self.kafo)
         self.assertTrue(st_form.is_valid())
 
-        response = self.client.post(
+        request = self.factory.post(
             reverse('stencils_edit_stencil', args=(self.to_drink.id,)),
-            form
-        )
+            form)
+        request.user = self.user
+        response = stencils_new_stencil(request)
 
-        self.assertEqual(Stencil.objects.count(), 2)
+        self.assertTrue(Stencil.save.called)
+        self.assertEqual(Stencil.save.call_count, 1)
         self.assertEqual(response.status_code, 302)
 
+    @patch('stencils.models.Stencil.save', MagicMock(name="save"))
     def test_edit_stencil_post_failure(self):
         """Check failure of edit stencil post request."""
 
@@ -194,12 +199,13 @@ class StencilViewTests(TestCase):
         st_form = StencilForm(form, caffe=self.kafo)
         self.assertFalse(st_form.is_valid())
 
-        response = self.client.post(
+        request = self.factory.post(
             reverse('stencils_edit_stencil', args=(self.to_drink.id,)),
-            form
-        )
+            form)
+        request.user = self.user
+        response = stencils_new_stencil(request)
 
-        self.assertEqual(Stencil.objects.count(), 2)
+        self.assertFalse(Stencil.save.called)
         self.assertEqual(response.status_code, 200)
 
         form['name'] = u'Nazwa'
@@ -209,37 +215,35 @@ class StencilViewTests(TestCase):
         st_form = StencilForm(form, caffe=self.kafo)
         self.assertFalse(st_form.is_valid())
 
-        response = self.client.post(
-            reverse('stencils_edit_stencil', args=(self.to_eat.id,)),
-            form
-        )
+        request = self.factory.post(
+            reverse('stencils_edit_stencil', args=(self.to_drink.id,)),
+            form)
+        request.user = self.user
+        response = stencils_new_stencil(request)
 
-        self.assertEqual(Stencil.objects.count(), 2)
+        self.assertFalse(Stencil.save.called)
         self.assertEqual(response.status_code, 200)
 
-    # def test_new_stencil_post_success(self):
-    #     """Check success of new stencil post request."""
-    #
-    #     form = {}
-    #     form['name'] = u'Moj szablon'
-    #     form['description'] = u'Opis mojego szablonu'
-    #     form['categories'] = [self.cakes.id, self.tees.id]
-    #
-    #     self.assertEqual(self.user.caffe, self.kafo)
-    #     st_form = StencilForm(form, caffe=self.user.caffe)
-    #     self.assertTrue(st_form.is_valid())
-    #
-    #     # response = self.client.post(
-    #     #     reverse('stencils_new_stencil'),
-    #     #     form
-    #     # )
-    #
-    #     request = self.factory.post(reverse('stencils_new_stencil'), form)
-    #     request.user = self.user
-    #     response = stencils_new_stencil(request)
-    #
-    #     self.assertEqual(request.user.caffe, self.kafo)
-    #     self.assertEqual(response.status_code, 302)
+    @patch('stencils.models.Stencil.save', MagicMock(name="save"))
+    def test_new_stencil_post_success(self):
+        """Check success of new stencil post request."""
+
+        form = {}
+        form['name'] = u'Moj szablon'
+        form['description'] = u'Opis mojego szablonu'
+        form['categories'] = [self.cakes.id, self.tees.id]
+
+        self.assertEqual(self.user.caffe, self.kafo)
+        st_form = StencilForm(form, caffe=self.user.caffe)
+        self.assertTrue(st_form.is_valid())
+
+        request = self.factory.post(reverse('stencils_new_stencil'), form)
+        request.user = self.user
+        response = stencils_new_stencil(request)
+
+        self.assertTrue(Stencil.save.called)
+        self.assertEqual(Stencil.save.call_count, 1)
+        self.assertEqual(response.status_code, 302)
 
     def test_new_stencil_post_failure(self):
         """Check failure of new stencil post request."""

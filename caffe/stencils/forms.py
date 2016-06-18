@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from django import forms
+from django.core.exceptions import ValidationError
 
 from reports.models import Category
 
@@ -36,3 +37,23 @@ class StencilForm(forms.ModelForm):
             self.initial['categories'] = [
                 category.id for category in categories.order_by('name')
             ]
+
+    def save(self, commit=True):
+        """Override the save method to add Caffe relation."""
+
+        stencil = super(StencilForm, self).save(commit=False)
+        stencil.caffe = self._caffe
+        if commit:
+            stencil.save()
+
+        return stencil
+
+    def clean_name(self):
+        """Check name field."""
+
+        name = self.cleaned_data['name']
+        query = Stencil.objects.filter(name=name, caffe=self._caffe)
+        if query.exists():
+            raise ValidationError(_('Nazwa nie jest unikalna.'))
+
+        return name

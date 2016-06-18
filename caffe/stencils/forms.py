@@ -45,6 +45,7 @@ class StencilForm(forms.ModelForm):
         stencil.caffe = self._caffe
         if commit:
             stencil.save()
+            self.save_m2m()
 
         return stencil
 

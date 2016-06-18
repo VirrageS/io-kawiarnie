@@ -6,7 +6,6 @@ import collections
 from django.contrib.auth.models import Permission
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase, RequestFactory
-from unittest.mock import patch, MagicMock
 
 from caffe.models import Caffe
 from employees.models import Employee
@@ -14,7 +13,7 @@ from reports.models import Category, Product, Report, Unit
 
 from .forms import StencilForm
 from .models import Stencil
-from .views import stencils_new_stencil
+from .views import stencils_new_stencil, stencils_edit_stencil
 
 
 class StencilViewTests(TestCase):
@@ -165,7 +164,6 @@ class StencilViewTests(TestCase):
         self.assertIsInstance(form, StencilForm)
         self.assertEqual(form.instance, self.to_drink)
 
-    @patch('stencils.models.Stencil.save', MagicMock(name="save"))
     def test_edit_stencil_post_success(self):
         """Check success of edit stencil post request."""
 
@@ -181,13 +179,14 @@ class StencilViewTests(TestCase):
             reverse('stencils_edit_stencil', args=(self.to_drink.id,)),
             form)
         request.user = self.user
-        response = stencils_new_stencil(request)
+        response = stencils_edit_stencil(request, self.to_drink.id)
 
-        self.assertTrue(Stencil.save.called)
-        self.assertEqual(Stencil.save.call_count, 1)
+        edited_stencil = Stencil.objects.get(id=self.to_drink.id)
+
+        self.assertCountEqual(Stencil.objects.all(),
+                              [self.to_eat, edited_stencil])
         self.assertEqual(response.status_code, 302)
 
-    @patch('stencils.models.Stencil.save', MagicMock(name="save"))
     def test_edit_stencil_post_failure(self):
         """Check failure of edit stencil post request."""
 
@@ -201,11 +200,12 @@ class StencilViewTests(TestCase):
 
         request = self.factory.post(
             reverse('stencils_edit_stencil', args=(self.to_drink.id,)),
-            form)
+            form,)
         request.user = self.user
-        response = stencils_new_stencil(request)
+        response = stencils_edit_stencil(request, self.to_drink.id)
 
-        self.assertFalse(Stencil.save.called)
+        self.assertCountEqual(Stencil.objects.all(),
+                              [self.to_drink, self.to_eat])
         self.assertEqual(response.status_code, 200)
 
         form['name'] = u'Nazwa'
@@ -219,12 +219,12 @@ class StencilViewTests(TestCase):
             reverse('stencils_edit_stencil', args=(self.to_drink.id,)),
             form)
         request.user = self.user
-        response = stencils_new_stencil(request)
+        response = stencils_edit_stencil(request, self.to_drink.id)
 
-        self.assertFalse(Stencil.save.called)
+        self.assertCountEqual(Stencil.objects.all(),
+                              [self.to_drink, self.to_eat])
         self.assertEqual(response.status_code, 200)
 
-    @patch('stencils.models.Stencil.save', MagicMock(name="save"))
     def test_new_stencil_post_success(self):
         """Check success of new stencil post request."""
 
@@ -241,8 +241,10 @@ class StencilViewTests(TestCase):
         request.user = self.user
         response = stencils_new_stencil(request)
 
-        self.assertTrue(Stencil.save.called)
-        self.assertEqual(Stencil.save.call_count, 1)
+        new_stencil = Stencil.objects.get(name='Moj szablon')
+
+        self.assertCountEqual(Stencil.objects.all(),
+                              [self.to_drink, self.to_eat, new_stencil])
         self.assertEqual(response.status_code, 302)
 
     def test_new_stencil_post_failure(self):
@@ -271,12 +273,12 @@ class StencilViewTests(TestCase):
         st_form = StencilForm(form, caffe=self.kafo)
         self.assertFalse(st_form.is_valid())
 
-        response = self.client.post(
-            reverse('stencils_show_all_stencils'),
-            form
-        )
+        request = self.factory.post(reverse('stencils_new_stencil'), form)
+        request.user = self.user
+        response = stencils_new_stencil(request)
 
-        self.assertEqual(Stencil.objects.count(), 2)
+        self.assertCountEqual(Stencil.objects.all(),
+                              [self.to_drink, self.to_eat])
         self.assertEqual(response.status_code, 200)
 
     def test_new_stencil_report(self):

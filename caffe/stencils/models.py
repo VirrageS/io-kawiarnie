@@ -19,6 +19,12 @@ class Stencil(models.Model):
     name = models.CharField(max_length=100, unique=True,)
     description = models.TextField(max_length=500, null=True, blank=True,)
     categories = models.ManyToManyField(Category)
+    caffe = models.ForeignKey(
+        'caffe.Caffe',
+        null=True,
+        blank=False,
+        default=None
+    )
 
     class Meta:
         ordering = ('name', 'description')

@@ -29,7 +29,7 @@ class StencilModelTest(TestCase):
     def test_stencil_name(self):
         """Check if name for Stencil is saved properly."""
 
-        stencil = Stencil.objects.create(name='Poranny')
+        stencil = Stencil.objects.create(name='Poranny', caffe=self.kafo)
 
         get_stencil = Stencil.objects.get(id=stencil.id)
         self.assertEqual(get_stencil.name, 'Poranny')
@@ -38,39 +38,40 @@ class StencilModelTest(TestCase):
         """Check that the name can't be an empty string."""
 
         with self.assertRaises(Exception):
-            Stencil.objects.create(name='')
+            Stencil.objects.create(name='', caffe=self.kafo)
 
     def test_stencil_name_whitespace(self):
         """Check that the name can't consist of whitespace."""
 
         with self.assertRaises(Exception):
-            Stencil.objects.create(name=' ')
+            Stencil.objects.create(name=' ', caffe=self.kafo)
 
         with self.assertRaises(Exception):
-            Stencil.objects.create(name='                  ')
+            Stencil.objects.create(name='                  ', caffe=self.kafo)
 
     def test_stencil_same_name(self):
         """Check if two Stencils cannot have the same name."""
 
-        Stencil.objects.create(name='Poranny')
+        Stencil.objects.create(name='Poranny', caffe=self.kafo)
 
         with self.assertRaises(Exception):
-            Stencil.objects.create(name='Poranny')
+            Stencil.objects.create(name='Poranny', caffe=self.kafo)
 
     def test_stencil_same_name_case_insensitive(self):
         """Check that two Stencils can't have the same name."""
 
-        Stencil.objects.create(name='Poranny')
+        Stencil.objects.create(name='Poranny', caffe=self.kafo)
 
         with self.assertRaises(Exception):
-            Stencil.objects.create(name='poranny')
+            Stencil.objects.create(name='poranny', caffe=self.kafo)
 
     def test_stencil_description(self):
         """Check if description for Stencil is saved properly."""
 
         stencil = Stencil.objects.create(
             name='Poranny',
-            description=u'Szablon do raportów na sam początek dnia'
+            description=u'Szablon do raportów na sam początek dnia',
+            caffe=self.kafo
         )
 
         get_stencil = Stencil.objects.get(id=stencil.id)
@@ -82,7 +83,7 @@ class StencilModelTest(TestCase):
     def test_stencil_categories(self):
         """Check if category/categories for Stencil are saved properly."""
 
-        stencil = Stencil.objects.create(name='Poranny')
+        stencil = Stencil.objects.create(name='Poranny', caffe=self.kafo)
         stencil.categories.add(self.coffees, self.cakes)
 
         get_stencil = Stencil.objects.get(id=stencil.id)
@@ -98,7 +99,7 @@ class StencilModelTest(TestCase):
     def test_stencil_same_categories(self):
         """Check that two same categories can't be added."""
 
-        stencil = Stencil.objects.create(name='Wieczorny')
+        stencil = Stencil.objects.create(name='Wieczorny', caffe=self.kafo)
         stencil.categories.add(self.coffees, self.coffees)
 
         self.assertEqual(len(list(stencil.categories.all())), 1)
@@ -106,7 +107,11 @@ class StencilModelTest(TestCase):
     def test_stencil_to_string(self):
         """Check if str() on Stencil returns good value."""
 
-        stencil = Stencil.objects.create(name='Poranny', description='Hello')
+        stencil = Stencil.objects.create(
+            name='Poranny',
+            description='Hello',
+            caffe=self.kafo
+        )
         stencil.categories.add(self.coffees, self.cakes)
 
         self.assertEqual(stencil.name, str(stencil))

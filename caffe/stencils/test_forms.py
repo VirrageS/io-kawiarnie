@@ -33,7 +33,7 @@ class StencilFormTest(TestCase):
             'name': 'Poranny',
             'description': '',
             'categories': [self.coffees.id]
-        })
+            }, caffe=self.kafo)
 
         self.assertCountEqual(
             [cat for cat in form_correct.fields['categories'].choices],
@@ -52,21 +52,21 @@ class StencilFormTest(TestCase):
         form_incorrect = StencilForm({
             'name': '',
             'categories': [self.cakes.id]
-        })
+        }, caffe=self.kafo)
 
         self.assertFalse(form_incorrect.is_valid())
 
         form_incorrect = StencilForm({
             'name': 'Poranny',
             'categories': []
-        })
+        }, caffe=self.kafo)
 
         self.assertFalse(form_incorrect.is_valid())
 
     def test_stencil_form_instance(self):
         """Check Stencil form with loaded instance."""
 
-        stencil = Stencil.objects.create(name='Poranny')
+        stencil = Stencil.objects.create(name='Poranny', caffe=self.kafo)
         stencil.categories.add(self.coffees, self.cakes)
 
         get_stencil = Stencil.objects.get(id=stencil.id)
@@ -74,10 +74,9 @@ class StencilFormTest(TestCase):
         form_correct = StencilForm(
             {
                 'name': 'Wieczorny',
-                'categories': [self.cakes.id]
-            },
-            instance=get_stencil
-        )
+                'categories': [self.cakes.id],
+            }, instance=get_stencil, caffe=self.kafo,)
+
         self.assertIsInstance(form_correct.instance, Stencil)
         self.assertEqual(form_correct.instance.id, get_stencil.id)
 

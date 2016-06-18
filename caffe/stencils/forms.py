@@ -22,6 +22,8 @@ class StencilForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Initialize all necessary information of form."""
 
+        self._caffe = kwargs.pop('caffe')
+
         kwargs.setdefault('label_suffix', '')  # removes ":" from labels
         super(StencilForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = 'Nazwa'

@@ -16,16 +16,16 @@ def stencils_new_stencil(request):
     """Show form to create new stencil and show existing stencils."""
 
     final_stencils = []
-    form = StencilForm()
+    form = StencilForm(caffe=request.user.caffe)
 
     if request.POST:
-        form = StencilForm(request.POST)
+        form = StencilForm(request.POST, caffe=request.user.caffe)
 
         if form.is_valid():
             form.save()
             return redirect(reverse('reports_navigate'))
 
-    stencils = Stencil.objects.all()
+    stencils = Stencil.objects.filter(caffe=request.user.caffe).all()
     for stencil in stencils:
         final_stencils.append({
             'edit_href': reverse('stencils_edit_stencil', args=(stencil.id,)),
@@ -45,7 +45,11 @@ def stencils_edit_stencil(request, stencil_id):
     """Edit already existing stencil with stencil_id."""
 
     stencil = get_object_or_404(Stencil, id=stencil_id)
-    form = StencilForm(request.POST or None, instance=stencil)
+    form = StencilForm(
+        request.POST or None,
+        instance=stencil,
+        caffe=stencil.caffe
+    )
 
     if form.is_valid():
         form.save()
@@ -74,7 +78,7 @@ def stencils_show_stencil(request, stencil_id):
 def stencils_show_all_stencils(request):
     """Show all existing stencils."""
 
-    stencils = Stencil.objects.all()
+    stencils = Stencil.objects.filter(caffe=request.user.caffe).all()
     return render(request, 'stencils/all.html', {
         'stencils': stencils
     })
@@ -118,7 +122,7 @@ def stencils_new_report(request, stencil_id):
 
         post.pop('csrfmiddlewaretoken', None)
 
-        # chcek validation and create form for each fullproduct
+        # check validation and create form for each fullproduct
         for full_product in post:
             fp_list = post.getlist(full_product)
             form = FullProductForm(

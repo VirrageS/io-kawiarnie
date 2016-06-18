@@ -43,7 +43,10 @@ class CategoryViewsTests(TestCase):
         self.coffees = Category.objects.create(name='Kawy', caffe=self.kafo)
         self.cakes = Category.objects.create(name='Ciasta', caffe=self.kafo)
 
-        self.cakes2 = Category.objects.create(name='Ciasta', caffe=self.filtry)
+        self.cakes_f = Category.objects.create(
+            name='Ciasta',
+            caffe=self.filtry
+        )
 
         # add user and permissions
         self.user = Employee.objects.create_user(
@@ -166,7 +169,7 @@ class CategoryViewsTests(TestCase):
     def test_edit_category_404(self):
         """Check if 404 is displayed when category does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.cakes_f.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -244,7 +247,10 @@ class UnitViewsTests(TestCase):
         self.money = Unit.objects.create(name=u'złotówki', caffe=self.kafo)
         self.grams = Unit.objects.create(name=u'gramy', caffe=self.kafo)
 
-        Unit.objects.create(name='gramy', caffe=self.filtry)
+        self.grams_f = Unit.objects.create(
+            name='gramy',
+            caffe=self.filtry
+        )
 
         # add user and permissions
         self.user = Employee.objects.create_user(
@@ -364,7 +370,7 @@ class UnitViewsTests(TestCase):
     def test_edit_unit_404(self):
         """Check if 404 is displayed when unit does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.grams_f.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -459,7 +465,7 @@ class ProductViewsTests(TestCase):
             unit=self.pieces,
             caffe=self.kafo
         )
-        Product.objects.create(
+        self.cake_f = Product.objects.create(
             name='Szarlotka',
             category=self.cakes1,
             unit=self.pieces1,
@@ -589,7 +595,7 @@ class ProductViewsTests(TestCase):
     def test_edit_product_404(self):
         """Check if 404 is displayed when product does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.cake_f.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -922,7 +928,7 @@ class ReportViewsTests(TestCase):
     def test_edit_report_404(self):
         """Check if 404 is displayed when report does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.filtry_report.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]

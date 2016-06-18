@@ -25,6 +25,13 @@ class EmployeeViewsTests(TestCase):
             house_number='14',
             postal_code='44-100'
         )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
 
         self.emp1 = Employee.objects.create_user(
             username='marta',
@@ -39,7 +46,6 @@ class EmployeeViewsTests(TestCase):
             Permission.objects.get(codename='view_cashreport'),
             Permission.objects.get(codename='view_workedhours'),
         )
-
         self.emp2 = Employee.objects.create_user(
             username='szkarta',
             password='pass',
@@ -48,9 +54,18 @@ class EmployeeViewsTests(TestCase):
             favorite_coffee='kawa',
             caffe=self.caffe
         )
+        self.emp3 = Employee.objects.create_user(
+            username='szkarta1',
+            password='pass',
+            email='szkarta@szkarta.pl',
+            telephone_number=324092342,
+            favorite_coffee='kawa',
+            caffe=self.filtry
+        )
 
         self.emp1.save()
         self.emp2.save()
+        self.emp3.save()
 
         # add user and permissions
         self.user = Employee.objects.create_user(
@@ -165,7 +180,7 @@ class EmployeeViewsTests(TestCase):
     def test_edit_employees_404(self):
         """Check if 404 is displayed when employee does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.emp3.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -327,7 +342,7 @@ class EmployeeViewsTests(TestCase):
     def test_delete_employee_404(self):
         """Check if 404 is displayed when employee does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.emp3.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]

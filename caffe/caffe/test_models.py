@@ -20,7 +20,6 @@ class CaffeModelTest(TestCase):
             email='boss@bosses.com',
             favorite_coffee='black'
         )
-        
 
     def test_validation(self):
         """Validation tests for the Caffe model."""
@@ -59,7 +58,7 @@ class CaffeModelTest(TestCase):
 
     def test_str(self):
         """Test conversion to string."""
-        
+
         Caffe.objects.create(
             name='kafo',
             city='Gliwice',

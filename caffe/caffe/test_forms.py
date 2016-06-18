@@ -14,7 +14,7 @@ class CaffeFormTest(TestCase):
 
     def setUp(self):
         """Set data for tests."""
-        
+
         employee_form = EmployeeForm({
             'username': 'u2',
             'first_name': 'fu1',
@@ -32,12 +32,12 @@ class CaffeFormTest(TestCase):
         """Check creation of valid caffe."""
 
         valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe1',
-            'street':'CaffeStreet1',
-            'postal_code':'00-000',
-            'building_number':'50',
-            'house_number':'100'
+            'name': 'Caffe1',
+            'city': 'SanCaffe1',
+            'street': 'CaffeStreet1',
+            'postal_code': '00-000',
+            'building_number': '50',
+            'house_number': '100'
         })
 
         self.assertTrue(valid.is_valid())
@@ -47,12 +47,12 @@ class CaffeFormTest(TestCase):
         self.assertEquals(Caffe.objects.count(), 1)
 
         valid = CaffeForm({
-            'name':'Caffe2',
-            'city':'SanCaffe2',
-            'street':'CaffeStreet2',
-            'postal_code':'00-100',
-            'building_number':'50a',
-            'house_number':'40'
+            'name': 'Caffe2',
+            'city': 'SanCaffe2',
+            'street': 'CaffeStreet2',
+            'postal_code': '00-100',
+            'building_number': '50a',
+            'house_number': '40'
         })
 
         self.assertTrue(valid.is_valid())
@@ -62,11 +62,11 @@ class CaffeFormTest(TestCase):
         self.assertEquals(Caffe.objects.count(), 2)
 
         valid = CaffeForm({
-            'name':'Caffe3',
-            'city':'SanCaffe3',
-            'street':'CaffeStreet3',
-            'postal_code':'00-003',
-            'building_number':'50'
+            'name': 'Caffe3',
+            'city': 'SanCaffe3',
+            'street': 'CaffeStreet3',
+            'postal_code': '00-003',
+            'building_number': '50'
         })
 
         self.assertTrue(valid.is_valid())
@@ -79,12 +79,12 @@ class CaffeFormTest(TestCase):
         """Test if names of caffe are uniqe."""
 
         valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe1',
-            'street':'CaffeStreet1',
-            'postal_code':'00-000',
-            'building_number':'50',
-            'house_number':'100'
+            'name': 'Caffe1',
+            'city': 'SanCaffe1',
+            'street': 'CaffeStreet1',
+            'postal_code': '00-000',
+            'building_number': '50',
+            'house_number': '100'
         })
 
         self.assertTrue(valid.is_valid())
@@ -93,12 +93,12 @@ class CaffeFormTest(TestCase):
         caffe.save()
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe2',
-            'street':'CaffeStreet2',
-            'postal_code':'00-100',
-            'building_number':'50a',
-            'house_number':'40'
+            'name': 'Caffe1',
+            'city': 'SanCaffe2',
+            'street': 'CaffeStreet2',
+            'postal_code': '00-100',
+            'building_number': '50a',
+            'house_number': '40'
         })
 
         self.assertFalse(not_valid.is_valid())
@@ -112,51 +112,51 @@ class CaffeFormTest(TestCase):
         """Test required fields."""
 
         not_valid = CaffeForm({
-            'city':'SanCaffe2',
-            'street':'CaffeStreet2',
-            'postal_code':'00-100',
-            'building_number':'50a',
-            'house_number':'40'
+            'city': 'SanCaffe2',
+            'street': 'CaffeStreet2',
+            'postal_code': '00-100',
+            'building_number': '50a',
+            'house_number': '40'
         })
 
         self.assertFalse(not_valid.is_valid())
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'street':'CaffeStreet2',
-            'postal_code':'00-100',
-            'building_number':'50a',
-            'house_number':'40'
+            'name': 'Caffe1',
+            'street': 'CaffeStreet2',
+            'postal_code': '00-100',
+            'building_number': '50a',
+            'house_number': '40'
         })
 
         self.assertFalse(not_valid.is_valid())
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe2',
-            'postal_code':'00-100',
-            'building_number':'50a',
-            'house_number':'40'
+            'name': 'Caffe1',
+            'city': 'SanCaffe2',
+            'postal_code': '00-100',
+            'building_number': '50a',
+            'house_number': '40'
         })
 
         self.assertFalse(not_valid.is_valid())
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe2',
-            'street':'CaffeStreet2',
-            'building_number':'50a',
-            'house_number':'40'
+            'name': 'Caffe1',
+            'city': 'SanCaffe2',
+            'street': 'CaffeStreet2',
+            'building_number': '50a',
+            'house_number': '40'
         })
 
         self.assertFalse(not_valid.is_valid())
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe2',
-            'street':'CaffeStreet2',
-            'postal_code':'00-100',
-            'house_number':'40'
+            'name': 'Caffe1',
+            'city': 'SanCaffe2',
+            'street': 'CaffeStreet2',
+            'postal_code': '00-100',
+            'house_number': '40'
         })
 
         self.assertFalse(not_valid.is_valid())
@@ -165,12 +165,12 @@ class CaffeFormTest(TestCase):
         """Test postal code validation."""
 
         valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe1',
-            'street':'CaffeStreet1',
-            'postal_code':'00-000',
-            'building_number':'50',
-            'house_number':'100'
+            'name': 'Caffe1',
+            'city': 'SanCaffe1',
+            'street': 'CaffeStreet1',
+            'postal_code': '00-000',
+            'building_number': '50',
+            'house_number': '100'
         })
 
         self.assertTrue(valid.is_valid())
@@ -180,100 +180,100 @@ class CaffeFormTest(TestCase):
         self.assertEquals(Caffe.objects.count(), 1)
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe1',
-            'street':'CaffeStreet1',
-            'postal_code':'00000',
-            'building_number':'50',
-            'house_number':'100'
+            'name': 'Caffe1',
+            'city': 'SanCaffe1',
+            'street': 'CaffeStreet1',
+            'postal_code': '00000',
+            'building_number': '50',
+            'house_number': '100'
         })
 
         self.assertFalse(not_valid.is_valid())
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe1',
-            'street':'CaffeStreet1',
-            'postal_code':'00000',
-            'building_number':'50',
-            'house_number':'100'
+            'name': 'Caffe1',
+            'city': 'SanCaffe1',
+            'street': 'CaffeStreet1',
+            'postal_code': '00000',
+            'building_number': '50',
+            'house_number': '100'
         })
 
         self.assertFalse(not_valid.is_valid())
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe1',
-            'street':'CaffeStreet1',
-            'postal_code':'ab-bba',
-            'building_number':'50',
-            'house_number':'100'
+            'name': 'Caffe1',
+            'city': 'SanCaffe1',
+            'street': 'CaffeStreet1',
+            'postal_code': 'ab-bba',
+            'building_number': '50',
+            'house_number': '100'
         })
 
         self.assertFalse(not_valid.is_valid())
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe1',
-            'street':'CaffeStreet1',
-            'postal_code':'AB-CAS',
-            'building_number':'50',
-            'house_number':'100'
+            'name': 'Caffe1',
+            'city': 'SanCaffe1',
+            'street': 'CaffeStreet1',
+            'postal_code': 'AB-CAS',
+            'building_number': '50',
+            'house_number': '100'
         })
 
         self.assertFalse(not_valid.is_valid())
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe1',
-            'street':'CaffeStreet1',
-            'postal_code':'##-###',
-            'building_number':'50',
-            'house_number':'100'
+            'name': 'Caffe1',
+            'city': 'SanCaffe1',
+            'street': 'CaffeStreet1',
+            'postal_code': '##-###',
+            'building_number': '50',
+            'house_number': '100'
         })
 
         self.assertFalse(not_valid.is_valid())
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe1',
-            'street':'CaffeStreet1',
-            'postal_code':'1-234',
-            'building_number':'50',
-            'house_number':'100'
+            'name': 'Caffe1',
+            'city': 'SanCaffe1',
+            'street': 'CaffeStreet1',
+            'postal_code': '1-234',
+            'building_number': '50',
+            'house_number': '100'
         })
 
         self.assertFalse(not_valid.is_valid())
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe1',
-            'street':'CaffeStreet1',
-            'postal_code':'12-24',
-            'building_number':'50',
-            'house_number':'100'
+            'name': 'Caffe1',
+            'city': 'SanCaffe1',
+            'street': 'CaffeStreet1',
+            'postal_code': '12-24',
+            'building_number': '50',
+            'house_number': '100'
         })
 
         self.assertFalse(not_valid.is_valid())
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe1',
-            'street':'CaffeStreet1',
-            'postal_code':'112-242',
-            'building_number':'50',
-            'house_number':'100'
+            'name': 'Caffe1',
+            'city': 'SanCaffe1',
+            'street': 'CaffeStreet1',
+            'postal_code': '112-242',
+            'building_number': '50',
+            'house_number': '100'
         })
 
         self.assertFalse(not_valid.is_valid())
 
         not_valid = CaffeForm({
-            'name':'Caffe1',
-            'city':'SanCaffe1',
-            'street':'CaffeStreet1',
-            'postal_code':'Caffe',
-            'building_number':'50',
-            'house_number':'100'
+            'name': 'Caffe1',
+            'city': 'SanCaffe1',
+            'street': 'CaffeStreet1',
+            'postal_code': 'Caffe',
+            'building_number': '50',
+            'house_number': '100'
         })
 
         self.assertFalse(not_valid.is_valid())

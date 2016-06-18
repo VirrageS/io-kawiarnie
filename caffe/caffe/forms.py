@@ -2,6 +2,8 @@
 
 from django import forms
 
+from .models import Caffe
+
 import re
 
 
@@ -47,7 +49,7 @@ class CaffeForm(forms.ModelForm):
         cleaned_data = super(CaffeForm, self).clean()
         cleaned_postal_code = cleaned_data.get("postal_code")
 
-        #check postal code regex match to dd-ddd
+        # check postal code regex match to dd-ddd
         postal_pattern = re.compile('^[0-9]{2}-?[0-9]{3}$')
 
         if not cleaned_postal_code or \

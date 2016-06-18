@@ -11,7 +11,7 @@ class CaffeForm(forms.ModelForm):
     house_number = forms.CharField(required=False)
 
     class Meta:
-        model = Product
+        model = Caffe
         fields = (
             'name',
             'city',
@@ -50,7 +50,8 @@ class CaffeForm(forms.ModelForm):
 
         postal_pattern = re.compile('^[0-9]{2}-?[0-9]{3}$')
 
-        if not postal_pattern.match(cleaned_postal_code):
+        if not cleaned_postal_code or \
+           not postal_pattern.match(cleaned_postal_code):
             self.add_error(
                 'postal_code',
                 u'Kod pocztowy musi być w formacie liczbowym XX-XXX.'

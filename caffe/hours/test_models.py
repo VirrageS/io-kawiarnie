@@ -2,6 +2,7 @@ from datetime import date
 
 from django.test import TestCase
 
+from caffe.models import Caffe
 from employees.models import Employee
 
 from .models import Position, WorkedHours
@@ -10,23 +11,37 @@ from .models import Position, WorkedHours
 class PositionModelTest(TestCase):
     """Position model tests."""
 
+    def setUp(self):
+        """Prepare database for tests."""
+
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
     def test_create(self):
         """Test if Position create succeded."""
 
-        position1 = Position.objects.create(
-            name="Zmywak"
+        self.assertEqual(Position.objects.count(), 0)
+
+        Position.objects.create(
+            name="Zmywak",
+            caffe=self.kafo
         )
 
-        position1.save()
+        self.assertEqual(Position.objects.count(), 1)
 
-        position2 = Position.objects.create(
-            name="Kasa"
+        Position.objects.create(
+            name="Kasa",
+            caffe=self.kafo
         )
-
-        position2.save()
 
         position3 = Position.objects.create(
-            name="Kelner"
+            name="Kelner",
+            caffe=self.kafo
         )
 
         self.assertEqual(Position.objects.count(), 3)
@@ -35,8 +50,9 @@ class PositionModelTest(TestCase):
 
         self.assertEqual(Position.objects.count(), 2)
 
-        position3 = Position.objects.create(
-            name="Kelner"
+        Position.objects.create(
+            name="Kelner",
+            caffe=self.kafo
         )
 
         self.assertEqual(Position.objects.count(), 3)
@@ -44,25 +60,21 @@ class PositionModelTest(TestCase):
     def test_create_fail(self):
         """Test if Position create failed."""
 
-        position1 = Position.objects.create(
-            name="Zmywak"
+        Position.objects.create(
+            name="Zmywak",
+            caffe=self.kafo
         )
 
-        position1.save()
-
         with self.assertRaises(Exception):
             Position.objects.create(
-                name="Zmywak"
+                name="Zmywak",
+                caffe=self.kafo
             )
 
         with self.assertRaises(Exception):
             Position.objects.create(
-                name=""
-            )
-
-        with self.assertRaises(Exception):
-            Position.objects.create(
-                name=31321
+                name="",
+                caffe=self.kafo
             )
 
 

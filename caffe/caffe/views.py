@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
+from django.shortcuts import redirect, render
 
 
 def index_navigate(request):

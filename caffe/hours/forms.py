@@ -3,6 +3,8 @@
 from datetime import date
 
 from django import forms
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
 from .models import Position, WorkedHours
 
@@ -17,6 +19,7 @@ class PositionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Initialize all Position's fields."""
 
+        self._caffe = kwargs.pop('caffe')
         kwargs.setdefault('label_suffix', '')
 
         super(PositionForm, self).__init__(*args, **kwargs)
@@ -24,6 +27,26 @@ class PositionForm(forms.ModelForm):
 
         if self.instance.id:
             self.initial['name'] = self.instance.name
+
+    def save(self, commit=True):
+        """Override the save method to add Caffe relation."""
+
+        position = super(PositionForm, self).save(commit=False)
+        position.caffe = self._caffe
+        if commit:
+            position.save()
+
+        return position
+
+    def clean_name(self):
+        """Check name field."""
+
+        name = self.cleaned_data['name']
+        query = Position.objects.filter(name=name, caffe=self._caffe)
+        if query.exists():
+            raise ValidationError(_('Name is not unique.'))
+
+        return name
 
 
 class WorkedHoursForm(forms.ModelForm):
@@ -81,7 +104,7 @@ class WorkedHoursForm(forms.ModelForm):
                 employee=self.employee,
                 date=cleaned_date,
                 start_time__lte=cleaned_end_time,
-                end_time__gte=cleaned_start_time
+                end_time__gte=cleaned_start_time,
             )
 
             if self.instance.id:
@@ -104,6 +127,7 @@ class WorkedHoursForm(forms.ModelForm):
 
         hours = super(WorkedHoursForm, self).save(commit=False)
         hours.employee = self.employee
+        hours.caffe = self.employee.caffe
         if commit:
             hours.save()
 

@@ -4,8 +4,9 @@
 from django.contrib.auth.models import Group
 from django.test import TestCase
 
-from .models import Employee
 from caffe.models import Caffe
+
+from .models import Employee
 
 
 class EmployeeModelTest(TestCase):

@@ -17,7 +17,11 @@ def hours_edit_position(request, position_pk):
     """
 
     position = get_object_or_404(Position, pk=position_pk)
-    form = PositionForm(request.POST or None, instance=position)
+    form = PositionForm(
+        request.POST or None,
+        instance=position,
+        caffe=request.user.caffe
+    )
 
     if form.is_valid():
         form.save()
@@ -33,13 +37,13 @@ def hours_edit_position(request, position_pk):
 def hours_new_position(request):
     """Create new Position."""
 
-    form = PositionForm(request.POST or None)
+    form = PositionForm(request.POST or None, caffe=request.user.caffe)
 
     if form.is_valid():
         form.save()
         return redirect(reverse('caffe_navigate'))
 
-    positions = Position.objects.all()
+    positions = Position.objects.filter(caffe=request.user.caffe)
     all_positions = []
     for position in positions:
         all_positions.append({

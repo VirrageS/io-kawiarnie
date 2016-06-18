@@ -4,6 +4,7 @@ from datetime import date, timedelta
 
 from django.test import TestCase
 
+from caffe.models import Caffe
 from employees.models import Employee
 
 from .forms import WorkedHoursForm
@@ -16,13 +17,22 @@ class WorkedHoursFormTest(TestCase):
     def setUp(self):
         """Set up data to tests."""
 
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
         self.user1 = Employee.objects.create(
             username="u1",
             first_name="f_u1",
             last_name="l_u1",
             telephone_number="31312",
             email="he@he.he",
-            favorite_coffee="Rozpuszczalna"
+            favorite_coffee="Rozpuszczalna",
+            caffe=self.kafo
         )
 
         self.user2 = Employee.objects.create(
@@ -31,11 +41,13 @@ class WorkedHoursFormTest(TestCase):
             last_name="l_u2",
             telephone_number="31312",
             email="he@he.he",
-            favorite_coffee="Rozpuszczalna"
+            favorite_coffee="Rozpuszczalna",
+            caffe=self.kafo
         )
 
-        self.barista = Position.objects.create(name='Barista')
-        self.cleaning = Position.objects.create(name='Sprzątanie')
+        self.barista = Position.objects.create(name='Barista', caffe=self.kafo)
+        self.cleaning = Position.objects.create(name='Sprzątanie',
+                                                caffe=self.kafo)
 
     def test_workedhours(self):
         """Check validation - should pass."""
@@ -102,7 +114,7 @@ class WorkedHoursFormTest(TestCase):
             'end_time': "16:00",
             'date': date.today(),
             'position': self.barista.id
-        })
+        }, employee=self.user2)
 
         self.assertTrue(form_correct.is_valid())
         form_correct.save()
@@ -112,7 +124,7 @@ class WorkedHoursFormTest(TestCase):
             'end_time': "14:30",
             'date': date.today(),
             'position': self.barista.id
-        })
+        }, employee=self.user2)
 
         self.assertFalse(form_incorrect.is_valid())
 
@@ -124,7 +136,7 @@ class WorkedHoursFormTest(TestCase):
             'end_time': "16:30",
             'date': date.today(),
             'position': self.barista.id
-        })
+        }, employee=self.user2)
 
         self.assertFalse(form_incorrect.is_valid())
 
@@ -136,7 +148,7 @@ class WorkedHoursFormTest(TestCase):
             'end_time': "17:30",
             'date': date.today(),
             'position': self.barista.id
-        })
+        }, employee=self.user2)
 
         self.assertFalse(form_incorrect.is_valid())
 
@@ -148,7 +160,7 @@ class WorkedHoursFormTest(TestCase):
             'end_time': "15:40",
             'date': date.today(),
             'position': self.barista.id
-        })
+        }, employee=self.user2)
 
         self.assertFalse(form_incorrect.is_valid())
 
@@ -160,7 +172,7 @@ class WorkedHoursFormTest(TestCase):
             'end_time': "21:40",
             'date': date.today(),
             'position': ''
-        })
+        }, employee=self.user2)
 
         self.assertFalse(form_incorrect.is_valid())
 

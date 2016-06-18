@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.http import Http404
@@ -9,6 +10,7 @@ from .forms import PositionForm, WorkedHoursForm
 from .models import Position, WorkedHours
 
 
+@permission_required('hours.change_position')
 def hours_edit_position(request, position_pk):
     """Edit Position with id.
 
@@ -25,6 +27,7 @@ def hours_edit_position(request, position_pk):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Stanowisko zostało poprawnie zmienione.')
         return redirect(reverse('caffe_navigate'))
 
     return render(request, 'hours/new_position.html', {
@@ -34,6 +37,7 @@ def hours_edit_position(request, position_pk):
     })
 
 
+@permission_required('hours.add_position')
 def hours_new_position(request):
     """Create new Position."""
 
@@ -41,6 +45,7 @@ def hours_new_position(request):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Stanowisko zostało poprawnie utworzone.')
         return redirect(reverse('caffe_navigate'))
 
     positions = Position.objects.filter(caffe=request.user.caffe)
@@ -66,7 +71,14 @@ def hours_new_worked_hours(request):
     form = WorkedHoursForm(request.POST or None, employee=request.user)
 
     if form.is_valid():
-        form.save()
+        hours = form.save(commit=False)
+        hours.employee = request.user
+        hours.save()
+        messages.success(
+            request,
+            'Przepracowane godziny zostały poprawnie dodane.'
+        )
+
         return redirect(reverse('caffe_navigate'))
 
     return render(request, 'hours/new_hours.html', {
@@ -97,6 +109,11 @@ def hours_edit_worked_hours(request, hours_pk):
 
     if form.is_valid():
         form.save()
+        messages.success(
+            request,
+            'Przepracowane godziny zostały poprawnie zmienione.'
+        )
+
         return redirect(reverse('caffe_navigate'))
 
     return render(request, 'hours/new_hours.html', {

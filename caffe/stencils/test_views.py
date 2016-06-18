@@ -285,7 +285,8 @@ class StencilViewTests(TestCase):
         """Check rendering new stencil report page."""
 
         response = self.client.get(
-            reverse('stencils_new_report', args=(self.to_drink.id,))
+            reverse('stencils_new_report', args=(self.to_drink.id,)),
+            follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'stencils/new_report.html')
@@ -308,10 +309,16 @@ class StencilViewTests(TestCase):
 
         response = self.client.post(
             reverse('stencils_new_report', args=(self.to_drink.id,)),
-            post
+            post,
+            follow=True
         )
 
-        self.assertEqual(response.status_code, 302)
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(Report.objects.count(), 1)
 
     def test_stencil_report_post_fail(self):
@@ -324,7 +331,8 @@ class StencilViewTests(TestCase):
 
         response = self.client.post(
             reverse('stencils_new_report', args=(self.to_drink.id,)),
-            post
+            post,
+            follow=True
         )
 
         self.assertEqual(response.status_code, 200)

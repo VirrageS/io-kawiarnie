@@ -39,13 +39,6 @@ Kasa
     Podgląd i edycja
   </h2>
 
-  {% if perms.cash.view_cashreport %}
-    <a href="{% url 'show_all_cash_reports' %}" class="card">
-      <i class="fa fa-money" aria-hidden="true"></i>
-      Raporty z kasy
-    </a>
-  {% endif %}
-
   {% if perms.cash.view_company %}
     <a href="{% url 'cash_new_company' %}" class="card">
       <i class="fa fa-building-o" aria-hidden="true"></i>

@@ -36,7 +36,7 @@ def calendar_show_day(request, year, month, day):
         date__day=day
     ).all()
 
-    return render(request, 'calendar/day.html', {
+    return render(request, 'calendar/full_day.html', {
         'reports': reports,
         'cash_reports': cash_reports,
         'worked_hours': worked_hours,

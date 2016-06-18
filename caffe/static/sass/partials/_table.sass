@@ -2,6 +2,7 @@ $border-color: #e7e0e0
 $cell-padding: 0px 25px
 
 table
+  +box-shadow(0px, 0px, 10sortpx, $grey-color)
   font-weight: $light
   margin: 50px 0
   border-spacing: 0
@@ -22,8 +23,8 @@ table
       height: 70px
 
       &.center
-        text-align: center
         padding: 0 !important
+        text-align: center
 
   tbody
     tr
@@ -35,8 +36,8 @@ table
         border-bottom: 1px solid $border-color
 
       &.table__row--highlight
-        background-color: darken($grey-color-light, 5%)
         font-weight: $bold !important
+        background-color: darken($grey-color-light, 5%)
 
       td
         padding: $cell-padding
@@ -45,8 +46,8 @@ table
           border-right: 1px solid $border-color
 
         &.table__cell--center
-          text-align: center
           padding: 0 !important
+          text-align: center
 
         &.icon
           font-size: 1.3em
@@ -63,8 +64,8 @@ table
           color: $grey-color-semilight
 
         &.table__cell--highlight
-          background-color: darken($grey-color-light, 5%)
           font-weight: $bold !important
+          background-color: darken($grey-color-light, 5%)
 
         &.table__cell--font-fixed
           font-family: $fixed-font-family

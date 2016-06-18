@@ -1,20 +1,26 @@
 import json
 
+from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import permission_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CashReportForm, CompanyForm, ExpenseForm, FullExpenseForm
 from .models import CashReport, Company, Expense, FullExpense
 
 
+@permission_required('cash.add_company')
 def cash_new_company(request):
     """Show form to create new Company and show existing Companies."""
 
     elements = []
+
     form = CompanyForm(request.POST or None, caffe=request.user.caffe)
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Firma została poprawnie dodana.')
+
         return redirect(reverse('cash_navigate'))
 
     companies = Company.objects.filter(caffe=request.user.caffe).all()
@@ -34,6 +40,7 @@ def cash_new_company(request):
     })
 
 
+@permission_required('cash.change_company')
 def cash_edit_company(request, company_id):
     """Show form to edit Company.
 
@@ -55,6 +62,7 @@ def cash_edit_company(request, company_id):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Firma została poprawnie zmieniona.')
         return redirect(reverse('cash_navigate'))
 
     return render(request, 'cash/edit_element.html', {
@@ -66,6 +74,7 @@ def cash_edit_company(request, company_id):
     })
 
 
+@permission_required('cash.add_expense')
 def cash_new_expense(request):
     """Show form to create new Expense and show already existing Expenses."""
 
@@ -74,6 +83,7 @@ def cash_new_expense(request):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Wydatek został poprawnie dodany.')
         return redirect(reverse('cash_navigate'))
 
     expenses = Expense.objects.filter(caffe=request.user.caffe).all()
@@ -93,6 +103,7 @@ def cash_new_expense(request):
     })
 
 
+@permission_required('cash.change_expense')
 def cash_edit_expense(request, expense_id):
     """Show form to edit Expense.
 
@@ -114,6 +125,7 @@ def cash_edit_expense(request, expense_id):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Wydatek został poprawnie zmieniony.')
         return redirect(reverse('cash_navigate'))
 
     return render(request, 'cash/edit_element.html', {
@@ -125,6 +137,7 @@ def cash_edit_expense(request, expense_id):
     })
 
 
+@permission_required('cash.add_cashreport')
 def cash_new_cash_report(request):
     """Show form to create CashReport and show already existing CashReport."""
 
@@ -198,7 +211,13 @@ def cash_new_cash_report(request):
                 full_expense.cash_report = cash_report
                 full_expense.save()
 
+            cash_report.save()
+            messages.success(request, 'Raport z kasy został poprawnie dodany.')
             return redirect(reverse('cash_navigate'))
+        else:
+            messages.error(
+                request, u'Formularz został niepoprawnie wypełniony.'
+            )
 
     return render(request, 'cash/new_report.html', {
         'title':  'Nowy raport z kasy',
@@ -208,6 +227,7 @@ def cash_new_cash_report(request):
     })
 
 
+@permission_required('cash.change_cashreport')
 def cash_edit_cash_report(request, report_id):
     """Show form to edit CashReport.
 
@@ -302,7 +322,16 @@ def cash_edit_cash_report(request, report_id):
                 full_expense.cash_report = cash_report
                 full_expense.save()
 
+            cash_report.save()
+            messages.success(
+                request, 'Raport z kasy został poprawnie zmieniony.'
+            )
+
             return redirect(reverse('cash_navigate'))
+        else:
+            messages.error(
+                request, u'Formularz został niepoprawnie wypełniony.'
+            )
 
     return render(request, 'cash/new_report.html', {
         'title':  'Nowy raport z kasy',
@@ -312,6 +341,7 @@ def cash_edit_cash_report(request, report_id):
     })
 
 
+@permission_required('cash.view_cashreport')
 def cash_show_cash_report(request, report_id):
     """Show CashReport with all Expenses.
 
@@ -339,6 +369,7 @@ def cash_show_cash_report(request, report_id):
     })
 
 
+@permission_required('cash.view_cashreport')
 def cash_show_all_cash_reports(request):
     """Show all existing CashReport."""
 

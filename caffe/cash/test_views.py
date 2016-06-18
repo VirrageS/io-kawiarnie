@@ -128,6 +128,11 @@ class CompanyViewsTests(TestCase):
 
         self.assertRedirects(response, reverse('cash_navigate'))
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         # check if new company is displayed
         response = self.client.get(reverse('cash_new_company'))
         self.assertEqual(response.status_code, 200)
@@ -179,13 +184,13 @@ class CompanyViewsTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('cash_edit_expense', args=(_id,))
+                reverse('cash_edit_company', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('cash_edit_expense', args=(_id,))
+                reverse('cash_edit_company', args=(_id,))
 
     def test_edit_company_post_fail(self):
         """Check if edit company fails to edit when form is not valid."""
@@ -201,6 +206,7 @@ class CompanyViewsTests(TestCase):
         self.assertEqual(response.context['form'].errors, {
             'name': ['To pole jest wymagane.'],
         })
+
         self.assertTemplateUsed(response, 'cash/edit_element.html')
 
     def test_edit_company_post_success(self):
@@ -213,6 +219,11 @@ class CompanyViewsTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('cash_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         # check if company name has changed
         company = Company.objects.get(id=self.putka.id)
@@ -339,6 +350,7 @@ class ExpenseViewsTests(TestCase):
         self.assertEqual(response.context['form'].errors, {
             'name': ['To pole jest wymagane.'],
         })
+
         self.assertTemplateUsed(response, 'cash/new_element.html')
 
     def test_new_expense_post_success(self):
@@ -351,6 +363,11 @@ class ExpenseViewsTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('cash_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         # check if new expense is displayed
         response = self.client.get(reverse('cash_new_expense'))
@@ -425,6 +442,7 @@ class ExpenseViewsTests(TestCase):
         self.assertEqual(response.context['form'].errors, {
             'name': ['To pole jest wymagane.'],
         })
+
         self.assertTemplateUsed(response, 'cash/edit_element.html')
 
     def test_edit_expense_post_success(self):
@@ -437,6 +455,11 @@ class ExpenseViewsTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('cash_navigate'))
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
 
         # check if expense name has changed
         expense = Expense.objects.get(id=self.newspapers.id)
@@ -585,21 +608,6 @@ class CashReportViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home/cash.html')
 
-    def test_cashreport_show_all(self):
-        """Check if all CashReport view is displayed properly."""
-
-        response = self.client.get(reverse('show_all_cash_reports'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'cash/all.html')
-
-        # check context
-        self.assertEqual(len(response.context['reports']), 2)
-        reports = list(response.context['reports'])
-        self.assertListEqual(
-            reports,
-            sorted(reports, key=lambda cash: cash.created_on, reverse=True)
-        )
-
     def test_cashreport_show(self):
         """Check if CashReport view is displated properly."""
         response = self.client.get(reverse(
@@ -649,6 +657,11 @@ class CashReportViewTests(TestCase):
         cash_reports_num = CashReport.objects.filter(caffe=self.caffe).count()
         self.assertEqual(cash_reports_num, 2)
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         report = CashReport.objects.get(id=self.cash_report_main.id)
         self.assertEqual(report.cash_before_shift, 1)
         self.assertEqual(report.cash_after_shift, 1)
@@ -675,6 +688,11 @@ class CashReportViewTests(TestCase):
             follow=True
         )
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+        self.assertTrue("niepoprawnie" in messages[0].message)
+
         post = {}
         post['cash_before_shift'] = 1
         post['cash_after_shift'] = 1
@@ -687,6 +705,11 @@ class CashReportViewTests(TestCase):
             post,
             follow=True
         )
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+        self.assertTrue("niepoprawnie" in messages[0].message)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'cash/new_report.html')
@@ -736,6 +759,11 @@ class CashReportViewTests(TestCase):
         cash_reports_num = CashReport.objects.filter(caffe=self.caffe).count()
         self.assertEqual(cash_reports_num, 3)
 
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "success")
+        self.assertTrue("poprawnie" in messages[0].message)
+
         report = CashReport.objects.latest('created_on')
 
         self.assertEqual(report.creator, self.user)
@@ -769,6 +797,11 @@ class CashReportViewTests(TestCase):
 
         caffes_num = CashReport.objects.filter(caffe=self.user.caffe).count()
         self.assertEqual(caffes_num, 2)
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].tags, "error")
+        self.assertTrue("niepoprawnie" in messages[0].message)
 
         post = {}
         post['cash_before_shift'] = 1

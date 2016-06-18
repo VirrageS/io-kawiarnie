@@ -60,6 +60,7 @@ def reports_new_category(request):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Kategoria został poprawnie dodana.')
         return redirect(reverse('reports_navigate'))
 
     categories = Category.objects.filter(caffe=request.user.caffe).all()
@@ -101,6 +102,7 @@ def reports_edit_category(request, category_id):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Kategoria został poprawnie zmieniona.')
         return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {
@@ -121,6 +123,7 @@ def reports_new_unit(request):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Jednostka została poprawnie dodana.')
         return redirect(reverse('reports_navigate'))
 
     units = Unit.objects.filter(caffe=request.user.caffe).all()
@@ -162,6 +165,7 @@ def reports_edit_unit(request, unit_id):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Jednostka została poprawnie zmieniona.')
         return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {
@@ -182,6 +186,7 @@ def reports_new_product(request):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Produkt został poprawnie dodany.')
         return redirect(reverse('reports_navigate'))
 
     products = Product.objects.filter(caffe=request.user.caffe).all()
@@ -223,6 +228,7 @@ def reports_edit_product(request, product_id):
 
     if form.is_valid():
         form.save()
+        messages.success(request, 'Produkt został poprawnie zmieniony.')
         return redirect(reverse('reports_navigate'))
 
     return render(request, 'reports/edit_element.html', {
@@ -302,6 +308,9 @@ def reports_new_report(request):
                 full_product = form.save()
                 full_product.report = report
                 full_product.save()
+
+            report.save()
+            messages.success(request, u'Raport został poprawnie stworzony.')
 
             return redirect(reverse('reports_navigate'))
         else:
@@ -414,6 +423,9 @@ def reports_edit_report(request, report_id):
                 full_product.report = report
                 full_product.save()
 
+            report.save()
+            messages.success(request, u'Raport został poprawnie zmieniony.')
+
             return redirect(reverse('reports_navigate'))
         else:
             messages.error(
@@ -442,14 +454,6 @@ def reports_show_report(request, report_id):
         'report': report,
         'categories': get_report_categories(report.id)
     })
-
-
-@permission_required('reports.view_report')
-def reports_show_all_reports(request):
-    """Show all existing Reports."""
-
-    reports = Report.objects.filter(caffe=request.user.caffe).all()
-    return render(request, 'reports/all.html', {'reports': reports})
 
 
 @permission_required('reports.view_report')

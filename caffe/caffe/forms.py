@@ -2,9 +2,8 @@
 
 from django import forms
 
-from .models import Caffe
-
 import re
+
 
 class CaffeForm(forms.ModelForm):
     """Responsible for setting up a Caffe."""

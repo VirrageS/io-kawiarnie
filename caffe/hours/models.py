@@ -90,7 +90,7 @@ class WorkedHours(models.Model):
             'start_time': self.start_time,
             'end_time': self.end_time,
             'date': self.date,
-            'caffe': self.caffe_id
+            'caffe': self.caffe.id
         }
 
     def __str__(self):

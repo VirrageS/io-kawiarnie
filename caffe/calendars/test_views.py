@@ -72,7 +72,7 @@ class CalendarViewsTests(TestCase):
         )
         self.cash_report_minor.save()
 
-        self.barista = Position.objects.create(name='Barista')
+        self.barista = Position.objects.create(name='Barista', caffe=self.kafo)
 
         self.worked_hours_main = WorkedHours(
             start_time='12:30',

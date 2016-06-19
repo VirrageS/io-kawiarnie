@@ -4,6 +4,7 @@
 from django.test import TestCase
 
 from caffe.models import Caffe
+from employees.models import Employee
 
 from .models import Category, FullProduct, Product, Report, Unit
 
@@ -183,6 +184,39 @@ class ProductModelTest(TestCase):
             caffe=self.filtry
         )
 
+    def test_product_validation(self):
+        """Check if Product model is properly validated."""
+
+        Product.objects.create(
+            name="product1",
+            category=self.cakes1,
+            unit=self.gram1,
+            caffe=self.filtry
+        )
+
+        with self.assertRaises(Exception):
+            Product.objects.create(
+                name="product1",
+                category=self.cakes1,
+                unit=self.gram1,
+                caffe=self.kafo
+            )
+
+        with self.assertRaises(Exception):
+            Product.objects.create(
+                name="product1",
+                category=self.cakes,
+                unit=self.gram1,
+                caffe=self.filtry
+            )
+
+        with self.assertRaises(Exception):
+            Product.objects.create(
+                name="product1",
+                category=self.cakes1,
+                unit=self.gram,
+                caffe=self.filtry
+            )
 
 class FullProductModelTest(TestCase):
     """FullProduct tests."""
@@ -197,12 +231,24 @@ class FullProductModelTest(TestCase):
             house_number='14',
             postal_code='44-100'
         )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
 
         first_cat = Category.objects.create(name="first", caffe=self.caffe)
         second_cat = Category.objects.create(name="second", caffe=self.caffe)
+        self.cakes_f = Category.objects.create(
+            name="Ciasta",
+            caffe=self.filtry
+        )
 
         gram = Unit.objects.create(name="gram", caffe=self.caffe)
         liter = Unit.objects.create(name="liter", caffe=self.caffe)
+        self.pieces_f = Unit.objects.create(name="kawałki", caffe=self.filtry)
 
         Product.objects.create(
             name="product1",
@@ -222,12 +268,21 @@ class FullProductModelTest(TestCase):
             unit=gram,
             caffe=self.caffe
         )
-        Product.objects.create(
-            name="product4",
+        self.cake = Product.objects.create(
+            name="Szarlotka",
             category=second_cat,
             unit=liter,
             caffe=self.caffe
         )
+        self.cake_f = Product.objects.create(
+            name='Szarlotka',
+            category=self.cakes_f,
+            unit=self.pieces_f,
+            caffe=self.filtry
+        )
+
+        self.minor_report = Report.objects.create(caffe=self.caffe)
+        self.minor_report_f = Report.objects.create(caffe=self.filtry)
 
     def test_full_product(self):
         """Test creating FullProducts."""
@@ -235,7 +290,7 @@ class FullProductModelTest(TestCase):
         product1 = Product.objects.get(name="product1")
         product2 = Product.objects.get(name="product2")
         product3 = Product.objects.get(name="product3")
-        product4 = Product.objects.get(name="product4")
+        product4 = self.cake
 
         report1 = Report.objects.create(caffe=self.caffe)
         report2 = Report.objects.create(caffe=self.caffe)
@@ -280,6 +335,47 @@ class FullProductModelTest(TestCase):
 
         full_product1.amount = -1
 
+    def test_fullproduct_validation(self):
+        """Check if FullProduct has proper validation."""
+
+        FullProduct.objects.create(
+            product=self.cake_f,
+            amount=1,
+            report=self.minor_report_f,
+            caffe=self.filtry
+        )
+
+        with self.assertRaises(Exception):
+            FullProduct.objects.create(
+                product=self.cake_f,
+                amount=1,
+                report=self.minor_report_f,
+                caffe=self.caffe
+            )
+
+        with self.assertRaises(Exception):
+            FullProduct.objects.create(
+                product=self.cake,
+                amount=1,
+                report=self.minor_report_f,
+                caffe=self.filtry
+            )
+
+        with self.assertRaises(Exception):
+            FullProduct.objects.create(
+                product=self.cake_f,
+                amount=1,
+                report=self.minor_report,
+                caffe=self.filtry
+            )
+
+        with self.assertRaises(Exception):
+            FullProduct.objects.create(
+                product=self.cake_f,
+                amount=10,
+                report=self.minor_report_f,
+                caffe=self.filtry
+            )
 
 class ReportModelTest(TestCase):
     """Report tests."""
@@ -293,6 +389,19 @@ class ReportModelTest(TestCase):
             street='Wieczorka',
             house_number='14',
             postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.user = Employee.objects.create_user(
+            username='admin',
+            password='admin',
+            caffe=self.caffe
         )
 
         report1 = Report.objects.create(caffe=self.caffe)
@@ -377,3 +486,11 @@ class ReportModelTest(TestCase):
                 amount=1,
                 report=report1
             )
+
+    def test_report_validation(self):
+        """Check if Report model is properly validated."""
+
+        Report.objects.create(caffe=self.caffe, creator=self.user)
+
+        with self.assertRaises(Exception):
+            Report.objects.create(caffe=self.filtry, creator=self.user)

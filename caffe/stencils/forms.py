@@ -57,16 +57,6 @@ class StencilForm(forms.ModelForm):
 
         return name
 
-    def clean_categories(self):
-        """Check categories field."""
-
-        categories = self.cleaned_data['categories']
-        for category in categories:
-            if category.caffe != self._caffe:
-                raise ValidationError(_('Kategoria nie jest poprawna.'))
-
-        return categories
-
     def save(self, commit=True):
         """Override the save method to add Caffe relation."""
 

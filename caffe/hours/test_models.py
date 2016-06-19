@@ -21,6 +21,13 @@ class PositionModelTest(TestCase):
             house_number='14',
             postal_code='44-100'
         )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
 
     def test_create(self):
         """Test if Position create succeded."""
@@ -50,33 +57,25 @@ class PositionModelTest(TestCase):
 
         self.assertEqual(Position.objects.count(), 2)
 
-        Position.objects.create(
-            name="Kelner",
-            caffe=self.kafo
-        )
+        Position.objects.create(name="Kelner", caffe=self.kafo)
+        Position.objects.create(name="Kelner", caffe=self.filtry)
 
-        self.assertEqual(Position.objects.count(), 3)
+        self.assertEqual(Position.objects.count(), 4)
 
     def test_create_fail(self):
         """Test if Position create failed."""
 
-        Position.objects.create(
-            name="Zmywak",
-            caffe=self.kafo
-        )
+        Position.objects.create(name="Zmywak", caffe=self.kafo)
 
         with self.assertRaises(Exception):
-            Position.objects.create(
-                name="Zmywak",
-                caffe=self.kafo
-            )
+            Position.objects.create(name="Zmywak", caffe=self.kafo)
 
         with self.assertRaises(Exception):
-            Position.objects.create(
-                name="",
-                caffe=self.kafo
-            )
+            Position.objects.create(name="", caffe=self.kafo)
 
+        Position.objects.create(name="Zmywak", caffe=self.filtry)
+        with self.assertRaises(Exception):
+            Position.objects.create(name="", caffe=self.filtry)
 
 class WorkedHoursModelTest(TestCase):
     """WorkedHours model tests."""
@@ -91,11 +90,16 @@ class WorkedHoursModelTest(TestCase):
             house_number='14',
             postal_code='44-100'
         )
-
-        self.cleaning = Position.objects.create(
-            name="Zmywak",
-            caffe=self.kafo
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
         )
+
+        self.cleaning = Position.objects.create(name="Zmywak", caffe=self.kafo)
+        self.cleaning_f = Position.objects.create(name="Z", caffe=self.filtry)
 
         self.user1 = Employee.objects.create(
             username="u1",
@@ -114,6 +118,15 @@ class WorkedHoursModelTest(TestCase):
             email="he@he.he",
             favorite_coffee="Rozpuszczalna",
             caffe=self.kafo
+        )
+        self.user_f = Employee.objects.create(
+            username="u3",
+            first_name="f_u3",
+            last_name="l_u3",
+            telephone_number="31312",
+            email="he@he.he",
+            favorite_coffee="Rozpuszczalna",
+            caffe=self.filtry
         )
 
     def test_create(self):
@@ -173,3 +186,45 @@ class WorkedHoursModelTest(TestCase):
             1,
             WorkedHours.objects.filter(employee=self.user1).count()
         )
+
+    def test_create_hours_fail(self):
+        """Check cases in which WorkedHours should fail."""
+
+        WorkedHours.objects.create(
+            start_time="20:30",
+            end_time="21:30",
+            date=date.today(),
+            position=self.cleaning,
+            employee=self.user2,
+            caffe=self.kafo
+        )
+
+        with self.assertRaises(Exception):
+            WorkedHours.objects.create(
+                start_time="20:30",
+                end_time="21:30",
+                date=date.today(),
+                position=self.cleaning,
+                employee=self.user_f,
+                caffe=self.kafo
+            )
+
+        with self.assertRaises(Exception):
+            WorkedHours.objects.create(
+                start_time="20:30",
+                end_time="21:30",
+                date=date.today(),
+                position=self.cleaning_f,
+                employee=self.user2,
+                caffe=self.kafo
+            )
+
+        with self.assertRaises(Exception):
+            WorkedHours.objects.create(
+                start_time="20:30",
+                end_time="21:30",
+                date=date.today(),
+                position=self.cleaning,
+                employee=self.user2,
+                caffe=self.filtry
+            )

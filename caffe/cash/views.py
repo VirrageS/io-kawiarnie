@@ -1,8 +1,8 @@
 import json
 
 from django.contrib import messages
-from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import permission_required
+from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CashReportForm, CompanyForm, ExpenseForm, FullExpenseForm
@@ -367,14 +367,6 @@ def cash_show_cash_report(request, report_id):
         'report': cash_report,
         'expenses': all_expenses
     })
-
-
-@permission_required('cash.view_cashreport')
-def cash_show_all_cash_reports(request):
-    """Show all existing CashReport."""
-
-    cash_reports = CashReport.objects.filter(caffe=request.user.caffe).all()
-    return render(request, 'cash/all.html', {'reports': cash_reports})
 
 
 def cash_navigate(request):

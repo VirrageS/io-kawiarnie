@@ -7,8 +7,96 @@ from django.test import TestCase
 from caffe.models import Caffe
 from employees.models import Employee
 
-from .forms import WorkedHoursForm
+from .forms import WorkedHoursForm, PositionForm
 from .models import Position
+
+
+class PositionFormTest(TestCase):
+    """Tests Position form."""
+
+    def setUp(self):
+        """Initialize all models needed for further tests."""
+
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+    def test_position_form_correct(self):
+        """Check possible cases when PositionForm is correct."""
+
+        form_correct = PositionForm(
+            {'name': 'Zmywak'},
+            caffe=self.kafo
+        )
+        self.assertTrue(form_correct.is_valid())
+
+        position = form_correct.save()
+        self.assertEqual(position.name, 'Zmywak')
+        self.assertEqual(position.caffe, self.kafo)
+
+    def test_position_form_incorrect(self):
+        """Check possible cases when PositionForm is not correct."""
+
+        form_incorrect = PositionForm(
+            {'name': ''},
+            caffe=self.kafo
+        )
+        self.assertFalse(form_incorrect.is_valid())
+
+        form_incorrect = PositionForm(
+            {'name': '      '},
+            caffe=self.kafo
+        )
+
+        self.assertFalse(form_incorrect.is_valid())
+
+    def test_position_same_name(self):
+        """Check if Position with same name cannot be created."""
+
+        Position.objects.create(name='Zmywak', caffe=self.kafo)
+        form_incorrect = PositionForm(
+            {'name': 'Zmywak'},
+            caffe=self.kafo
+        )
+        self.assertFalse(form_incorrect.is_valid())
+
+        form_correct = PositionForm(
+            {'name': 'Zmywak'},
+            caffe=self.filtry
+        )
+        self.assertTrue(form_correct.is_valid())
+
+    def test_position_form_instance(self):
+        """Check Position form with loaded instance."""
+
+        position = Position.objects.create(name='Zmywak', caffe=self.kafo)
+
+        form_correct = PositionForm(
+            {'name': 'Barista'},
+            instance=position,
+            caffe=self.kafo
+        )
+
+        self.assertIsInstance(form_correct.instance, Position)
+        self.assertEqual(form_correct.instance.id, position.id)
+
+        self.assertTrue(form_correct.is_valid())
+        form_correct.save()
+
+        get_position = Position.objects.get(id=position.id)
+        self.assertEqual(get_position.name, 'Barista')
+        self.assertEqual(get_position.caffe, self.kafo)
 
 
 class WorkedHoursFormTest(TestCase):

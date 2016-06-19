@@ -293,3 +293,18 @@ class FullExpenseModelTest(TestCase):
                 caffe=self.filtry,
                 cash_report=self.cash_report
             )
+
+        # two same expenses
+        FullExpense.objects.create(
+            expense=self.cakes,
+            amount=1,
+            caffe=self.kafo,
+            cash_report=self.cash_report
+        )
+        with self.assertRaises(Exception):
+            FullExpense.objects.create(
+                expense=self.cakes,
+                amount=10,
+                caffe=self.kafo,
+                cash_report=self.cash_report
+            )

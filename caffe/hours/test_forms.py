@@ -59,7 +59,8 @@ class WorkedHoursFormTest(TestCase):
                 'date': date.today(),
                 'position': self.barista.id
             },
-            employee=self.user1
+            employee=self.user1,
+            caffe=self.kafo
         )
 
         self.assertTrue(form_correct.is_valid())
@@ -72,7 +73,8 @@ class WorkedHoursFormTest(TestCase):
                 'date': date.today() - timedelta(1),
                 'position': self.barista.id
             },
-            employee=self.user1
+            employee=self.user1,
+            caffe=self.kafo
         )
 
         self.assertTrue(form_correct.is_valid())
@@ -87,7 +89,8 @@ class WorkedHoursFormTest(TestCase):
                 'date': date.today(),
                 'position': self.barista.id
             },
-            employee=self.user1
+            employee=self.user1,
+            caffe=self.kafo
         )
 
         self.assertTrue(form_correct.is_valid())
@@ -100,7 +103,8 @@ class WorkedHoursFormTest(TestCase):
                 'date': date.today(),
                 'position': self.barista.id
             },
-            employee=self.user2
+            employee=self.user2,
+            caffe=self.kafo
         )
 
         self.assertTrue(form_correct.is_valid())
@@ -109,70 +113,94 @@ class WorkedHoursFormTest(TestCase):
     def test_workedhours_fail(self):
         """Check validation - should not pass."""
 
-        form_correct = WorkedHoursForm({
-            'start_time': "15:00",
-            'end_time': "16:00",
-            'date': date.today(),
-            'position': self.barista.id
-        }, employee=self.user2)
+        form_correct = WorkedHoursForm(
+            {
+                'start_time': "15:00",
+                'end_time': "16:00",
+                'date': date.today(),
+                'position': self.barista.id
+            },
+            employee=self.user2,
+            caffe=self.kafo
+        )
 
         self.assertTrue(form_correct.is_valid())
         form_correct.save()
 
-        form_incorrect = WorkedHoursForm({
-            'start_time': "14:50",
-            'end_time': "14:30",
-            'date': date.today(),
-            'position': self.barista.id
-        }, employee=self.user2)
+        form_incorrect = WorkedHoursForm(
+            {
+                'start_time': "14:50",
+                'end_time': "14:30",
+                'date': date.today(),
+                'position': self.barista.id
+            },
+            employee=self.user2,
+            caffe=self.kafo
+        )
 
         self.assertFalse(form_incorrect.is_valid())
 
         with self.assertRaises(Exception):
             form_incorrect.save()
 
-        form_incorrect = WorkedHoursForm({
-            'start_time': "15:30",
-            'end_time': "16:30",
-            'date': date.today(),
-            'position': self.barista.id
-        }, employee=self.user2)
+        form_incorrect = WorkedHoursForm(
+            {
+                'start_time': "15:30",
+                'end_time': "16:30",
+                'date': date.today(),
+                'position': self.barista.id
+            },
+            employee=self.user2,
+            caffe=self.kafo
+        )
 
         self.assertFalse(form_incorrect.is_valid())
 
         with self.assertRaises(Exception):
             form_incorrect.save()
 
-        form_incorrect = WorkedHoursForm({
-            'start_time': "14:30",
-            'end_time': "17:30",
-            'date': date.today(),
-            'position': self.barista.id
-        }, employee=self.user2)
+        form_incorrect = WorkedHoursForm(
+            {
+                'start_time': "14:30",
+                'end_time': "17:30",
+                'date': date.today(),
+                'position': self.barista.id
+            },
+            employee=self.user2,
+            caffe=self.kafo
+        )
 
         self.assertFalse(form_incorrect.is_valid())
 
         with self.assertRaises(Exception):
             form_incorrect.save()
 
-        form_incorrect = WorkedHoursForm({
-            'start_time': "15:30",
-            'end_time': "15:40",
-            'date': date.today(),
-            'position': self.barista.id
-        }, employee=self.user2)
+        form_incorrect = WorkedHoursForm(
+            {
+                'start_time': "15:30",
+                'end_time': "15:40",
+                'date': date.today(),
+                'position': self.barista.id
+            },
+            employee=self.user2,
+            caffe=self.kafo
+        )
 
         self.assertFalse(form_incorrect.is_valid())
 
         with self.assertRaises(Exception):
             form_incorrect.save()
 
-        form_incorrect = WorkedHoursForm({
-            'start_time': "20:30",
-            'end_time': "21:40",
-            'date': date.today(),
-            'position': ''
-        }, employee=self.user2)
+        form_incorrect = WorkedHoursForm(
+            {
+                'start_time': "20:30",
+                'end_time': "21:40",
+                'date': date.today(),
+                'position': ''
+            },
+            employee=self.user2,
+            caffe=self.kafo
+        )
 
         self.assertFalse(form_incorrect.is_valid())
 

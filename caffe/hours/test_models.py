@@ -84,31 +84,42 @@ class WorkedHoursModelTest(TestCase):
     def setUp(self):
         """Set up data to tests."""
 
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
         self.user1 = Employee.objects.create(
             username="u1",
             first_name="f_u1",
             last_name="l_u1",
             telephone_number="31312",
             email="he@he.he",
-            favorite_coffee="Rozpuszczalna"
+            favorite_coffee="Rozpuszczalna",
+            caffe=self.kafo
         )
-
         self.user2 = Employee.objects.create(
             username="u2",
             first_name="f_u2",
             last_name="l_u2",
             telephone_number="31312",
             email="he@he.he",
-            favorite_coffee="Rozpuszczalna"
+            favorite_coffee="Rozpuszczalna",
+            caffe=self.kafo
         )
 
     def test_create(self):
         """Test creation of objects."""
+
         worked_hours1 = WorkedHours.objects.create(
             start_time="15:00",
             end_time="16:00",
             date=date.today(),
-            employee=self.user1
+            employee=self.user1,
+            caffe=self.kafo
         )
 
         self.assertEqual(1, WorkedHours.objects.count())
@@ -117,14 +128,16 @@ class WorkedHoursModelTest(TestCase):
             start_time="17:00",
             end_time="18:00",
             date=date.today(),
-            employee=self.user1
+            employee=self.user1,
+            caffe=self.kafo
         )
 
         WorkedHours.objects.create(
             start_time="20:00",
             end_time="21:00",
             date=date.today(),
-            employee=self.user1
+            employee=self.user1,
+            caffe=self.kafo
         )
 
         self.assertEqual(WorkedHours.objects.count(), 3)
@@ -138,7 +151,8 @@ class WorkedHoursModelTest(TestCase):
             start_time="20:30",
             end_time="21:30",
             date=date.today(),
-            employee=self.user2
+            employee=self.user2,
+            caffe=self.kafo
         )
 
         self.assertEqual(2, WorkedHours.objects.count())

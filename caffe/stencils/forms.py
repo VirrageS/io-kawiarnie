@@ -2,6 +2,7 @@
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
 from reports.models import Category
 
@@ -12,7 +13,7 @@ class StencilForm(forms.ModelForm):
     """Responsible for proper saving Stencil model."""
 
     categories = forms.ModelMultipleChoiceField(
-        queryset=Category.objects.order_by('name'),
+        queryset=Category.objects.none(),
         widget=forms.CheckboxSelectMultiple
     )
 
@@ -31,12 +32,40 @@ class StencilForm(forms.ModelForm):
         self.fields['description'].label = 'Opis'
         self.fields['categories'].label = 'Kategorie'
 
+        self.fields['categories'].queryset = (
+            Category.objects.filter(caffe=self._caffe).all()
+        )
+
         if self.instance.id:
             # set initially selected categories
             categories = self.instance.categories
             self.initial['categories'] = [
                 category.id for category in categories.order_by('name')
             ]
+
+    def clean_name(self):
+        """Check name field."""
+
+        name = self.cleaned_data['name']
+        query = Stencil.objects.filter(name=name, caffe=self._caffe)
+
+        if self.instance.pk:
+            query = query.exclude(pk=self.instance.pk)
+
+        if query.exists():
+            raise ValidationError(_('Nazwa nie jest unikalna.'))
+
+        return name
+
+    def clean_categories(self):
+        """Check categories field."""
+
+        categories = self.cleaned_data['categories']
+        for category in categories:
+            if category.caffe != self._caffe:
+                raise ValidationError(_('Kategoria nie jest poprawna.'))
+
+        return categories
 
     def save(self, commit=True):
         """Override the save method to add Caffe relation."""
@@ -48,13 +77,3 @@ class StencilForm(forms.ModelForm):
             self.save_m2m()
 
         return stencil
-
-    def clean_name(self):
-        """Check name field."""
-
-        name = self.cleaned_data['name']
-        query = Stencil.objects.filter(name=name, caffe=self._caffe)
-        if query.exists():
-            raise ValidationError(_('Nazwa nie jest unikalna.'))
-
-        return name

@@ -16,7 +16,7 @@ class Stencil(models.Model):
             Report from this Stencil.
     """
 
-    name = models.CharField(max_length=100, unique=True,)
+    name = models.CharField(max_length=100,)
     description = models.TextField(max_length=500, null=True, blank=True,)
     categories = models.ManyToManyField(Category)
     caffe = models.ForeignKey(
@@ -37,9 +37,15 @@ class Stencil(models.Model):
         if self.name == '':
             raise ValidationError(_('Stencil name is not valid.'))
 
-        same_stencil = Stencil.objects.filter(name__iexact=self.name,
-                                              caffe=self.caffe).all()
-        if same_stencil:
+        query = Stencil.objects.filter(
+            name__iexact=self.name,
+            caffe=self.caffe
+        ).all()
+
+        if self.pk:
+            query = query.exclude(pk=self.pk)
+
+        if query.exists():
             raise ValidationError(_('Stencil with same name already exists.'))
 
         super(Stencil, self).clean(*args, **kwargs)
@@ -49,6 +55,13 @@ class Stencil(models.Model):
 
         self.full_clean()
         super(Stencil, self).save(*args, **kwargs)
+
+        if self.categories is not None:
+            for category in self.categories.all():
+                if self.caffe != category.caffe:
+                    raise ValidationError(
+                        _('Kawiarnia i kawiarnia kategorii nie zgadza się.')
+                    )
 
     def __str__(self):
         return '{}'.format(self.name)

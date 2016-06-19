@@ -22,9 +22,20 @@ class StencilModelTest(TestCase):
             house_number='14',
             postal_code='44-100'
         )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
 
         self.coffees = Category.objects.create(name='Kawy', caffe=self.kafo)
         self.cakes = Category.objects.create(name='Ciasta', caffe=self.kafo)
+        self.cakes_f = Category.objects.create(
+            name='Ciasta',
+            caffe=self.filtry
+        )
 
     def test_stencil_name(self):
         """Check if name for Stencil is saved properly."""
@@ -53,9 +64,12 @@ class StencilModelTest(TestCase):
         """Check if two Stencils cannot have the same name."""
 
         Stencil.objects.create(name='Poranny', caffe=self.kafo)
-
         with self.assertRaises(Exception):
             Stencil.objects.create(name='Poranny', caffe=self.kafo)
+
+        Stencil.objects.create(name='Poranny', caffe=self.filtry)
+        with self.assertRaises(Exception):
+            Stencil.objects.create(name='Poranny', caffe=self.filtry)
 
     def test_stencil_same_name_case_insensitive(self):
         """Check that two Stencils can't have the same name."""
@@ -95,6 +109,10 @@ class StencilModelTest(TestCase):
                 reverse=False
             )
         )
+
+        with self.assertRaises(Exception):
+            stencil.categories.add(self.cakes_f)
+            stencil.save()
 
     def test_stencil_same_categories(self):
         """Check that two same categories can't be added."""

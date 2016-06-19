@@ -20,7 +20,7 @@ class Caffe(models.Model):
     creator = models.ForeignKey(Employee,
                                 related_name='my_caffe',
                                 default=None,
-                                blank=True,
+                                blank=False,
                                 null=True)
 
     def __str__(self):

@@ -42,7 +42,12 @@ def stencils_new_stencil(request):
 def stencils_edit_stencil(request, stencil_id):
     """Edit already existing stencil with stencil_id."""
 
-    stencil = get_object_or_404(Stencil, id=stencil_id)
+    stencil = get_object_or_404(
+        Stencil,
+        id=stencil_id,
+        caffe=request.user.caffe
+    )
+
     form = StencilForm(
         request.POST or None,
         instance=stencil,
@@ -64,7 +69,12 @@ def stencils_edit_stencil(request, stencil_id):
 def stencils_show_stencil(request, stencil_id):
     """Show stencil with stencil_id."""
 
-    stencil = get_object_or_404(Stencil, id=stencil_id)
+    stencil = get_object_or_404(
+        Stencil,
+        id=stencil_id,
+        caffe=request.user.caffe
+    )
+
     categories = stencil.categories.all()
 
     return render(request, 'stencils/show.html', {
@@ -94,7 +104,12 @@ def stencils_new_report(request, stencil_id):
     checked = []
     all_categories = []
 
-    stencil = get_object_or_404(Stencil, id=stencil_id)
+    stencil = get_object_or_404(
+        Stencil,
+        id=stencil_id,
+        caffe=request.user.caffe
+    )
+
     categories = stencil.categories.all()
 
     for category in categories:
@@ -172,7 +187,7 @@ def stencils_new_report(request, stencil_id):
             )
 
     # get last five reports
-    latest_reports = Report.objects.all()[:5]
+    latest_reports = Report.objects.filter(caffe=request.user.caffe).all()[:5]
     for report in latest_reports:
         report.categories = get_report_categories(report.id)
 

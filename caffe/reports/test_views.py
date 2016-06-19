@@ -31,7 +31,6 @@ class CategoryViewsTests(TestCase):
             house_number='14',
             postal_code='44-100'
         )
-
         self.filtry = Caffe.objects.create(
             name='filtry',
             city='Warszawa',
@@ -1043,7 +1042,7 @@ class ReportViewsTests(TestCase):
         )
 
         # check if edited report did not create a new instance
-        self.assertEqual(Report.objects.count(), 2)
+        self.assertEqual(Report.objects.filter(caffe=self.kafo).count(), 2)
 
     def test_report_navigate(self):
         """Check if create report view is displayed properly."""
@@ -1078,7 +1077,7 @@ class ReportViewsTests(TestCase):
     def test_show_report_404(self):
         """Check if 404 is displayed when report does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.filtry_report.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]

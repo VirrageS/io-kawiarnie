@@ -2,8 +2,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from employees.models import Employee
-
 
 class Position(models.Model):
     """Stores the Position on which Employee has been working."""
@@ -27,10 +25,15 @@ class Position(models.Model):
         if self.name == '':
             raise ValidationError(_('Position name is not valid.'))
 
-        same_position = Position.objects.filter(name__iexact=self.name,
-                                                caffe=self.caffe).all()
+        same_position = Position.objects.filter(
+            name__iexact=self.name,
+            caffe=self.caffe
+        )
 
-        if same_position:
+        if self.pk:
+            same_position = same_position.exclude(pk=self.pk)
+
+        if same_position.exists():
             raise ValidationError(_('Position with same name already exists.'))
 
         super(Position, self).clean(*args, **kwargs)
@@ -51,10 +54,16 @@ class WorkedHours(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     employee = models.ForeignKey(
-        Employee, null=True, blank=False, default=None
+        'employees.Employee',
+        null=True,
+        blank=False,
+        default=None
     )
     position = models.ForeignKey(
-        'Position', null=True, blank=False, default=None
+        'Position',
+        null=True,
+        blank=False,
+        default=None
     )
     start_time = models.TimeField(auto_now=False)
     end_time = models.TimeField(auto_now=False)
@@ -70,28 +79,22 @@ class WorkedHours(models.Model):
         ordering = ('-date', '-end_time')
         default_permissions = ('add', 'change', 'delete', 'view', 'change_all')
 
-    def serialize(self):
-        """Serialize model to dictionary.
+    def save(self, *args, **kwargs):
+        """Save model into the database."""
 
-        Returns:
-            Dictionary with all necessary information about model.
-        """
-
-        employee = {}
         if self.employee:
-            employee = {
-                'id': self.employee.id,
-                'first_name': self.employee.first_name
-            }
+            if self.caffe != self.employee.caffe:
+                raise ValidationError(
+                    _('Kawiarnia i kawiarnia pracownika nie zgadza się.')
+                )
 
-        return {
-            'id': self.id,
-            'employee': employee,
-            'start_time': self.start_time,
-            'end_time': self.end_time,
-            'date': self.date,
-            'caffe': self.caffe.id
-        }
+        if self.caffe != self.position.caffe:
+            raise ValidationError(
+                _('Kawiarnia i kawiarnia stanowiska nie zgadza się.')
+            )
+
+        self.full_clean()
+        super(WorkedHours, self).save(*args, **kwargs)
 
     def __str__(self):
         return 'Worked hours: {} {} {} {}'.format(

@@ -20,13 +20,31 @@ class PositionForm(forms.ModelForm):
         """Initialize all Position's fields."""
 
         self._caffe = kwargs.pop('caffe')
-        kwargs.setdefault('label_suffix', '')
 
+        kwargs.setdefault('label_suffix', '')
         super(PositionForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = u'Nazwa'
 
         if self.instance.id:
             self.initial['name'] = self.instance.name
+
+    def clean_name(self):
+        """Check name field."""
+
+        name = self.cleaned_data['name']
+
+        query = Position.objects.filter(name=name, caffe=self._caffe)
+        if self.instance.pk:
+            query = query.exclude(pk=self.instance.pk)
+
+        if query.exists():
+            raise ValidationError(_('Name is not unique.'))
+
+        name = name.lstrip().rstrip()
+        if name == '':
+            raise ValidationError(_('Position name is not valid.'))
+
+        return name
 
     def save(self, commit=True):
         """Override the save method to add Caffe relation."""
@@ -37,16 +55,6 @@ class PositionForm(forms.ModelForm):
             position.save()
 
         return position
-
-    def clean_name(self):
-        """Check name field."""
-
-        name = self.cleaned_data['name']
-        query = Position.objects.filter(name=name, caffe=self._caffe)
-        if query.exists():
-            raise ValidationError(_('Name is not unique.'))
-
-        return name
 
 
 class WorkedHoursForm(forms.ModelForm):
@@ -81,9 +89,10 @@ class WorkedHoursForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Initialize all Worked Hours's fields."""
 
-        kwargs.setdefault('label_suffix', '')
-        self.employee = kwargs.pop('employee', None)
+        self._employee = kwargs.pop('employee')
+        self._caffe = kwargs.pop('caffe')
 
+        kwargs.setdefault('label_suffix', '')
         super(WorkedHoursForm, self).__init__(*args, **kwargs)
         self.fields['position'].label = u'Stanowisko'
 
@@ -101,13 +110,14 @@ class WorkedHoursForm(forms.ModelForm):
 
         if cleaned_start_time and cleaned_end_time and cleaned_date:
             intersect = WorkedHours.objects.filter(
-                employee=self.employee,
+                employee=self._employee,
+                caffe=self._caffe,
                 date=cleaned_date,
                 start_time__lte=cleaned_end_time,
                 end_time__gte=cleaned_start_time,
             )
 
-            if self.instance.id:
+            if self.instance.pk:
                 intersect = intersect.exclude(pk=self.instance.pk)
 
             if intersect.exists() > 0:
@@ -126,8 +136,8 @@ class WorkedHoursForm(forms.ModelForm):
         """Save WorkedHoursForm data to model."""
 
         hours = super(WorkedHoursForm, self).save(commit=False)
-        hours.employee = self.employee
-        hours.caffe = self.employee.caffe
+        hours.employee = self._employee
+        hours.caffe = self._caffe
         if commit:
             hours.save()
 

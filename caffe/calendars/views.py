@@ -21,19 +21,22 @@ def calendar_show_day(request, year, month, day):
     reports = Report.objects.filter(
         created_on__year=year,
         created_on__month=month,
-        created_on__day=day
+        created_on__day=day,
+        caffe=request.user.caffe
     ).all()
 
     cash_reports = CashReport.objects.filter(
         created_on__year=year,
         created_on__month=month,
-        created_on__day=day
+        created_on__day=day,
+        caffe=request.user.caffe
     ).all()
 
     worked_hours = WorkedHours.objects.filter(
         date__year=year,
         date__month=month,
-        date__day=day
+        date__day=day,
+        caffe=request.user.caffe
     ).all()
 
     return render(request, 'calendar/full_day.html', {

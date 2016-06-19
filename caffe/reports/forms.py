@@ -32,6 +32,10 @@ class ProductForm(forms.ModelForm):
 
         name = self.cleaned_data['name']
         query = Product.objects.filter(name=name, caffe=self._caffe)
+
+        if self.instance.pk:
+            query = query.exclude(pk=self.instance.pk)
+
         if query.exists():
             raise ValidationError(_('Nazwa nie jest unikalna.'))
 
@@ -70,6 +74,10 @@ class CategoryForm(forms.ModelForm):
         name = self.cleaned_data['name']
 
         query = Category.objects.filter(name=name, caffe=self._caffe)
+
+        if self.instance.pk:
+            query = query.exclude(pk=self.instance.pk)
+
         if query.exists():
             raise ValidationError(_('Nazwa nie jest unikalna.'))
 
@@ -106,6 +114,10 @@ class UnitForm(forms.ModelForm):
 
         name = self.cleaned_data['name']
         query = Unit.objects.filter(name=name, caffe=self._caffe)
+
+        if self.instance.pk:
+            query = query.exclude(pk=self.instance.pk)
+
         if query.exists():
             raise ValidationError(_('Nazwa nie jest unikalna.'))
 

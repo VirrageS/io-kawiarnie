@@ -106,7 +106,6 @@ class PositionViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())
         self.assertEqual(response.context['form'].errors, {
-            '__all__': ['Position name is not valid.'],
             'name': ['To pole jest wymagane.']
         })
         self.assertTemplateUsed(response, 'hours/new_position.html')

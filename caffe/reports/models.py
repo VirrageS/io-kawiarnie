@@ -74,22 +74,8 @@ class Category(models.Model):
 
     class Meta:
         ordering = ('name',)
+        unique_together = ('name', 'caffe',)
         default_permissions = ('add', 'change', 'delete', 'view')
-
-    def clean(self, *args, **kwargs):
-        """Clean data and check validation."""
-
-        # checks if there exists two products with same name
-        query = Category.objects.filter(name=self.name, caffe=self.caffe)
-        if self.pk:
-            query = query.exclude(pk=self.pk)
-
-        if query.exists():
-            raise ValidationError(
-                _('Kategoria powinna mieć unikalną nazwę.')
-            )
-
-        super(Category, self).clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         """Save model into the database."""
@@ -117,22 +103,8 @@ class Unit(models.Model):
 
     class Meta:
         ordering = ('name',)
+        unique_together = ('name', 'caffe',)
         default_permissions = ('add', 'change', 'delete', 'view')
-
-    def clean(self, *args, **kwargs):
-        """Clean data and check validation."""
-
-        # checks if there exists two units with same name
-        query = Unit.objects.filter(name=self.name, caffe=self.caffe)
-        if self.pk:
-            query = query.exclude(pk=self.pk)
-
-        if query.exists():
-            raise ValidationError(
-                _('Jednostka powinna mieć unikalną nazwę.')
-            )
-
-        super(Unit, self).clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         """Save model into the database."""
@@ -163,22 +135,8 @@ class Product(models.Model):
 
     class Meta:
         ordering = ('name',)
+        unique_together = ('name', 'caffe',)
         default_permissions = ('add', 'change', 'delete', 'view')
-
-    def clean(self, *args, **kwargs):
-        """Clean data and check validation."""
-
-        # checks if there exists two products with same name
-        query = Product.objects.filter(name=self.name, caffe=self.caffe)
-        if self.pk:
-            query = query.exclude(pk=self.pk)
-
-        if query.exists():
-            raise ValidationError(
-                _('Jednostka powinna mieć unikalną nazwę.')
-            )
-
-        super(Product, self).clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         """Save model into the database."""

@@ -16,27 +16,8 @@ class Position(models.Model):
 
     class Meta:
         ordering = ('name',)
+        unique_together = ('name', 'caffe',)
         default_permissions = ('add', 'change', 'delete', 'view')
-
-    def clean(self, *args, **kwargs):
-        """Clean data and check validation."""
-
-        self.name = self.name.lstrip().rstrip()
-        if self.name == '':
-            raise ValidationError(_('Position name is not valid.'))
-
-        same_position = Position.objects.filter(
-            name__iexact=self.name,
-            caffe=self.caffe
-        )
-
-        if self.pk:
-            same_position = same_position.exclude(pk=self.pk)
-
-        if same_position.exists():
-            raise ValidationError(_('Position with same name already exists.'))
-
-        super(Position, self).clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         """Save model into the database."""
@@ -59,12 +40,7 @@ class WorkedHours(models.Model):
         blank=False,
         default=None
     )
-    position = models.ForeignKey(
-        'Position',
-        null=True,
-        blank=False,
-        default=None
-    )
+    position = models.ForeignKey('Position')
     start_time = models.TimeField(auto_now=False)
     end_time = models.TimeField(auto_now=False)
     date = models.DateField(auto_now=False)

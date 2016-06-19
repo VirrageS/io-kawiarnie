@@ -28,27 +28,8 @@ class Stencil(models.Model):
 
     class Meta:
         ordering = ('name', 'description')
+        unique_together = ('name', 'caffe',)
         default_permissions = ('add', 'change', 'delete', 'view')
-
-    def clean(self, *args, **kwargs):
-        """Clean data and check validation."""
-
-        self.name = self.name.lstrip().rstrip()
-        if self.name == '':
-            raise ValidationError(_('Stencil name is not valid.'))
-
-        query = Stencil.objects.filter(
-            name__iexact=self.name,
-            caffe=self.caffe
-        ).all()
-
-        if self.pk:
-            query = query.exclude(pk=self.pk)
-
-        if query.exists():
-            raise ValidationError(_('Stencil with same name already exists.'))
-
-        super(Stencil, self).clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         """Save model into the database."""

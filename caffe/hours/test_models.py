@@ -92,6 +92,11 @@ class WorkedHoursModelTest(TestCase):
             postal_code='44-100'
         )
 
+        self.cleaning = Position.objects.create(
+            name="Zmywak",
+            caffe=self.kafo
+        )
+
         self.user1 = Employee.objects.create(
             username="u1",
             first_name="f_u1",
@@ -118,6 +123,7 @@ class WorkedHoursModelTest(TestCase):
             start_time="15:00",
             end_time="16:00",
             date=date.today(),
+            position=self.cleaning,
             employee=self.user1,
             caffe=self.kafo
         )
@@ -128,6 +134,7 @@ class WorkedHoursModelTest(TestCase):
             start_time="17:00",
             end_time="18:00",
             date=date.today(),
+            position=self.cleaning,
             employee=self.user1,
             caffe=self.kafo
         )
@@ -136,6 +143,7 @@ class WorkedHoursModelTest(TestCase):
             start_time="20:00",
             end_time="21:00",
             date=date.today(),
+            position=self.cleaning,
             employee=self.user1,
             caffe=self.kafo
         )
@@ -151,6 +159,7 @@ class WorkedHoursModelTest(TestCase):
             start_time="20:30",
             end_time="21:30",
             date=date.today(),
+            position=self.cleaning,
             employee=self.user2,
             caffe=self.kafo
         )

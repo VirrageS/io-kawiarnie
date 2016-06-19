@@ -19,22 +19,8 @@ class Company(models.Model):
 
     class Meta:
         ordering = ('name',)
+        unique_together = ('name', 'caffe',)
         default_permissions = ('add', 'change', 'delete', 'view')
-
-    def clean(self, *args, **kwargs):
-        """Clean data and check validation."""
-
-        # checks if there exists two products with same name
-        query = Company.objects.filter(name=self.name, caffe=self.caffe)
-        if self.pk:
-            query = query.exclude(pk=self.pk)
-
-        if query.exists():
-            raise ValidationError(
-                _('Firma powinna mieć unikalną nazwę.')
-            )
-
-        super(Company, self).clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         """Save model into the database."""

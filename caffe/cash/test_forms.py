@@ -239,7 +239,9 @@ class FullExpenseFormTest(TestCase):
             {'expense': self.expense.pk, 'amount': 1},
             caffe=self.filtry
         )
-        self.assertFalse(different_caffe.is_valid())
+
+        with self.assertRaises(Exception):
+            different_caffe.save()
 
 
 class CashReportFormTest(TestCase):

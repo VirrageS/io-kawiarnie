@@ -78,6 +78,7 @@ class CompanyFormTest(TestCase):
         )
         self.assertFalse(form_incorrect.is_valid())
 
+
 class ExpenseFormTest(TestCase):
     """Tests Expense form."""
 
@@ -180,6 +181,7 @@ class ExpenseFormTest(TestCase):
         )
         self.assertFalse(form_incorrect.is_valid())
 
+
 class FullExpenseFormTest(TestCase):
     """Tests FullExpense form."""
 
@@ -237,7 +239,7 @@ class FullExpenseFormTest(TestCase):
             {'expense': self.expense.pk, 'amount': 1},
             caffe=self.filtry
         )
-
+        self.assertFalse(different_caffe.is_valid())
 
 
 class CashReportFormTest(TestCase):

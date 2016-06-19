@@ -58,7 +58,7 @@ class StencilModelTest(TestCase):
     #         Stencil.objects.create(name=' ', caffe=self.kafo)
     #
     #     with self.assertRaises(Exception):
-    #         Stencil.objects.create(name='                  ', caffe=self.kafo)
+    #         Stencil.objects.create(name='                 ', caffe=self.kafo)
 
     def test_stencil_same_name(self):
         """Check if two Stencils cannot have the same name."""

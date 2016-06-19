@@ -4,7 +4,6 @@
 from django.test import TestCase
 
 from employees.forms import EmployeeForm
-from employees.models import Employee
 
 from .forms import CaffeForm
 from .models import Caffe

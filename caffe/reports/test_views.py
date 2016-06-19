@@ -718,7 +718,6 @@ class ReportViewsTests(TestCase):
         self.liter1 = Unit.objects.create(name='litr', caffe=self.filtry)
         self.pieces1 = Unit.objects.create(name='kawałki', caffe=self.filtry)
 
-
         self.coke = Product.objects.create(
             name="Cola",
             category=self.juices,

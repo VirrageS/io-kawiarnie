@@ -5,7 +5,7 @@ import collections
 
 from django.contrib.auth.models import Permission
 from django.core.urlresolvers import NoReverseMatch, reverse
-from django.test import Client, RequestFactory, TestCase
+from django.test import Client, TestCase
 
 from caffe.models import Caffe
 from employees.models import Employee
@@ -13,7 +13,6 @@ from reports.models import Category, Product, Report, Unit
 
 from .forms import StencilForm
 from .models import Stencil
-from .views import stencils_edit_stencil, stencils_new_stencil
 
 
 class StencilViewTests(TestCase):

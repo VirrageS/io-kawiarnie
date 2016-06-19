@@ -171,15 +171,14 @@ class CashReport(models.Model):
     def balance(self):
         """Calculate balance within one report, indicate deficit/surplus."""
 
-        expesnes = 0
+        expenses = 0
         if self.full_expenses.count() > 0:
             expenses = (
-                self.full_expenses
-                    .aggregate(Sum('amount'))['amount__sum']
+                self.full_expenses.aggregate(Sum('amount'))['amount__sum']
             )
 
-        return self.cash_after_shift + self.card_payments + expenses - \
-               self.cash_before_shift - self.amount_due
+        return (self.cash_after_shift + self.card_payments + expenses - \
+                self.cash_before_shift - self.amount_due)
 
     def save(self, *args, **kwargs):
         """Save model into the database."""

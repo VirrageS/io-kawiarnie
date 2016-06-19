@@ -230,7 +230,6 @@ class CompanyViewsTests(TestCase):
         self.assertEqual(company.name, u'Bambino')
         self.assertEqual(company.caffe, self.user.caffe)
 
-
         # check if edited company is displayed
         response = self.client.get(reverse('cash_new_company'))
         self.assertEqual(response.status_code, 200)

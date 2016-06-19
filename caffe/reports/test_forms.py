@@ -146,6 +146,8 @@ class UnitFormTest(TestCase):
             UnitForm({'name': 'Unit'})
 
     def test_unit_same_name(self):
+        """Check if Unit with same name is properly handled."""
+
         Unit.objects.create(name='Correct', caffe=self.filtry)
 
         form_correct = UnitForm(
@@ -302,6 +304,7 @@ class ProductFormTest(TestCase):
             })
 
     def test_product_same_name(self):
+        """Check if product with same name is properly handled."""
 
         Product.objects.create(
             name='Correct',
@@ -434,7 +437,7 @@ class FullProductFormTest(TestCase):
 
         # test no caffe
         with self.assertRaises(Exception):
-            FullProductForm({'product': product1.id, amount: 100})
+            FullProductForm({'product': product1.id, 'amount': 100})
 
 
 class ReportFormTest(TestCase):

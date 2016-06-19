@@ -122,7 +122,6 @@ class CompanyModelTest(TestCase):
         self.bakery = Company.objects.create(name="bakery", caffe=self.caffe)
         Company.objects.create(name="newspapers company", caffe=self.caffe)
 
-
     def test_name(self):
         """Check if name is unique across one caffe."""
 

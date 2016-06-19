@@ -47,7 +47,6 @@ class PositionViewsTests(TestCase):
             caffe=self.filtry
         )
 
-
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',

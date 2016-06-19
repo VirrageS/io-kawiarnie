@@ -55,6 +55,7 @@ class CategoryModelTest(TestCase):
         Category.objects.create(name="first", caffe=self.filtry)
         Category.objects.create(name="second", caffe=self.filtry)
 
+
 class UnitModelTest(TestCase):
     """Unit tests."""
 
@@ -89,6 +90,7 @@ class UnitModelTest(TestCase):
             Unit.objects.create(name="liter", caffe=self.caffe)
 
         Unit.objects.create(name="liter", caffe=self.filtry)
+
 
 class ProductModelTest(TestCase):
     """Product tests."""

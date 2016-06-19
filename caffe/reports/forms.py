@@ -93,6 +93,7 @@ class CategoryForm(forms.ModelForm):
 
         return category
 
+
 class UnitForm(forms.ModelForm):
     """Responsible for setting up a Unit."""
 

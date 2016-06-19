@@ -89,12 +89,7 @@ def employees_delete_employee(request, employee_id):
 def employees_show_all_employees(request):
     """Show all employees."""
 
-    employees = (Employee
-        .objects
-        .order_by('last_name', 'first_name')
-        .filter(caffe=request.user.caffe)
-        .all()
-    )
+    employees = Employee.objects.filter(caffe=request.user.caffe).all()
 
     return render(request, 'employees/all.html', {
         'employees': employees

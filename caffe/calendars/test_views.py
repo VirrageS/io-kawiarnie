@@ -125,7 +125,7 @@ class CalendarViewsTests(TestCase):
     def test_calendar_navigate(self):
         """Check if calendar navigate is displayed properly."""
 
-        response = self.client.get(reverse('calendar_navigate'))
+        response = self.client.get(reverse('calendar:navigate'))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home/calendar.html')
@@ -136,7 +136,7 @@ class CalendarViewsTests(TestCase):
         today = date.today()
         response = self.client.get(
             reverse(
-                'show_day',
+                'calendar:show_day',
                 args=(today.year, today.month, today.day,)
             )
         )

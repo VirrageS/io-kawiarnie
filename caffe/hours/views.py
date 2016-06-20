@@ -33,7 +33,7 @@ def hours_edit_position(request, position_pk):
     if form.is_valid():
         form.save()
         messages.success(request, 'Stanowisko zostało poprawnie zmienione.')
-        return redirect(reverse('caffe_navigate'))
+        return redirect(reverse('home:navigate'))
 
     return render(request, 'hours/new_position.html', {
         'form': form,
@@ -51,7 +51,7 @@ def hours_new_position(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Stanowisko zostało poprawnie utworzone.')
-        return redirect(reverse('caffe_navigate'))
+        return redirect(reverse('home:navigate'))
 
     positions = Position.objects.filter(caffe=request.user.caffe).all()
     all_positions = []
@@ -87,9 +87,9 @@ def hours_new_worked_hours(request):
             'Przepracowane godziny zostały poprawnie dodane.'
         )
 
-        return redirect(reverse('caffe_navigate'))
+        return redirect(reverse('home:navigate'))
 
-    return render(request, 'hours/new_hours.html', {
+    return render(request, 'hours/new.html', {
         'form': form,
         'title': u'Nowe przepracowane godziny',
         'button': u'Dodaj'
@@ -128,9 +128,9 @@ def hours_edit_worked_hours(request, hours_pk):
             'Przepracowane godziny zostały poprawnie zmienione.'
         )
 
-        return redirect(reverse('caffe_navigate'))
+        return redirect(reverse('home:navigate'))
 
-    return render(request, 'hours/new_hours.html', {
+    return render(request, 'hours/new.html', {
         'form': form,
         'title': u'Edytuj przepracowane godziny',
         'button': u'Uaktualnij'

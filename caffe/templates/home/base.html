@@ -8,37 +8,37 @@
     <div class="left-pane open">
       <ul class="navigation">
         <li>
-          <a href="{% url 'caffe_navigate' %}" class="{% active 'cafe' %}">
+          <a href="{% url 'home:navigate' %}" class="{% active 'cafe' %}">
             <i class="fa fa-coffee"></i>
             <div class="description">Kawiarnia</div>
           </a>
         </li>
         <li>
-          <a href="{% url 'reports_navigate' %}" class="{% active 'reports' %} {% active 'stencils' %}">
+          <a href="{% url 'reports:navigate' %}" class="{% active 'reports' %} {% active 'stencils' %}">
             <i class="fa fa-files-o"></i>
             <div class="description">Raporty</div>
           </a>
         </li>
         <li>
-          <a href="{% url 'cash_navigate' %}" class="{% active 'cash' %}">
+          <a href="{% url 'cash:navigate' %}" class="{% active 'cash' %}">
             <i class="fa fa-money"></i>
             <div class="description">Kasa</div>
           </a>
         </li>
         <li>
-          <a href="{% url 'employees_navigate' %}" class="{% active 'employees' %}">
+          <a href="{% url 'employees:navigate' %}" class="{% active 'employees' %}">
             <i class="fa fa-user"></i>
             <div class="description">Konta</div>
           </a>
         </li>
         <li>
-          <a href="{% url 'calendar_navigate' %}" class="{% active 'calendar' %}">
+          <a href="{% url 'calendar:navigate' %}" class="{% active 'calendar' %}">
             <i class="fa fa-calendar-o"></i>
             <div class="description">Kaledarz</div>
           </a>
         </li>
         <li>
-          <a href="{% url 'statistics_navigate' %}" class="{% active 'statistics' %}">
+          <a href="{% url 'statistics:navigate' %}" class="{% active 'statistics' %}">
             <i class="fa fa-line-chart"></i>
             <div class="description">Statystki</div>
           </a>
@@ -51,12 +51,12 @@
       <div class="navigation">
         <div class="navigation__settings">
           {% if not user.is_authenticated %}
-            <a href="{% url 'login_employee' %}" class="button button-orange">
+            <a href="{% url 'employees:login' %}" class="button button-orange">
               Zaloguj
             </a>
           {% else %}
             <span class="navigation__settings__welcome">Witaj, {{ user.first_name }} {{ user.last_name }}</span>
-            <a href="{% url 'logout_employee' %}" class="button button-light-blue">
+            <a href="{% url 'employees:logout' %}" class="button button-light-blue">
               Wyloguj
             </a>
           {% endif %}

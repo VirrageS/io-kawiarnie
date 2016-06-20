@@ -15,7 +15,6 @@ def employees_logout_employee(request):
     """Logout a user, default behaviour."""
 
     logout(request)
-
     return render(request, 'employees/logout.html')
 
 
@@ -28,7 +27,7 @@ def employees_new_employee(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Pracownik został poprawnie stworzony.')
-        return redirect(reverse('employees_navigate'))
+        return redirect(reverse('employees:navigate'))
     elif request.POST:
         messages.error(request, u'Formularz został niepoprawnie wypełniony.')
 
@@ -56,7 +55,7 @@ def employees_edit_employee(request, employee_id):
     if form.is_valid():
         form.save()
         messages.success(request, 'Pracownik został poprawnie zmieniony.')
-        return redirect(reverse('employees_navigate'))
+        return redirect(reverse('employees:navigate'))
     elif request.POST:
         messages.error(request, u'Formularz został niepoprawnie wypełniony.')
 
@@ -78,11 +77,11 @@ def employees_delete_employee(request, employee_id):
 
     if employee == request.user:
         messages.error(request, u'Nie możesz usunąć siebie.')
-        return redirect(reverse('employees_navigate'))
+        return redirect(reverse('employees:navigate'))
 
     employee.delete()
     messages.success(request, u'Pracownik został poprawnie usunięty.')
-    return redirect(reverse('employees_navigate'))
+    return redirect(reverse('employees:navigate'))
 
 
 @permission_required('employees.view_employee')

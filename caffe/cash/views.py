@@ -20,13 +20,12 @@ def cash_new_company(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Firma została poprawnie dodana.')
-
-        return redirect(reverse('cash_navigate'))
+        return redirect(reverse('cash:navigate'))
 
     companies = Company.objects.filter(caffe=request.user.caffe).all()
     for company in companies:
         elements.append({
-            'edit_href': reverse('cash_edit_company', args=(company.id,)),
+            'edit_href': reverse('cash:edit_company', args=(company.id,)),
             'id': company.id,
             'desc': str(company)
         })
@@ -63,13 +62,13 @@ def cash_edit_company(request, company_id):
     if form.is_valid():
         form.save()
         messages.success(request, 'Firma została poprawnie zmieniona.')
-        return redirect(reverse('cash_navigate'))
+        return redirect(reverse('cash:navigate'))
 
     return render(request, 'cash/edit_element.html', {
         'form': form,
         'context': {
             'title': u'Edytuj firmę',
-            'cancel_href': reverse('cash_new_company')
+            'cancel_href': reverse('cash:new_company')
         }
     })
 
@@ -84,12 +83,12 @@ def cash_new_expense(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Wydatek został poprawnie dodany.')
-        return redirect(reverse('cash_navigate'))
+        return redirect(reverse('cash:navigate'))
 
     expenses = Expense.objects.filter(caffe=request.user.caffe).all()
     for expense in expenses:
         elements.append({
-            'edit_href': reverse('cash_edit_expense', args=(expense.id,)),
+            'edit_href': reverse('cash:edit_expense', args=(expense.id,)),
             'id': expense.id,
             'desc': str(expense)
         })
@@ -126,13 +125,13 @@ def cash_edit_expense(request, expense_id):
     if form.is_valid():
         form.save()
         messages.success(request, 'Wydatek został poprawnie zmieniony.')
-        return redirect(reverse('cash_navigate'))
+        return redirect(reverse('cash:navigate'))
 
     return render(request, 'cash/edit_element.html', {
         'form': form,
         'context': {
             'title': 'Edytuj wydatek',
-            'cancel_href': reverse('cash_new_expense')
+            'cancel_href': reverse('cash:new_expense')
         }
     })
 
@@ -213,13 +212,13 @@ def cash_new_cash_report(request):
 
             cash_report.save()
             messages.success(request, 'Raport z kasy został poprawnie dodany.')
-            return redirect(reverse('cash_navigate'))
+            return redirect(reverse('cash:navigate'))
         else:
             messages.error(
                 request, u'Formularz został niepoprawnie wypełniony.'
             )
 
-    return render(request, 'cash/new_report.html', {
+    return render(request, 'cash/new.html', {
         'title':  'Nowy raport z kasy',
         'button': 'Dodaj',
         'form': form,
@@ -327,13 +326,13 @@ def cash_edit_cash_report(request, report_id):
                 request, 'Raport z kasy został poprawnie zmieniony.'
             )
 
-            return redirect(reverse('cash_navigate'))
+            return redirect(reverse('cash:navigate'))
         else:
             messages.error(
                 request, u'Formularz został niepoprawnie wypełniony.'
             )
 
-    return render(request, 'cash/new_report.html', {
+    return render(request, 'cash/new.html', {
         'title':  'Nowy raport z kasy',
         'button': 'Uaktualnij',
         'form': form,

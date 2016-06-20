@@ -9,19 +9,23 @@ from .views import (cash_edit_cash_report, cash_edit_company,
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^$', cash_navigate, name='cash_navigate'),
-    url(r'^(?P<report_id>\d{0,17})/$',
-        cash_show_cash_report, name='show_cash_report'),
+    url(r'^$', cash_navigate, name='navigate'),
+    url(r'^(?P<report_id>\d{0,17})/$', cash_show_cash_report, name='show'),
+    url(r'^new/$', cash_new_cash_report, name='new'),
+    url(
+        r'^edit/(?P<report_id>\d{0,17})/$',
+        cash_edit_cash_report,
+        name='edit'
+    ),
 
-    url(r'^new/company/$', cash_new_company, name='cash_new_company'),
-    url(r'^edit/company/(?P<company_id>\d{0,17})/$',
-        cash_edit_company, name='cash_edit_company'),
+    url(r'^new/company/$', cash_new_company, name='new_company'),
+    url(
+        r'^edit/company/(?P<company_id>\d{0,17})/$',
+        cash_edit_company,
+        name='edit_company'
+    ),
 
-    url(r'^new/expense/$', cash_new_expense, name='cash_new_expense'),
+    url(r'^new/expense/$', cash_new_expense, name='new_expense'),
     url(r'^edit/expense/(?P<expense_id>\d{0,17})/$',
-        cash_edit_expense, name='cash_edit_expense'),
-
-    url(r'^new/$', cash_new_cash_report, name='new_cash_report'),
-    url(r'^edit/(?P<report_id>\d{0,17})/$',
-        cash_edit_cash_report, name='edit_cash_report'),
+        cash_edit_expense, name='edit_expense'),
 ]

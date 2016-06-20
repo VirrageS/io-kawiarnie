@@ -61,12 +61,12 @@ def reports_new_category(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Kategoria został poprawnie dodana.')
-        return redirect(reverse('reports_navigate'))
+        return redirect(reverse('reports:navigate'))
 
     categories = Category.objects.filter(caffe=request.user.caffe).all()
     for category in categories:
         elements.append({
-            'edit_href': reverse('reports_edit_category', args=(category.id,)),
+            'edit_href': reverse('reports:edit_category', args=(category.id,)),
             'id': category.id,
             'desc': str(category)
         })
@@ -103,13 +103,13 @@ def reports_edit_category(request, category_id):
     if form.is_valid():
         form.save()
         messages.success(request, 'Kategoria został poprawnie zmieniona.')
-        return redirect(reverse('reports_navigate'))
+        return redirect(reverse('reports:navigate'))
 
     return render(request, 'reports/edit_element.html', {
         'form': form,
         'context': {
             'title': u'Edytuj kategorię',
-            'cancel_href': reverse('reports_new_category')
+            'cancel_href': reverse('reports:new_category')
         }
     })
 
@@ -124,12 +124,12 @@ def reports_new_unit(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Jednostka została poprawnie dodana.')
-        return redirect(reverse('reports_navigate'))
+        return redirect(reverse('reports:navigate'))
 
     units = Unit.objects.filter(caffe=request.user.caffe).all()
     for unit in units:
         elements.append({
-            'edit_href': reverse('reports_edit_unit', args=(unit.id,)),
+            'edit_href': reverse('reports:edit_unit', args=(unit.id,)),
             'id': unit.id,
             'desc': str(unit)
         })
@@ -166,13 +166,13 @@ def reports_edit_unit(request, unit_id):
     if form.is_valid():
         form.save()
         messages.success(request, 'Jednostka została poprawnie zmieniona.')
-        return redirect(reverse('reports_navigate'))
+        return redirect(reverse('reports:navigate'))
 
     return render(request, 'reports/edit_element.html', {
         'form': form,
         'context': {
             'title': 'Edytuj jednostkę',
-            'cancel_href': reverse('reports_new_unit')
+            'cancel_href': reverse('reports:new_unit')
         }
     })
 
@@ -187,12 +187,12 @@ def reports_new_product(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Produkt został poprawnie dodany.')
-        return redirect(reverse('reports_navigate'))
+        return redirect(reverse('reports:navigate'))
 
     products = Product.objects.filter(caffe=request.user.caffe).all()
     for product in products:
         elements.append({
-            'edit_href': reverse('reports_edit_product', args=(product.id,)),
+            'edit_href': reverse('reports:edit_product', args=(product.id,)),
             'id': product.id,
             'desc': str(product)
         })
@@ -229,13 +229,13 @@ def reports_edit_product(request, product_id):
     if form.is_valid():
         form.save()
         messages.success(request, 'Produkt został poprawnie zmieniony.')
-        return redirect(reverse('reports_navigate'))
+        return redirect(reverse('reports:navigate'))
 
     return render(request, 'reports/edit_element.html', {
         'form': form,
         'context': {
             'title': u'Edytuj produkt',
-            'cancel_href': reverse('reports_new_product')
+            'cancel_href': reverse('reports:new_product')
         }
     })
 
@@ -311,8 +311,7 @@ def reports_new_report(request):
 
             report.save()
             messages.success(request, u'Raport został poprawnie stworzony.')
-
-            return redirect(reverse('reports_navigate'))
+            return redirect(reverse('reports:navigate'))
         else:
             messages.error(
                 request,
@@ -324,7 +323,7 @@ def reports_new_report(request):
     for report in latest_reports:
         report.categories = get_report_categories(report.id)
 
-    return render(request, 'reports/new_report.html', {
+    return render(request, 'reports/new.html', {
         'title':  'Nowy raport',
         'button': 'Dodaj',
         'reports': latest_reports,
@@ -425,15 +424,14 @@ def reports_edit_report(request, report_id):
 
             report.save()
             messages.success(request, u'Raport został poprawnie zmieniony.')
-
-            return redirect(reverse('reports_navigate'))
+            return redirect(reverse('reports:navigate'))
         else:
             messages.error(
                 request,
                 u'Formularz został niepoprawnie wypełniony.'
             )
 
-    return render(request, 'reports/new_report.html', {
+    return render(request, 'reports/new.html', {
         'title': 'Edytuj raport',
         'button': 'Uaktualnij',
         'products': json.dumps(all_products)

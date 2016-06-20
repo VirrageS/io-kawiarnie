@@ -4,21 +4,21 @@
   </h2>
 
   {% if perms.reports.add_report %}
-    <a href="{% url 'reports_new_report' %}" class="card">
+    <a href="{% url 'reports:new' %}" class="card">
       <i class="fa fa-wpforms" aria-hidden="true"></i>
       Raport
     </a>
   {% endif %}
 
   {% if perms.cash.add_cashreport %}
-    <a href="{% url 'new_cash_report' %}" class="card">
+    <a href="{% url 'cash:new' %}" class="card">
       <i class="fa fa-money" aria-hidden="true"></i>
         Raport z kasy
     </a>
   {% endif %}
 
   {% if perms.hours.add_workedhours %}
-    <a href="{% url 'new_worked_hours' %}" class="modaal card">
+    <a href="{% url 'hours:new' %}" class="modaal card">
       <i class="fa fa-clock-o" aria-hidden="true"></i>
       Przepracowane godziny
     </a>
@@ -35,7 +35,7 @@
         {{ report.created_on }}
       </div>
 
-      <a href="{% url 'reports_show_report' report.id %}" class="button button-rounded button-blue button-with-icon">
+      <a href="{% url 'reports:show' report.id %}" class="button button-rounded button-blue button-with-icon">
         <i class="fa fa-search" aria-hidden="true"></i>
         <span>
           Pokaż raport
@@ -55,7 +55,7 @@
         {{ report.created_on }}
       </div>
 
-      <a href="{% url 'show_cash_report' report.id %}" class="button button-rounded button-blue button-with-icon">
+      <a href="{% url 'reports:show' report.id %}" class="button button-rounded button-blue button-with-icon">
         <i class="fa fa-search" aria-hidden="true"></i>
         <span>
           Pokaż raport z kasy
@@ -90,7 +90,7 @@
           <td>{{ hour.end_time }}</td>
           <td>{{ hour.position.name }}</td>
           {% if perms.hours.edit_workedhours %}
-            <td class="table__cell--center icon edit"><a href="{% url 'edit_worked_hours' hour.id %}"><i class="fa fa-pencil"></i></a></td>
+            <td class="table__cell--center icon edit"><a href="{% url 'hours:edit' hour.id %}"><i class="fa fa-pencil"></i></a></td>
           {% endif %}
         </tr>
       {% endfor %}

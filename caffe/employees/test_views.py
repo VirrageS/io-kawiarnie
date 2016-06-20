@@ -90,7 +90,7 @@ class EmployeeViewsTests(TestCase):
     def test_show_all_employees(self):
         """Check if employees are all displayed properly."""
 
-        response = self.client.get(reverse('show_all_employees'))
+        response = self.client.get(reverse('employees:all'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'employees/all.html')
 
@@ -101,7 +101,7 @@ class EmployeeViewsTests(TestCase):
     def test_navigate_employees(self):
         """Check if navigate view is displayed properly."""
 
-        response = self.client.get(reverse('employees_navigate'))
+        response = self.client.get(reverse('employees:navigate'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home/employees.html')
 
@@ -109,7 +109,7 @@ class EmployeeViewsTests(TestCase):
         """Check if new employee view is displayed properly."""
 
         response = self.client.get(
-            reverse('edit_employee', args=(self.emp1.id,))
+            reverse('employees:edit', args=(self.emp1.id,))
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'employees/edit.html')
@@ -120,7 +120,7 @@ class EmployeeViewsTests(TestCase):
         """Check if editing employees works as intended."""
 
         response = self.client.post(
-            reverse('edit_employee', args=(self.emp1.id,)),
+            reverse('employees:edit', args=(self.emp1.id,)),
             {
                 'username': 'kolega',
                 'password1': 'qweweweuroiwieur',
@@ -132,7 +132,7 @@ class EmployeeViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('employees_navigate'))
+        self.assertRedirects(response, reverse('employees:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -145,7 +145,7 @@ class EmployeeViewsTests(TestCase):
         self.assertEqual(employee.caffe, self.caffe)
 
         # check if edited employee is displayed
-        response = self.client.get(reverse('show_all_employees'))
+        response = self.client.get(reverse('employees:all'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['employees']), 3)
 
@@ -153,7 +153,7 @@ class EmployeeViewsTests(TestCase):
         """Check if editing fails on wrong data."""
 
         response = self.client.post(
-            reverse('edit_employee', args=(self.emp1.id,)),
+            reverse('employees:edit', args=(self.emp1.id,)),
             {
                 'username': '',
                 'password1': 'qweweweuroiwieur',
@@ -187,18 +187,18 @@ class EmployeeViewsTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('edit_employee', args=(_id,))
+                reverse('employees:edit', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('edit_employee', args=(_id,))
+                reverse('employees:edit', args=(_id,))
 
     def test_new_employees_show(self):
         """Check if creating employees works as intended."""
 
-        response = self.client.get(reverse('new_employee'))
+        response = self.client.get(reverse('employees:new'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'employees/new.html')
         self.assertIsInstance(response.context['form'], EmployeeForm)
@@ -207,7 +207,7 @@ class EmployeeViewsTests(TestCase):
         """Check if creating employees works as intended."""
 
         response = self.client.post(
-            reverse('new_employee'),
+            reverse('employees:new'),
             {
                 'username': 'prac',
                 'password1': 'qweweweuroiwieur',
@@ -222,7 +222,7 @@ class EmployeeViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('employees_navigate'))
+        self.assertRedirects(response, reverse('employees:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -230,7 +230,7 @@ class EmployeeViewsTests(TestCase):
         self.assertTrue("poprawnie" in messages[0].message)
 
         # check if new employee is displayed
-        response = self.client.get(reverse('show_all_employees'))
+        response = self.client.get(reverse('employees:all'))
         self.assertEqual(response.status_code, 200)
 
         employees = list(response.context['employees'])
@@ -254,7 +254,7 @@ class EmployeeViewsTests(TestCase):
         """Check if creating employees fails correctly."""
 
         response = self.client.post(
-            reverse('new_employee'),
+            reverse('employees:new'),
             {
                 'username': '',
                 'password1': 'qweweweuroiwieur',
@@ -287,12 +287,12 @@ class EmployeeViewsTests(TestCase):
         logged_in = self.client.login(username='marta', password='pass')
         self.assertTrue(logged_in)
 
-        response = self.client.get(reverse('login_employee'))
+        response = self.client.get(reverse('employees:login'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'employees/login.html')
 
         response = self.client.post(
-            reverse('login_employee'),
+            reverse('employees:login'),
             {
                 'username': 'marta',
                 'password': 'pass'
@@ -300,17 +300,17 @@ class EmployeeViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('caffe_navigate'))
+        self.assertRedirects(response, reverse('home:navigate'))
 
     def test_delete_employee_success(self):
         """Check if deleting employees works as intended."""
 
         response = self.client.post(
-            reverse('delete_employee', args=(self.emp1.id,)),
+            reverse('employees:delete', args=(self.emp1.id,)),
             follow=True
         )
 
-        self.assertRedirects(response, reverse('employees_navigate'))
+        self.assertRedirects(response, reverse('employees:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -325,11 +325,11 @@ class EmployeeViewsTests(TestCase):
         """Check if deleting employees fails when trying to delete themself."""
 
         response = self.client.post(
-            reverse('delete_employee', args=(self.user.id,)),
+            reverse('employees:delete', args=(self.user.id,)),
             follow=True
         )
 
-        self.assertRedirects(response, reverse('employees_navigate'))
+        self.assertRedirects(response, reverse('employees:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -349,13 +349,13 @@ class EmployeeViewsTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('delete_employee', args=(_id,))
+                reverse('employees:delete', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('delete_employee', args=(_id,))
+                reverse('employees:delete', args=(_id,))
 
     def test_login_employee_fail(self):
         """Check if employee login can fail."""
@@ -369,7 +369,7 @@ class EmployeeViewsTests(TestCase):
         logged_in = self.client.login(username='marta', password='pass')
         self.assertTrue(logged_in)
 
-        response = self.client.get(reverse('logout_employee'))
+        response = self.client.get(reverse('employees:logout'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'employees/logout.html')
 
@@ -377,11 +377,11 @@ class EmployeeViewsTests(TestCase):
         """Check if employee logout can fail."""
 
         # logout global user
-        self.client.get(reverse('logout_employee'), follow=True)
+        self.client.get(reverse('employees:logout'), follow=True)
 
         logged_in = self.client.login(username='marta', password='passs')
         self.assertFalse(logged_in)
 
-        response = self.client.get(reverse('logout_employee'), follow=True)
+        response = self.client.get(reverse('employees:logout'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'employees/login.html')

@@ -65,7 +65,7 @@ class CategoryViewsTests(TestCase):
     def test_new_category_show(self):
         """Check if new category view is displayed properly."""
 
-        response = self.client.get(reverse('reports_new_category'))
+        response = self.client.get(reverse('reports:new_category'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
@@ -88,8 +88,8 @@ class CategoryViewsTests(TestCase):
             self.assertEqual(len(element), 3)
             self.assertIn(
                 element['edit_href'], [
-                    reverse('reports_edit_category', args=(self.coffees.id,)),
-                    reverse('reports_edit_category', args=(self.cakes.id,))
+                    reverse('reports:edit_category', args=(self.coffees.id,)),
+                    reverse('reports:edit_category', args=(self.cakes.id,))
                 ]
             )
             self.assertIn(element['id'], [self.coffees.id, self.cakes.id])
@@ -102,7 +102,7 @@ class CategoryViewsTests(TestCase):
         """Check if new category fails to create when form is not valid."""
 
         response = self.client.post(
-            reverse('reports_new_category'),
+            reverse('reports:new_category'),
             {u'name': u''},
             follow=True
         )
@@ -118,12 +118,12 @@ class CategoryViewsTests(TestCase):
         """Check if new category successes to create when form is valid."""
 
         response = self.client.post(
-            reverse('reports_new_category'),
+            reverse('reports:new_category'),
             {u'name': u'Napoje'},
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_navigate'))
+        self.assertRedirects(response, reverse('reports:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -131,7 +131,7 @@ class CategoryViewsTests(TestCase):
         self.assertTrue("poprawnie" in messages[0].message)
 
         # check if new category is displayed
-        response = self.client.get(reverse('reports_new_category'))
+        response = self.client.get(reverse('reports:new_category'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 3)
         self.assertListEqual(
@@ -151,7 +151,7 @@ class CategoryViewsTests(TestCase):
         """Check if edit category view is displayed properly."""
 
         response = self.client.get(
-            reverse('reports_edit_category', args=(self.coffees.id,))
+            reverse('reports:edit_category', args=(self.coffees.id,))
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/edit_element.html')
@@ -167,7 +167,7 @@ class CategoryViewsTests(TestCase):
         )
         self.assertEqual(
             response.context['context']['cancel_href'],
-            reverse('reports_new_category')
+            reverse('reports:new_category')
         )
 
     def test_edit_category_404(self):
@@ -180,19 +180,19 @@ class CategoryViewsTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('reports_edit_category', args=(_id,))
+                reverse('reports:edit_category', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('reports_edit_category', args=(_id,))
+                reverse('reports:edit_category', args=(_id,))
 
     def test_edit_category_post_fail(self):
         """Check if edit category fails to edit when form is not valid."""
 
         response = self.client.post(
-            reverse('reports_edit_category', args=(self.cakes.id,)),
+            reverse('reports:edit_category', args=(self.cakes.id,)),
             {u'name': u''},
             follow=True
         )
@@ -208,12 +208,12 @@ class CategoryViewsTests(TestCase):
         """Check if edit category successes to edit when form is valid."""
 
         response = self.client.post(
-            reverse('reports_edit_category', args=(self.cakes.id,)),
+            reverse('reports:edit_category', args=(self.cakes.id,)),
             {u'name': u'Napoje'},
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_navigate'))
+        self.assertRedirects(response, reverse('reports:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -225,7 +225,7 @@ class CategoryViewsTests(TestCase):
         self.assertEqual(category.name, u'Napoje')
 
         # check if edited category is displayed
-        response = self.client.get(reverse('reports_new_category'))
+        response = self.client.get(reverse('reports:new_category'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 2)
 
@@ -279,7 +279,7 @@ class UnitViewsTests(TestCase):
     def test_new_unit_show(self):
         """Check if new unit view is displayed properly."""
 
-        response = self.client.get(reverse('reports_new_unit'))
+        response = self.client.get(reverse('reports:new_unit'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
@@ -302,8 +302,8 @@ class UnitViewsTests(TestCase):
             self.assertEqual(len(element), 3)
             self.assertIn(
                 element['edit_href'], [
-                    reverse('reports_edit_unit', args=(self.money.id,)),
-                    reverse('reports_edit_unit', args=(self.grams.id,))
+                    reverse('reports:edit_unit', args=(self.money.id,)),
+                    reverse('reports:edit_unit', args=(self.grams.id,))
                 ]
             )
             self.assertIn(element['id'], [self.money.id, self.grams.id])
@@ -313,7 +313,7 @@ class UnitViewsTests(TestCase):
         """Check if new unit fails to create when form is not valid."""
 
         response = self.client.post(
-            reverse('reports_new_unit'),
+            reverse('reports:new_unit'),
             {u'name': u''},
             follow=True
         )
@@ -329,12 +329,12 @@ class UnitViewsTests(TestCase):
         """Check if new unit successes to create if form is valid."""
 
         response = self.client.post(
-            reverse('reports_new_unit'),
+            reverse('reports:new_unit'),
             {u'name': u'sztuki'},
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_navigate'))
+        self.assertRedirects(response, reverse('reports:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -342,7 +342,7 @@ class UnitViewsTests(TestCase):
         self.assertTrue("poprawnie" in messages[0].message)
 
         # check if new unit is displayed
-        response = self.client.get(reverse('reports_new_unit'))
+        response = self.client.get(reverse('reports:new_unit'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 3)
         self.assertListEqual(
@@ -362,7 +362,7 @@ class UnitViewsTests(TestCase):
         """Check if edit unit view is displayed properly."""
 
         response = self.client.get(
-            reverse('reports_edit_unit', args=(self.money.id,))
+            reverse('reports:edit_unit', args=(self.money.id,))
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/edit_element.html')
@@ -378,7 +378,7 @@ class UnitViewsTests(TestCase):
         )
         self.assertEqual(
             response.context['context']['cancel_href'],
-            reverse('reports_new_unit')
+            reverse('reports:new_unit')
         )
 
     def test_edit_unit_404(self):
@@ -391,19 +391,19 @@ class UnitViewsTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('reports_edit_unit', args=(_id,))
+                reverse('reports:edit_unit', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('reports_edit_unit', args=(_id,))
+                reverse('reports:edit_unit', args=(_id,))
 
     def test_edit_unit_post_fail(self):
         """Check if edit unit fails to edit when form is not valid."""
 
         response = self.client.post(
-            reverse('reports_edit_unit', args=(self.grams.id,)),
+            reverse('reports:edit_unit', args=(self.grams.id,)),
             {u'name': u''},
             follow=True
         )
@@ -419,12 +419,12 @@ class UnitViewsTests(TestCase):
         """Check if edit unit successes to edit when form is valid."""
 
         response = self.client.post(
-            reverse('reports_edit_unit', args=(self.grams.id,)),
+            reverse('reports:edit_unit', args=(self.grams.id,)),
             {u'name': u'sztuki'},
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_navigate'))
+        self.assertRedirects(response, reverse('reports:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -436,7 +436,7 @@ class UnitViewsTests(TestCase):
         self.assertEqual(unit.name, u'sztuki')
 
         # check if edited unit is displayed
-        response = self.client.get(reverse('reports_new_unit'))
+        response = self.client.get(reverse('reports:new_unit'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 2)
 
@@ -509,7 +509,7 @@ class ProductViewsTests(TestCase):
     def test_new_product_show(self):
         """Check if new product view is displayed properly."""
 
-        response = self.client.get(reverse('reports_new_product'))
+        response = self.client.get(reverse('reports:new_product'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
@@ -530,8 +530,8 @@ class ProductViewsTests(TestCase):
             self.assertEqual(len(element), 3)
             self.assertIn(
                 element['edit_href'], [
-                    reverse('reports_edit_product', args=(self.caffee.id,)),
-                    reverse('reports_edit_product', args=(self.cake.id,))
+                    reverse('reports:edit_product', args=(self.caffee.id,)),
+                    reverse('reports:edit_product', args=(self.cake.id,))
                 ]
             )
             self.assertIn(element['id'], [self.caffee.id, self.cake.id])
@@ -541,7 +541,7 @@ class ProductViewsTests(TestCase):
         """Check if new product fails to create when form is not valid."""
 
         response = self.client.post(
-            reverse('reports_new_product'),
+            reverse('reports:new_product'),
             {u'name': u''},
             follow=True
         )
@@ -559,7 +559,7 @@ class ProductViewsTests(TestCase):
         """Check if new product successes to create when form is valid."""
 
         response = self.client.post(
-            reverse('reports_new_product'), {
+            reverse('reports:new_product'), {
                 'name': u'Sernik',
                 'category': self.cakes.id,
                 'unit': self.pieces.id
@@ -567,7 +567,7 @@ class ProductViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_navigate'))
+        self.assertRedirects(response, reverse('reports:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -575,7 +575,7 @@ class ProductViewsTests(TestCase):
         self.assertTrue("poprawnie" in messages[0].message)
 
         # check if new product is displayed
-        response = self.client.get(reverse('reports_new_product'))
+        response = self.client.get(reverse('reports:new_product'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 3)
         self.assertListEqual(
@@ -597,7 +597,7 @@ class ProductViewsTests(TestCase):
         """Check if edit product view is displayed properly."""
 
         response = self.client.get(
-            reverse('reports_edit_product', args=(self.caffee.id,))
+            reverse('reports:edit_product', args=(self.caffee.id,))
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'reports/edit_element.html')
@@ -613,7 +613,7 @@ class ProductViewsTests(TestCase):
         )
         self.assertEqual(
             response.context['context']['cancel_href'],
-            reverse('reports_new_product')
+            reverse('reports:new_product')
         )
 
     def test_edit_product_404(self):
@@ -626,19 +626,19 @@ class ProductViewsTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('reports_edit_product', args=(_id,))
+                reverse('reports:edit_product', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('reports_edit_product', args=(_id,))
+                reverse('reports:edit_product', args=(_id,))
 
     def test_edit_product_post_fail(self):
         """Check if edit product fails to edit when form is not valid."""
 
         response = self.client.post(
-            reverse('reports_edit_product', args=(self.cake.id,)),
+            reverse('reports:edit_product', args=(self.cake.id,)),
             {u'name': u''},
             follow=True
         )
@@ -656,7 +656,7 @@ class ProductViewsTests(TestCase):
         """Check if edit product successes to edit when form is valid."""
 
         response = self.client.post(
-            reverse('reports_edit_product', args=(self.cake.id,)), {
+            reverse('reports:edit_product', args=(self.cake.id,)), {
                 'name': u'Keks',
                 'category': self.cakes.id,
                 'unit': self.pieces.id
@@ -664,7 +664,7 @@ class ProductViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_navigate'))
+        self.assertRedirects(response, reverse('reports:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -678,7 +678,7 @@ class ProductViewsTests(TestCase):
         self.assertEqual(product.unit, self.pieces)
 
         # check if edited product is displayed
-        response = self.client.get(reverse('reports_new_product'))
+        response = self.client.get(reverse('reports:new_product'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['elements']), 2)
 
@@ -830,9 +830,9 @@ class ReportViewsTests(TestCase):
     def test_new_report_show(self):
         """Check if new report view is displayed properly."""
 
-        response = self.client.get(reverse('reports_new_report'))
+        response = self.client.get(reverse('reports:new'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'reports/new_report.html')
+        self.assertTemplateUsed(response, 'reports/new.html')
 
         # check context
         reports = list(response.context['reports'])
@@ -862,7 +862,7 @@ class ReportViewsTests(TestCase):
         post['csrfmiddlewaretoken'] = 'hasz hasz hasz ####'
 
         response = self.client.post(
-            reverse('reports_new_report'),
+            reverse('reports:new'),
             post,
             follow=True
         )
@@ -873,7 +873,7 @@ class ReportViewsTests(TestCase):
         self.assertTrue("niepoprawnie" in messages[0].message)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'reports/new_report.html')
+        self.assertTemplateUsed(response, 'reports/new.html')
         self.assertIn('"errors": ["', response.context['products'])
         self.assertIn('To pole jest wymagane.', response.context['products'])
 
@@ -886,12 +886,12 @@ class ReportViewsTests(TestCase):
         post['csrfmiddlewaretoken'] = 'hasz hasz hasz ####'
 
         response = self.client.post(
-            reverse('reports_new_report'),
+            reverse('reports:new'),
             post,
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_navigate'))
+        self.assertRedirects(response, reverse('reports:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -899,7 +899,7 @@ class ReportViewsTests(TestCase):
         self.assertTrue("poprawnie" in messages[0].message)
 
         # check if new report is displayed
-        response = self.client.get(reverse('reports_new_report'))
+        response = self.client.get(reverse('reports:new'))
         self.assertEqual(response.status_code, 200)
 
         self.assertEqual(len(response.context['reports']), 3)
@@ -929,10 +929,10 @@ class ReportViewsTests(TestCase):
         """Check if edit report is displayed properly."""
 
         response = self.client.get(
-            reverse('reports_edit_report', args=(self.major_report.id,))
+            reverse('reports:edit', args=(self.major_report.id,))
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'reports/new_report.html')
+        self.assertTemplateUsed(response, 'reports/new.html')
 
         self.assertEqual(response.context['title'], u'Edytuj raport')
 
@@ -968,13 +968,13 @@ class ReportViewsTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('reports_edit_report', args=(_id,))
+                reverse('reports:edit', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('reports_edit_report', args=(_id,))
+                reverse('reports:edit', args=(_id,))
 
     def test_edit_report_post_fail(self):
         """Check if edit report fails to edit."""
@@ -986,7 +986,7 @@ class ReportViewsTests(TestCase):
         post['csrfmiddlewaretoken'] = 'hasz hasz hasz ####'
 
         response = self.client.post(
-            reverse('reports_edit_report', args=(self.minor_report.id,)),
+            reverse('reports:edit', args=(self.minor_report.id,)),
             post,
             follow=True
         )
@@ -997,7 +997,7 @@ class ReportViewsTests(TestCase):
         self.assertTrue("niepoprawnie" in messages[0].message)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'reports/new_report.html')
+        self.assertTemplateUsed(response, 'reports/new.html')
         self.assertIn('"errors": ["', response.context['products'])
         self.assertIn('To pole jest wymagane.', response.context['products'])
 
@@ -1011,12 +1011,12 @@ class ReportViewsTests(TestCase):
         post['csrfmiddlewaretoken'] = 'hasz hasz hasz ####'
 
         response = self.client.post(
-            reverse('reports_edit_report', args=(self.major_report.id,)),
+            reverse('reports:edit', args=(self.major_report.id,)),
             post,
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports_navigate'))
+        self.assertRedirects(response, reverse('reports:navigate'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -1046,7 +1046,7 @@ class ReportViewsTests(TestCase):
     def test_report_navigate(self):
         """Check if create report view is displayed properly."""
 
-        response = self.client.get(reverse('reports_navigate'))
+        response = self.client.get(reverse('reports:navigate'))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home/reports.html')
@@ -1055,7 +1055,7 @@ class ReportViewsTests(TestCase):
         """Check if show report view actually shows report."""
 
         response = self.client.get(
-            reverse('reports_show_report', args=(self.major_report.id,))
+            reverse('reports:show', args=(self.major_report.id,))
         )
 
         self.assertEqual(response.status_code, 200)
@@ -1083,13 +1083,13 @@ class ReportViewsTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('reports_show_report', args=(_id,))
+                reverse('reports:show', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('reports_show_report', args=(_id,))
+                reverse('reports:show', args=(_id,))
 
     def test_get_report_categories(self):
         """Check if display categories and products when report is valid."""

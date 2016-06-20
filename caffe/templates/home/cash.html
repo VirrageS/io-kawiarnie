@@ -7,7 +7,7 @@ Kasa
 {% block content %}
 <section class="cards cards-primary">
   {% if perms.cash.add_cashreport %}
-    <a href="{% url 'new_cash_report' %}" class="card">
+    <a href="{% url 'cash:new' %}" class="card">
       <i class="fa fa-money" aria-hidden="true"></i>
       Nowy raport z kasy
     </a>
@@ -20,14 +20,14 @@ Kasa
   </h2>
 
   {% if perms.cash.add_company %}
-    <a href="{% url 'cash_new_company' %}" class="card">
+    <a href="{% url 'cash:new_company' %}" class="card">
       <i class="fa fa-building-o" aria-hidden="true"></i>
       Firma
     </a>
   {% endif %}
 
   {% if perms.cash.add_expense %}
-    <a href="{% url 'cash_new_expense' %}" class="card">
+    <a href="{% url 'cash:new_expense' %}" class="card">
       <i class="fa fa-dollar" aria-hidden="true"></i>
       Wydatki
     </a>
@@ -40,14 +40,14 @@ Kasa
   </h2>
 
   {% if perms.cash.view_company %}
-    <a href="{% url 'cash_new_company' %}" class="card">
+    <a href="{% url 'cash:new_company' %}" class="card">
       <i class="fa fa-building-o" aria-hidden="true"></i>
       Firmy
     </a>
   {% endif %}
 
   {% if perms.cash.view_expense %}
-    <a href="{% url 'cash_new_expense' %}" class="card">
+    <a href="{% url 'cash:new_expense' %}" class="card">
       <i class="fa fa-dollar" aria-hidden="true"></i>
       Wydatki
     </a>

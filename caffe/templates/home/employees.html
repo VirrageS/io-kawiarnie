@@ -7,20 +7,20 @@ Pracownicy
 {% block content %}
 <section class="cards cards-primary">
   {% if perms.employees.add_employee %}
-    <a href="{% url 'new_employee' %}" class="card">
+    <a href="{% url 'employees:new' %}" class="card">
       <i class="fa fa-user-plus" aria-hidden="true"></i>
       Nowy pracownik
     </a>
   {% endif %}
 
   {% if perms.hours.add_position %}
-    <a href="{% url 'new_position' %}" class="card">
+    <a href="{% url 'hours:new_position' %}" class="card">
       <i class="fa fa-user" aria-hidden="true"></i>
       Stanowisko
     </a>
   {% endif %}
 
-  <a href="{% url 'login_employee' %}" class="card">
+  <a href="{% url 'employees:login' %}" class="card">
     <i class="fa fa-sign-in" aria-hidden="true"></i>
     Zaloguj
   </a>
@@ -31,13 +31,13 @@ Pracownicy
     Podgląd i edycja
   </h2>
 
-  <a href="{% url 'show_all_employees' %}" class="card">
+  <a href="{% url 'employees:all' %}" class="card">
     <i class="fa fa-users" aria-hidden="true"></i>
     Pracownicy
   </a>
 
   {% if perms.hours.add_position %}
-    <a href="{% url 'new_position' %}" class="card">
+    <a href="{% url 'hours:new_position' %}" class="card">
       <i class="fa fa-user" aria-hidden="true"></i>
       Stanowiska
     </a>

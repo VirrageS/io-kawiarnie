@@ -134,7 +134,7 @@ class StencilViewTests(TestCase):
     def test_stencil_show_all(self):
         """Check if all stencils view is displayed properly."""
 
-        response = self.client.get(reverse('stencils_show_all_stencils'))
+        response = self.client.get(reverse('stencils:all'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'stencils/all.html')
 
@@ -158,7 +158,7 @@ class StencilViewTests(TestCase):
         """Check if stencil view is displated properly."""
 
         response = self.client.get(reverse(
-            'stencils_show_stencil',
+            'stencils:show',
             args=(self.to_drink.id,)
         ))
 
@@ -184,22 +184,22 @@ class StencilViewTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('stencils_show_stencil', args=(_id,))
+                reverse('stencils:show', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('stencils_show_stencil', args=(_id,))
+                reverse('stencils:show', args=(_id,))
 
     def test_edit_stencil_show(self):
         """Check if edit category view is displayed properly."""
 
         response = self.client.get(
-            reverse('stencils_edit_stencil', args=(self.to_drink.id,))
+            reverse('stencils:edit', args=(self.to_drink.id,))
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'stencils/edit_stencil.html')
+        self.assertTemplateUsed(response, 'stencils/edit.html')
 
         form = response.context['form']
         self.assertIsInstance(form, StencilForm)
@@ -215,13 +215,13 @@ class StencilViewTests(TestCase):
 
         for _id in ids_for_404:
             response = self.client.get(
-                reverse('stencils_edit_stencil', args=(_id,))
+                reverse('stencils:edit', args=(_id,))
             )
             self.assertEqual(response.status_code, 404)
 
         for _id in ids_could_not_resolve:
             with self.assertRaises(NoReverseMatch):
-                reverse('stencils_edit_stencil', args=(_id,))
+                reverse('stencils:edit', args=(_id,))
 
     def test_edit_stencil_post_success(self):
         """Check success of edit stencil post request."""
@@ -232,7 +232,7 @@ class StencilViewTests(TestCase):
         form['categories'] = [self.cakes.id, self.tees.id]
 
         response = self.client.post(
-            reverse('stencils_edit_stencil', args=(self.to_drink.id,)),
+            reverse('stencils:edit', args=(self.to_drink.id,)),
             form,
             folow=True
         )
@@ -256,7 +256,7 @@ class StencilViewTests(TestCase):
         form['categories'] = [self.cakes.id, self.tees.id]
 
         response = self.client.post(
-            reverse('stencils_edit_stencil', args=(self.to_drink.id,)),
+            reverse('stencils:edit', args=(self.to_drink.id,)),
             form,
             follow=True
         )
@@ -272,7 +272,7 @@ class StencilViewTests(TestCase):
         form['categories'] = [-10, self.tees.id]
 
         response = self.client.post(
-            reverse('stencils_edit_stencil', args=(self.to_drink.id,)),
+            reverse('stencils:edit', args=(self.to_eat.id,)),
             form,
             follow=True
         )
@@ -292,7 +292,7 @@ class StencilViewTests(TestCase):
         form['categories'] = [self.cakes.id, self.tees.id]
 
         response = self.client.post(
-            reverse('stencils_new_stencil'),
+            reverse('stencils:new'),
             form,
             follow=True
         )
@@ -318,7 +318,7 @@ class StencilViewTests(TestCase):
         self.assertFalse(st_form.is_valid())
 
         response = self.client.post(
-            reverse('stencils_new_stencil'),
+            reverse('stencils:new'),
             form
         )
 
@@ -330,7 +330,7 @@ class StencilViewTests(TestCase):
         form['categories'] = [-10, self.tees.id]
 
         response = self.client.post(
-            reverse('stencils_new_stencil'),
+            reverse('stencils:all'),
             form
         )
 
@@ -344,7 +344,7 @@ class StencilViewTests(TestCase):
         """Check rendering new stencil report page."""
 
         response = self.client.get(
-            reverse('stencils_new_report', args=(self.to_drink.id,)),
+            reverse('stencils:new_report', args=(self.to_drink.id,)),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
@@ -355,7 +355,7 @@ class StencilViewTests(TestCase):
 
         with self.assertRaises(NoReverseMatch):
             self.client.get(
-                reverse('stencils_new_report', args=(-1,))
+                reverse('stencils:new_report', args=(-1,))
             )
 
     def test_stencil_report_post_success(self):
@@ -367,7 +367,7 @@ class StencilViewTests(TestCase):
         post['csrfmiddlewaretoken'] = 'hasz hasz hasz ####'
 
         response = self.client.post(
-            reverse('stencils_new_report', args=(self.to_drink.id,)),
+            reverse('stencils:new_report', args=(self.to_drink.id,)),
             post,
             follow=True
         )
@@ -391,7 +391,7 @@ class StencilViewTests(TestCase):
         post[self.green_tea.id] = [self.green_tea.id, 20]
 
         response = self.client.post(
-            reverse('stencils_new_report', args=(self.to_drink.id,)),
+            reverse('stencils:new_report', args=(self.to_drink.id,)),
             post,
             follow=True
         )
@@ -407,7 +407,7 @@ class StencilViewTests(TestCase):
         post = {}
 
         response = self.client.post(
-            reverse('stencils_new_report', args=(self.to_drink.id,)),
+            reverse('stencils:new_report', args=(self.to_drink.id,)),
             post
         )
 
@@ -415,6 +415,6 @@ class StencilViewTests(TestCase):
 
         with self.assertRaises(NoReverseMatch):
             self.client.post(
-                reverse('stencils_new_report', args=(-1,)),
+                reverse('stencils:new_report', args=(-1,)),
                 post
             )

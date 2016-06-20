@@ -1,17 +1,3 @@
-.stencil-title
-  @extend %title
-
-  .name
-    display: block
-    margin-bottom: 7.5px
-
-  .description
-    display: block
-    font-size: 0.64em
-    font-weight: 100
-    letter-spacing: 0.03em
-    line-height: normal
-
 .stencil-report-form
   @extend .form
   +box-shadow(0px, 0px, 0px, rgba(#ffffff, 0))
@@ -66,19 +52,13 @@
     display: flex
     justify-content: space-between
     flex-direction: column
-    padding: 20px 10px
+    padding: 20px 15px
     margin: 20px
     border: 2px solid #dedede
     width: 450px
     height: 100%
 
-    .stencil-meta
-      @extend .stencil-title
-      font-size: 1.6rem
-      margin: 0
-      margin-bottom: 40px
-
-    .stencil-buttons
+    .stencil__buttons
       display: flex
       align-items: center
       justify-content: space-around
@@ -86,3 +66,19 @@
 
       a
         margin: 5px
+
+.stencil__name
+  @extend %title
+  display: block
+  margin-top: 0
+  margin-bottom: 7.5px
+
+.stencil__description
+  display: block
+  font-size: 0.9rem
+  font-weight: 100
+  color: $text-secondary-color
+  margin-bottom: 40px
+  letter-spacing: 0.03em
+  line-height: normal
+  text-align: center

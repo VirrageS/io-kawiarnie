@@ -28,10 +28,10 @@
         <td>{{ employee.email }}</td>
         <td>{{ employee.telephone_number }}</td>
         {% if perms.employees.change_employee %}
-          <td class="table__cell--center icon icon__edit"><a href="{% url 'edit_employee' employee.id %}"><i class="fa fa-pencil"></i></a></td>
+          <td class="table__cell--center icon icon__edit"><a href="{% url 'employees:edit' employee.id %}"><i class="fa fa-pencil"></i></a></td>
         {% endif %}
         {% if perms.employees.delete_employee %}
-          <td class="table__cell--center icon icon__delete"><a href="{% url 'delete_employee' employee.id %}" onclick="return confirm('Czy na pewno chcesz usunąć tego pracownika?');"><i class="fa fa-trash"></i></a></td>
+          <td class="table__cell--center icon icon__delete"><a href="{% url 'employees:delete' employee.id %}" onclick="return confirm('Czy na pewno chcesz usunąć tego pracownika?');"><i class="fa fa-trash"></i></a></td>
         {% endif %}
       </tr>
     {% endfor %}

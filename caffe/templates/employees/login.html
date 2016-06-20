@@ -6,7 +6,7 @@
 </div>
 
 <form method="post" class="element-form">
-  <input type="hidden" name="next" value="{% url 'caffe_navigate' %}" />
+  <input type="hidden" name="next" value="{% url 'home:navigate' %}" />
   {% csrf_token %}
 
   <div class="input-line">

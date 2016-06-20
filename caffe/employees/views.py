@@ -22,17 +22,17 @@ def employees_logout_employee(request):
 def employees_new_employee(request):
     """Create a new employee."""
 
-    new_emp_form = EmployeeForm(request.POST or None)
+    form = EmployeeForm(request.POST or None, caffe=request.user.caffe)
 
-    if new_emp_form.is_valid():
-        new_emp_form.save()
+    if form.is_valid():
+        form.save()
         messages.success(request, 'Pracownik został poprawnie stworzony.')
         return redirect(reverse('employees:navigate'))
     elif request.POST:
         messages.error(request, u'Formularz został niepoprawnie wypełniony.')
 
     return render(request, 'employees/new.html', {
-        'form': new_emp_form
+        'form': form
     })
 
 
@@ -40,18 +40,27 @@ def employees_new_employee(request):
 def employees_edit_employee(request, employee_id):
     """Edit an employee."""
 
-    employee = get_object_or_404(Employee, id=employee_id)
-    edit_emp_form = EmployeeForm(request.POST or None, instance=employee)
+    employee = get_object_or_404(
+        Employee,
+        id=employee_id,
+        caffe=request.user.caffe
+    )
 
-    if edit_emp_form.is_valid():
-        edit_emp_form.save()
+    form = EmployeeForm(
+        request.POST or None,
+        instance=employee,
+        caffe=request.user.caffe
+    )
+
+    if form.is_valid():
+        form.save()
         messages.success(request, 'Pracownik został poprawnie zmieniony.')
         return redirect(reverse('employees:navigate'))
     elif request.POST:
         messages.error(request, u'Formularz został niepoprawnie wypełniony.')
 
     return render(request, 'employees/edit.html', {
-        'form': edit_emp_form,
+        'form': form,
         'employee': employee
     })
 
@@ -60,7 +69,11 @@ def employees_edit_employee(request, employee_id):
 def employees_delete_employee(request, employee_id):
     """Delete an employee."""
 
-    employee = get_object_or_404(Employee, id=employee_id)
+    employee = get_object_or_404(
+        Employee,
+        id=employee_id,
+        caffe=request.user.caffe
+    )
 
     if employee == request.user:
         messages.error(request, u'Nie możesz usunąć siebie.')
@@ -75,7 +88,7 @@ def employees_delete_employee(request, employee_id):
 def employees_show_all_employees(request):
     """Show all employees."""
 
-    employees = Employee.objects.order_by('last_name', 'first_name')
+    employees = Employee.objects.filter(caffe=request.user.caffe).all()
 
     return render(request, 'employees/all.html', {
         'employees': employees

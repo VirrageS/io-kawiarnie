@@ -23,12 +23,33 @@ class Report(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     creator = models.ForeignKey(
-        'employees.Employee', unique=False, null=True, blank=True, default=None
+        'employees.Employee',
+        null=True,
+        blank=True,
+        default=None
+    )
+    caffe = models.ForeignKey(
+        'caffe.Caffe',
+        null=True,
+        blank=False,
+        default=None
     )
 
     class Meta:
         ordering = ('-created_on',)
         default_permissions = ('add', 'change', 'delete', 'view')
+
+    def save(self, *args, **kwargs):
+        """Save model into the database."""
+
+        if self.creator is not None:
+            if self.caffe != self.creator.caffe:
+                raise ValidationError(
+                    _('Kawiarnia i kawiarnia tworzącego powinna się zgadzać')
+                )
+
+        self.full_clean()
+        super(Report, self).save(*args, **kwargs)
 
     def __str__(self):
         return 'Report created: {:%Y-%m-%d %H:%M} {}'.format(
@@ -43,11 +64,53 @@ class Category(models.Model):
     Intended to be created once and then to reuse it in future reports.
     """
 
-    name = models.CharField(max_length=100, unique=True,)
+    name = models.CharField(max_length=100)
+    caffe = models.ForeignKey(
+        'caffe.Caffe',
+        null=True,
+        blank=False,
+        default=None
+    )
 
     class Meta:
         ordering = ('name',)
+        unique_together = ('name', 'caffe',)
         default_permissions = ('add', 'change', 'delete', 'view')
+
+    def save(self, *args, **kwargs):
+        """Save model into the database."""
+
+        self.full_clean()
+        super(Category, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
+
+class Unit(models.Model):
+    """Stores a type of unit used to count the amount of products.
+
+    Intended to be created once and then to reuse it in future reports.
+    """
+
+    name = models.CharField(max_length=100)
+    caffe = models.ForeignKey(
+        'caffe.Caffe',
+        null=True,
+        blank=False,
+        default=None
+    )
+
+    class Meta:
+        ordering = ('name',)
+        unique_together = ('name', 'caffe',)
+        default_permissions = ('add', 'change', 'delete', 'view')
+
+    def save(self, *args, **kwargs):
+        """Save model into the database."""
+
+        self.full_clean()
+        super(Unit, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -60,29 +123,36 @@ class Product(models.Model):
     Unit specifies how the amount of product is counted.
     """
 
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE)
+    caffe = models.ForeignKey(
+        'caffe.Caffe',
+        null=True,
+        blank=False,
+        default=None
+    )
 
     class Meta:
         ordering = ('name',)
+        unique_together = ('name', 'caffe',)
         default_permissions = ('add', 'change', 'delete', 'view')
 
-    def __str__(self):
-        return '{}'.format(self.name)
+    def save(self, *args, **kwargs):
+        """Save model into the database."""
 
+        if self.caffe != self.category.caffe:
+            raise ValidationError(
+                _('Kawiarnia i kawiarnia kategorii nie zgadza się.')
+            )
 
-class Unit(models.Model):
-    """Stores a type of unit used to count the amount of products.
+        if self.caffe != self.unit.caffe:
+            raise ValidationError(
+                _('Kawiarnia i kawiarnia jednostki nie zgadza się.')
+            )
 
-    Intended to be created once and then to reuse it in future reports.
-    """
-
-    name = models.CharField(max_length=100, unique=True)
-
-    class Meta:
-        ordering = ('name',)
-        default_permissions = ('add', 'change', 'delete', 'view')
+        self.full_clean()
+        super(Product, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -94,13 +164,19 @@ class FullProduct(models.Model):
     Intended to be used once, only in one report.
     """
 
-    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    product = models.ForeignKey('Product')
     amount = models.FloatField(validators=[MinValueValidator(0)])
     report = models.ForeignKey(
         'Report',
-        on_delete=models.CASCADE,
-        blank=True, null=True,
+        blank=True,
+        null=True,
         related_name='full_products'
+    )
+    caffe = models.ForeignKey(
+        'caffe.Caffe',
+        null=True,
+        blank=False,
+        default=None
     )
 
     def clean(self, *args, **kwargs):
@@ -121,6 +197,17 @@ class FullProduct(models.Model):
 
     def save(self, *args, **kwargs):
         """Save model into the database."""
+
+        if self.report:
+            if self.caffe != self.report.caffe:
+                raise ValidationError(
+                    _('Kawiarnia i kawiarnia raportu nie zgadza się.')
+                )
+
+        if self.caffe != self.product.caffe:
+            raise ValidationError(
+                _('Kawiarnia i kawiarnia produktu nie zgadza się.')
+            )
 
         self.full_clean()
         super(FullProduct, self).save(*args, **kwargs)

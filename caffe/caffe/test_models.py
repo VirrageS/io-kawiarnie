@@ -2,8 +2,8 @@
 
 from django.test import TestCase
 
-from employees.models import Employee
 from .models import Caffe
+from employees.models import Employee
 
 
 class CaffeModelTest(TestCase):
@@ -12,7 +12,7 @@ class CaffeModelTest(TestCase):
     def setUp(self):
         """Prepare database for tests."""
 
-        Employee.objects.create(
+        self.user = Employee.objects.create(
             username='theboss',
             first_name='bossy',
             last_name='boss',
@@ -20,6 +20,41 @@ class CaffeModelTest(TestCase):
             email='boss@bosses.com',
             favorite_coffee='black'
         )
+
+    def test_validation(self):
+        """Validation tests for the Caffe model."""
+
+        Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        with self.assertRaises(Exception):
+            Caffe.objects.create(
+                name='kafo',
+                city='Gliwice',
+                street='Wieczorka',
+                house_number='14',
+                building_number='100',
+                postal_code='44-100',
+                creator=self.user
+            )
+
+        with self.assertRaises(Exception):
+            Caffe.objects.create(
+                name='kafo2',
+                city='Gliwice',
+                street='Wieczorka',
+                house_number='14',
+                postal_code='44-100',
+                creator=self.user
+            )
+
+    def test_str(self):
+        """Test conversion to string."""
 
         Caffe.objects.create(
             name='kafo',
@@ -30,22 +65,5 @@ class CaffeModelTest(TestCase):
             creator=Employee.objects.get(username='theboss')
         )
 
-    def test_validation(self):
-        """Validation tests for the Caffe model."""
-
-        with self.assertRaises(Exception):
-            Caffe.objects.create(
-                name='kafo',
-                city='Gliwice',
-                street='Wieczorka',
-                house_number='14',
-                postal_code='44-100',
-                creator=Employee.objects.get(username='theboss')
-            )
-
-    def test_str(self):
-        """Test conversion to string."""
-
         kafo = Caffe.objects.get(name='kafo')
-
         self.assertEqual(str(kafo), 'kafo, Gliwice')

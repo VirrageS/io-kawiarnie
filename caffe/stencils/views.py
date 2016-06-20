@@ -15,14 +15,14 @@ from .models import Stencil
 def stencils_new_stencil(request):
     """Show form to create new stencil and show existing stencils."""
 
-    form = StencilForm(request.POST or None)
+    form = StencilForm(request.POST or None, caffe=request.user.caffe)
 
     if form.is_valid():
         form.save()
         messages.success(request, 'Szablon został poprawnie dodany.')
         return redirect(reverse('reports:navigate'))
 
-    stencils = Stencil.objects.all()
+    stencils = Stencil.objects.filter(caffe=request.user.caffe).all()
     return render(request, 'stencils/new.html', {
         'form': form,
         'stencils': stencils
@@ -33,8 +33,17 @@ def stencils_new_stencil(request):
 def stencils_edit_stencil(request, stencil_id):
     """Edit already existing stencil with stencil_id."""
 
-    stencil = get_object_or_404(Stencil, id=stencil_id)
-    form = StencilForm(request.POST or None, instance=stencil)
+    stencil = get_object_or_404(
+        Stencil,
+        id=stencil_id,
+        caffe=request.user.caffe
+    )
+
+    form = StencilForm(
+        request.POST or None,
+        instance=stencil,
+        caffe=stencil.caffe
+    )
 
     if form.is_valid():
         form.save()
@@ -51,7 +60,12 @@ def stencils_edit_stencil(request, stencil_id):
 def stencils_show_stencil(request, stencil_id):
     """Show stencil with stencil_id."""
 
-    stencil = get_object_or_404(Stencil, id=stencil_id)
+    stencil = get_object_or_404(
+        Stencil,
+        id=stencil_id,
+        caffe=request.user.caffe
+    )
+
     categories = stencil.categories.all()
 
     return render(request, 'stencils/show.html', {
@@ -64,7 +78,7 @@ def stencils_show_stencil(request, stencil_id):
 def stencils_show_all_stencils(request):
     """Show all existing stencils."""
 
-    stencils = Stencil.objects.all()
+    stencils = Stencil.objects.filter(caffe=request.user.caffe).all()
     return render(request, 'stencils/all.html', {
         'stencils': stencils
     })
@@ -81,7 +95,12 @@ def stencils_new_report(request, stencil_id):
     checked = []
     all_categories = []
 
-    stencil = get_object_or_404(Stencil, id=stencil_id)
+    stencil = get_object_or_404(
+        Stencil,
+        id=stencil_id,
+        caffe=request.user.caffe
+    )
+
     categories = stencil.categories.all()
 
     for category in categories:
@@ -108,14 +127,16 @@ def stencils_new_report(request, stencil_id):
 
         post.pop('csrfmiddlewaretoken', None)
 
-        # chcek validation and create form for each fullproduct
+        # check validation and create form for each fullproduct
         for full_product in post:
             fp_list = post.getlist(full_product)
-            form = FullProductForm({
-                # sets product id and amount for fullproduct
-                'product': fp_list[0],
-                'amount': fp_list[1]
-            })
+            form = FullProductForm(
+                {
+                    'product': fp_list[0],
+                    'amount': fp_list[1]
+                },
+                caffe=request.user.caffe
+            )
 
             if not form.is_valid():
                 valid = False
@@ -136,7 +157,10 @@ def stencils_new_report(request, stencil_id):
 
         # check if some form exists
         if len(forms) > 0 and valid:
-            report = Report.objects.create()
+            report = Report.objects.create(
+                creator=request.user,
+                caffe=request.user.caffe,
+            )
 
             # for each form save it with its report
             for form in forms:
@@ -154,7 +178,7 @@ def stencils_new_report(request, stencil_id):
             )
 
     # get last five reports
-    latest_reports = Report.objects.all()[:5]
+    latest_reports = Report.objects.filter(caffe=request.user.caffe).all()[:5]
     for report in latest_reports:
         report.categories = get_report_categories(report.id)
 

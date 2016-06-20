@@ -1,0 +1,1330 @@
+[
+  {
+    "model": "caffe.caffe",
+    "pk": 1,
+    "name": "kafo",
+    "city": "Gliwice",
+    "street": "Wieczorka",
+    "house_number": "14",
+    "postal_code": "44-100"
+  },
+  {
+    "model": "caffe.caffe",
+    "pk": 2,
+    "name": "filtry",
+    "city": "Warszawa",
+    "street": "filtry",
+    "house_number": "14",
+    "postal_code": "44-100"
+  },
+
+
+
+  {
+    "model": "reports.category",
+    "pk": 1,
+    "fields": {
+      "name": "Kawy",
+      "caffe": 1
+    }
+  },
+  {
+    "model": "reports.category",
+    "pk": 2,
+    "fields": {
+      "name": "Ciasta",
+      "caffe": 1
+    }
+  },
+  {
+    "model": "reports.category",
+    "pk": 3,
+    "fields": {
+      "name": "Kawy",
+      "caffe": 2
+    }
+  },
+
+
+
+  {
+    "model": "reports.product",
+    "pk": 1,
+    "fields": {
+      "name": "Kawa zbożowa",
+      "category": 1,
+      "unit": 1,
+      "caffe": 1
+    }
+  },
+  {
+    "model": "reports.product",
+    "pk": 2,
+    "fields": {
+      "name": "Kawa w młynku",
+      "category": 1,
+      "unit": 1,
+      "caffe": 1
+    }
+  },
+  {
+    "model": "reports.product",
+    "pk": 3,
+    "fields": {
+      "name": "Szarlotka",
+      "category": 2,
+      "unit": 3,
+      "caffe": 1
+    }
+  },
+  {
+    "model": "reports.product",
+    "pk": 4,
+    "fields": {
+      "name": "Kawa zbożowa",
+      "category": 3,
+      "unit": 3,
+      "caffe": 2
+    }
+  },
+  {
+    "model": "reports.product",
+    "pk": 5,
+    "fields": {
+      "name": "Kawa w młynku",
+      "category": 3,
+      "unit": 3,
+      "caffe": 2
+    }
+  },
+
+
+
+  {
+    "model": "reports.unit",
+    "pk": 1,
+    "fields": {
+      "name": "gramy",
+      "caffe": 1
+    }
+  },
+  {
+    "model": "reports.unit",
+    "pk": 2,
+    "fields": {
+      "name": "kawałki",
+      "caffe": 1
+    }
+  },
+  {
+    "model": "reports.unit",
+    "pk": 3,
+    "fields": {
+      "name": "gramy",
+      "caffe": 2
+    }
+  },
+
+
+  {
+    "model": "reports.fullproduct",
+    "pk": 6,
+    "fields": {
+      "product": 3,
+      "amount": 20,
+      "report": 12,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 7,
+    "fields": {
+      "product": 1,
+      "amount": 50,
+      "report": 12,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 8,
+    "fields": {
+      "product": 4,
+      "amount": 4,
+      "report": 13,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 9,
+    "fields": {
+      "product": 1,
+      "amount": 50,
+      "report": 13,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 11,
+    "fields": {
+      "product": 1,
+      "amount": 100,
+      "report": null,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 12,
+    "fields": {
+      "product": 4,
+      "amount": 50,
+      "report": 14,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 13,
+    "fields": {
+      "product": 1,
+      "amount": 50,
+      "report": 14,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 14,
+    "fields": {
+      "product": 1,
+      "amount": 10,
+      "report": 15,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 15,
+    "fields": {
+      "product": 3,
+      "amount": 20,
+      "report": 15,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 16,
+    "fields": {
+      "product": 4,
+      "amount": 30,
+      "report": 15,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 17,
+    "fields": {
+      "product": 4,
+      "amount": 10,
+      "report": 16,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 18,
+    "fields": {
+      "product": 1,
+      "amount": 50,
+      "report": 16,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 20,
+    "fields": {
+      "product": 1,
+      "amount": 45.1,
+      "report": 11,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 21,
+    "fields": {
+      "product": 4,
+      "amount": 100,
+      "report": 17,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.fullproduct",
+    "pk": 22,
+    "fields": {
+      "product": 3,
+      "amount": 50,
+      "report": 17,
+      "caffe": null
+    }
+  },
+
+
+  {
+    "model": "stencils.stencil",
+    "pk": 1,
+    "fields": {
+      "name": "Poranny",
+      "description": "Szablon dla raportów tworzonych na samym początku dnia.",
+      "categories": [
+        2,
+        1
+      ]
+    }
+  },
+  {
+    "model": "stencils.stencil",
+    "pk": 2,
+    "fields": {
+      "name": "Poranny2",
+      "description": null,
+      "categories": [
+        2,
+        1
+      ]
+    }
+  },
+  {
+    "model": "cash.company",
+    "pk": 1,
+    "fields": {
+      "name": "G&B"
+    }
+  },
+  {
+    "model": "cash.expense",
+    "pk": 1,
+    "fields": {
+      "name": "A",
+      "company": 1
+    }
+  },
+  {
+    "model": "cash.expense",
+    "pk": 2,
+    "fields": {
+      "name": "gazety",
+      "company": null
+    }
+  },
+  {
+    "model": "cash.fullexpense",
+    "pk": 1,
+    "fields": {
+      "expense": 2,
+      "amount": 100,
+      "cash_report": null
+    }
+  },
+  {
+    "model": "cash.fullexpense",
+    "pk": 2,
+    "fields": {
+      "expense": 2,
+      "amount": 100,
+      "cash_report": null
+    }
+  },
+  {
+    "model": "cash.fullexpense",
+    "pk": 3,
+    "fields": {
+      "expense": 2,
+      "amount": 100,
+      "cash_report": 1
+    }
+  },
+  {
+    "model": "cash.fullexpense",
+    "pk": 4,
+    "fields": {
+      "expense": 2,
+      "amount": 100,
+      "cash_report": 2
+    }
+  },
+  {
+    "model": "hours.position",
+    "pk": 1,
+    "fields": {
+      "name": "Barista"
+    }
+  },
+  {
+    "model": "hours.position",
+    "pk": 2,
+    "fields": {
+      "name": "Stanowisko"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+      "name": "Can add user",
+      "content_type": 1,
+      "codename": "add_employee"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+      "name": "Can change user",
+      "content_type": 1,
+      "codename": "change_employee"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+      "name": "Can delete user",
+      "content_type": 1,
+      "codename": "delete_employee"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+      "name": "Can add log entry",
+      "content_type": 2,
+      "codename": "add_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+      "name": "Can change log entry",
+      "content_type": 2,
+      "codename": "change_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+      "name": "Can delete log entry",
+      "content_type": 2,
+      "codename": "delete_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+      "name": "Can add permission",
+      "content_type": 3,
+      "codename": "add_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+      "name": "Can change permission",
+      "content_type": 3,
+      "codename": "change_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+      "name": "Can delete permission",
+      "content_type": 3,
+      "codename": "delete_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+      "name": "Can add group",
+      "content_type": 4,
+      "codename": "add_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+      "name": "Can change group",
+      "content_type": 4,
+      "codename": "change_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+      "name": "Can delete group",
+      "content_type": 4,
+      "codename": "delete_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+      "name": "Can add content type",
+      "content_type": 5,
+      "codename": "add_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+      "name": "Can change content type",
+      "content_type": 5,
+      "codename": "change_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+      "name": "Can delete content type",
+      "content_type": 5,
+      "codename": "delete_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+      "name": "Can add session",
+      "content_type": 6,
+      "codename": "add_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+      "name": "Can change session",
+      "content_type": 6,
+      "codename": "change_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+      "name": "Can delete session",
+      "content_type": 6,
+      "codename": "delete_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+      "name": "Can add report",
+      "content_type": 7,
+      "codename": "add_report"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+      "name": "Can change report",
+      "content_type": 7,
+      "codename": "change_report"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+      "name": "Can delete report",
+      "content_type": 7,
+      "codename": "delete_report"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+      "name": "Can add category",
+      "content_type": 8,
+      "codename": "add_category"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+      "name": "Can change category",
+      "content_type": 8,
+      "codename": "change_category"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+      "name": "Can delete category",
+      "content_type": 8,
+      "codename": "delete_category"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+      "name": "Can add product",
+      "content_type": 9,
+      "codename": "add_product"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+      "name": "Can change product",
+      "content_type": 9,
+      "codename": "change_product"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+      "name": "Can delete product",
+      "content_type": 9,
+      "codename": "delete_product"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 28,
+    "fields": {
+      "name": "Can add unit",
+      "content_type": 10,
+      "codename": "add_unit"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 29,
+    "fields": {
+      "name": "Can change unit",
+      "content_type": 10,
+      "codename": "change_unit"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 30,
+    "fields": {
+      "name": "Can delete unit",
+      "content_type": 10,
+      "codename": "delete_unit"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 31,
+    "fields": {
+      "name": "Can add full product",
+      "content_type": 11,
+      "codename": "add_fullproduct"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 32,
+    "fields": {
+      "name": "Can change full product",
+      "content_type": 11,
+      "codename": "change_fullproduct"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 33,
+    "fields": {
+      "name": "Can delete full product",
+      "content_type": 11,
+      "codename": "delete_fullproduct"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 34,
+    "fields": {
+      "name": "Can add stencil",
+      "content_type": 12,
+      "codename": "add_stencil"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 35,
+    "fields": {
+      "name": "Can change stencil",
+      "content_type": 12,
+      "codename": "change_stencil"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 36,
+    "fields": {
+      "name": "Can delete stencil",
+      "content_type": 12,
+      "codename": "delete_stencil"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 37,
+    "fields": {
+      "name": "Can create report",
+      "content_type": 7,
+      "codename": "can_create"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 38,
+    "fields": {
+      "name": "Can edit report",
+      "content_type": 7,
+      "codename": "can_edit"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 39,
+    "fields": {
+      "name": "Can view report",
+      "content_type": 7,
+      "codename": "view_report"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 40,
+    "fields": {
+      "name": "Can view category",
+      "content_type": 8,
+      "codename": "view_category"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 41,
+    "fields": {
+      "name": "Can view product",
+      "content_type": 9,
+      "codename": "view_product"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 42,
+    "fields": {
+      "name": "Can view unit",
+      "content_type": 10,
+      "codename": "view_unit"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 43,
+    "fields": {
+      "name": "Can view stencil",
+      "content_type": 12,
+      "codename": "view_stencil"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 44,
+    "fields": {
+      "name": "Can view employee",
+      "content_type": 1,
+      "codename": "view_employee"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 45,
+    "fields": {
+      "name": "Can add cash report",
+      "content_type": 13,
+      "codename": "add_cashreport"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 46,
+    "fields": {
+      "name": "Can change cash report",
+      "content_type": 13,
+      "codename": "change_cashreport"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 47,
+    "fields": {
+      "name": "Can delete cash report",
+      "content_type": 13,
+      "codename": "delete_cashreport"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 48,
+    "fields": {
+      "name": "Can add company",
+      "content_type": 14,
+      "codename": "add_company"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 49,
+    "fields": {
+      "name": "Can change company",
+      "content_type": 14,
+      "codename": "change_company"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 50,
+    "fields": {
+      "name": "Can delete company",
+      "content_type": 14,
+      "codename": "delete_company"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 51,
+    "fields": {
+      "name": "Can add expense",
+      "content_type": 15,
+      "codename": "add_expense"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 52,
+    "fields": {
+      "name": "Can change expense",
+      "content_type": 15,
+      "codename": "change_expense"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 53,
+    "fields": {
+      "name": "Can delete expense",
+      "content_type": 15,
+      "codename": "delete_expense"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 54,
+    "fields": {
+      "name": "Can add full expense",
+      "content_type": 16,
+      "codename": "add_fullexpense"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 55,
+    "fields": {
+      "name": "Can change full expense",
+      "content_type": 16,
+      "codename": "change_fullexpense"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 56,
+    "fields": {
+      "name": "Can delete full expense",
+      "content_type": 16,
+      "codename": "delete_fullexpense"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 57,
+    "fields": {
+      "name": "Can view cash report",
+      "content_type": 13,
+      "codename": "view_cashreport"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 58,
+    "fields": {
+      "name": "Can view company",
+      "content_type": 14,
+      "codename": "view_company"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 59,
+    "fields": {
+      "name": "Can view expense",
+      "content_type": 15,
+      "codename": "view_expense"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 60,
+    "fields": {
+      "name": "Can add worked hours",
+      "content_type": 17,
+      "codename": "add_workedhours"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 61,
+    "fields": {
+      "name": "Can change worked hours",
+      "content_type": 17,
+      "codename": "change_workedhours"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 62,
+    "fields": {
+      "name": "Can delete worked hours",
+      "content_type": 17,
+      "codename": "delete_workedhours"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 63,
+    "fields": {
+      "name": "Can view worked hours",
+      "content_type": 17,
+      "codename": "view_workedhours"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 64,
+    "fields": {
+      "name": "Can add position",
+      "content_type": 18,
+      "codename": "add_position"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 65,
+    "fields": {
+      "name": "Can change position",
+      "content_type": 18,
+      "codename": "change_position"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 66,
+    "fields": {
+      "name": "Can delete position",
+      "content_type": 18,
+      "codename": "delete_position"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 67,
+    "fields": {
+      "name": "Can view position",
+      "content_type": 18,
+      "codename": "view_position"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 68,
+    "fields": {
+      "name": "Can change all workedhours",
+      "content_type": 17,
+      "codename": "change_all"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 69,
+    "fields": {
+      "name": "Can change_all worked hours",
+      "content_type": 17,
+      "codename": "change_all_workedhours"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 70,
+    "fields": {
+      "name": "Can add caffe",
+      "content_type": 19,
+      "codename": "add_caffe"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 71,
+    "fields": {
+      "name": "Can change caffe",
+      "content_type": 19,
+      "codename": "change_caffe"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 72,
+    "fields": {
+      "name": "Can delete caffe",
+      "content_type": 19,
+      "codename": "delete_caffe"
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+      "name": "Pracownik",
+      "permissions": [
+        45,
+        46,
+        57,
+        48,
+        49,
+        58,
+        51,
+        52,
+        59,
+        44,
+        64,
+        65,
+        67,
+        60,
+        61,
+        63,
+        22,
+        23,
+        40,
+        31,
+        32,
+        25,
+        26,
+        27,
+        41,
+        19,
+        37,
+        20,
+        21,
+        39,
+        28,
+        29,
+        30,
+        42,
+        43
+      ]
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+      "name": "Admin",
+      "permissions": [
+        4,
+        5,
+        6,
+        10,
+        11,
+        12,
+        7,
+        8,
+        9,
+        13,
+        14,
+        15,
+        1,
+        2,
+        3,
+        22,
+        23,
+        24,
+        31,
+        32,
+        33,
+        25,
+        26,
+        27,
+        19,
+        20,
+        21,
+        28,
+        29,
+        30,
+        16,
+        17,
+        18,
+        34,
+        35,
+        36
+      ]
+    }
+  },
+  {
+    "model": "employees.employee",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$24000$DOZ3NFXz0UQX$rG7RDv0XBKIXoBabxG89+0RAE2nMLROE7d9FyeIq/L8=",
+      "last_login": "2016-06-09T07:53:14.237Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2016-04-12T18:44:07.666Z",
+      "telephone_number": "",
+      "favorite_coffee": "",
+      "caffe": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "employees.employee",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$24000$5dzJ8nnwVxmn$zD4F997GSFMkSEJsDLyZaSCw3qMWDX81NJJoZSiwVO4=",
+      "last_login": "2016-06-07T19:59:41.408Z",
+      "is_superuser": false,
+      "username": "zenek",
+      "first_name": "Zenek",
+      "last_name": "Zenkiewicz",
+      "email": "zenek@gmail.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2016-05-14T21:15:32Z",
+      "telephone_number": "544433453",
+      "favorite_coffee": "Zenkowa",
+      "caffe": null,
+      "groups": [
+        1
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "employees.employee",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$24000$Qn69WX4R5ZS8$U59OEUq1oZsn9QLP5fUazeuH9gcUAVJIgeV+UbnEPw0=",
+      "last_login": "2016-05-17T15:49:57.728Z",
+      "is_superuser": false,
+      "username": "pawel",
+      "first_name": "Pawel",
+      "last_name": "Pawel",
+      "email": "pawel@pawel.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2016-05-17T15:49:01.016Z",
+      "telephone_number": "345345345",
+      "favorite_coffee": "Pawel",
+      "caffe": null,
+      "groups": [
+        1
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "reports.report",
+    "pk": 11,
+    "fields": {
+      "created_on": "2016-05-18T17:49:41.411Z",
+      "updated_on": "2016-05-19T08:22:19.595Z",
+      "creator": null,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.report",
+    "pk": 12,
+    "fields": {
+      "created_on": "2016-04-17T17:31:43.041Z",
+      "updated_on": "2016-05-19T08:22:19.595Z",
+      "creator": null,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.report",
+    "pk": 13,
+    "fields": {
+      "created_on": "2016-04-24T11:30:29.335Z",
+      "updated_on": "2016-05-19T08:22:19.595Z",
+      "creator": null,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.report",
+    "pk": 14,
+    "fields": {
+      "created_on": "2016-04-28T08:06:47.579Z",
+      "updated_on": "2016-05-19T08:22:19.595Z",
+      "creator": null,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.report",
+    "pk": 15,
+    "fields": {
+      "created_on": "2016-05-01T10:34:59.083Z",
+      "updated_on": "2016-05-19T08:22:19.595Z",
+      "creator": null,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.report",
+    "pk": 16,
+    "fields": {
+      "created_on": "2016-05-17T09:38:15.857Z",
+      "updated_on": "2016-05-19T08:22:19.595Z",
+      "creator": null,
+      "caffe": null
+    }
+  },
+  {
+    "model": "reports.report",
+    "pk": 17,
+    "fields": {
+      "created_on": "2016-05-18T17:50:26.865Z",
+      "updated_on": "2016-05-19T08:22:19.595Z",
+      "creator": null,
+      "caffe": null
+    }
+  },
+  {
+    "model": "cash.cashreport",
+    "pk": 1,
+    "fields": {
+      "created_on": "2016-05-26T15:09:23.593Z",
+      "updated_on": "2016-05-26T15:09:23.599Z",
+      "creator": 1,
+      "cash_before_shift": 100,
+      "cash_after_shift": 100,
+      "card_payments": 100,
+      "amount_due": 100
+    }
+  },
+  {
+    "model": "cash.cashreport",
+    "pk": 2,
+    "fields": {
+      "created_on": "2016-05-26T15:09:36.989Z",
+      "updated_on": "2016-05-26T15:09:36.996Z",
+      "creator": 1,
+      "cash_before_shift": 100,
+      "cash_after_shift": 100,
+      "card_payments": 100,
+      "amount_due": 100
+    }
+  },
+  {
+    "model": "hours.workedhours",
+    "pk": 6,
+    "fields": {
+      "created_on": "2016-05-31T22:04:32.517Z",
+      "updated_on": "2016-05-31T22:04:32.517Z",
+      "employee": 1,
+      "position": 1,
+      "start_time": "14:50:00",
+      "end_time": "15:40:00",
+      "date": "2016-06-01"
+    }
+  },
+  {
+    "model": "hours.workedhours",
+    "pk": 7,
+    "fields": {
+      "created_on": "2016-05-31T22:04:49.378Z",
+      "updated_on": "2016-05-31T22:04:49.378Z",
+      "employee": 1,
+      "position": 1,
+      "start_time": "19:00:00",
+      "end_time": "20:00:00",
+      "date": "2016-06-01"
+    }
+  },
+  {
+    "model": "hours.workedhours",
+    "pk": 8,
+    "fields": {
+      "created_on": "2016-06-03T18:22:30.850Z",
+      "updated_on": "2016-06-03T18:22:30.850Z",
+      "employee": 1,
+      "position": 1,
+      "start_time": "11:30:00",
+      "end_time": "14:30:00",
+      "date": "2016-06-03"
+    }
+  },
+  {
+    "model": "hours.workedhours",
+    "pk": 9,
+    "fields": {
+      "created_on": "2016-06-09T08:04:18.979Z",
+      "updated_on": "2016-06-09T08:04:18.979Z",
+      "employee": 1,
+      "position": 1,
+      "start_time": "14:50:00",
+      "end_time": "18:10:00",
+      "date": "2016-06-09"
+    }
+  }
+]

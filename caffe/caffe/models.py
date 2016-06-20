@@ -14,10 +14,14 @@ class Caffe(models.Model):
     # CharField for extra characters like '-'
     postal_code = models.CharField(max_length=20)
     # CharFields in case house numbers like '1A'
-    house_number = models.CharField(max_length=10)
-    building_number = models.CharField(max_length=10, blank=True)
+    house_number = models.CharField(max_length=10, blank=True)
+    building_number = models.CharField(max_length=10)
     created_on = models.TimeField(auto_now_add=True)
-    creator = models.ForeignKey(Employee)
+    creator = models.ForeignKey(Employee,
+                                related_name='my_caffe',
+                                default=None,
+                                blank=False,
+                                null=True)
 
     def __str__(self):
         return '{}, {}'.format(self.name, self. city)

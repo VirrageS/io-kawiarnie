@@ -16,32 +16,33 @@ class Stencil(models.Model):
             Report from this Stencil.
     """
 
-    name = models.CharField(max_length=100, unique=True,)
+    name = models.CharField(max_length=100,)
     description = models.TextField(max_length=500, null=True, blank=True,)
     categories = models.ManyToManyField(Category)
+    caffe = models.ForeignKey(
+        'caffe.Caffe',
+        null=True,
+        blank=False,
+        default=None
+    )
 
     class Meta:
         ordering = ('name', 'description')
+        unique_together = ('name', 'caffe',)
         default_permissions = ('add', 'change', 'delete', 'view')
-
-    def clean(self, *args, **kwargs):
-        """Clean data and check validation."""
-
-        self.name = self.name.lstrip().rstrip()
-        if self.name == '':
-            raise ValidationError(_('Stencil name is not valid.'))
-
-        same_stencil = Stencil.objects.filter(name__iexact=self.name).all()
-        if same_stencil:
-            raise ValidationError(_('Stencil with same name already exists.'))
-
-        super(Stencil, self).clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         """Save model into the database."""
 
         self.full_clean()
         super(Stencil, self).save(*args, **kwargs)
+
+        if self.categories is not None:
+            for category in self.categories.all():
+                if self.caffe != category.caffe:
+                    raise ValidationError(
+                        _('Kawiarnia i kawiarnia kategorii nie zgadza się.')
+                    )
 
     def __str__(self):
         return '{}'.format(self.name)

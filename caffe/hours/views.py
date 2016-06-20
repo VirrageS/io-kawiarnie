@@ -18,8 +18,17 @@ def hours_edit_position(request, position_pk):
         position_pk: Pk of Position which we want to get.
     """
 
-    position = get_object_or_404(Position, pk=position_pk)
-    form = PositionForm(request.POST or None, instance=position)
+    position = get_object_or_404(
+        Position,
+        pk=position_pk,
+        caffe=request.user.caffe
+    )
+
+    form = PositionForm(
+        request.POST or None,
+        instance=position,
+        caffe=request.user.caffe
+    )
 
     if form.is_valid():
         form.save()
@@ -37,14 +46,14 @@ def hours_edit_position(request, position_pk):
 def hours_new_position(request):
     """Create new Position."""
 
-    form = PositionForm(request.POST or None)
+    form = PositionForm(request.POST or None, caffe=request.user.caffe)
 
     if form.is_valid():
         form.save()
         messages.success(request, 'Stanowisko zostało poprawnie utworzone.')
         return redirect(reverse('home:navigate'))
 
-    positions = Position.objects.all()
+    positions = Position.objects.filter(caffe=request.user.caffe).all()
     all_positions = []
     for position in positions:
         all_positions.append({
@@ -64,12 +73,15 @@ def hours_new_position(request):
 def hours_new_worked_hours(request):
     """Create new WorkedHours."""
 
-    form = WorkedHoursForm(request.POST or None, employee=request.user)
+    form = WorkedHoursForm(
+        request.POST or None,
+        employee=request.user,
+        caffe=request.user.caffe
+    )
 
     if form.is_valid():
-        hours = form.save(commit=False)
-        hours.employee = request.user
-        hours.save()
+        form.save()
+
         messages.success(
             request,
             'Przepracowane godziny zostały poprawnie dodane.'
@@ -92,7 +104,12 @@ def hours_edit_worked_hours(request, hours_pk):
         hours_pk: Pk of WorkedHours which we want to get.
     """
 
-    worked_hours = get_object_or_404(WorkedHours, pk=hours_pk)
+    worked_hours = get_object_or_404(
+        WorkedHours,
+        pk=hours_pk,
+        caffe=request.user.caffe
+    )
+
     if ((worked_hours.employee != request.user) and
             (not request.user.has_perm('hours.change_all_workedhours'))):
         raise Http404(u'Nie możesz edytować tych godzin.')
@@ -100,6 +117,7 @@ def hours_edit_worked_hours(request, hours_pk):
     form = WorkedHoursForm(
         request.POST or None,
         employee=worked_hours.employee,
+        caffe=request.user.caffe,
         instance=worked_hours
     )
 

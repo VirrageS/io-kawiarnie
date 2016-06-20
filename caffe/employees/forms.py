@@ -10,7 +10,6 @@ from .models import Employee
 class EmployeeForm(UserCreationForm):
     """Responsible for proper saving Employee form."""
 
-    telephone_number = forms.CharField()
     email = forms.EmailField()
 
     groups = forms.ModelMultipleChoiceField(

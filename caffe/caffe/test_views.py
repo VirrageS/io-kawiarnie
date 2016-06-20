@@ -73,7 +73,6 @@ class CaffeViewsTests(TestCase):
 
             'first_name': 'Prac',
             'last_name': 'Prac',
-            'telephone_number': 545334534,
             'email': 'prac@prac.com',
             'favorite_coffee': 'Zbożowa'
         }

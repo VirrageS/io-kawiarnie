@@ -5,6 +5,14 @@
   Logowanie
 </div>
 
+{% if messages %}
+  <div class="alerts">
+    {% for message in messages %}
+      <div class="alert alert-rounded {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
 <form method="post" class="element-form">
   <input type="hidden" name="next" value="{% url 'home:navigate' %}" />
   {% csrf_token %}

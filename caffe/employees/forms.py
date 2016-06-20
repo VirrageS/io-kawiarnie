@@ -71,13 +71,13 @@ class EmployeeForm(UserCreationForm):
         if commit:
             employee.save()
 
-        try:
-            employee.groups.clear()
-        except AttributeError:
-            pass
+            try:
+                employee.groups.clear()
+            except AttributeError:
+                pass
 
-        # add groups to user
-        for group in self.cleaned_data['groups']:
-            employee.groups.add(group)
+            # add groups to user
+            for group in self.cleaned_data['groups']:
+                employee.groups.add(group)
 
         return employee

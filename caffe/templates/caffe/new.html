@@ -5,12 +5,70 @@
   Stwórz kawiarnie
 </div>
 
+{% if messages %}
+  <div class="alerts">
+    {% for message in messages %}
+      <div class="alert alert-rounded {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
 <form method="post" class="element-form">
   {% csrf_token %}
 
-  {{ caffe_form }}
+  {% for field in caffe_form %}
+    <div class="input-line">
+      {{ field }}
+      {{ field.label_tag }}
+    </div>
+    {{ field.errors }}
+  {% endfor %}
 
-  {{ admin_form }}
+  <hr/>
+
+  <div class="input-line">
+    {{ admin_form.first_name }}
+    {{ admin_form.first_name.label_tag }}
+  </div>
+  {{ admin_form.first_name.errors }}
+
+  <div class="input-line">
+    {{ admin_form.last_name }}
+    {{ admin_form.last_name.label_tag }}
+  </div>
+  {{ admin_form.last_name.errors }}
+
+  <div class="input-line">
+    {{ admin_form.telephone_number }}
+    {{ admin_form.telephone_number.label_tag }}
+  </div>
+  {{ admin_form.telephone_number.errors }}
+
+  <div class="input-line">
+    {{ admin_form.email }}
+    {{ admin_form.email.label_tag }}
+  </div>
+  {{ admin_form.email.errors }}
+
+  <hr/>
+
+  <div class="input-line">
+    {{ admin_form.username }}
+    {{ admin_form.username.label_tag }}
+  </div>
+  {{ admin_form.username.errors }}
+
+  <div class="input-line">
+    {{ admin_form.password1 }}
+    {{ admin_form.password1.label_tag }}
+  </div>
+  {{ admin_form.password1.errors }}
+
+  <div class="input-line">
+    {{ admin_form.password2 }}
+    {{ admin_form.password2.label_tag }}
+  </div>
+  {{ admin_form.password2.errors }}
 
   <button type="submit" class="button button-rounded button-green">Stwórz</button>
 </form>

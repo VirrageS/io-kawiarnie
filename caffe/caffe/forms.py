@@ -28,7 +28,7 @@ class CaffeForm(forms.ModelForm):
         kwargs.setdefault('label_suffix', '')
 
         super(CaffeForm, self).__init__(*args, **kwargs)
-        self.fields['name'].label = u'Nazwa kawiarnii'
+        self.fields['name'].label = u'Nazwa kawiarni'
         self.fields['city'].label = u'Miasto'
         self.fields['street'].label = u'Ulica'
         self.fields['postal_code'].label = u'Kod pocztowy'

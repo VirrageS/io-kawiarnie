@@ -48,7 +48,7 @@ class WorkedHours(models.Model):
         'caffe.Caffe',
         null=True,
         blank=False,
-        default=None
+        default=None,
     )
 
     class Meta:

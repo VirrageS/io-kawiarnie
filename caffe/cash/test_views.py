@@ -7,6 +7,7 @@ from django.contrib.auth.models import Permission
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 
+from caffe.models import Caffe
 from employees.models import Employee
 
 from .forms import CashReportForm, CompanyForm, ExpenseForm
@@ -21,13 +22,39 @@ class CompanyViewsTests(TestCase):
 
         self.client = Client()
 
-        self.putka = Company.objects.create(name='Putka')
-        self.kolporter = Company.objects.create(name='Kolporter')
+        self.caffe = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.putka = Company.objects.create(
+            name='Putka',
+            caffe=self.caffe
+        )
+        self.kolporter = Company.objects.create(
+            name='Kolporter',
+            caffe=self.caffe
+        )
+        self.kolporter_f = Company.objects.create(
+            name='kolporter',
+            caffe=self.filtry
+        )
 
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.caffe
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -122,6 +149,7 @@ class CompanyViewsTests(TestCase):
         new_company = Company.objects.get(name='Bambino')
         self.assertIsNotNone(new_company)
         self.assertIsInstance(new_company, Company)
+        self.assertEqual(new_company.caffe, self.user.caffe)
 
     def test_edit_company_show(self):
         """Check if edit company view is displayed properly."""
@@ -149,7 +177,7 @@ class CompanyViewsTests(TestCase):
     def test_edit_company_404(self):
         """Check if 404 is displayed when company does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.kolporter_f.pk, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -200,6 +228,7 @@ class CompanyViewsTests(TestCase):
         # check if company name has changed
         company = Company.objects.get(id=self.putka.id)
         self.assertEqual(company.name, u'Bambino')
+        self.assertEqual(company.caffe, self.user.caffe)
 
         # check if edited company is displayed
         response = self.client.get(reverse('cash_new_company'))
@@ -215,22 +244,51 @@ class ExpenseViewsTests(TestCase):
 
         self.client = Client()
 
-        self.putka = Company.objects.create(name='Putka')
-        self.kolporter = Company.objects.create(name='Kolporter')
-
-        self.newspapers = Expense.objects.create(
-            name='Newspapers'
+        self.caffe = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
         )
 
+        self.putka = Company.objects.create(
+            name='Putka',
+            caffe=self.caffe
+        )
+        self.kolporter = Company.objects.create(
+            name='Kolporter',
+            caffe=self.caffe
+        )
+        self.putka_f = Company.objects.create(name='Putka', caffe=self.filtry)
+
+        self.newspapers = Expense.objects.create(
+            name='Newspapers',
+            caffe=self.caffe
+        )
         self.cakes = Expense.objects.create(
             name='Ciasta',
-            company=self.kolporter
+            company=self.putka,
+            caffe=self.caffe
+        )
+        self.cakes_f = Expense.objects.create(
+            name='Ciasta',
+            company=self.putka_f,
+            caffe=self.filtry
         )
 
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.caffe
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -326,6 +384,7 @@ class ExpenseViewsTests(TestCase):
         new_expense = Expense.objects.get(name='Magazyny')
         self.assertIsNotNone(new_expense)
         self.assertIsInstance(new_expense, Expense)
+        self.assertEqual(new_expense.caffe, self.user.caffe)
 
     def test_edit_expense_show(self):
         """Check if edit expense view is displayed properly."""
@@ -353,7 +412,7 @@ class ExpenseViewsTests(TestCase):
     def test_edit_expense_404(self):
         """Check if 404 is displayed when expense does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.cakes_f.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -404,6 +463,7 @@ class ExpenseViewsTests(TestCase):
         # check if expense name has changed
         expense = Expense.objects.get(id=self.newspapers.id)
         self.assertEqual(expense.name, u'Magazines')
+        self.assertEqual(expense.caffe, self.user.caffe)
 
         # check if edited expense is displayed
         response = self.client.get(reverse('cash_new_expense'))
@@ -419,37 +479,72 @@ class CashReportViewTests(TestCase):
 
         self.client = Client()
 
-        self.putka = Company.objects.create(name='Putka')
-        self.kolporter = Company.objects.create(name='Kolporter')
-
-        self.newspapers = Expense.objects.create(
-            name='Newspapers'
+        self.caffe = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
         )
 
+        self.putka = Company.objects.create(
+            name='Putka',
+            caffe=self.caffe
+        )
+        self.kolporter = Company.objects.create(
+            name='Kolporter',
+            caffe=self.caffe
+        )
+        self.putka_f = Company.objects.create(name='Putka', caffe=self.filtry)
+
+        self.newspapers = Expense.objects.create(
+            name='Newspapers',
+            caffe=self.caffe
+        )
         self.cakes = Expense.objects.create(
             name='Ciasta',
-            company=self.kolporter
+            company=self.putka,
+            caffe=self.caffe
+        )
+        self.cakes_f = Expense.objects.create(
+            name='Ciasta',
+            company=self.putka_f,
+            caffe=self.filtry
         )
 
         self.full_newspapers = FullExpense.objects.create(
             expense=self.newspapers,
-            amount=100
+            amount=100,
+            caffe=self.caffe
         )
-
         self.full_cakes = FullExpense.objects.create(
             expense=self.cakes,
-            amount=200
+            amount=200,
+            caffe=self.caffe
         )
-
         self.full_cakes_second = FullExpense.objects.create(
             expense=self.cakes,
-            amount=400
+            amount=400,
+            caffe=self.caffe
+        )
+        self.full_cakes_f = FullExpense.objects.create(
+            expense=self.cakes_f,
+            amount=400,
+            caffe=self.filtry
         )
 
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.caffe
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -458,25 +553,44 @@ class CashReportViewTests(TestCase):
             Permission.objects.get(codename='view_cashreport'),
         )
 
+        self.user_second = Employee.objects.create_user(
+            username='fadmin',
+            password='fadmin',
+            caffe=self.filtry
+        )
+        self.user_second.save()
+        self.user_second.user_permissions.add(
+            Permission.objects.get(codename='add_cashreport'),
+            Permission.objects.get(codename='change_cashreport'),
+            Permission.objects.get(codename='view_cashreport'),
+        )
+
         self.client.login(username='admin', password='admin')
 
-        self.cash_report_main = CashReport(
+        self.cash_report_main = CashReport.objects.create(
             cash_before_shift=1000,
             cash_after_shift=1200,
             card_payments=123,
-            amount_due=100
+            amount_due=100,
+            creator=self.user,
+            caffe=self.caffe
         )
-        self.cash_report_main.creator = self.user
-        self.cash_report_main.save()
-
-        self.cash_report_minor = CashReport(
+        self.cash_report_minor = CashReport.objects.create(
             cash_before_shift=10,
             cash_after_shift=12,
             card_payments=11,
-            amount_due=1
+            amount_due=1,
+            creator=self.user,
+            caffe=self.caffe
         )
-        self.cash_report_minor.creator = self.user
-        self.cash_report_minor.save()
+        self.cash_report_f = CashReport.objects.create(
+            cash_before_shift=10,
+            cash_after_shift=12,
+            card_payments=11,
+            amount_due=1,
+            creator=self.user_second,
+            caffe=self.filtry
+        )
 
         self.full_newspapers.cash_report = self.cash_report_main
         self.full_cakes.cash_report = self.cash_report_main
@@ -539,7 +653,8 @@ class CashReportViewTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('cash_navigate'))
-        self.assertEqual(CashReport.objects.count(), 2)
+        cash_reports_num = CashReport.objects.filter(caffe=self.caffe).count()
+        self.assertEqual(cash_reports_num, 2)
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -551,8 +666,9 @@ class CashReportViewTests(TestCase):
         self.assertEqual(report.cash_after_shift, 1)
         self.assertEqual(report.card_payments, 1)
         self.assertEqual(report.amount_due, 1)
+        self.assertEqual(report.caffe, self.user.caffe)
 
-        expenses = report.full_expense.all()
+        expenses = report.full_expenses.all()
         self.assertEqual(len(expenses), 1)
         self.assertEqual(expenses[0].amount, 10000)
 
@@ -597,6 +713,24 @@ class CashReportViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'cash/new_report.html')
 
+    def test_edit_cashreport_404(self):
+        """Check if 404 is displayed when CashReport does not exists."""
+
+        ids_for_404 = [self.cash_report_f.id, 13, 23423, 2424242424224]
+        ids_could_not_resolve = [
+            -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
+        ]
+
+        for _id in ids_for_404:
+            response = self.client.get(
+                reverse('edit_cash_report', args=(_id,))
+            )
+            self.assertEqual(response.status_code, 404)
+
+        for _id in ids_could_not_resolve:
+            with self.assertRaises(NoReverseMatch):
+                reverse('edit_cash_report', args=(_id,))
+
     def test_new_cashreport(self):
         """Check form to create new CashReport."""
 
@@ -621,7 +755,8 @@ class CashReportViewTests(TestCase):
         )
 
         self.assertRedirects(response, reverse('cash_navigate'))
-        self.assertEqual(CashReport.objects.count(), 3)
+        cash_reports_num = CashReport.objects.filter(caffe=self.caffe).count()
+        self.assertEqual(cash_reports_num, 3)
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -635,8 +770,9 @@ class CashReportViewTests(TestCase):
         self.assertEqual(report.cash_after_shift, 1)
         self.assertEqual(report.card_payments, 1)
         self.assertEqual(report.amount_due, 1)
+        self.assertEqual(report.caffe, self.user.caffe)
 
-        expenses = report.full_expense.all()
+        expenses = report.full_expenses.all()
         self.assertEqual(len(expenses), 1)
         self.assertEqual(expenses[0].amount, 10000)
 
@@ -657,7 +793,9 @@ class CashReportViewTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'cash/new_report.html')
-        self.assertEqual(CashReport.objects.count(), 2)
+
+        caffes_num = CashReport.objects.filter(caffe=self.user.caffe).count()
+        self.assertEqual(caffes_num, 2)
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -679,4 +817,6 @@ class CashReportViewTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'cash/new_report.html')
-        self.assertEqual(CashReport.objects.count(), 2)
+
+        caffes_num = CashReport.objects.filter(caffe=self.user.caffe).count()
+        self.assertEqual(caffes_num, 2)

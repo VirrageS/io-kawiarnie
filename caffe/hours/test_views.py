@@ -4,6 +4,7 @@ from django.contrib.auth.models import Permission
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 
+from caffe.models import Caffe
 from employees.models import Employee
 
 from .forms import PositionForm, WorkedHoursForm
@@ -18,13 +19,39 @@ class PositionViewsTests(TestCase):
 
         self.client = Client()
 
-        self.barista = Position.objects.create(name='Barista')
-        self.cleaning = Position.objects.create(name='Sprzątanie')
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.barista = Position.objects.create(
+            name='Barista',
+            caffe=self.kafo
+        )
+        self.cleaning = Position.objects.create(
+            name='Sprzątanie',
+            caffe=self.kafo
+        )
+        self.cleaning_f = Position.objects.create(
+            name='Sprzątanie',
+            caffe=self.filtry
+        )
 
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.kafo
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -78,7 +105,7 @@ class PositionViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['form'].is_valid())
         self.assertEqual(response.context['form'].errors, {
-            'name': ['To pole jest wymagane.'],
+            'name': ['To pole jest wymagane.']
         })
         self.assertTemplateUsed(response, 'hours/new_position.html')
 
@@ -114,6 +141,7 @@ class PositionViewsTests(TestCase):
         new_position = Position.objects.get(name='Kasa')
         self.assertIsNotNone(new_position)
         self.assertIsInstance(new_position, Position)
+        self.assertEqual(new_position.caffe, self.user.caffe)
 
     def test_edit_position_show(self):
         """Check if edit Position view is displayed properly."""
@@ -134,7 +162,7 @@ class PositionViewsTests(TestCase):
     def test_edit_position_404(self):
         """Check if 404 is displayed when Position does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.cleaning_f.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -184,6 +212,7 @@ class PositionViewsTests(TestCase):
         # check if position has changed
         position = Position.objects.get(id=self.barista.id)
         self.assertEqual(position.name, u'Bar')
+        self.assertEqual(position.caffe, self.user.caffe)
 
         # check if edited position is displayed
         response = self.client.get(reverse('new_position'))
@@ -199,20 +228,54 @@ class WorkedHoursViewsTests(TestCase):
 
         self.client = Client()
 
-        self.barista = Position.objects.create(name='Barista')
-        self.cleaning = Position.objects.create(name='Sprzątanie')
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.barista = Position.objects.create(
+            name='Barista',
+            caffe=self.kafo
+        )
+        self.cleaning = Position.objects.create(
+            name='Sprzątanie',
+            caffe=self.kafo
+        )
+        self.cleaning_f = Position.objects.create(
+            name='Sprzątanie',
+            caffe=self.filtry
+        )
 
         self.worked_hours_main = WorkedHours(
             start_time='12:30',
             end_time='15:50',
             date='2016-06-01',
-            position=self.barista
+            position=self.barista,
+            caffe=self.kafo
+        )
+        self.worked_hours_f = WorkedHours(
+            start_time='12:30',
+            end_time='15:50',
+            date='2016-06-01',
+            position=self.cleaning_f,
+            caffe=self.filtry
         )
 
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.kafo
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -226,7 +289,8 @@ class WorkedHoursViewsTests(TestCase):
 
         self.user_second = Employee.objects.create_user(
             username='admin1',
-            password='admin1'
+            password='admin1',
+            caffe=self.kafo
         )
         self.user_second.save()
         self.user_second.user_permissions.add(
@@ -237,10 +301,27 @@ class WorkedHoursViewsTests(TestCase):
 
         self.admin = Employee.objects.create_user(
             username='sadmin',
-            password='sadmin'
+            password='sadmin',
+            caffe=self.kafo
         )
         self.admin.save()
         self.admin.user_permissions.add(
+            Permission.objects.get(codename='add_workedhours'),
+            Permission.objects.get(codename='change_workedhours'),
+            Permission.objects.get(codename='view_workedhours'),
+            Permission.objects.get(codename='change_all_workedhours'),
+
+            Permission.objects.get(codename='view_report'),
+            Permission.objects.get(codename='view_cashreport'),
+        )
+
+        self.admin_f = Employee.objects.create_user(
+            username='fadmin',
+            password='fadmin',
+            caffe=self.filtry
+        )
+        self.admin_f.save()
+        self.admin_f.user_permissions.add(
             Permission.objects.get(codename='add_workedhours'),
             Permission.objects.get(codename='change_workedhours'),
             Permission.objects.get(codename='view_workedhours'),
@@ -254,6 +335,8 @@ class WorkedHoursViewsTests(TestCase):
 
         self.worked_hours_main.employee = self.user
         self.worked_hours_main.save()
+        self.worked_hours_f.employee = self.admin_f
+        self.worked_hours_f.save()
 
     def test_new_workedhours_show(self):
         """Check if new WorkedHours view is displayed properly."""
@@ -317,6 +400,7 @@ class WorkedHoursViewsTests(TestCase):
         self.assertIsNotNone(new_worked_hours)
         self.assertIsInstance(new_worked_hours, WorkedHours)
         self.assertEqual(new_worked_hours.employee, self.user)
+        self.assertEqual(new_worked_hours.caffe, self.user.caffe)
 
     def test_edit_workedhours_show(self):
         """Check if edit WorkedHours view is displayed properly."""
@@ -340,7 +424,7 @@ class WorkedHoursViewsTests(TestCase):
     def test_edit_workedhours_404(self):
         """Check if 404 is displayed when WorkedHours does not exists."""
 
-        pks_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        pks_for_404 = [self.worked_hours_f.id, 13, 23423, 2424242424224]
         pks_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -420,6 +504,7 @@ class WorkedHoursViewsTests(TestCase):
         self.assertEqual(worked_hours.date, date(2016, 5, 31))
         self.assertEqual(worked_hours.position, self.barista)
         self.assertEqual(worked_hours.employee, self.user)
+        self.assertEqual(worked_hours.caffe, self.user.caffe)
 
     def test_edit_workedhours_post_success(self):
         """Check if edit WorkedHours successes to edit when form is valid."""
@@ -449,3 +534,4 @@ class WorkedHoursViewsTests(TestCase):
         self.assertEqual(worked_hours.date, date(2016, 5, 31))
         self.assertEqual(worked_hours.position, self.barista)
         self.assertEqual(worked_hours.employee, self.user)
+        self.assertEqual(worked_hours.caffe, self.user.caffe)

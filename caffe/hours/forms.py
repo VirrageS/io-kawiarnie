@@ -3,6 +3,8 @@
 from datetime import date
 
 from django import forms
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
 from .models import Position, WorkedHours
 
@@ -17,13 +19,42 @@ class PositionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Initialize all Position's fields."""
 
-        kwargs.setdefault('label_suffix', '')
+        self._caffe = kwargs.pop('caffe')
 
+        kwargs.setdefault('label_suffix', '')
         super(PositionForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = u'Nazwa'
 
         if self.instance.id:
             self.initial['name'] = self.instance.name
+
+    def clean_name(self):
+        """Check name field."""
+
+        name = self.cleaned_data['name']
+
+        query = Position.objects.filter(name=name, caffe=self._caffe)
+        if self.instance.pk:
+            query = query.exclude(pk=self.instance.pk)
+
+        if query.exists():
+            raise ValidationError(_('Name is not unique.'))
+
+        name = name.lstrip().rstrip()
+        if name == '':
+            raise ValidationError(_('Position name is not valid.'))
+
+        return name
+
+    def save(self, commit=True):
+        """Override the save method to add Caffe relation."""
+
+        position = super(PositionForm, self).save(commit=False)
+        position.caffe = self._caffe
+        if commit:
+            position.save()
+
+        return position
 
 
 class WorkedHoursForm(forms.ModelForm):
@@ -58,17 +89,14 @@ class WorkedHoursForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Initialize all Worked Hours's fields."""
 
-        kwargs.setdefault('label_suffix', '')
-        self.employee = kwargs.pop('employee', None)
+        self._employee = kwargs.pop('employee')
+        self._caffe = kwargs.pop('caffe')
 
+        kwargs.setdefault('label_suffix', '')
         super(WorkedHoursForm, self).__init__(*args, **kwargs)
         self.fields['position'].label = u'Stanowisko'
 
-        if self.instance.id:
-            self.initial['start_time'] = self.instance.start_time
-            self.initial['end_time'] = self.instance.end_time
-            self.initial['date'] = self.instance.date
-        else:
+        if self.instance.id is None:
             self.initial['date'] = date.today()
 
     def clean(self):
@@ -82,13 +110,14 @@ class WorkedHoursForm(forms.ModelForm):
 
         if cleaned_start_time and cleaned_end_time and cleaned_date:
             intersect = WorkedHours.objects.filter(
-                employee=self.employee,
+                employee=self._employee,
+                caffe=self._caffe,
                 date=cleaned_date,
                 start_time__lte=cleaned_end_time,
-                end_time__gte=cleaned_start_time
+                end_time__gte=cleaned_start_time,
             )
 
-            if self.instance.id:
+            if self.instance.pk:
                 intersect = intersect.exclude(pk=self.instance.pk)
 
             if intersect.exists() > 0:
@@ -102,3 +131,14 @@ class WorkedHoursForm(forms.ModelForm):
                     'start_time',
                     u'Czas rozpoczęcia jest później niż czas zakończenia.'
                 )
+
+    def save(self, commit=True):
+        """Save WorkedHoursForm data to model."""
+
+        hours = super(WorkedHoursForm, self).save(commit=False)
+        hours.employee = self._employee
+        hours.caffe = self._caffe
+        if commit:
+            hours.save()
+
+        return hours

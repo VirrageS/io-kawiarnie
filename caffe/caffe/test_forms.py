@@ -3,10 +3,10 @@
 
 from django.test import TestCase
 
+from employees.forms import EmployeeForm
+
 from .forms import CaffeForm
 from .models import Caffe
-from employees.forms import EmployeeForm
-from employees.models import Employee
 
 
 class CaffeFormTest(TestCase):
@@ -15,16 +15,27 @@ class CaffeFormTest(TestCase):
     def setUp(self):
         """Set data for tests."""
 
-        employee_form = EmployeeForm({
-            'username': 'u2',
-            'first_name': 'fu1',
-            'last_name': 'fu2',
-            'telephone_number': '312313',
-            'email': 'he@he.he',
-            'favorite_coffee': 'black',
-            'password1': 'haslohaslo',
-            'password2': 'haslohaslo'
-        })
+        self.caffe = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        employee_form = EmployeeForm(
+            {
+                'username': 'u2',
+                'first_name': 'fu1',
+                'last_name': 'fu2',
+                'telephone_number': '312313',
+                'email': 'he@he.he',
+                'favorite_coffee': 'black',
+                'password1': 'haslohaslo',
+                'password2': 'haslohaslo'
+            },
+            caffe=self.caffe
+        )
 
         self.employee = employee_form.save()
 
@@ -44,7 +55,7 @@ class CaffeFormTest(TestCase):
         caffe = valid.save(commit=False)
         caffe.creator = self.employee
         caffe.save()
-        self.assertEquals(Caffe.objects.count(), 1)
+        self.assertEquals(Caffe.objects.count(), 2)
 
         valid = CaffeForm({
             'name': 'Caffe2',
@@ -59,7 +70,7 @@ class CaffeFormTest(TestCase):
         caffe = valid.save(commit=False)
         caffe.creator = self.employee
         caffe.save()
-        self.assertEquals(Caffe.objects.count(), 2)
+        self.assertEquals(Caffe.objects.count(), 3)
 
         valid = CaffeForm({
             'name': 'Caffe3',
@@ -73,7 +84,7 @@ class CaffeFormTest(TestCase):
         caffe = valid.save(commit=False)
         caffe.creator = self.employee
         caffe.save()
-        self.assertEquals(Caffe.objects.count(), 3)
+        self.assertEquals(Caffe.objects.count(), 4)
 
     def test_name_unique(self):
         """Test if names of caffe are uniqe."""
@@ -176,7 +187,7 @@ class CaffeFormTest(TestCase):
         caffe = valid.save(commit=False)
         caffe.creator = self.employee
         caffe.save()
-        self.assertEquals(Caffe.objects.count(), 1)
+        self.assertEquals(Caffe.objects.count(), 2)
 
         not_valid = CaffeForm({
             'name': 'Caffe1',
@@ -276,4 +287,3 @@ class CaffeFormTest(TestCase):
         })
 
         self.assertFalse(not_valid.is_valid())
-

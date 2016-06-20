@@ -8,6 +8,7 @@ from django.core.urlresolvers import NoReverseMatch, reverse
 from django.test import Client, TestCase
 from django.utils import timezone
 
+from caffe.models import Caffe
 from employees.models import Employee
 
 from .forms import CategoryForm, ProductForm, UnitForm
@@ -23,13 +24,34 @@ class CategoryViewsTests(TestCase):
 
         self.client = Client()
 
-        self.coffees = Category.objects.create(name='Kawy')
-        self.cakes = Category.objects.create(name='Ciasta')
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.coffees = Category.objects.create(name='Kawy', caffe=self.kafo)
+        self.cakes = Category.objects.create(name='Ciasta', caffe=self.kafo)
+
+        self.cakes_f = Category.objects.create(
+            name='Ciasta',
+            caffe=self.filtry
+        )
 
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.kafo
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -151,7 +173,7 @@ class CategoryViewsTests(TestCase):
     def test_edit_category_404(self):
         """Check if 404 is displayed when category does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.cakes_f.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -216,13 +238,34 @@ class UnitViewsTests(TestCase):
 
         self.client = Client()
 
-        self.money = Unit.objects.create(name=u'złotówki')
-        self.grams = Unit.objects.create(name=u'gramy')
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.money = Unit.objects.create(name=u'złotówki', caffe=self.kafo)
+        self.grams = Unit.objects.create(name=u'gramy', caffe=self.kafo)
+
+        self.grams_f = Unit.objects.create(
+            name='gramy',
+            caffe=self.filtry
+        )
 
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.kafo
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -341,7 +384,7 @@ class UnitViewsTests(TestCase):
     def test_edit_unit_404(self):
         """Check if 404 is displayed when unit does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.grams_f.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -406,27 +449,53 @@ class ProductViewsTests(TestCase):
 
         self.client = Client()
 
-        self.grams = Unit.objects.create(name=u'gramy')
-        self.pieces = Unit.objects.create(name=u'sztuki')
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
 
-        self.coffees = Category.objects.create(name='Kawy')
-        self.cakes = Category.objects.create(name='Ciasta')
+        self.grams = Unit.objects.create(name=u'gramy', caffe=self.kafo)
+        self.pieces = Unit.objects.create(name=u'sztuki', caffe=self.kafo)
+        self.pieces1 = Unit.objects.create(name='sztuki', caffe=self.filtry)
+
+        self.coffees = Category.objects.create(name='Kawy', caffe=self.kafo)
+        self.cakes = Category.objects.create(name='Ciasta', caffe=self.kafo)
+        self.cakes1 = Category.objects.create(name='Ciasta', caffe=self.filtry)
 
         self.caffee = Product.objects.create(
             name='Kawa sypana',
             category=self.coffees,
-            unit=self.grams
+            unit=self.grams,
+            caffe=self.kafo
         )
         self.cake = Product.objects.create(
             name='Szarlotka',
             category=self.cakes,
-            unit=self.pieces
+            unit=self.pieces,
+            caffe=self.kafo
+        )
+        self.cake_f = Product.objects.create(
+            name='Szarlotka',
+            category=self.cakes1,
+            unit=self.pieces1,
+            caffe=self.filtry
         )
 
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.kafo
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -550,7 +619,7 @@ class ProductViewsTests(TestCase):
     def test_edit_product_404(self):
         """Check if 404 is displayed when product does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.cake_f.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -622,62 +691,110 @@ class ReportViewsTests(TestCase):
 
         self.client = Client()
 
-        self.coffees = Category.objects.create(name='Kawy')
-        self.cakes = Category.objects.create(name='Ciasta')
-        self.tees = Category.objects.create(name='Herbaty')
-        self.juices = Category.objects.create(name='Soki')
-        self.liter = Unit.objects.create(name='litr')
-        self.pieces = Unit.objects.create(name='kawałki')
+        self.kafo = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
+        self.filtry = Caffe.objects.create(
+            name='filtry',
+            city='Warszawa',
+            street='Filry',
+            house_number='14',
+            postal_code='44-100'
+        )
+
+        self.coffees = Category.objects.create(name='Kawy', caffe=self.kafo)
+        self.cakes = Category.objects.create(name='Ciasta', caffe=self.kafo)
+        self.tees = Category.objects.create(name='Herbaty', caffe=self.kafo)
+        self.juices = Category.objects.create(name='Soki', caffe=self.kafo)
+        self.cakes1 = Category.objects.create(name='Ciasta', caffe=self.filtry)
+        self.coffees1 = Category.objects.create(name='Kawy', caffe=self.filtry)
+
+        self.liter = Unit.objects.create(name='litr', caffe=self.kafo)
+        self.pieces = Unit.objects.create(name='kawałki', caffe=self.kafo)
+        self.liter1 = Unit.objects.create(name='litr', caffe=self.filtry)
+        self.pieces1 = Unit.objects.create(name='kawałki', caffe=self.filtry)
 
         self.coke = Product.objects.create(
             name="Cola",
             category=self.juices,
-            unit=self.liter
+            unit=self.liter,
+            caffe=self.kafo
         )
-
         self.cake = Product.objects.create(
             name="Tiramisu",
             category=self.cakes,
-            unit=self.pieces
+            unit=self.pieces,
+            caffe=self.kafo
         )
-
         self.cake_second = Product.objects.create(
             name="Szarlotka",
             category=self.cakes,
-            unit=self.pieces
+            unit=self.pieces,
+            caffe=self.kafo
         )
-
         self.green_tea = Product.objects.create(
             name="Zielona Herbata",
             category=self.tees,
-            unit=self.liter
+            unit=self.liter,
+            caffe=self.kafo
         )
-
         self.black_coffe = Product.objects.create(
             name="Czarna kawa",
             category=self.coffees,
-            unit=self.liter
+            unit=self.liter,
+            caffe=self.kafo
+        )
+        self.cake1 = Product.objects.create(
+            name="Tiramisu",
+            category=self.cakes1,
+            unit=self.pieces1,
+            caffe=self.filtry
+        )
+        self.black_coffe1 = Product.objects.create(
+            name="Czarna kawa",
+            category=self.coffees1,
+            unit=self.liter1,
+            caffe=self.filtry
         )
 
         self.coke_full = FullProduct.objects.create(
             product=self.coke,
-            amount=50
+            amount=50,
+            caffe=self.kafo
         )
         self.coffee_full = FullProduct.objects.create(
             product=self.black_coffe,
-            amount=40
+            amount=40,
+            caffe=self.kafo
         )
         self.cake_full = FullProduct.objects.create(
             product=self.cake,
-            amount=10
+            amount=10,
+            caffe=self.kafo
         )
         self.cake_full_second = FullProduct.objects.create(
             product=self.cake_second,
-            amount=50
+            amount=50,
+            caffe=self.kafo
+        )
+        self.cake_full1 = FullProduct.objects.create(
+            product=self.cake1,
+            amount=10,
+            caffe=self.filtry
+        )
+        self.coffee_full1 = FullProduct.objects.create(
+            product=self.black_coffe1,
+            amount=40,
+            caffe=self.filtry
         )
 
-        self.minor_report = Report.objects.create()
-        self.major_report = Report.objects.create()
+        self.minor_report = Report.objects.create(caffe=self.kafo)
+        self.major_report = Report.objects.create(caffe=self.kafo)
+        self.filtry_report = Report.objects.create(caffe=self.filtry)
 
         self.coffee_full.report = self.minor_report
         self.coffee_full.save()
@@ -687,10 +804,16 @@ class ReportViewsTests(TestCase):
         self.cake_full_second.save()
         self.cake_full.save()
 
+        self.cake_full1.report = self.filtry_report
+        self.coffee_full1.report = self.filtry_report
+        self.cake_full1.save()
+        self.coffee_full1.save()
+
         # add user and permissions
         self.user = Employee.objects.create_user(
             username='admin',
-            password='admin'
+            password='admin',
+            caffe=self.kafo
         )
         self.user.save()
         self.user.user_permissions.add(
@@ -722,7 +845,7 @@ class ReportViewsTests(TestCase):
         self.assertEqual(response.context['title'], 'Nowy raport')
 
         products = response.context['products']
-        all_products = Product.objects.all()
+        all_products = Product.objects.filter(caffe=self.kafo).all()
         for product in all_products:
             self.assertIn(str(product.id), products)
             self.assertIn(json.dumps(product.name), products)
@@ -838,7 +961,7 @@ class ReportViewsTests(TestCase):
     def test_edit_report_404(self):
         """Check if 404 is displayed when report does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.filtry_report.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]
@@ -879,7 +1002,7 @@ class ReportViewsTests(TestCase):
         self.assertIn('To pole jest wymagane.', response.context['products'])
 
     def test_edit_report_post_success(self):
-        """Check if edit report successes to edit."""
+        """Check if edit report succeeds to edit."""
 
         post = {}
         post[self.coke.id] = [self.coke.id, 10]
@@ -917,8 +1040,8 @@ class ReportViewsTests(TestCase):
             [10, 20, 40]
         )
 
-        # check if edited report does not created new instance
-        self.assertEqual(Report.objects.count(), 2)
+        # check if edited report did not create a new instance
+        self.assertEqual(Report.objects.filter(caffe=self.kafo).count(), 2)
 
     def test_report_navigate(self):
         """Check if create report view is displayed properly."""
@@ -953,7 +1076,7 @@ class ReportViewsTests(TestCase):
     def test_show_report_404(self):
         """Check if 404 is displayed when report does not exists."""
 
-        ids_for_404 = [13, 23423, 24, 22, 242342322342, 2424242424224]
+        ids_for_404 = [self.filtry_report.id, 13, 23423, 2424242424224]
         ids_could_not_resolve = [
             -1, -234234, 234.32224, "werwe", 242342394283409284023840394823
         ]

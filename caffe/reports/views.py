@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import CategoryForm, FullProductForm, ProductForm, UnitForm
+from .forms import (CategoryForm, FullProductForm, ProductForm, ReportForm,
+                    UnitForm)
 from .models import Category, FullProduct, Product, Report, Unit
 
 
@@ -55,14 +56,14 @@ def reports_new_category(request):
     """Show form to create new Category and show existing Categories."""
 
     elements = []
-    form = CategoryForm(request.POST or None)
+    form = CategoryForm(request.POST or None, caffe=request.user.caffe)
 
     if form.is_valid():
         form.save()
         messages.success(request, 'Kategoria został poprawnie dodana.')
         return redirect(reverse('reports_navigate'))
 
-    categories = Category.objects.all()
+    categories = Category.objects.filter(caffe=request.user.caffe).all()
     for category in categories:
         elements.append({
             'edit_href': reverse('reports_edit_category', args=(category.id,)),
@@ -87,8 +88,17 @@ def reports_edit_category(request, category_id):
         category_id (int): Id of Category which is edited.
     """
 
-    category = get_object_or_404(Category, id=category_id)
-    form = CategoryForm(request.POST or None, instance=category)
+    category = get_object_or_404(
+        Category,
+        id=category_id,
+        caffe=request.user.caffe
+    )
+
+    form = CategoryForm(
+        request.POST or None,
+        caffe=request.user.caffe,
+        instance=category
+    )
 
     if form.is_valid():
         form.save()
@@ -109,14 +119,14 @@ def reports_new_unit(request):
     """Show form to create new Unit and show already existing Units."""
 
     elements = []
-    form = UnitForm(request.POST or None)
+    form = UnitForm(request.POST or None, caffe=request.user.caffe)
 
     if form.is_valid():
         form.save()
         messages.success(request, 'Jednostka została poprawnie dodana.')
         return redirect(reverse('reports_navigate'))
 
-    units = Unit.objects.all()
+    units = Unit.objects.filter(caffe=request.user.caffe).all()
     for unit in units:
         elements.append({
             'edit_href': reverse('reports_edit_unit', args=(unit.id,)),
@@ -141,8 +151,17 @@ def reports_edit_unit(request, unit_id):
         unit_id (int): Id of Unit which is edited.
     """
 
-    unit = get_object_or_404(Unit, id=unit_id)
-    form = UnitForm(request.POST or None, instance=unit)
+    unit = get_object_or_404(
+        Unit,
+        id=unit_id,
+        caffe=request.user.caffe
+    )
+
+    form = UnitForm(
+        request.POST or None,
+        caffe=request.user.caffe,
+        instance=unit
+    )
 
     if form.is_valid():
         form.save()
@@ -163,14 +182,14 @@ def reports_new_product(request):
     """Show form to create new Product and show already existing Products."""
 
     elements = []
-    form = ProductForm(request.POST or None)
+    form = ProductForm(request.POST or None, caffe=request.user.caffe)
 
     if form.is_valid():
         form.save()
         messages.success(request, 'Produkt został poprawnie dodany.')
         return redirect(reverse('reports_navigate'))
 
-    products = Product.objects.all()
+    products = Product.objects.filter(caffe=request.user.caffe).all()
     for product in products:
         elements.append({
             'edit_href': reverse('reports_edit_product', args=(product.id,)),
@@ -195,8 +214,17 @@ def reports_edit_product(request, product_id):
         product_id (int): Id of Product which is edited.
     """
 
-    product = get_object_or_404(Product, id=product_id)
-    form = ProductForm(request.POST or None, instance=product)
+    product = get_object_or_404(
+        Product,
+        id=product_id,
+        caffe=request.user.caffe
+    )
+
+    form = ProductForm(
+        request.POST or None,
+        caffe=request.user.caffe,
+        instance=product
+    )
 
     if form.is_valid():
         form.save()
@@ -218,7 +246,7 @@ def reports_new_report(request):
 
     all_products = []
 
-    products = Product.objects.all()
+    products = Product.objects.filter(caffe=request.user.caffe).all()
     for product in products:
         all_products.append({
             'id': product.id,
@@ -243,11 +271,13 @@ def reports_new_report(request):
         # chcek validation and create form for each fullproduct
         for full_product in post:
             fp_list = post.getlist(full_product)
-            form = FullProductForm({
-                # sets product id and amount for fullproduct
-                'product': fp_list[0],
-                'amount': fp_list[1]
-            })
+            form = FullProductForm(
+                {
+                    'product': fp_list[0],
+                    'amount': fp_list[1]
+                },
+                caffe=request.user.caffe
+            )
 
             valid = valid & form.is_valid()
 
@@ -269,6 +299,7 @@ def reports_new_report(request):
         # check if some form exists
         if len(forms) > 0 and valid:
             report = Report.objects.create(
+                caffe=request.user.caffe,
                 creator=request.user
             )
 
@@ -280,6 +311,7 @@ def reports_new_report(request):
 
             report.save()
             messages.success(request, u'Raport został poprawnie stworzony.')
+
             return redirect(reverse('reports_navigate'))
         else:
             messages.error(
@@ -288,7 +320,7 @@ def reports_new_report(request):
             )
 
     # get last five reports
-    latest_reports = Report.objects.all()[:5]
+    latest_reports = Report.objects.filter(caffe=request.user.caffe).all()[:5]
     for report in latest_reports:
         report.categories = get_report_categories(report.id)
 
@@ -308,11 +340,11 @@ def reports_edit_report(request, report_id):
         report_id (int): Id of Report which is edited.
     """
 
-    report = get_object_or_404(Report, id=report_id)
+    report = get_object_or_404(Report, id=report_id, caffe=request.user.caffe)
 
     all_products = []
 
-    products = Product.objects.all()
+    products = Product.objects.filter(caffe=request.user.caffe).all()
     for product in products:
         parsed_product = {
             'id': product.id,
@@ -348,11 +380,13 @@ def reports_edit_report(request, report_id):
         # chcek validation and create form for each fullproduct
         for full_product in post:
             fp_list = post.getlist(full_product)
-            form = FullProductForm({
-                # sets product id and amount for fullproduct
-                'product': fp_list[0],
-                'amount': fp_list[1]
-            })
+            form = FullProductForm(
+                {
+                    'product': fp_list[0],
+                    'amount': fp_list[1]
+                },
+                caffe=request.user.caffe
+            )
 
             valid = valid & form.is_valid()
 
@@ -372,8 +406,15 @@ def reports_edit_report(request, report_id):
 
         # check if some form exists
         if len(forms) > 0 and valid:
-            full_products = FullProduct.objects.filter(report=report.id).all()
-            for full_product in full_products:
+            form = ReportForm(
+                {},
+                caffe=request.user.caffe,
+                creator=request.user,
+                instance=report
+            )
+            report = form.save()
+
+            for full_product in report.full_products.all():
                 full_product.delete()
 
             # for each form save it with its report
@@ -384,6 +425,7 @@ def reports_edit_report(request, report_id):
 
             report.save()
             messages.success(request, u'Raport został poprawnie zmieniony.')
+
             return redirect(reverse('reports_navigate'))
         else:
             messages.error(
@@ -406,7 +448,7 @@ def reports_show_report(request, report_id):
         report_id (int): Id of Report which have to be shown.
     """
 
-    report = get_object_or_404(Report, id=report_id)
+    report = get_object_or_404(Report, id=report_id, caffe=request.user.caffe)
 
     return render(request, 'reports/show.html', {
         'report': report,

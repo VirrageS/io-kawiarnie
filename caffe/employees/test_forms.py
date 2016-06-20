@@ -4,6 +4,8 @@
 from django.contrib.auth.models import Group
 from django.test import TestCase
 
+from caffe.models import Caffe
+
 from .forms import EmployeeForm
 from .models import Employee
 
@@ -21,11 +23,16 @@ class EmployeeFormTest(TestCase):
     def setUp(self):
         """Set up data to tests."""
 
-        self.group1 = Group.objects.create(
-            name="grupa1")
+        self.caffe = Caffe.objects.create(
+            name='kafo',
+            city='Gliwice',
+            street='Wieczorka',
+            house_number='14',
+            postal_code='44-100'
+        )
 
-        self.group2 = Group.objects.create(
-            name="grupa2")
+        self.group1 = Group.objects.create(name="grupa1")
+        self.group2 = Group.objects.create(name="grupa2")
 
         self.user1 = Employee.objects.create(
             username="u1",
@@ -42,17 +49,20 @@ class EmployeeFormTest(TestCase):
     def test_validation(self):
         """Check validation of employee form."""
 
-        valid = EmployeeForm({
-            'username': 'u2',
-            'first_name': 'fu1',
-            'last_name': 'fu2',
-            'telephone_number': '312313',
-            'groups': [self.group1.id, ],
-            'email': 'he@he.he',
-            'favorite_coffee': 'black',
-            'password1': 'haslohaslo',
-            'password2': 'haslohaslo'
-        })
+        valid = EmployeeForm(
+            {
+                'username': 'u2',
+                'first_name': 'fu1',
+                'last_name': 'fu2',
+                'telephone_number': '312313',
+                'groups': [self.group1.id, ],
+                'email': 'he@he.he',
+                'favorite_coffee': 'black',
+                'password1': 'haslohaslo',
+                'password2': 'haslohaslo'
+            },
+            caffe=self.caffe
+        )
 
         self.assertTrue(valid.is_valid())
         employee = valid.save()
@@ -60,20 +70,24 @@ class EmployeeFormTest(TestCase):
         self.assertEqual(employee.username, 'u2')
         self.assertEqual(employee.email, 'he@he.he')
         self.assertEqual(employee.telephone_number, '312313')
+        self.assertEqual(employee.caffe, self.caffe)
         self.assertTrue(user_in_group(employee, self.group1.id))
 
         employee.delete()
 
-        valid = EmployeeForm({
-            'username': 'u2',
-            'first_name': 'fu1',
-            'last_name': 'fu2',
-            'telephone_number': '312313',
-            'email': 'he@he.he',
-            'favorite_coffee': 'black',
-            'password1': 'haslohaslo',
-            'password2': 'haslohaslo'
-        })
+        valid = EmployeeForm(
+            {
+                'username': 'u2',
+                'first_name': 'fu1',
+                'last_name': 'fu2',
+                'telephone_number': '312313',
+                'email': 'he@he.he',
+                'favorite_coffee': 'black',
+                'password1': 'haslohaslo',
+                'password2': 'haslohaslo'
+            },
+            caffe=self.caffe
+        )
 
         self.assertTrue(valid.is_valid())
         employee = valid.save()
@@ -83,15 +97,18 @@ class EmployeeFormTest(TestCase):
         self.assertEqual(employee.telephone_number, '312313')
         self.assertFalse(user_in_group(employee, self.group1.id))
 
-        not_valid = EmployeeForm({
-            'first_name': 'fu1',
-            'last_name': 'fu2',
-            'telephone_number': '312313',
-            'email': 'he@he.he',
-            'favorite_coffee': 'black',
-            'password1': 'haslohaslo',
-            'password2': 'haslohaslo'
-        })
+        not_valid = EmployeeForm(
+            {
+                'first_name': 'fu1',
+                'last_name': 'fu2',
+                'telephone_number': '312313',
+                'email': 'he@he.he',
+                'favorite_coffee': 'black',
+                'password1': 'haslohaslo',
+                'password2': 'haslohaslo'
+            },
+            caffe=self.caffe
+        )
 
         # no username
         self.assertFalse(not_valid.is_valid())
@@ -99,16 +116,19 @@ class EmployeeFormTest(TestCase):
         with self.assertRaises(Exception):
             not_valid.save()
 
-        not_valid = EmployeeForm({
-            'username': 'u1',
-            'first_name': 'fu1',
-            'last_name': 'fu2',
-            'telephone_number': '312313',
-            'email': 'he@he.he',
-            'favorite_coffee': 'black',
-            'password1': 'haslohaslo',
-            'password2': 'haslohaslo'
-        })
+        not_valid = EmployeeForm(
+            {
+                'username': 'u1',
+                'first_name': 'fu1',
+                'last_name': 'fu2',
+                'telephone_number': '312313',
+                'email': 'he@he.he',
+                'favorite_coffee': 'black',
+                'password1': 'haslohaslo',
+                'password2': 'haslohaslo'
+            },
+            caffe=self.caffe
+        )
 
         # username exists already
         self.assertFalse(not_valid.is_valid())
@@ -116,16 +136,19 @@ class EmployeeFormTest(TestCase):
         with self.assertRaises(Exception):
             not_valid.save()
 
-        not_valid = EmployeeForm({
-            'username': 'u1',
-            'first_name': 'fu1',
-            'last_name': 'fu2',
-            'telephone_number': '312313',
-            'email': 'he',
-            'favorite_coffee': 'black',
-            'password1': 'haslohaslo',
-            'password2': 'haslohaslo'
-        })
+        not_valid = EmployeeForm(
+            {
+                'username': 'u1',
+                'first_name': 'fu1',
+                'last_name': 'fu2',
+                'telephone_number': '312313',
+                'email': 'he',
+                'favorite_coffee': 'black',
+                'password1': 'haslohaslo',
+                'password2': 'haslohaslo'
+            },
+            caffe=self.caffe
+        )
 
         # wrong email adress
         self.assertFalse(not_valid.is_valid())
@@ -133,16 +156,19 @@ class EmployeeFormTest(TestCase):
         with self.assertRaises(Exception):
             not_valid.save()
 
-        not_valid = EmployeeForm({
-            'username': 'u4',
-            'first_name': 'fu1',
-            'last_name': 'fu2',
-            'telephone_number': '312313',
-            'email': 'he@he.he',
-            'favorite_coffee': 'black',
-            'password1': 'haslohaslo',
-            'password2': 'hasloinne'
-        })
+        not_valid = EmployeeForm(
+            {
+                'username': 'u4',
+                'first_name': 'fu1',
+                'last_name': 'fu2',
+                'telephone_number': '312313',
+                'email': 'he@he.he',
+                'favorite_coffee': 'black',
+                'password1': 'haslohaslo',
+                'password2': 'hasloinne'
+            },
+            caffe=self.caffe
+        )
 
         # passwords differ
         self.assertFalse(not_valid.is_valid())
@@ -150,16 +176,19 @@ class EmployeeFormTest(TestCase):
         with self.assertRaises(Exception):
             not_valid.save()
 
-        not_valid = EmployeeForm({
-            'username': '',
-            'first_name': 'fu1',
-            'last_name': 'fu2',
-            'telephone_number': '312313',
-            'email': 'he@he.he',
-            'favorite_coffee': 'black',
-            'password1': 'haslohaslo',
-            'password2': 'haslohaslo'
-        })
+        not_valid = EmployeeForm(
+            {
+                'username': '',
+                'first_name': 'fu1',
+                'last_name': 'fu2',
+                'telephone_number': '312313',
+                'email': 'he@he.he',
+                'favorite_coffee': 'black',
+                'password1': 'haslohaslo',
+                'password2': 'haslohaslo'
+            },
+            caffe=self.caffe
+        )
 
         # empty username
         self.assertFalse(not_valid.is_valid())
@@ -167,20 +196,37 @@ class EmployeeFormTest(TestCase):
         with self.assertRaises(Exception):
             not_valid.save()
 
-        not_valid = EmployeeForm({
-            'username': 'useruser',
-            'first_name': 'fu1',
-            'last_name': 'fu2',
-            'telephone_number': '312313',
-            'email': 'he@he.he',
-            'groups': [-1, -2],
-            'favorite_coffee': 'black',
-            'password1': 'haslohaslo',
-            'password2': 'haslohaslo'
-        })
+        not_valid = EmployeeForm(
+            {
+                'username': 'useruser',
+                'first_name': 'fu1',
+                'last_name': 'fu2',
+                'telephone_number': '312313',
+                'email': 'he@he.he',
+                'groups': [-1, -2],
+                'favorite_coffee': 'black',
+                'password1': 'haslohaslo',
+                'password2': 'haslohaslo'
+            },
+            caffe=self.caffe
+        )
 
         # wrong groups
         self.assertFalse(not_valid.is_valid())
 
         with self.assertRaises(Exception):
             not_valid.save()
+
+        # no caffe provided
+        with self.assertRaises(Exception):
+            EmployeeForm({
+                'username': 'useruser',
+                'first_name': 'fu1',
+                'last_name': 'fu2',
+                'telephone_number': '312313',
+                'email': 'he@he.he',
+                'groups': [-1, -2],
+                'favorite_coffee': 'black',
+                'password1': 'haslohaslo',
+                'password2': 'haslohaslo'
+            })

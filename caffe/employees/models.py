@@ -5,8 +5,8 @@ from django.db import models
 class Employee(AbstractUser):
     """Employee model, extends AbstractUser fields."""
 
-    telephone_number = models.CharField(max_length=20)
-    favorite_coffee = models.CharField(max_length=50)
+    telephone_number = models.CharField(max_length=20, blank=True)
+    favorite_coffee = models.CharField(max_length=50, blank=True)
     caffe = models.ForeignKey(
         'caffe.Caffe',
         null=True,

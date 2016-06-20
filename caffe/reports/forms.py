@@ -82,7 +82,7 @@ class CategoryForm(forms.ModelForm):
             query = query.exclude(pk=self.instance.pk)
 
         if query.exists():
-            raise ValidationError(_('Nazwa nie jest unikalna.'))
+            raise ValidationError(_('Kategoria o takiej nazwie już istnieje.'))
 
         return name
 
@@ -123,7 +123,7 @@ class UnitForm(forms.ModelForm):
             query = query.exclude(pk=self.instance.pk)
 
         if query.exists():
-            raise ValidationError(_('Nazwa nie jest unikalna.'))
+            raise ValidationError(_('Jednostka o takiej nazwie już istnieje.'))
 
         return name
 

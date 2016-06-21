@@ -115,7 +115,7 @@ class CategoryViewsTests(TestCase):
         self.assertTemplateUsed(response, 'reports/new_element.html')
 
     def test_new_category_post_success(self):
-        """Check if new category successes to create when form is valid."""
+        """Check if new category succeeds to create when form is valid."""
 
         response = self.client.post(
             reverse('reports:new_category'),
@@ -123,7 +123,7 @@ class CategoryViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports:navigate'))
+        self.assertRedirects(response, reverse('reports:new_category'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -334,7 +334,7 @@ class UnitViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports:navigate'))
+        self.assertRedirects(response, reverse('reports:new_unit'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
@@ -567,7 +567,7 @@ class ProductViewsTests(TestCase):
             follow=True
         )
 
-        self.assertRedirects(response, reverse('reports:navigate'))
+        self.assertRedirects(response, reverse('reports:new_product'))
 
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)

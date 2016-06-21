@@ -61,7 +61,7 @@ def reports_new_category(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Kategoria został poprawnie dodana.')
-        return redirect(reverse('reports:navigate'))
+        return redirect(reverse('reports:add_category'))
 
     categories = Category.objects.filter(caffe=request.user.caffe).all()
     for category in categories:

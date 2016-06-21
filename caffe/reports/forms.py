@@ -26,6 +26,9 @@ class ProductForm(forms.ModelForm):
         self.fields['unit'].label = 'Jednostka'
         self.fields['category'].empty_label = None
         self.fields['unit'].empty_label = None
+        self.fields['category'].queryset =\
+            Category.objects.filter(caffe=self._caffe)
+        self.fields['unit'].queryset = Unit.objects.filter(caffe=self._caffe)
 
     def clean_name(self):
         """Check name field."""
@@ -37,7 +40,7 @@ class ProductForm(forms.ModelForm):
             query = query.exclude(pk=self.instance.pk)
 
         if query.exists():
-            raise ValidationError(_('Nazwa nie jest unikalna.'))
+            raise ValidationError(_('Produkt o takiej nazwie już istnieje.'))
 
         return name
 
@@ -79,7 +82,7 @@ class CategoryForm(forms.ModelForm):
             query = query.exclude(pk=self.instance.pk)
 
         if query.exists():
-            raise ValidationError(_('Nazwa nie jest unikalna.'))
+            raise ValidationError(_('Kategoria o takiej nazwie już istnieje.'))
 
         return name
 
@@ -120,7 +123,7 @@ class UnitForm(forms.ModelForm):
             query = query.exclude(pk=self.instance.pk)
 
         if query.exists():
-            raise ValidationError(_('Nazwa nie jest unikalna.'))
+            raise ValidationError(_('Jednostka o takiej nazwie już istnieje.'))
 
         return name
 
@@ -152,6 +155,8 @@ class FullProductForm(forms.ModelForm):
         self.fields['product'].label = 'Produkt'
         self.fields['amount'].label = u'Ilość'
         self.fields['product'].empty_label = None
+        self.fields['product'].queryset =\
+            Product.objects.filter(caffe=self._caffe)
 
     def save(self, commit=True):
         """Override of save method, to add Caffe relation."""

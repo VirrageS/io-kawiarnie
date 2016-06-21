@@ -33,7 +33,7 @@ def hours_edit_position(request, position_pk):
     if form.is_valid():
         form.save()
         messages.success(request, 'Stanowisko zostało poprawnie zmienione.')
-        return redirect(reverse('home:navigate'))
+        return redirect(reverse('employees:navigate'))
 
     return render(request, 'hours/new_position.html', {
         'form': form,
@@ -51,7 +51,7 @@ def hours_new_position(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Stanowisko zostało poprawnie utworzone.')
-        return redirect(reverse('home:navigate'))
+        return redirect(reverse('employees:navigate'))
 
     positions = Position.objects.filter(caffe=request.user.caffe).all()
     all_positions = []

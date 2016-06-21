@@ -61,7 +61,7 @@ def reports_new_category(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Kategoria został poprawnie dodana.')
-        return redirect(reverse('reports:navigate'))
+        return redirect(reverse('reports:new_category'))
 
     categories = Category.objects.filter(caffe=request.user.caffe).all()
     for category in categories:
@@ -124,7 +124,7 @@ def reports_new_unit(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Jednostka została poprawnie dodana.')
-        return redirect(reverse('reports:navigate'))
+        return redirect(reverse('reports:new_unit'))
 
     units = Unit.objects.filter(caffe=request.user.caffe).all()
     for unit in units:
@@ -187,7 +187,7 @@ def reports_new_product(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Produkt został poprawnie dodany.')
-        return redirect(reverse('reports:navigate'))
+        return redirect(reverse('reports:new_product'))
 
     products = Product.objects.filter(caffe=request.user.caffe).all()
     for product in products:

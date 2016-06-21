@@ -38,11 +38,11 @@ class PositionForm(forms.ModelForm):
             query = query.exclude(pk=self.instance.pk)
 
         if query.exists():
-            raise ValidationError(_('Name is not unique.'))
+            raise ValidationError(_('Stanowisko o takiej nazwie już istnieje.'))
 
         name = name.lstrip().rstrip()
         if name == '':
-            raise ValidationError(_('Position name is not valid.'))
+            raise ValidationError(_('Nazwa niepoprawna.'))
 
         return name
 
@@ -95,6 +95,8 @@ class WorkedHoursForm(forms.ModelForm):
         kwargs.setdefault('label_suffix', '')
         super(WorkedHoursForm, self).__init__(*args, **kwargs)
         self.fields['position'].label = u'Stanowisko'
+        self.fields['position'].queryset =\
+            Position.objects.filter(caffe=self._caffe)
 
         if self.instance.id is None:
             self.initial['date'] = date.today()

@@ -61,6 +61,8 @@ class ExpenseForm(forms.ModelForm):
         self.fields['name'].label = 'Nazwa'
         self.fields['company'].label = 'Firma'
         self.fields['company'].required = False
+        self.fields['company'].queryset =\
+            Company.objects.filter(caffe=self._caffe)
 
     def clean_name(self):
         """Check name field."""
@@ -100,6 +102,8 @@ class FullExpenseForm(forms.ModelForm):
         self.fields['expense'].label = 'Przeznaczenie'
         self.fields['amount'].label = 'Kwota'
         self.fields['expense'].empty_label = None
+        self.fields['expense'].queryset =\
+            Expense.objects.filter(caffe=self._caffe)
 
     def save(self, commit=True):
         """Override of save method, to add Caffe relation."""

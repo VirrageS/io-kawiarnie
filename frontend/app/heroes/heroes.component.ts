@@ -9,7 +9,8 @@ import { HeroService } from './shared/hero.service';
   selector: 'my-heroes',
   templateUrl: 'app/heroes/heroes.component.html',
   styleUrls:  ['app/heroes/heroes.component.css'],
-  directives: [HeroDetailComponent]
+  directives: [HeroDetailComponent],
+  providers: [HeroService]
 })
 export class HeroesComponent implements OnInit {
   heroes: Hero[];

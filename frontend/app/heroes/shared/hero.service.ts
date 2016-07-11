@@ -1,10 +1,18 @@
 import { Injectable } from 'angular2/core';
+import { AuthHttp } from '../../shared/auth-request.service';
+
+import {Http, Response, RequestOptions, Headers, Request, RequestMethod} from 'angular2/http';
+
 
 import { Hero } from './hero.model';
 import { HEROES } from '../mock-heroes';
 
 @Injectable()
 export class HeroService {
+  constructor(
+    private http: AuthHttp) {
+  }
+
   getHeroes() {
     return Promise.resolve(HEROES);
   }

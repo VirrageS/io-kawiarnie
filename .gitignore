@@ -65,3 +65,7 @@ venv/
 db.sqlite3
 tmp/
 .sass-cache/
+
+node_modules/
+typings/
+dist/
